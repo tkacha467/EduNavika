@@ -1,0 +1,197 @@
+import json
+import os
+
+ground_truth = [
+    {
+        "query_id": "q1",
+        "query_type": "conceptual",
+        "query": "How do you calculate the rate of interest in mathematical modelling?",
+        "relevant_chunk_ids": ["chk_c1e841af62290faa"]
+    },
+    {
+        "query_id": "q2",
+        "query_type": "exact",
+        "query": "When should we use 'would' with verbs like 'believe'?",
+        "relevant_chunk_ids": ["chk_5b8ff0afd37fa95f"]
+    },
+    {
+        "query_id": "q3",
+        "query_type": "proof",
+        "query": "How do you prove that tangents drawn from an external point to a circle are equal?",
+        "relevant_chunk_ids": ["chk_c264215316396e8a"]
+    },
+    {
+        "query_id": "q4",
+        "query_type": "conceptual",
+        "query": "How can we estimate an entire population of fishes using mathematical modelling?",
+        "relevant_chunk_ids": ["chk_c1ba798a0c7bca9d"]
+    },
+    {
+        "query_id": "q5",
+        "query_type": "factual",
+        "query": "What happened when the day of the ball arrived for Mme Loisel?",
+        "relevant_chunk_ids": ["chk_16651625cbf5687c"]
+    },
+    {
+        "query_id": "q6",
+        "query_type": "factual",
+        "query": "What is the sweet bread called that is essential for marriage gifts in Goa?",
+        "relevant_chunk_ids": ["chk_b02615a1a0562740"]
+    },
+    {
+        "query_id": "q7",
+        "query_type": "factual",
+        "query": "How did Anil make money?",
+        "relevant_chunk_ids": ["chk_9189b7b8eef26ee0"]
+    },
+    {
+        "query_id": "q8",
+        "query_type": "conceptual",
+        "query": "What did Anne Frank say about her inherited traits regarding talking?",
+        "relevant_chunk_ids": ["chk_5eab9185781a750b"]
+    },
+    {
+        "query_id": "q9",
+        "query_type": "conceptual",
+        "query": "How do you check if a list of numbers does not form an Arithmetic Progression?",
+        "relevant_chunk_ids": ["chk_5a3157b557bd3419"]
+    },
+    {
+        "query_id": "q10",
+        "query_type": "conceptual",
+        "query": "What are the common feelings experienced after the death of a loved one according to the Sermon at Benares?",
+        "relevant_chunk_ids": ["chk_e95da10b6036ce7d"]
+    },
+    {
+        "query_id": "q11",
+        "query_type": "factual",
+        "query": "Who pops vitamins into their mouths simultaneously?",
+        "relevant_chunk_ids": ["chk_3b9422001bc28f84"]
+    },
+    {
+        "query_id": "q12",
+        "query_type": "formula",
+        "query": "What is the formula to find the distance between any two points?",
+        "relevant_chunk_ids": ["chk_1846b8fc100e470c"]
+    },
+    {
+        "query_id": "q13",
+        "query_type": "definition",
+        "query": "What represents the last term of an Arithmetic Progression?",
+        "relevant_chunk_ids": ["chk_2f79b2370bd98be6"]
+    },
+    {
+        "query_id": "q14",
+        "query_type": "factual",
+        "query": "What did Tricki do with the shining bowls?",
+        "relevant_chunk_ids": ["chk_76c6e52087a84f65"]
+    },
+    {
+        "query_id": "q15",
+        "query_type": "conceptual",
+        "query": "Why must point Q lie outside the circle for a tangent?",
+        "relevant_chunk_ids": ["chk_1cd7382a56a22db0"]
+    },
+    {
+        "query_id": "q16",
+        "query_type": "definition",
+        "query": "What is the meaning of 'Fly into rage'?",
+        "relevant_chunk_ids": ["chk_013186a44b26044a"]
+    },
+    {
+        "query_id": "q17",
+        "query_type": "exact",
+        "query": "Find the integers if the product of two consecutive positive integers is 306.",
+        "relevant_chunk_ids": ["chk_5157684dea568d6d"]
+    },
+    {
+        "query_id": "q18",
+        "query_type": "conceptual",
+        "query": "Why did Ramlal think Bholi was crazy and trying to disgrace the family?",
+        "relevant_chunk_ids": ["chk_940ca98eb068aa2a"]
+    },
+    {
+        "query_id": "q19",
+        "query_type": "factual",
+        "query": "What did Ebright and James Wong construct to show how it could happen?",
+        "relevant_chunk_ids": ["chk_5c104c63f802fe63"]
+    },
+    {
+        "query_id": "q20",
+        "query_type": "factual",
+        "query": "Why was Bholi astonished after she spoke?",
+        "relevant_chunk_ids": ["chk_32dd9ebfbb6064b6"]
+    },
+    {
+        "query_id": "q21",
+        "query_type": "definition",
+        "query": "When is an equation called a trigonometric identity?",
+        "relevant_chunk_ids": ["chk_fd32edc83a9a5e55"]
+    },
+    {
+        "query_id": "q22",
+        "query_type": "factual",
+        "query": "How did the invisible man escape after he panicked?",
+        "relevant_chunk_ids": ["chk_94fed8b20e92f269"]
+    },
+    {
+        "query_id": "q23",
+        "query_type": "conceptual",
+        "query": "What makes the two texts on Goan bakers different?",
+        "relevant_chunk_ids": ["chk_87a7e412c7c9a7ce"]
+    },
+    {
+        "query_id": "q24",
+        "query_type": "exact",
+        "query": "What is the negation of the statement 'It rained in Delhi on'?",
+        "relevant_chunk_ids": ["chk_8b3a31c0cf5209ea"]
+    },
+    {
+        "query_id": "q25",
+        "query_type": "conceptual",
+        "query": "Why was it impossible for a man of colour to fulfil obligations in South Africa?",
+        "relevant_chunk_ids": ["chk_3e6d150d03c44dbf"]
+    },
+    {
+        "query_id": "q26",
+        "query_type": "formula",
+        "query": "What is the formula for the number of regions given the number of points?",
+        "relevant_chunk_ids": ["chk_1e74ff9865edc895"]
+    },
+    {
+        "query_id": "q27",
+        "query_type": "definition",
+        "query": "What is the definition of a circle?",
+        "relevant_chunk_ids": ["chk_59b2ac31139ffcfd"]
+    },
+    {
+        "query_id": "q28",
+        "query_type": "conceptual",
+        "query": "Why is writing in a diary a strange experience for Anne Frank?",
+        "relevant_chunk_ids": ["chk_ba84626d8dc256fb"]
+    },
+    {
+        "query_id": "q29",
+        "query_type": "factual",
+        "query": "Why did Horace plan to cut the telephone wires first?",
+        "relevant_chunk_ids": ["chk_4e68b003a2063bb0"]
+    },
+    {
+        "query_id": "q30",
+        "query_type": "exact",
+        "query": "What does Theorem A1.2 state about line segments drawn from a point?",
+        "relevant_chunk_ids": ["chk_a8ef9339fd1d7f95"]
+    },
+    {
+        "query_id": "q31",
+        "query_type": "factual",
+        "query": "Why did the young seagull tap the rock with his feet?",
+        "relevant_chunk_ids": ["chk_715c1eb08dc92530"]
+    }
+]
+
+os.makedirs("data/processed/reports", exist_ok=True)
+with open("data/processed/reports/ground_truth.json", "w") as f:
+    json.dump(ground_truth, f, indent=2)
+
+print("Generated ground truth with 31 queries.")
