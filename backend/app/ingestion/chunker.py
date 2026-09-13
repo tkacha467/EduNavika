@@ -9,6 +9,7 @@ from backend.app.ingestion.schemas import (
     ContentChunk,
     DocumentIdentity,
 )
+from backend.app.ingestion.math.quality_gate import MathQualityGate
 
 
 class StructureAwareChunker:
@@ -19,6 +20,7 @@ class StructureAwareChunker:
     - Preserves exact source traceability: document_id, pdf_page_start, pdf_page_end, chapter, topic
     - Generates reproducible, deterministic chunk IDs: chk_<sha256[:16]>
     - Content types classified conservatively: TEXT, EXAMPLE, DEFINITION, FORMULA, EXPLANATION
+    - Validates mathematical integrity via MathQualityGate
     """
 
     def __init__(
@@ -26,10 +28,12 @@ class StructureAwareChunker:
         min_target_tokens: int = 400,
         max_target_tokens: int = 850,
         approx_chars_per_token: int = 4,
+        math_quality_gate: Optional[MathQualityGate] = None,
     ):
         self.min_target_chars = min_target_tokens * approx_chars_per_token  # ~1600 chars
         self.max_target_chars = max_target_tokens * approx_chars_per_token  # ~3400 chars
         self.chars_per_token = approx_chars_per_token
+        self.math_quality_gate = math_quality_gate or MathQualityGate()
 
     def chunk_document(
         self,
@@ -73,47 +77,43 @@ class StructureAwareChunker:
         current_page_end: Optional[int] = None
         chunk_idx = start_chunk_index
 
-        for p_num in range(topic.start_pdf_page, topic.end_pdf_page + 1):
-            page = page_dict.get(p_num)
-            if not page or not page.cleaned_text.strip():
+        for page_num in range(topic.start_pdf_page, topic.end_pdf_page + 1):
+            cleaned_page = page_dict.get(page_num)
+            if not cleaned_page or not cleaned_page.cleaned_text.strip():
                 continue
 
-            if current_page_start is None:
-                current_page_start = p_num
-            current_page_end = p_num
+            page_paras = [p.strip() for p in cleaned_page.cleaned_text.split("\n\n") if p.strip()]
 
-            # Split by double newline (paragraph boundary)
-            paragraphs = [p.strip() for p in page.cleaned_text.split("\n\n") if p.strip()]
-
-            for para in paragraphs:
+            for para in page_paras:
                 para_len = len(para)
 
-                # If adding this paragraph exceeds max_target_chars and we have accumulated enough text
-                if current_char_count + para_len > self.max_target_chars and current_char_count >= self.min_target_chars:
-                    # Flush current chunk
+                if current_char_count + para_len > self.max_target_chars and current_paras:
+                    # Seal current chunk
                     chunk = self._create_chunk(
                         doc_identity=doc_identity,
                         chapter=chapter,
                         topic=topic,
                         text="\n\n".join(current_paras),
-                        page_start=current_page_start,
-                        page_end=current_page_end,
+                        page_start=current_page_start or page_num,
+                        page_end=current_page_end or page_num,
                         chunk_index=chunk_idx,
                     )
                     chunks.append(chunk)
                     chunk_idx += 1
 
-                    # Reset accumulator
+                    # Reset accumulators
                     current_paras = [para]
                     current_char_count = para_len
-                    current_page_start = p_num
-                    current_page_end = p_num
+                    current_page_start = page_num
+                    current_page_end = page_num
                 else:
                     current_paras.append(para)
                     current_char_count += para_len
-                    current_page_end = p_num
+                    if current_page_start is None:
+                        current_page_start = page_num
+                    current_page_end = page_num
 
-        # Flush any remaining text for this topic
+        # Seal final remaining chunk if any content accumulated
         if current_paras:
             chunk = self._create_chunk(
                 doc_identity=doc_identity,
@@ -146,6 +146,9 @@ class StructureAwareChunker:
         approx_tokens = max(1, len(text) // self.chars_per_token)
         content_type = self._classify_content_type(text)
 
+        # Scrutinize mathematical integrity
+        math_val = self.math_quality_gate.validate_chunk(text, chunk_id=chunk_id)
+
         heading_path = f"Standard {doc_identity.standard} > {doc_identity.subject} > Chapter {chapter.chapter_number}: {chapter.chapter_title} > {topic.topic_title}"
 
         return ContentChunk(
@@ -171,6 +174,10 @@ class StructureAwareChunker:
                 "chapter_title": chapter.chapter_title,
                 "topic_order": topic.topic_order,
                 "topic_title": topic.topic_title,
+                "math_detected": math_val.has_math,
+                "math_validity_status": math_val.status,
+                "math_issues": math_val.detected_issues,
+                "math_confidence": math_val.confidence_score,
             },
         )
 

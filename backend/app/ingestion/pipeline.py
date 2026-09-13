@@ -10,19 +10,20 @@ from typing import List, Optional, Dict, Any
 from backend.app.core.database import SessionLocal
 from backend.app.ingestion.schemas import (
     DocumentIdentity,
+    ExtractedPage,
+    PageQualityStatus,
     DocumentDiagnostic,
     IngestionSummaryReport,
-    PageQualityStatus,
 )
 from backend.app.ingestion.scanner import DocumentScanner
-from backend.app.ingestion.metadata import MetadataExtractor
 from backend.app.ingestion.pdf_extractor import PDFExtractor
 from backend.app.ingestion.quality import PageQualityAnalyzer
 from backend.app.ingestion.cleaner import DeterministicCleaner
 from backend.app.ingestion.structure import StructureParser
 from backend.app.ingestion.chunker import StructureAwareChunker
-from backend.app.ingestion.mapper import DatabaseCurriculumMapper
 from backend.app.ingestion.validator import IngestionValidator
+from backend.app.ingestion.mapper import DatabaseCurriculumMapper
+from backend.app.ingestion.math.detector import MathPageDetector, MathPageClassification
 
 
 class IngestionPipeline:
@@ -69,6 +70,7 @@ class IngestionPipeline:
         self.structure_parser = StructureParser()
         self.chunker = StructureAwareChunker()
         self.validator = IngestionValidator(self.reports_dir)
+        self.math_detector = MathPageDetector()
 
     def _load_hashes(self) -> Dict[str, str]:
         if self.hash_store_path.exists():
@@ -131,6 +133,9 @@ class IngestionPipeline:
                 summary.pages_extracted += diag.extracted_pages
                 summary.pages_needing_ocr += diag.ocr_required_pages
                 summary.low_quality_pages += diag.low_quality_pages
+                summary.total_math_pages += diag.math_pages_detected
+                summary.total_math_heavy_pages += diag.math_heavy_pages
+                summary.total_corrupted_math_chunks += diag.corrupted_math_chunks
                 summary.chapters_detected += diag.chapters_detected
                 summary.topics_detected += diag.topics_detected
                 summary.ambiguous_topics += diag.ambiguous_topics
@@ -205,6 +210,18 @@ class IngestionPipeline:
             # 5. Structure-aware chunking
             chunks = self.chunker.chunk_document(doc, cleaned_pages, chapters)
             diag.chunks_generated = len(chunks)
+
+            # 5b. Math detection and quality analysis tally
+            for p in extracted_pages:
+                math_res = self.math_detector.detect(p.raw_text)
+                if math_res.is_math:
+                    diag.math_pages_detected += 1
+                    if math_res.classification == MathPageClassification.MATH_HEAVY:
+                        diag.math_heavy_pages += 1
+
+            for c in chunks:
+                if c.metadata.get("math_validity_status") == "CORRUPTED":
+                    diag.corrupted_math_chunks += 1
 
             # 6. Database mapping (if not dry run)
             if not self.dry_run and mapper:

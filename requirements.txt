@@ -15,3 +15,7 @@ pypdf>=6.0.0
 
 pypdfium2
 rapidocr-onnxruntime
+faiss-cpu
+sentence-transformers
+pgvector
+rank-bm25

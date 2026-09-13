@@ -206,6 +206,10 @@ class DatabaseCurriculumMapper:
                     "chunk_index": chunk.chunk_index,
                     "document_id": doc_identity.document_id,
                     "file_hash": doc_identity.file_hash,
+                    "math_detected": chunk.metadata.get("math_detected", False),
+                    "math_validity_status": chunk.metadata.get("math_validity_status", "SAFE"),
+                    "math_issues": chunk.metadata.get("math_issues", []),
+                    "extraction_method": chunk.extraction_method,
                 },
             )
             self.db.add(content_record)

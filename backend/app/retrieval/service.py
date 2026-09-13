@@ -1,6 +1,5 @@
 from typing import List, Dict, Any, Optional
-from pydantic import BaseModel
-from backend.app.retrieval.hybrid import HybridRetriever
+from pydantic import BaseModel, Field
 
 class RetrievalResult(BaseModel):
     chunk_id: str
@@ -15,6 +14,8 @@ class RetrievalResult(BaseModel):
     source_page: Optional[int] = None
     source_reference: Optional[str] = None
     retrieval_method: str
+    math_validity_status: str = "SAFE"
+    metadata: Dict[str, Any] = Field(default_factory=dict)
 
 class RetrievalService:
     def __init__(self, retriever: Any):
@@ -45,7 +46,9 @@ class RetrievalService:
                 source_document=meta.get("source_document"),
                 source_page=meta.get("source_page"),
                 source_reference=meta.get("source_reference"),
-                retrieval_method=res.get("retrieval_method", "hybrid")
+                retrieval_method=res.get("retrieval_method", "hybrid"),
+                math_validity_status=meta.get("math_validity_status", "SAFE"),
+                metadata=meta
             )
             results.append(result)
             

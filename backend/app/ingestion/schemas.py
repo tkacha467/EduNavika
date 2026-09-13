@@ -134,6 +134,9 @@ class DocumentDiagnostic(BaseModel):
     ambiguous_topics: int = 0
     chunks_generated: int = 0
     chunks_inserted: int = 0
+    math_pages_detected: int = 0
+    math_heavy_pages: int = 0
+    corrupted_math_chunks: int = 0
     status: str = "SUCCESS"  # SUCCESS, FAILED, SKIPPED
     warnings: List[str] = []
     errors: List[str] = []
@@ -153,6 +156,9 @@ class IngestionSummaryReport(BaseModel):
     pages_extracted: int = 0
     pages_needing_ocr: int = 0
     low_quality_pages: int = 0
+    total_math_pages: int = 0
+    total_math_heavy_pages: int = 0
+    total_corrupted_math_chunks: int = 0
     chapters_detected: int = 0
     topics_detected: int = 0
     ambiguous_topics: int = 0
