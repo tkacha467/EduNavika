@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+.env
+.venv
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Database & Logs
+*.sqlite
+*.sqlite3
+*.db
+*.log
+
+# Temp files
+*.tmp
+
+# Large PDF Textbook Datasets (Prevent exceeding GitHub 100MB limit)
+GSEB-Dataset/**/*.pdf
+*.pdf
+
+# Intermediate Ingestion Data & Processed Artifacts
+data/
+data/processed/
+
