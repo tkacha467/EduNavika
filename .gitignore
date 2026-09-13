@@ -52,6 +52,8 @@ GSEB-Dataset/**/*.pdf
 *.pdf
 
 # Intermediate Ingestion Data & Processed Artifacts
-data/
-data/processed/
+data/*
+!data/processed/
+data/processed/*
+!data/processed/reports/
 

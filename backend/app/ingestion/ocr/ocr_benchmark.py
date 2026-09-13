@@ -111,28 +111,28 @@ class OCRBenchmark:
 
     BENCHMARK_SUITE = [
         {
-            "relative_path": "STD-10th/Std-10_Social_Science_EnglishMedium.pdf",
+            "relative_path": "STD-10/Std-10_Social_Science_EnglishMedium.pdf",
             "standard": 10,
             "subject": "Social Science",
             "pages": [15],
             "gt_snippet": "Saurashtra regions of Gujarat. The traditional art of embroidery, sakhtorans, chakda"
         },
         {
-            "relative_path": "STD-10th/Std-10_ComputerStudies_EnglishMedium.pdf",
+            "relative_path": "STD-10/Std-10_ComputerStudies_EnglishMedium.pdf",
             "standard": 10,
             "subject": "Computer Studies",
             "pages": [15],
             "gt_snippet": "Elements Description The content is displayed one font size smaller"
         },
         {
-            "relative_path": "STD-9th/Std-9 Sanskrit E.M.pdf",
+            "relative_path": "STD-9/Std-9 Sanskrit E.M.pdf",
             "standard": 9,
             "subject": "Sanskrit",
             "pages": [10],
             "gt_snippet": "Samgachhadhvam samvadadhvam"
         },
         {
-            "relative_path": "STD-11th/Std-11_Hornbill_EnglishMedium.pdf",
+            "relative_path": "STD-11/Std-11_Hornbill_EnglishMedium.pdf",
             "standard": 11,
             "subject": "Hornbill English",
             "pages": [12],

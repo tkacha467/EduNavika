@@ -1,0 +1,44 @@
+{
+  "extractor": "DummyExtractor",
+  "load_time_seconds": 0.10052680969238281,
+  "pages": [
+    {
+      "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+      "page": 127,
+      "execution_time_seconds": 0.0,
+      "evaluation": {
+        "formula_001": {
+          "semantic_accuracy": "REVIEW",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "HIGH",
+          "structure_accuracy": "REVIEW",
+          "subscript_superscript": "MEDIUM",
+          "fraction_accuracy": "N/A"
+        },
+        "formula_002": {
+          "semantic_accuracy": "REVIEW",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "HIGH",
+          "structure_accuracy": "REVIEW",
+          "subscript_superscript": "MEDIUM",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+      "page": 35,
+      "execution_time_seconds": 0.0,
+      "evaluation": {
+        "quad_001": {
+          "semantic_accuracy": "REVIEW",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "MEDIUM",
+          "structure_accuracy": "REVIEW",
+          "subscript_superscript": "MEDIUM",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    }
+  ]
+}

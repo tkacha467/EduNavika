@@ -1,0 +1,1812 @@
+[
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 12,
+    "chapter": "Real Numbers",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch1_001",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "a = bq + r, \\quad 0 \\le r < b",
+        "expected_symbols": [
+          "=",
+          "\\le",
+          "<",
+          "q",
+          "r"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "Euclid's division lemma states that for given positive integers a and b"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 15,
+    "chapter": "Real Numbers",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_19",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "\\text{HCF}(a, b)",
+        "expected_symbols": [
+          "(",
+          ")"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "Find the"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 17,
+    "chapter": "Polynomials",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch2_001",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "p(x) = ax + b, \\quad a \\ne 0",
+        "expected_symbols": [
+          "p(x)",
+          "=",
+          "\\ne"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "A polynomial of degree 1 is called a linear polynomial"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 20,
+    "chapter": "Polynomials",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch2_003",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "y = x^2 - 3x - 4",
+        "expected_symbols": [
+          "^",
+          "=",
+          "-"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "Let us see how the graph of y = x^2 - 3x - 4 looks like"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 22,
+    "chapter": "Polynomials",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch2_005",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "\\alpha \\beta = \\frac{c}{a}",
+        "expected_symbols": [
+          "\\alpha",
+          "\\beta",
+          "\\frac",
+          "="
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "product of zeroes is"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 28,
+    "chapter": "Polynomials",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_14",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "y = ax^2 + bx + c",
+        "expected_symbols": [
+          "^",
+          "+",
+          "="
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "polynomial"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 33,
+    "chapter": "Pair of Linear Equations in Two Variables",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch3_001",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "a_1 x + b_1 y + c_1 = 0",
+        "expected_symbols": [
+          "_",
+          "+",
+          "="
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "general form for a pair of linear equations in two variables x and y"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 38,
+    "chapter": "Pair of Linear Equations in Two Variables",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch3_003",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "\\frac{a_1}{a_2} \\ne \\frac{b_1}{b_2}",
+        "expected_symbols": [
+          "\\frac",
+          "\\ne",
+          "_"
+        ],
+        "has_fraction": true,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "intersecting lines have unique solution when"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 41,
+    "chapter": "Pair of Linear Equations in Two Variables",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_23",
+        "type": "formula",
+        "category": "NUMERIC_EXPRESSION",
+        "latex": "x^3",
+        "expected_symbols": [
+          "^"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "cube"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 44,
+    "chapter": "Pair of Linear Equations in Two Variables",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch3_006",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "x = \\frac{b_1 c_2 - b_2 c_1}{a_1 b_2 - a_2 b_1}",
+        "expected_symbols": [
+          "\\frac",
+          "_",
+          "=",
+          "-"
+        ],
+        "has_fraction": true,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "cross-multiplication method for x"
+      },
+      {
+        "id": "eq_26",
+        "type": "formula",
+        "category": "TRIGONOMETRY",
+        "latex": "\\cos \\theta",
+        "expected_symbols": [
+          "\\cos",
+          "\\theta"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "angle"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 45,
+    "chapter": "Pair of Linear Equations in Two Variables",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_27",
+        "type": "formula",
+        "category": "TRIGONOMETRY",
+        "latex": "\\tan \\theta",
+        "expected_symbols": [
+          "\\tan",
+          "\\theta"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "angle"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 47,
+    "chapter": "Quadratic Equations",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch4_001",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "ax^2 + bx + c = 0, \\quad a \\ne 0",
+        "expected_symbols": [
+          "^",
+          "=",
+          "\\ne"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "standard form of a quadratic equation"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 51,
+    "chapter": "Quadratic Equations",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch4_003",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "D = b^2 - 4ac",
+        "expected_symbols": [
+          "D",
+          "=",
+          "^",
+          "-"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "discriminant of the quadratic equation"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 54,
+    "chapter": "Quadratic Equations",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch4_005",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "b^2 - 4ac = 0",
+        "expected_symbols": [
+          "^",
+          "-",
+          "="
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "two equal real roots if"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 268,
+    "chapter": "Quadratic Equations",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_18",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
+        "expected_symbols": [
+          "\\frac",
+          "\\pm",
+          "\\sqrt",
+          "^"
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "quadratic formula"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 57,
+    "chapter": "Arithmetic Progressions",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch5_001",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "a, a + d, a + 2d, a + 3d, \\dots",
+        "expected_symbols": [
+          "+",
+          "\\dots"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "general form of an AP"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 61,
+    "chapter": "Arithmetic Progressions",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch5_003",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "a_n = a + (n - 1)d",
+        "expected_symbols": [
+          "_",
+          "=",
+          "+",
+          "-"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "nth term a_n of the AP"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 68,
+    "chapter": "Arithmetic Progressions",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch5_005",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "S_n = \\frac{n}{2}(a + l)",
+        "expected_symbols": [
+          "S_n",
+          "\\frac",
+          "_",
+          "+"
+        ],
+        "has_fraction": true,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "when last term l is given"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 258,
+    "chapter": "Arithmetic Progressions",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_5",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "S_n = \\frac{n}{2} [2a + (n-1)d]",
+        "expected_symbols": [
+          "\\frac",
+          "_"
+        ],
+        "has_fraction": true,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "We get"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 91,
+    "chapter": "Triangles",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch6_001",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "\\frac{AD}{DB} = \\frac{AE}{EC}",
+        "expected_symbols": [
+          "\\frac",
+          "="
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "Basic Proportionality Theorem"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 96,
+    "chapter": "Triangles",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_20",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "\\frac{AB}{PQ} = \\frac{BC}{QR}",
+        "expected_symbols": [
+          "\\frac",
+          "="
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "proportional to"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 100,
+    "chapter": "Triangles",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch6_004",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "\\frac{\\text{ar}(ABC)}{\\text{ar}(PQR)} = \\left(\\frac{AB}{PQ}\\right)^2",
+        "expected_symbols": [
+          "\\text{ar}",
+          "\\frac",
+          "^",
+          "="
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "ratio of the areas of two similar triangles"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 103,
+    "chapter": "Triangles",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch6_006",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "AC^2 = AB^2 + BC^2 \\implies \\angle B = 90^\\circ",
+        "expected_symbols": [
+          "^",
+          "\\implies",
+          "\\angle",
+          "^\\circ"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "Converse of Pythagoras Theorem"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 112,
+    "chapter": "Coordinate Geometry",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch7_001",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}",
+        "expected_symbols": [
+          "\\sqrt",
+          "^",
+          "_",
+          "-"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": true,
+        "surrounding_text": "distance formula between points"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 117,
+    "chapter": "Coordinate Geometry",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch7_003",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "\\left(\\frac{m_1 x_2 + m_2 x_1}{m_1 + m_2}, \\frac{m_1 y_2 + m_2 y_1}{m_1 + m_2}\\right)",
+        "expected_symbols": [
+          "\\frac",
+          "_",
+          "+"
+        ],
+        "has_fraction": true,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "coordinates of the point P dividing line segment"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 127,
+    "chapter": "Coordinate Geometry",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "formula_001",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}",
+        "expected_symbols": [
+          "\\sqrt",
+          "_",
+          "^"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": true,
+        "surrounding_text": "The distance between P(x1, y1) and Q(x2, y2) is"
+      },
+      {
+        "id": "formula_002",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "\\sqrt{x^2+y^2}",
+        "expected_symbols": [
+          "\\sqrt",
+          "^"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "The distance of a point P(x, y) from the origin is"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 130,
+    "chapter": "Introduction to Trigonometry",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch8_001",
+        "type": "formula",
+        "category": "TRIGONOMETRY",
+        "latex": "\\sin A = \\frac{\\text{side opposite to angle } A}{\\text{hypotenuse}}",
+        "expected_symbols": [
+          "\\sin",
+          "\\frac",
+          "="
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "trigonometric ratio of sine"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 135,
+    "chapter": "Introduction to Trigonometry",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch8_003",
+        "type": "formula",
+        "category": "TRIGONOMETRY",
+        "latex": "\\sin(90^\\circ - A) = \\cos A",
+        "expected_symbols": [
+          "\\sin",
+          "\\cos",
+          "^\\circ",
+          "="
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "trigonometric ratios of complementary angles"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 137,
+    "chapter": "Introduction to Trigonometry",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch8_005",
+        "type": "formula",
+        "category": "TRIGONOMETRY",
+        "latex": "\\tan(90^\\circ - A) = \\cot A",
+        "expected_symbols": [
+          "\\tan",
+          "\\cot",
+          "^\\circ",
+          "="
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "tangent of complementary angle"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 139,
+    "chapter": "Introduction to Trigonometry",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch8_007",
+        "type": "formula",
+        "category": "TRIGONOMETRY",
+        "latex": "1 + \\tan^2 A = \\sec^2 A",
+        "expected_symbols": [
+          "\\tan",
+          "\\sec",
+          "^",
+          "+",
+          "="
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "secant identity"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 143,
+    "chapter": "Some Applications of Trigonometry",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch9_001",
+        "type": "formula",
+        "category": "TRIGONOMETRY",
+        "latex": "\\tan 30^\\circ = \\frac{1}{\\sqrt{3}}",
+        "expected_symbols": [
+          "\\tan",
+          "\\frac",
+          "\\sqrt",
+          "="
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "value of tan 30 degrees"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 147,
+    "chapter": "Some Applications of Trigonometry",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch9_003",
+        "type": "formula",
+        "category": "TRIGONOMETRY",
+        "latex": "\\tan 60^\\circ = \\sqrt{3}",
+        "expected_symbols": [
+          "\\tan",
+          "\\sqrt",
+          "^\\circ",
+          "="
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "value of tan 60 degrees"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 158,
+    "chapter": "Circles",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch10_001",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "OP \\perp XY",
+        "expected_symbols": [
+          "OP",
+          "\\perp",
+          "XY"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "tangent at any point of a circle is perpendicular to radius"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 160,
+    "chapter": "Circles",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_6",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "\\angle OPQ = 90^\\circ",
+        "expected_symbols": [
+          "\\angle",
+          "^\\circ"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "perpendicular to the tangent"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 162,
+    "chapter": "Areas Related to Circles",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch11_001",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "C = 2 \\pi r",
+        "expected_symbols": [
+          "C",
+          "=",
+          "\\pi"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "circumference of a circle"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 166,
+    "chapter": "Areas Related to Circles",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch11_003",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "l = \\frac{\\theta}{360^\\circ} \\times 2 \\pi r",
+        "expected_symbols": [
+          "l",
+          "\\theta",
+          "\\pi",
+          "\\frac",
+          "\\times"
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "length of an arc of a sector of angle theta"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 169,
+    "chapter": "Surface Areas and Volumes",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch12_001",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "\\text{CSA} = 2 \\pi r h",
+        "expected_symbols": [
+          "\\text{CSA}",
+          "=",
+          "\\pi"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "curved surface area of a cylinder"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 174,
+    "chapter": "Surface Areas and Volumes",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch12_003",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "\\text{CSA of cone} = \\pi r l",
+        "expected_symbols": [
+          "\\pi",
+          "=",
+          "l"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "curved surface area of a cone"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 177,
+    "chapter": "Surface Areas and Volumes",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_16",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "2 \\pi r^2",
+        "expected_symbols": [
+          "\\pi",
+          "^"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "surface area"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 183,
+    "chapter": "Surface Areas and Volumes",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_15",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "\\frac{1}{3} \\pi r^2 h",
+        "expected_symbols": [
+          "\\frac",
+          "\\pi",
+          "^"
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "volume of the cone"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 182,
+    "chapter": "Statistics",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch13_001",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "\\bar{x} = \\frac{\\sum f_i x_i}{\\sum f_i}",
+        "expected_symbols": [
+          "\\bar{x}",
+          "\\sum",
+          "\\frac",
+          "_"
+        ],
+        "has_fraction": true,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "direct method for mean of grouped data"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 188,
+    "chapter": "Statistics",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch13_003",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "d_i = x_i - a",
+        "expected_symbols": [
+          "d_i",
+          "=",
+          "x_i",
+          "-"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "deviation di from assumed mean"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 194,
+    "chapter": "Statistics",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch13_005",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "\\bar{x} = a + h \\left(\\frac{\\sum f_i u_i}{\\sum f_i}\\right)",
+        "expected_symbols": [
+          "\\bar{x}",
+          "a",
+          "h",
+          "\\sum",
+          "\\frac"
+        ],
+        "has_fraction": true,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "step-deviation method for mean"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 200,
+    "chapter": "Statistics",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch13_007",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "\\text{Median} = l + \\left(\\frac{\\frac{n}{2} - cf}{f}\\right) \\times h",
+        "expected_symbols": [
+          "\\text{Median}",
+          "l",
+          "\\frac",
+          "cf",
+          "\\times"
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "median of grouped data"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 232,
+    "chapter": "Probability",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch14_001",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "P(E) = \\frac{\\text{Number of outcomes favourable to } E}{\\text{Number of all possible outcomes}}",
+        "expected_symbols": [
+          "P(E)",
+          "\\frac",
+          "="
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "theoretical classical probability of an event E"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 236,
+    "chapter": "Probability",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch14_003",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "0 \\le P(E) \\le 1",
+        "expected_symbols": [
+          "\\le",
+          "P(E)"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "range of probability of any event"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+    "page": 239,
+    "chapter": "Probability",
+    "subject": "Mathematics",
+    "split": "dev",
+    "items": [
+      {
+        "id": "m10_ch14_005",
+        "type": "formula",
+        "category": "ALGEBRA",
+        "latex": "P(\\text{Impossible event}) = 0",
+        "expected_symbols": [
+          "P(",
+          ")",
+          "="
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "probability of an impossible event"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 15,
+    "chapter": "Chemical Reactions and Equations",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch1_001",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "2\\text{Mg} + \\text{O}_2 \\rightarrow 2\\text{MgO}",
+        "expected_symbols": [
+          "\\rightarrow",
+          "_"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "burning of magnesium in air"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 17,
+    "chapter": "Chemical Reactions and Equations",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch1_002",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "\\text{Zn} + \\text{H}_2\\text{SO}_4 \\rightarrow \\text{ZnSO}_4 + \\text{H}_2",
+        "expected_symbols": [
+          "\\rightarrow",
+          "_"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "reaction of zinc with dilute sulphuric acid"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 19,
+    "chapter": "Chemical Reactions and Equations",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch1_004",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "\\text{CaO} + \\text{H}_2\\text{O} \\rightarrow \\text{Ca(OH)}_2 + \\text{Heat}",
+        "expected_symbols": [
+          "\\rightarrow",
+          "_",
+          "+"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "combination reaction of quicklime with water"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 21,
+    "chapter": "Chemical Reactions and Equations",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch1_006",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "2\\text{FeSO}_4 \\xrightarrow{\\Delta} \\text{Fe}_2\\text{O}_3 + \\text{SO}_2 + \\text{SO}_3",
+        "expected_symbols": [
+          "\\xrightarrow",
+          "\\Delta",
+          "_"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "thermal decomposition of ferrous sulphate"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 36,
+    "chapter": "Acids, Bases and Salts",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch2_001",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "\\text{Acid} + \\text{Metal} \\rightarrow \\text{Salt} + \\text{Hydrogen gas}",
+        "expected_symbols": [
+          "\\rightarrow",
+          "+"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "reaction of acid with metal"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 38,
+    "chapter": "Acids, Bases and Salts",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_2",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "H^+ (aq) + OH^- (aq)",
+        "expected_symbols": [
+          "^+",
+          "^-"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "decrease in concentration of"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 43,
+    "chapter": "Acids, Bases and Salts",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch2_003",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "\\text{NaCl} + \\text{H}_2\\text{O} + \\text{CO}_2 + \\text{NH}_3 \\rightarrow \\text{NH}_4\\text{Cl} + \\text{NaHCO}_3",
+        "expected_symbols": [
+          "\\rightarrow",
+          "_"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "production of baking soda"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 54,
+    "chapter": "Metals and Non-metals",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch3_001",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "2\\text{Cu} + \\text{O}_2 \\rightarrow 2\\text{CuO}",
+        "expected_symbols": [
+          "\\rightarrow",
+          "_"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "copper combines with oxygen to form copper oxide"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 58,
+    "chapter": "Metals and Non-metals",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch3_003",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "\\text{Fe} + \\text{CuSO}_4 \\rightarrow \\text{FeSO}_4 + \\text{Cu}",
+        "expected_symbols": [
+          "\\rightarrow",
+          "_"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "iron displacing copper from copper sulphate solution"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 65,
+    "chapter": "Metals and Non-metals",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch3_005",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "\\text{Fe}_2\\text{O}_3 + 2\\text{Al} \\rightarrow 2\\text{Fe} + \\text{Al}_2\\text{O}_3 + \\text{Heat}",
+        "expected_symbols": [
+          "\\rightarrow",
+          "_",
+          "+"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "thermite reaction for joining railway tracks"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 76,
+    "chapter": "Carbon and its Compounds",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_13",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "C_2H_6",
+        "expected_symbols": [
+          "_"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "formula of"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 80,
+    "chapter": "Carbon and its Compounds",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch4_001",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "\\text{C}_n\\text{H}_{2n+2}",
+        "expected_symbols": [
+          "_"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "general formula for homologous series of alkanes"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 84,
+    "chapter": "Carbon and its Compounds",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch4_003",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "\\text{C}_n\\text{H}_{2n-2}",
+        "expected_symbols": [
+          "_"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "general formula for alkynes"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 87,
+    "chapter": "Carbon and its Compounds",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch4_005",
+        "type": "formula",
+        "category": "CHEMICAL",
+        "latex": "2\\text{C}_2\\text{H}_5\\text{OH} + 2\\text{Na} \\rightarrow 2\\text{C}_2\\text{H}_5\\text{ONa} + \\text{H}_2",
+        "expected_symbols": [
+          "\\rightarrow",
+          "_",
+          "+"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "reaction of sodium with ethanol"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 126,
+    "chapter": "Heredity",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_9",
+        "type": "formula",
+        "category": "NUMERIC_EXPRESSION",
+        "latex": "F_1",
+        "expected_symbols": [
+          "_"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "progeny of the"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 147,
+    "chapter": "Light – Reflection and Refraction",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_10",
+        "type": "formula",
+        "category": "GEOMETRY",
+        "latex": "\\angle i = \\angle r",
+        "expected_symbols": [
+          "\\angle",
+          "="
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "angle of incidence is equal to"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 156,
+    "chapter": "Light – Reflection and Refraction",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch9_002",
+        "type": "formula",
+        "category": "PHYSICS",
+        "latex": "\\frac{1}{v} + \\frac{1}{u} = \\frac{1}{f}",
+        "expected_symbols": [
+          "\\frac",
+          "+",
+          "="
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "mirror formula gives relationship between v, u, f"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 158,
+    "chapter": "Light – Reflection and Refraction",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch9_004",
+        "type": "formula",
+        "category": "PHYSICS",
+        "latex": "f = \\frac{R}{2}",
+        "expected_symbols": [
+          "f",
+          "=",
+          "\\frac",
+          "R"
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "focal length of spherical mirror"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 161,
+    "chapter": "Light – Reflection and Refraction",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch9_005",
+        "type": "formula",
+        "category": "PHYSICS",
+        "latex": "\\frac{\\sin i}{\\sin r} = \\text{constant}",
+        "expected_symbols": [
+          "\\sin",
+          "\\frac",
+          "="
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "Snell's law of refraction"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 168,
+    "chapter": "Light – Reflection and Refraction",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch9_007",
+        "type": "formula",
+        "category": "PHYSICS",
+        "latex": "\\frac{1}{v} - \\frac{1}{u} = \\frac{1}{f}",
+        "expected_symbols": [
+          "\\frac",
+          "-",
+          "="
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "lens formula gives relationship between v, u and f"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 183,
+    "chapter": "Light – Reflection and Refraction",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_7",
+        "type": "formula",
+        "category": "PHYSICS",
+        "latex": "P = \\frac{1}{f}",
+        "expected_symbols": [
+          "\\frac"
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "power of a lens is"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 185,
+    "chapter": "Electricity",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch11_001",
+        "type": "formula",
+        "category": "PHYSICS",
+        "latex": "I = \\frac{Q}{t}",
+        "expected_symbols": [
+          "I",
+          "=",
+          "\\frac",
+          "Q",
+          "t"
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "electric current is expressed by"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 187,
+    "chapter": "Electricity",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch11_003",
+        "type": "formula",
+        "category": "PHYSICS",
+        "latex": "V = \\frac{W}{Q}",
+        "expected_symbols": [
+          "V",
+          "=",
+          "\\frac",
+          "W",
+          "Q"
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "potential difference between two points"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 191,
+    "chapter": "Electricity",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch11_005",
+        "type": "formula",
+        "category": "PHYSICS",
+        "latex": "R = \\rho \\frac{l}{A}",
+        "expected_symbols": [
+          "R",
+          "=",
+          "\\rho",
+          "\\frac",
+          "l",
+          "A"
+        ],
+        "has_fraction": true,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "resistance of a uniform metallic conductor"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 196,
+    "chapter": "Electricity",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch11_007",
+        "type": "formula",
+        "category": "PHYSICS",
+        "latex": "R_s = R_1 + R_2 + R_3",
+        "expected_symbols": [
+          "R_s",
+          "=",
+          "_",
+          "+"
+        ],
+        "has_fraction": false,
+        "has_subscript": true,
+        "has_superscript": false,
+        "surrounding_text": "equivalent resistance of series combination"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 200,
+    "chapter": "Electricity",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "s10_ch11_009",
+        "type": "formula",
+        "category": "PHYSICS",
+        "latex": "H = I^2 R t",
+        "expected_symbols": [
+          "H",
+          "=",
+          "^",
+          "I",
+          "R",
+          "t"
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": true,
+        "surrounding_text": "Joule's law of heating"
+      }
+    ]
+  },
+  {
+    "document": "STD-10/Std-10_Science_English Medium.pdf",
+    "page": 219,
+    "chapter": "Electricity",
+    "subject": "Science & Technology",
+    "split": "dev",
+    "items": [
+      {
+        "id": "eq_8",
+        "type": "formula",
+        "category": "PHYSICS",
+        "latex": "V = IR",
+        "expected_symbols": [
+          "="
+        ],
+        "has_fraction": false,
+        "has_subscript": false,
+        "has_superscript": false,
+        "surrounding_text": "By Ohm law"
+      }
+    ]
+  }
+]

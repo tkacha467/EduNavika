@@ -34,9 +34,15 @@ additional = [
   {'document': 'STD-10/Std-10_Maths_EnglishMedium.pdf', 'page': 46, 'items': [{'id': 'eq_28', 'type': 'formula', 'latex': '\\pi r^2', 'expected_symbols': ['\\pi', '^'], 'has_fraction': False, 'has_subscript': False, 'has_superscript': True, 'surrounding_text': 'area'}]}
 ]
 
-data.extend(additional)
+# Deduplicate by document + page
+existing_keys = {(d['document'], d['page']) for d in data}
+for item in additional:
+    key = (item['document'], item['page'])
+    if key not in existing_keys:
+        data.append(item)
+        existing_keys.add(key)
 
-with open('D:/EduNavika/data/processed/reports/math_ground_truth.json', 'w') as f:
-    json.dump(data, f, indent=2)
+with open('D:/EduNavika/data/processed/reports/math_ground_truth.json', 'w', encoding='utf-8') as f:
+    json.dump(data, f, indent=2, ensure_ascii=False)
 
-print(f"Total records: {len(data)}")
+print(f"Total unique records: {len(data)}")

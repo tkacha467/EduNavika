@@ -11,7 +11,7 @@ class SentenceTransformerModel(EmbeddingModel):
 
     @property
     def dimension(self) -> int:
-        return self.model.get_sentence_embedding_dimension()
+        return self.model.get_embedding_dimension()
 
     def embed_query(self, query: str) -> np.ndarray:
         # Some models expect specific prefixes for queries, but we'll use base configuration unless specified otherwise

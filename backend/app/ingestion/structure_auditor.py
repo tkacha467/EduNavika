@@ -48,19 +48,19 @@ class StructureAuditor:
         test_books = [
             {
                 "name": "Std-10 Science",
-                "rel_path": "STD-10th/Std-10_Science_English Medium.pdf",
+                "rel_path": "STD-10/Std-10_Science_English Medium.pdf",
                 "expected_chapters": 13,
                 "expected_topics_str": "~15-25",
             },
             {
                 "name": "Std-10 First Flight English",
-                "rel_path": "STD-10th/Std-10_First Flight_EnglishMedium.pdf",
+                "rel_path": "STD-10/Std-10_First Flight_EnglishMedium.pdf",
                 "expected_chapters": 9,
                 "expected_topics_str": "~9-15",
             },
             {
                 "name": "Std-10 Mathematics",
-                "rel_path": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+                "rel_path": "STD-10/Std-10_Maths_EnglishMedium.pdf",
                 "expected_chapters": 14,
                 "expected_topics_str": "~35-50",
             },

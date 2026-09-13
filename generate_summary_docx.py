@@ -290,7 +290,7 @@ def create_document():
 
     add_callout(
         doc,
-        "Your friend can pull the latest code from GitHub (https://github.com/tkacha467/EduNavika.git) on branch 'main'. Run 'pytest backend/tests/ -v' to see all 32 tests pass.",
+        "Your friend can pull the latest code from GitHub (https://github.com/tkacha467/EduNavika.git) on branch 'master'. Run 'pytest backend/tests/ -v' to see all 44 tests pass.",
         title="FOR COLLABORATORS",
         bg_hex="EFF6FF",
         border_hex="2563EB"

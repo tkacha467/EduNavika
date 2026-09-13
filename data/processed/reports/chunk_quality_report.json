@@ -1,0 +1,155 @@
+{
+  "total_chunks_evaluated": 545,
+  "min_tokens": 8,
+  "max_tokens": 1580,
+  "avg_tokens": 566.9,
+  "median_tokens": 557.0,
+  "p25_tokens": 468.0,
+  "p75_tokens": 684.0,
+  "p95_tokens": 801.0,
+  "anomalies_count": 7,
+  "anomalies": [
+    {
+      "chunk_id": "chk_cb5ba5feed912b30",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 11 tokens",
+      "token_count": 11,
+      "source_document": "STD-10/Std-10_Black-Buck_Supplementry_Reader.pdf",
+      "source_page": 2
+    },
+    {
+      "chunk_id": "chk_2086f1b64d7dd501",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 20 tokens",
+      "token_count": 20,
+      "source_document": "STD-10/Std-10_English Second Language.pdf",
+      "source_page": 3
+    },
+    {
+      "chunk_id": "chk_08df27906aaf7de7",
+      "issue_type": "BROKEN_UNICODE",
+      "details": "Contains unresolved raw font glyph markers (/G<n>)",
+      "token_count": 552,
+      "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+      "source_page": 194
+    },
+    {
+      "chunk_id": "chk_7e962356ac57d3fd",
+      "issue_type": "BROKEN_UNICODE",
+      "details": "Contains unresolved raw font glyph markers (/G<n>)",
+      "token_count": 470,
+      "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+      "source_page": 237
+    },
+    {
+      "chunk_id": "chk_7ba6bdee7618c98d",
+      "issue_type": "TOO_LONG",
+      "details": "Chunk is excessively long (1580 tokens)",
+      "token_count": 1580,
+      "source_document": "STD-10/Std-10_Science_English Medium.pdf",
+      "source_page": 193
+    },
+    {
+      "chunk_id": "chk_585ed616fd95f394",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 12 tokens",
+      "token_count": 12,
+      "source_document": "STD-10/Std-10_Social_Science_EnglishMedium.pdf",
+      "source_page": 3
+    },
+    {
+      "chunk_id": "chk_cc5d72e1988183c5",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 8 tokens",
+      "token_count": 8,
+      "source_document": "STD-10/Std_10_Yoga, Health and Physical Education_Eng_M.pdf",
+      "source_page": 3
+    }
+  ],
+  "retrieval_queries_tested": 6,
+  "recall_at_1": 1.0,
+  "recall_at_5": 1.0,
+  "recall_at_10": 1.0,
+  "mrr": 1.0,
+  "quality_gate_status": "PASS",
+  "retrieval_results": [
+    {
+      "query_id": "Q1",
+      "query_text": "Euclid's division lemma states that for given positive integers a and b there exist unique integers q and r",
+      "target_subject": "Mathematics",
+      "top_chunk_id": "chk_a67429308f9f00dd",
+      "top_score": 33.734,
+      "top_preview": "PROOFS IN MA THEMA TICS 235 lSo, we begin by assuming that the statement is not true, that is, we assume that the negation of p is true (i.e., A is no",
+      "rank_of_first_relevant": 1,
+      "is_recall_at_1": true,
+      "is_recall_at_5": true,
+      "is_recall_at_10": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query_id": "Q2",
+      "query_text": "Fundamental theorem of arithmetic every composite number can be expressed as a product of primes",
+      "target_subject": "Mathematics",
+      "top_chunk_id": "chk_a901156f02c02325",
+      "top_score": 55.155,
+      "top_preview": "REAL NUMBERS 3 An equivalent version of Theorem 1.1 was probably first recorded as Proposition 14 of Book IX in Euclid\u0092s Elements, before it came to b",
+      "rank_of_first_relevant": 1,
+      "is_recall_at_1": true,
+      "is_recall_at_5": true,
+      "is_recall_at_10": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query_id": "Q3",
+      "query_text": "Chemical reactions and equations magnesium ribbon burns with a dazzling white flame",
+      "target_subject": "Science",
+      "top_chunk_id": "chk_231e14979193112b",
+      "top_score": 35.006,
+      "top_preview": "Science2 Activity 1.2Activity 1.2Activity 1.2Activity 1.2Activity 1.2 Figure 1.2Figure 1.2Figure 1.2Figure 1.2Figure 1.2 Formation of hydrogen gas by ",
+      "rank_of_first_relevant": 1,
+      "is_recall_at_1": true,
+      "is_recall_at_5": true,
+      "is_recall_at_10": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query_id": "Q4",
+      "query_text": "Acids bases and salts litmus paper turns red or blue phenolphthalein indicator",
+      "target_subject": "Science",
+      "top_chunk_id": "chk_10db067909bab846",
+      "top_score": 30.372,
+      "top_preview": "Science34 /square6The strength of an acid or an alkali can be tested by using a scale called the pH scale (0-14) which gives the measure of hydrogen i",
+      "rank_of_first_relevant": 1,
+      "is_recall_at_1": true,
+      "is_recall_at_5": true,
+      "is_recall_at_10": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query_id": "Q5",
+      "query_text": "Lencho was a dedicated farmer who prayed for rain to nourish his field of ripe corn",
+      "target_subject": "First Flight",
+      "top_chunk_id": "chk_a842b4879209187a",
+      "top_score": 39.201,
+      "top_preview": "\uf041\uf020\uf04c\uf065\uf074\uf074\uf065\uf072\uf020\uf074\uf06f\uf020\uf047\uf06f\uf064 \uf033 T HE house \u2014 the only one in the entire valley \u2014 sat on the crest of a low hill. From this height one could see the river and the fi",
+      "rank_of_first_relevant": 1,
+      "is_recall_at_1": true,
+      "is_recall_at_5": true,
+      "is_recall_at_10": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query_id": "Q6",
+      "query_text": "Nelson Mandela inauguration as first black President of South Africa at the Union Buildings amphitheatre",
+      "target_subject": "First Flight",
+      "top_chunk_id": "chk_13813bb4cdd11c45",
+      "top_score": 70.564,
+      "top_preview": "\uf042\uf045\uf046\uf04f\uf052\uf045\uf020 \uf059\uf04f\uf055\uf020\uf052 \uf045\uf041\uf044 \u2022 \u201dApartheid\u2019 is a political system that separates people according to their race. Can you say which of the three countries named be",
+      "rank_of_first_relevant": 1,
+      "is_recall_at_1": true,
+      "is_recall_at_5": true,
+      "is_recall_at_10": true,
+      "reciprocal_rank": 1.0
+    }
+  ]
+}

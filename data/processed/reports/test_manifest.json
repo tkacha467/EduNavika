@@ -1,0 +1,10 @@
+{
+  "benchmark_version": "4.3.2",
+  "created_at": "2026-09-13T21:35:00+05:30",
+  "target_split": "test",
+  "page_count": 63,
+  "formula_count": 65,
+  "core_formula_count": 48,
+  "diagnostic_formula_count": 17,
+  "sha256": "b806a18eab5f25a41082a6f68fda909aca268269a1b6c6b103a1a42eb9c3b69c"
+}

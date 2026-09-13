@@ -1,0 +1,158 @@
+{
+  "BM25": {
+    "summary": {
+      "count": 50,
+      "mrr": 0.9425,
+      "recall@1": 0.9,
+      "recall@5": 0.98,
+      "recall@10": 1.0,
+      "latency_s": 0.06319093704223633
+    },
+    "failures": []
+  },
+  "Dense": {
+    "summary": {
+      "count": 50,
+      "mrr": 0.6950555555555556,
+      "recall@1": 0.64,
+      "recall@5": 0.76,
+      "recall@10": 0.82,
+      "latency_s": 0.43567848205566406
+    },
+    "failures": [
+      {
+        "query": "What is the mathematical relationship or formula involving 10 22 fflh ff f \u239b\u239e \u2212+\u00d7\u239c\u239f \u2212\u2212\u239d\u23a0 = 87?",
+        "query_type": "Formula",
+        "expected": [
+          "chk_d49d449d90efa24f"
+        ],
+        "retrieved_1": "chk_f233c4383e587c98",
+        "retrieved_2": "chk_d1acb117a094838a",
+        "retrieved_3": "chk_c5f706b46a5e23d4",
+        "failure_reason": "LEXICAL_FAILURE"
+      },
+      {
+        "query": "How does Unit 7 \u2013 MadaM Rides relate to no doubt charmingly novel in?",
+        "query_type": "Multi-concept",
+        "expected": [
+          "chk_f3092a3dacc88448"
+        ],
+        "retrieved_1": "chk_0f5fea642786a1bf",
+        "retrieved_2": "chk_71e37d5ebb48b91f",
+        "retrieved_3": "chk_82a4dc733bfa8e93",
+        "failure_reason": "AMBIGUITY"
+      },
+      {
+        "query": "Provide factual details about away from them and out into the.",
+        "query_type": "Exact factual",
+        "expected": [
+          "chk_f77224f721cef554"
+        ],
+        "retrieved_1": "chk_a579d86a79fef1e4",
+        "retrieved_2": "chk_3fa1e79384936d91",
+        "retrieved_3": "chk_f7c4757a21e23ee6",
+        "failure_reason": "LEXICAL_FAILURE"
+      },
+      {
+        "query": "Discuss the core concept behind Science138 You will see in the above Activity.",
+        "query_type": "Conceptual",
+        "expected": [
+          "chk_88231c04849f7684"
+        ],
+        "retrieved_1": "chk_233981f3675b660f",
+        "retrieved_2": "chk_c72f71b46ed1455e",
+        "retrieved_3": "chk_a6a8b4ed42932395",
+        "failure_reason": "AMBIGUITY"
+      },
+      {
+        "query": "State the theorem or proof regarding of Content in the Textbooks v A Note to the.",
+        "query_type": "Mathematical",
+        "expected": [
+          "chk_6f5a250369cd717c"
+        ],
+        "retrieved_1": "chk_705adf69f14add05",
+        "retrieved_2": "chk_c3288ff15c72bfea",
+        "retrieved_3": "chk_499bd2f7a404887e",
+        "failure_reason": "AMBIGUITY"
+      },
+      {
+        "query": "What is the mathematical relationship or formula involving plants. We have used direct method because numerical values of?",
+        "query_type": "Formula",
+        "expected": [
+          "chk_abc87ee4be03b89d"
+        ],
+        "retrieved_1": "chk_705adf69f14add05",
+        "retrieved_2": "chk_c3288ff15c72bfea",
+        "retrieved_3": "chk_499bd2f7a404887e",
+        "failure_reason": "LEXICAL_FAILURE"
+      },
+      {
+        "query": "State the theorem or proof regarding is a conversation between a young man and a young.",
+        "query_type": "Mathematical",
+        "expected": [
+          "chk_1e535e76fe8d066f"
+        ],
+        "retrieved_1": "chk_17ffd74cf52f9c33",
+        "retrieved_2": "chk_c06f1c1167c443bc",
+        "retrieved_3": "chk_f16cb1c8d79842ba",
+        "failure_reason": "AMBIGUITY"
+      },
+      {
+        "query": "What is the mathematical relationship or formula involving \u03a3 ii i fxx f =\ud8fa\udcf3 30 = 59.3 Therefore,?",
+        "query_type": "Formula",
+        "expected": [
+          "chk_2a077271d228e4cd"
+        ],
+        "retrieved_1": "chk_070178fab2eac8f0",
+        "retrieved_2": "chk_499bd2f7a404887e",
+        "retrieved_3": "chk_c5f706b46a5e23d4",
+        "failure_reason": "LEXICAL_FAILURE"
+      },
+      {
+        "query": "State the theorem or proof regarding Class x 14 below gives you ideas on how the.",
+        "query_type": "Mathematical",
+        "expected": [
+          "chk_0dda084ceabc387b"
+        ],
+        "retrieved_1": "chk_77b297201fd4accb",
+        "retrieved_2": "chk_7af211f88ad26bee",
+        "retrieved_3": "chk_705adf69f14add05",
+        "failure_reason": "AMBIGUITY"
+      }
+    ]
+  },
+  "Hybrid": {
+    "summary": {
+      "count": 50,
+      "mrr": 0.807,
+      "recall@1": 0.74,
+      "recall@5": 0.94,
+      "recall@10": 0.96,
+      "latency_s": 0.523902416229248
+    },
+    "failures": [
+      {
+        "query": "How does Unit 7 \u2013 MadaM Rides relate to no doubt charmingly novel in?",
+        "query_type": "Multi-concept",
+        "expected": [
+          "chk_f3092a3dacc88448"
+        ],
+        "retrieved_1": "chk_0f5fea642786a1bf",
+        "retrieved_2": "chk_d71c3893bb80288d",
+        "retrieved_3": "chk_71e37d5ebb48b91f",
+        "failure_reason": "AMBIGUITY"
+      },
+      {
+        "query": "Provide factual details about away from them and out into the.",
+        "query_type": "Exact factual",
+        "expected": [
+          "chk_f77224f721cef554"
+        ],
+        "retrieved_1": "chk_af40703f377c59ec",
+        "retrieved_2": "chk_87a7e412c7c9a7ce",
+        "retrieved_3": "chk_a579d86a79fef1e4",
+        "failure_reason": "AMBIGUITY"
+      }
+    ]
+  }
+}

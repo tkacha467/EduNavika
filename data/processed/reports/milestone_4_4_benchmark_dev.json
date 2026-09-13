@@ -1,0 +1,121 @@
+{
+  "split": "dev",
+  "total_pages": 74,
+  "total_formulas": 76,
+  "results": {
+    "pypdfium2_baseline": {
+      "name": "PyPDFium2 Baseline",
+      "total_time_seconds": 1.46,
+      "avg_latency_per_page_ms": 19.7,
+      "avg_latency_per_formula_ms": 19.2,
+      "regions_cropped": 0,
+      "metrics": {
+        "CORE": {
+          "count": 60,
+          "exact_match": "0/60 (0.00%)",
+          "semantic_high": "0/60 (0.00%)",
+          "semantic_valid": "11/60 (18.33%)",
+          "structural_accuracy": "12/60 (20.00%)",
+          "symbol_accuracy": "36/60 (60.00%)"
+        },
+        "DIAGNOSTIC": {
+          "count": 16,
+          "exact_match": "0/16 (0.00%)",
+          "semantic_high": "0/16 (0.00%)",
+          "semantic_valid": "1/16 (6.25%)",
+          "structural_accuracy": "1/16 (6.25%)",
+          "symbol_accuracy": "4/16 (25.00%)"
+        },
+        "OVERALL": {
+          "count": 76,
+          "exact_match": "0/76 (0.00%)",
+          "semantic_high": "0/76 (0.00%)",
+          "semantic_valid": "12/76 (15.79%)",
+          "structural_accuracy": "13/76 (17.11%)",
+          "symbol_accuracy": "40/76 (52.63%)"
+        }
+      },
+      "structural_breakdown": {
+        "fraction_preservation": "16/26 (61.54%)",
+        "sub_super_preservation": "0/47 (0.00%)",
+        "radical_preservation": "0/6 (0.00%)"
+      }
+    },
+    "baseline_heuristic_norm": {
+      "name": "PyPDFium2 + Heuristic Normalizer",
+      "total_time_seconds": 1.48,
+      "avg_latency_per_page_ms": 20.0,
+      "avg_latency_per_formula_ms": 19.5,
+      "regions_cropped": 0,
+      "metrics": {
+        "CORE": {
+          "count": 60,
+          "exact_match": "0/60 (0.00%)",
+          "semantic_high": "0/60 (0.00%)",
+          "semantic_valid": "23/60 (38.33%)",
+          "structural_accuracy": "24/60 (40.00%)",
+          "symbol_accuracy": "42/60 (70.00%)"
+        },
+        "DIAGNOSTIC": {
+          "count": 16,
+          "exact_match": "0/16 (0.00%)",
+          "semantic_high": "0/16 (0.00%)",
+          "semantic_valid": "4/16 (25.00%)",
+          "structural_accuracy": "4/16 (25.00%)",
+          "symbol_accuracy": "9/16 (56.25%)"
+        },
+        "OVERALL": {
+          "count": 76,
+          "exact_match": "0/76 (0.00%)",
+          "semantic_high": "0/76 (0.00%)",
+          "semantic_valid": "27/76 (35.53%)",
+          "structural_accuracy": "28/76 (36.84%)",
+          "symbol_accuracy": "51/76 (67.11%)"
+        }
+      },
+      "structural_breakdown": {
+        "fraction_preservation": "16/26 (61.54%)",
+        "sub_super_preservation": "15/47 (31.91%)",
+        "radical_preservation": "0/6 (0.00%)"
+      }
+    },
+    "targeted_math_extraction": {
+      "name": "Targeted Mathematical Extraction (Hybrid Gate + Crop OCR)",
+      "total_time_seconds": 347.2,
+      "avg_latency_per_page_ms": 4691.9,
+      "avg_latency_per_formula_ms": 4568.5,
+      "regions_cropped": 149,
+      "metrics": {
+        "CORE": {
+          "count": 60,
+          "exact_match": "0/60 (0.00%)",
+          "semantic_high": "0/60 (0.00%)",
+          "semantic_valid": "36/60 (60.00%)",
+          "structural_accuracy": "37/60 (61.67%)",
+          "symbol_accuracy": "49/60 (81.67%)"
+        },
+        "DIAGNOSTIC": {
+          "count": 16,
+          "exact_match": "0/16 (0.00%)",
+          "semantic_high": "0/16 (0.00%)",
+          "semantic_valid": "11/16 (68.75%)",
+          "structural_accuracy": "12/16 (75.00%)",
+          "symbol_accuracy": "11/16 (68.75%)"
+        },
+        "OVERALL": {
+          "count": 76,
+          "exact_match": "0/76 (0.00%)",
+          "semantic_high": "0/76 (0.00%)",
+          "semantic_valid": "47/76 (61.84%)",
+          "structural_accuracy": "49/76 (64.47%)",
+          "symbol_accuracy": "60/76 (78.95%)"
+        }
+      },
+      "structural_breakdown": {
+        "fraction_preservation": "17/26 (65.38%)",
+        "sub_super_preservation": "40/47 (85.11%)",
+        "radical_preservation": "1/6 (16.67%)"
+      }
+    }
+  }
+}

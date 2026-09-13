@@ -1,0 +1,266 @@
+{
+  "total_audited": 3,
+  "passed_count": 3,
+  "review_count": 0,
+  "failed_count": 0,
+  "documents": [
+    {
+      "document_name": "Std-10 Science",
+      "relative_path": "STD-10/Std-10_Science_English Medium.pdf",
+      "expected_chapters": 13,
+      "detected_chapters": 13,
+      "expected_topics_approx": "~15-25",
+      "detected_topics": 14,
+      "status": "PASS",
+      "diagnostic_notes": [
+        "Exact chapter count match: 13/13 chapters detected."
+      ],
+      "chapters": [
+        {
+          "chapter_number": 1,
+          "chapter_title": "Chemical Reactions and Equations",
+          "pages": "pp. 12-24",
+          "topics_count": 2
+        },
+        {
+          "chapter_number": 2,
+          "chapter_title": "Acids, Bases and Salts",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 3,
+          "chapter_title": "Metals and Non-metals",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 4,
+          "chapter_title": "Carbon and its Compounds",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 5,
+          "chapter_title": "Life Processes",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 6,
+          "chapter_title": "Control and Coordination",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 7,
+          "chapter_title": "How do Organisms Reproduce?",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 8,
+          "chapter_title": "Heredity",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 9,
+          "chapter_title": "Light \u2013 Reflection and Refraction",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 10,
+          "chapter_title": "The Human Eye and the Colourful World",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 11,
+          "chapter_title": "Electricity",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 12,
+          "chapter_title": "Magnetic Effects of Electric Current",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 13,
+          "chapter_title": "Our Environment",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        }
+      ]
+    },
+    {
+      "document_name": "Std-10 First Flight English",
+      "relative_path": "STD-10/Std-10_First Flight_EnglishMedium.pdf",
+      "expected_chapters": 9,
+      "detected_chapters": 9,
+      "expected_topics_approx": "~9-15",
+      "detected_topics": 9,
+      "status": "PASS",
+      "diagnostic_notes": [
+        "Exact chapter count match: 9/9 chapters detected."
+      ],
+      "chapters": [
+        {
+          "chapter_number": 1,
+          "chapter_title": "A Letter to God",
+          "pages": "pp. 12-24",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 2,
+          "chapter_title": "Nelson Mandela: Long Walk to Freedom",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 3,
+          "chapter_title": "Two Stories about Flying",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 4,
+          "chapter_title": "From the Diary of Anne Frank",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 5,
+          "chapter_title": "Glimpses of India",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 6,
+          "chapter_title": "Mijbil the Otter",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 7,
+          "chapter_title": "Madam Rides the Bus",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 8,
+          "chapter_title": "The Sermon at Benares",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 9,
+          "chapter_title": "The Proposal",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        }
+      ]
+    },
+    {
+      "document_name": "Std-10 Mathematics",
+      "relative_path": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+      "expected_chapters": 14,
+      "detected_chapters": 14,
+      "expected_topics_approx": "~35-50",
+      "detected_topics": 17,
+      "status": "PASS",
+      "diagnostic_notes": [
+        "Exact chapter count match: 14/14 chapters detected."
+      ],
+      "chapters": [
+        {
+          "chapter_number": 1,
+          "chapter_title": "Real Numbers",
+          "pages": "pp. 8-16",
+          "topics_count": 3
+        },
+        {
+          "chapter_number": 2,
+          "chapter_title": "Polynomials",
+          "pages": "pp. 17-24",
+          "topics_count": 2
+        },
+        {
+          "chapter_number": 3,
+          "chapter_title": "Pair of Linear Equations in Two Variables",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 4,
+          "chapter_title": "Quadratic Equations",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 5,
+          "chapter_title": "Arithmetic Progressions",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 6,
+          "chapter_title": "Triangles",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 7,
+          "chapter_title": "Coordinate Geometry",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 8,
+          "chapter_title": "Introduction to Trigonometry",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 9,
+          "chapter_title": "Some Applications of Trigonometry",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 10,
+          "chapter_title": "Circles",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 11,
+          "chapter_title": "Areas Related to Circles",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 12,
+          "chapter_title": "Surface Areas and Volumes",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 13,
+          "chapter_title": "Statistics",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        },
+        {
+          "chapter_number": 14,
+          "chapter_title": "Probability",
+          "pages": "pp. 25-25",
+          "topics_count": 1
+        }
+      ]
+    }
+  ]
+}

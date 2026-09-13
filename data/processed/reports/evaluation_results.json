@@ -1,0 +1,162 @@
+{
+  "model": "all-MiniLM-L6-v2",
+  "corpus_size": 457,
+  "queries": 31,
+  "metrics": {
+    "BM25": {
+      "count": 31,
+      "mrr": 0.7196620583717358,
+      "recall@1": 0.5806451612903226,
+      "recall@5": 0.8709677419354839,
+      "recall@10": 0.9354838709677419
+    },
+    "Dense": {
+      "count": 31,
+      "mrr": 0.6903225806451613,
+      "recall@1": 0.5161290322580645,
+      "recall@5": 0.967741935483871,
+      "recall@10": 1.0
+    },
+    "Hybrid": {
+      "count": 31,
+      "mrr": 0.7736559139784946,
+      "recall@1": 0.6451612903225806,
+      "recall@5": 1.0,
+      "recall@10": 1.0
+    }
+  },
+  "metrics_by_type": {
+    "BM25": {
+      "definition": {
+        "count": 4,
+        "mrr": 0.375,
+        "recall@1": 0.25,
+        "recall@5": 0.5,
+        "recall@10": 0.5
+      },
+      "formula": {
+        "count": 2,
+        "mrr": 0.625,
+        "recall@1": 0.5,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "proof": {
+        "count": 1,
+        "mrr": 0.14285714285714285,
+        "recall@1": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 1.0
+      },
+      "exact": {
+        "count": 4,
+        "mrr": 0.75,
+        "recall@1": 0.5,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "conceptual": {
+        "count": 10,
+        "mrr": 0.8666666666666666,
+        "recall@1": 0.8,
+        "recall@5": 0.9,
+        "recall@10": 1.0
+      },
+      "factual": {
+        "count": 10,
+        "mrr": 0.775,
+        "recall@1": 0.6,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      }
+    },
+    "Dense": {
+      "definition": {
+        "count": 4,
+        "mrr": 0.8,
+        "recall@1": 0.75,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "formula": {
+        "count": 2,
+        "mrr": 0.75,
+        "recall@1": 0.5,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "proof": {
+        "count": 1,
+        "mrr": 0.5,
+        "recall@1": 0.0,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "exact": {
+        "count": 4,
+        "mrr": 0.6458333333333334,
+        "recall@1": 0.5,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "conceptual": {
+        "count": 10,
+        "mrr": 0.7416666666666667,
+        "recall@1": 0.6,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "factual": {
+        "count": 10,
+        "mrr": 0.62,
+        "recall@1": 0.4,
+        "recall@5": 0.9,
+        "recall@10": 1.0
+      }
+    },
+    "Hybrid": {
+      "definition": {
+        "count": 4,
+        "mrr": 0.5083333333333333,
+        "recall@1": 0.25,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "formula": {
+        "count": 2,
+        "mrr": 0.75,
+        "recall@1": 0.5,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "proof": {
+        "count": 1,
+        "mrr": 0.2,
+        "recall@1": 0.0,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "exact": {
+        "count": 4,
+        "mrr": 1.0,
+        "recall@1": 1.0,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "conceptual": {
+        "count": 10,
+        "mrr": 0.825,
+        "recall@1": 0.7,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "factual": {
+        "count": 10,
+        "mrr": 0.8,
+        "recall@1": 0.7,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      }
+    }
+  }
+}

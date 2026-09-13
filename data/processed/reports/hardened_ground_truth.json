@@ -1,0 +1,602 @@
+[
+  {
+    "query_id": "hq_1",
+    "query_type": "Explanation",
+    "query": "Can you explain the process or events concerning course, cut the telephone wires first and then...,\u201d he hesitated, a smile on his face,?",
+    "expected_chunk_ids": [
+      "chk_4e68b003a2063bb0"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_2",
+    "query_type": "Exact factual",
+    "query": "Provide factual details about was the young seagull afraid to fly\u2022.",
+    "expected_chunk_ids": [
+      "chk_74a2157487e9eb8f"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_3",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving 1.8Figure 1.8 (a) Iron nails dipped in copper sulphate solution?",
+    "expected_chunk_ids": [
+      "chk_bfa15b9a6ccab604"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_4",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving 225 Now, consider Fig. A1.3, where PQ and PR are?",
+    "expected_chunk_ids": [
+      "chk_c264215316396e8a"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_5",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving you may have seen an object like the one in?",
+    "expected_chunk_ids": [
+      "chk_0cd824449b5b72f9"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_6",
+    "query_type": "Terminology-heavy",
+    "query": "What do the terms OOP : (to each other, puzzled ) Listen to them? refer to in this context?",
+    "expected_chunk_ids": [
+      "chk_f2c5aeb473b58163"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_7",
+    "query_type": "Explanation",
+    "query": "Can you explain the process or events concerning Who does \u2018I\u2019 refer to in this stor y? \u2022 What is he \u201ca fairly?",
+    "expected_chunk_ids": [
+      "chk_3e10bab90b787945"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_8",
+    "query_type": "Multi-concept",
+    "query": "How does 130 First Flight N ATALYA relate to easy-chair and wails ] Bring?",
+    "expected_chunk_ids": [
+      "chk_737bdbc17d7b6956"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_9",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving ELECTRIC POWER11.8 ELECTRIC POWER11.8 ELECTRIC POWER11.8 ELECTRIC POWER You have?",
+    "expected_chunk_ids": [
+      "chk_3811f95c6c60a021"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_10",
+    "query_type": "Explanation",
+    "query": "Can you explain the process or events concerning definitions above to decide which of the entries might be from a diary, a jour?",
+    "expected_chunk_ids": [
+      "chk_66200f186c5dd226"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_11",
+    "query_type": "Terminology-heavy",
+    "query": "What do the terms \uf050\uf06f\uf065\uf06d A boy loses a ball. He is very upset. refer to in this context?",
+    "expected_chunk_ids": [
+      "chk_29d78812f649b078"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_12",
+    "query_type": "Exact factual",
+    "query": "Provide factual details about Speech A sentence in reported speech consists.",
+    "expected_chunk_ids": [
+      "chk_44cfcbf1d393cb95"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_13",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving 11.1 Areas of Sector and Segment of a Circle The?",
+    "expected_chunk_ids": [
+      "chk_0e2b50030d6cc2c9"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_14",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving 10 22 fflh ff f \u239b\u239e \u2212+\u00d7\u239c\u239f \u2212\u2212\u239d\u23a0 = 87?",
+    "expected_chunk_ids": [
+      "chk_d49d449d90efa24f"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_15",
+    "query_type": "Multi-concept",
+    "query": "How does Unit 7 \u2013 MadaM Rides relate to no doubt charmingly novel in?",
+    "expected_chunk_ids": [
+      "chk_f3092a3dacc88448"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_16",
+    "query_type": "Explanation",
+    "query": "Can you explain the process or events concerning the old Dakota\u2019s last tank to fly for five or ten minutes more. I was?",
+    "expected_chunk_ids": [
+      "chk_52701eb61a7281e1"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_17",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving us now find the distance between any two points P(x1,?",
+    "expected_chunk_ids": [
+      "chk_1846b8fc100e470c"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_18",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving HEA 11.7 HEA11.7 HEA TING EFFECT OF ELECTRIC CURRENTTING EFFECT?",
+    "expected_chunk_ids": [
+      "chk_0db5840e22d27877"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_19",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving 159 (i) the area of that part of the field?",
+    "expected_chunk_ids": [
+      "chk_1bb6c68f07f78873"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_20",
+    "query_type": "Exact factual",
+    "query": "Provide factual details about to God 5 Sentences The trader was.",
+    "expected_chunk_ids": [
+      "chk_97963189765056ad"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_21",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving In reaction (1.31) carbon is oxidised to CO and ZnO?",
+    "expected_chunk_ids": [
+      "chk_f7302acc2f9a6ee8"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_22",
+    "query_type": "Explanation",
+    "query": "Can you explain the process or events concerning almost immediately he turned serious and, tapping the letter on his desk, commented, \u201c...hat faith\u2019?",
+    "expected_chunk_ids": [
+      "chk_f454d0e564e7a433"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_23",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving 1.Find the zeroes of the following quadratic polynomials and verify?",
+    "expected_chunk_ids": [
+      "chk_5962a5402ec267e7"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_24",
+    "query_type": "Definition",
+    "query": "What is the definition of the concept related to More to Know! Blood pressure is measured?",
+    "expected_chunk_ids": [
+      "chk_266033e26169b388"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_25",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving x \u0096 2 \u0096 1012 3 4 5 y =?",
+    "expected_chunk_ids": [
+      "chk_9c8fc8131ca3eeaf"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_26",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving Q on XY other than P and join OQ (see?",
+    "expected_chunk_ids": [
+      "chk_1cd7382a56a22db0"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_27",
+    "query_type": "Exact factual",
+    "query": "Provide factual details about away from them and out into the.",
+    "expected_chunk_ids": [
+      "chk_f77224f721cef554"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_28",
+    "query_type": "Explanation",
+    "query": "Can you explain the process or events concerning Lomov has come for? Is he sincere when he later says \u201cAnd I\u2019ve always loved?",
+    "expected_chunk_ids": [
+      "chk_4cc1f01a17f373f1"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_29",
+    "query_type": "Conceptual",
+    "query": "Discuss the core concept behind Science138 You will see in the above Activity.",
+    "expected_chunk_ids": [
+      "chk_88231c04849f7684"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_30",
+    "query_type": "Mathematical",
+    "query": "State the theorem or proof regarding of Content in the Textbooks v A Note to the.",
+    "expected_chunk_ids": [
+      "chk_6f5a250369cd717c"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_31",
+    "query_type": "Explanation",
+    "query": "Can you explain the process or events concerning mechanisms by which organisms reproduce, let us ask a more basic question \u2013 why do?",
+    "expected_chunk_ids": [
+      "chk_aac1f2441f48427f"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_32",
+    "query_type": "Exact factual",
+    "query": "Provide factual details about the lungs, is a cluster of very.",
+    "expected_chunk_ids": [
+      "chk_2ce7c00f4abe5cad"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_33",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving plants. We have used direct method because numerical values of?",
+    "expected_chunk_ids": [
+      "chk_abc87ee4be03b89d"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_34",
+    "query_type": "Definition",
+    "query": "What is the definition of the concept related to 65 Marriage gifts are meaningless without the?",
+    "expected_chunk_ids": [
+      "chk_b02615a1a0562740"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_35",
+    "query_type": "Exact factual",
+    "query": "Provide factual details about long Walk to FreedoM 23 Sentences __________________________________.",
+    "expected_chunk_ids": [
+      "chk_cc1d05b4a1bbd804"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_36",
+    "query_type": "Terminology-heavy",
+    "query": "What do the terms on which were inscribed these words: The Minister of Public refer to in this context?",
+    "expected_chunk_ids": [
+      "chk_92b59f3bf0b29024"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_37",
+    "query_type": "Definition",
+    "query": "What is the definition of the concept related to surface of a spherical mirror forms a?",
+    "expected_chunk_ids": [
+      "chk_9fcfd0477a0f8844"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_38",
+    "query_type": "Mathematical",
+    "query": "State the theorem or proof regarding is a conversation between a young man and a young.",
+    "expected_chunk_ids": [
+      "chk_1e535e76fe8d066f"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_39",
+    "query_type": "Definition",
+    "query": "What is the definition of the concept related to find that some metals can be beaten?",
+    "expected_chunk_ids": [
+      "chk_bcd0d58fccafc698"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_40",
+    "query_type": "Definition",
+    "query": "What is the definition of the concept related to Other single-celled organisms, such as the malarial?",
+    "expected_chunk_ids": [
+      "chk_b84bb7133504d7ed"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_41",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving it is given that \u2220 PST =\u2220 PRQ (2) So,?",
+    "expected_chunk_ids": [
+      "chk_ae94256a14f1790f"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_42",
+    "query_type": "Exact factual",
+    "query": "Provide factual details about 1. What was V alli\u2019s deepest desire?.",
+    "expected_chunk_ids": [
+      "chk_5a68133448cedcfb"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_43",
+    "query_type": "Explanation",
+    "query": "Can you explain the process or events concerning the text (on the left below) with the other piece on Goan bakers (on the?",
+    "expected_chunk_ids": [
+      "chk_87a7e412c7c9a7ce"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_44",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving \u03a3 ii i fxx f =\ud8fa\udcf3 30 = 59.3 Therefore,?",
+    "expected_chunk_ids": [
+      "chk_2a077271d228e4cd"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_45",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving Paris, the substance which doctors use as plaster for supporting?",
+    "expected_chunk_ids": [
+      "chk_58452c0f14025afd"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_46",
+    "query_type": "Explanation",
+    "query": "Can you explain the process or events concerning meanings. Can you guess what sort of proposal the play is about? (i) a suggestion,?",
+    "expected_chunk_ids": [
+      "chk_cdc3477b344d8aa2"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_47",
+    "query_type": "Exact factual",
+    "query": "Provide factual details about finely minced meat stuffed into long cylindrical.",
+    "expected_chunk_ids": [
+      "chk_f8e5b6f7f4addc7c"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Easy"
+  },
+  {
+    "query_id": "hq_48",
+    "query_type": "Mathematical",
+    "query": "State the theorem or proof regarding Class x 14 below gives you ideas on how the.",
+    "expected_chunk_ids": [
+      "chk_0dda084ceabc387b"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  },
+  {
+    "query_id": "hq_49",
+    "query_type": "Definition",
+    "query": "What is the definition of the concept related to such a process of combining DNA from?",
+    "expected_chunk_ids": [
+      "chk_1099c51cedad138d"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Medium"
+  },
+  {
+    "query_id": "hq_50",
+    "query_type": "Formula",
+    "query": "What is the mathematical relationship or formula involving IN TWO VARIABLES 27 Fig. 3.1 Table 3.2 x 06?",
+    "expected_chunk_ids": [
+      "chk_32b77a8478655cd4"
+    ],
+    "standard": 10,
+    "subject": "Unknown",
+    "chapter": "Unknown",
+    "difficulty": "Hard"
+  }
+]

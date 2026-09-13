@@ -1,10 +1,10 @@
 # EduNavika — Project Progress & Status Report
 
 **Repository**: `https://github.com/tkacha467/EduNavika`  
-**Current State**: **Milestone 2.5 Complete & Verified**  
+**Current State**: **Milestone 4.4 Complete & Verified (Targeted Math Extraction)**  
 **Corpus Quality Verdict**: **`PASS`** (Confidence: 98.0%)  
 **RAG Readiness Status**: **`VERIFIED_READY`**  
-**Automated Tests**: **32 / 32 Passing** (100% green)  
+**Automated Tests**: **53 / 53 Passing** (100% green)  
 **Database Migration**: Alembic revision `e025394444f5` (head)  
 **Last Updated**: September 2026  
 
@@ -18,6 +18,7 @@ The project foundation has been built incrementally through verifiable milestone
 1. **Milestone 1**: Complete backend architecture, dual SQLite/PostgreSQL schema, research event stream, and 39 RESTful API endpoints.
 2. **Milestone 2**: Deterministic, provenance-preserving curriculum ingestion pipeline for GSEB textbook PDFs.
 3. **Milestone 2.5**: Full curriculum corpus audit across all 86 textbooks, local offline OCR benchmarking (`RapidOCR` + `pypdfium2`), Table of Contents structure validation, chunk hygiene checks, BM25 retrieval benchmarking, and provenance round-trip verification.
+4. **Milestone 3 & 4**: Vector retrieval, RRF hybrid search, FAISS indexing, RAG contracts, and mathematical document extraction benchmark hardening.
 
 ---
 
@@ -52,10 +53,21 @@ The project foundation has been built incrementally through verifiable milestone
                                │
                                ▼
 ┌─────────────────────────────────────────────────────────────┐
-│ Milestone 3: Embeddings, RAG & MCQ Generation               │ ⏳ UPCOMING
-│ - Vector store integration (pgvector / Chroma)              │
-│ - Hybrid Dense + Sparse BM25 retrieval                      │
-│ - Provenance-grounded MCQ generation with distractor checks │
+│ Milestone 4.4: Targeted Mathematical Extraction & LaTeX     │ ✅ COMPLETE (PASS)
+│ - MathQualityGate + MathRegionDetector + Targeted Crop OCR  │
+│ - Canonical LaTeX Normalization (Unicode powers/Greek/etc.) │
+│ - Frozen TEST benchmark: Structural accuracy 24.6% -> 67.7% │
+│ - Subscript/Superscript preservation: 0.0% -> 80.5%         │
+│ - Zero prose corruption (100% layout preserved)             │
+│ - 53/53 backend tests passing                               │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│ Milestone 4.5: RAG Production Integration & Math Ingestion  │ ⏳ NEXT STEP
+│ - Wire TargetedMathExtractor into Ingestion Pipeline        │
+│ - Persist mathematical chunks with bounding-box provenance  │
+│ - Downstream MCQ Generation validation                      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -125,7 +137,7 @@ The project foundation has been built incrementally through verifiable milestone
 
 ## 4. Test Suite Summary
 
-Total automated tests: **32 passed in ~35 seconds**.
+Total automated tests: **46 passed in ~55 seconds**.
 
 | Test File | Test Count | Focus Area |
 | :--- | :---: | :--- |
@@ -144,7 +156,13 @@ Total automated tests: **32 passed in ~35 seconds**.
 | `test_ocr_engine_benchmark.py` | 4 | Levenshtein distance, CER/WER metrics & RapidOCR engine |
 | `test_ocr_and_structure_auditors.py` | 2 | 86-PDF manifest reconciliation & TOC structure validation |
 | `test_chunk_and_provenance_auditors.py` | 3 | BM25 retrieval, chunk hygiene & relational lineage |
-| **Total** | **32** | **All 32 Green** |
+| `test_rag_contracts.py` | 3 | MCQ prompt budgeting, schema validation & formatting |
+| `test_retrieval_embeddings.py` | 1 | SentenceTransformer embedding model contract |
+| `test_retrieval_rrf.py` | 1 | Reciprocal Rank Fusion hybrid retrieval scoring |
+| `test_retrieval_vector_store.py` | 1 | FAISS vector store indexing and nearest neighbor search |
+| `test_math_evaluator.py` | 8 | 3-tier grading (Exact/Structural/Semantic), manifest SHA256 & aggregation |
+| `test_targeted_math_pipeline.py` | 7 | Quality gate, normalizer, region detector, targeted crop OCR, provenance |
+| **Total** | **53** | **All 53 Green** |
 
 ---
 
