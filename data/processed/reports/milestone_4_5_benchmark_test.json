@@ -1,0 +1,314 @@
+{
+  "split": "test",
+  "total_pages": 63,
+  "total_formulas": 65,
+  "results": {
+    "pypdfium2_baseline": {
+      "name": "PyPDFium2 Baseline",
+      "total_time_seconds": 0.63,
+      "avg_latency_per_page_ms": 10.1,
+      "avg_latency_per_formula_ms": 9.8,
+      "regions_cropped": 0,
+      "metrics": {
+        "CORE": {
+          "count": 48,
+          "exact_match": "0/48 (0.00%)",
+          "structural_accuracy": "10/48 (20.83%)",
+          "symbol_accuracy": "20/48 (41.67%)",
+          "localized_candidates": "0/48 (0.00%)",
+          "mathematical_equivalence": {
+            "total_certified_equivalent": "0/48 (0.00%)",
+            "symbolic_equivalent": "0/48 (0.00%)",
+            "numerically_equivalent_probabilistic": "0/48 (0.00%)",
+            "non_equivalent": "4/48 (8.33%)",
+            "inconclusive": "1/48 (2.08%)",
+            "parse_errors": "43/48 (89.58%)",
+            "unsupported_out_of_scope": "0/48 (0.00%)"
+          }
+        },
+        "DIAGNOSTIC": {
+          "count": 17,
+          "exact_match": "0/17 (0.00%)",
+          "structural_accuracy": "3/17 (17.65%)",
+          "symbol_accuracy": "5/17 (29.41%)",
+          "localized_candidates": "0/17 (0.00%)",
+          "mathematical_equivalence": {
+            "total_certified_equivalent": "0/17 (0.00%)",
+            "symbolic_equivalent": "0/17 (0.00%)",
+            "numerically_equivalent_probabilistic": "0/17 (0.00%)",
+            "non_equivalent": "4/17 (23.53%)",
+            "inconclusive": "0/17 (0.00%)",
+            "parse_errors": "6/17 (35.29%)",
+            "unsupported_out_of_scope": "7/17 (41.18%)"
+          }
+        },
+        "OVERALL": {
+          "count": 65,
+          "exact_match": "0/65 (0.00%)",
+          "structural_accuracy": "13/65 (20.00%)",
+          "symbol_accuracy": "25/65 (38.46%)",
+          "localized_candidates": "0/65 (0.00%)",
+          "mathematical_equivalence": {
+            "total_certified_equivalent": "0/65 (0.00%)",
+            "symbolic_equivalent": "0/65 (0.00%)",
+            "numerically_equivalent_probabilistic": "0/65 (0.00%)",
+            "non_equivalent": "8/65 (12.31%)",
+            "inconclusive": "1/65 (1.54%)",
+            "parse_errors": "49/65 (75.38%)",
+            "unsupported_out_of_scope": "7/65 (10.77%)"
+          }
+        }
+      },
+      "category_breakdown": {
+        "ALGEBRA": {
+          "count": 23,
+          "equivalent": "0/23 (0.00%)",
+          "parse_errors": "23/23 (100.00%)",
+          "unsupported": "0/23 (0.00%)"
+        },
+        "CHEMICAL": {
+          "count": 12,
+          "equivalent": "0/12 (0.00%)",
+          "parse_errors": "3/12 (25.00%)",
+          "unsupported": "6/12 (50.00%)"
+        },
+        "GEOMETRY": {
+          "count": 9,
+          "equivalent": "0/9 (0.00%)",
+          "parse_errors": "9/9 (100.00%)",
+          "unsupported": "0/9 (0.00%)"
+        },
+        "NUMERIC_EXPRESSION": {
+          "count": 5,
+          "equivalent": "0/5 (0.00%)",
+          "parse_errors": "3/5 (60.00%)",
+          "unsupported": "1/5 (20.00%)"
+        },
+        "PHYSICS": {
+          "count": 9,
+          "equivalent": "0/9 (0.00%)",
+          "parse_errors": "4/9 (44.44%)",
+          "unsupported": "0/9 (0.00%)"
+        },
+        "TRIGONOMETRY": {
+          "count": 7,
+          "equivalent": "0/7 (0.00%)",
+          "parse_errors": "7/7 (100.00%)",
+          "unsupported": "0/7 (0.00%)"
+        }
+      },
+      "structural_breakdown": {
+        "fraction_preservation": "5/17 (29.41%)",
+        "sub_super_preservation": "0/41 (0.00%)",
+        "radical_preservation": "0/3 (0.00%)"
+      }
+    },
+    "baseline_heuristic_norm": {
+      "name": "PyPDFium2 + Heuristic Normalizer",
+      "total_time_seconds": 0.65,
+      "avg_latency_per_page_ms": 10.3,
+      "avg_latency_per_formula_ms": 10.0,
+      "regions_cropped": 0,
+      "metrics": {
+        "CORE": {
+          "count": 48,
+          "exact_match": "0/48 (0.00%)",
+          "structural_accuracy": "20/48 (41.67%)",
+          "symbol_accuracy": "30/48 (62.50%)",
+          "localized_candidates": "0/48 (0.00%)",
+          "mathematical_equivalence": {
+            "total_certified_equivalent": "0/48 (0.00%)",
+            "symbolic_equivalent": "0/48 (0.00%)",
+            "numerically_equivalent_probabilistic": "0/48 (0.00%)",
+            "non_equivalent": "2/48 (4.17%)",
+            "inconclusive": "1/48 (2.08%)",
+            "parse_errors": "45/48 (93.75%)",
+            "unsupported_out_of_scope": "0/48 (0.00%)"
+          }
+        },
+        "DIAGNOSTIC": {
+          "count": 17,
+          "exact_match": "0/17 (0.00%)",
+          "structural_accuracy": "10/17 (58.82%)",
+          "symbol_accuracy": "11/17 (64.71%)",
+          "localized_candidates": "0/17 (0.00%)",
+          "mathematical_equivalence": {
+            "total_certified_equivalent": "0/17 (0.00%)",
+            "symbolic_equivalent": "0/17 (0.00%)",
+            "numerically_equivalent_probabilistic": "0/17 (0.00%)",
+            "non_equivalent": "3/17 (17.65%)",
+            "inconclusive": "0/17 (0.00%)",
+            "parse_errors": "6/17 (35.29%)",
+            "unsupported_out_of_scope": "8/17 (47.06%)"
+          }
+        },
+        "OVERALL": {
+          "count": 65,
+          "exact_match": "0/65 (0.00%)",
+          "structural_accuracy": "30/65 (46.15%)",
+          "symbol_accuracy": "41/65 (63.08%)",
+          "localized_candidates": "0/65 (0.00%)",
+          "mathematical_equivalence": {
+            "total_certified_equivalent": "0/65 (0.00%)",
+            "symbolic_equivalent": "0/65 (0.00%)",
+            "numerically_equivalent_probabilistic": "0/65 (0.00%)",
+            "non_equivalent": "5/65 (7.69%)",
+            "inconclusive": "1/65 (1.54%)",
+            "parse_errors": "51/65 (78.46%)",
+            "unsupported_out_of_scope": "8/65 (12.31%)"
+          }
+        }
+      },
+      "category_breakdown": {
+        "ALGEBRA": {
+          "count": 23,
+          "equivalent": "0/23 (0.00%)",
+          "parse_errors": "23/23 (100.00%)",
+          "unsupported": "0/23 (0.00%)"
+        },
+        "CHEMICAL": {
+          "count": 12,
+          "equivalent": "0/12 (0.00%)",
+          "parse_errors": "3/12 (25.00%)",
+          "unsupported": "7/12 (58.33%)"
+        },
+        "GEOMETRY": {
+          "count": 9,
+          "equivalent": "0/9 (0.00%)",
+          "parse_errors": "9/9 (100.00%)",
+          "unsupported": "0/9 (0.00%)"
+        },
+        "NUMERIC_EXPRESSION": {
+          "count": 5,
+          "equivalent": "0/5 (0.00%)",
+          "parse_errors": "3/5 (60.00%)",
+          "unsupported": "1/5 (20.00%)"
+        },
+        "PHYSICS": {
+          "count": 9,
+          "equivalent": "0/9 (0.00%)",
+          "parse_errors": "6/9 (66.67%)",
+          "unsupported": "0/9 (0.00%)"
+        },
+        "TRIGONOMETRY": {
+          "count": 7,
+          "equivalent": "0/7 (0.00%)",
+          "parse_errors": "7/7 (100.00%)",
+          "unsupported": "0/7 (0.00%)"
+        }
+      },
+      "structural_breakdown": {
+        "fraction_preservation": "8/17 (47.06%)",
+        "sub_super_preservation": "14/41 (34.15%)",
+        "radical_preservation": "0/3 (0.00%)"
+      }
+    },
+    "targeted_math_extraction": {
+      "name": "Targeted Mathematical Extraction (Hybrid Gate + Crop OCR)",
+      "total_time_seconds": 241.23,
+      "avg_latency_per_page_ms": 3829.1,
+      "avg_latency_per_formula_ms": 3711.3,
+      "regions_cropped": 139,
+      "metrics": {
+        "CORE": {
+          "count": 48,
+          "exact_match": "0/48 (0.00%)",
+          "structural_accuracy": "27/48 (56.25%)",
+          "symbol_accuracy": "29/48 (60.42%)",
+          "localized_candidates": "31/48 (64.58%)",
+          "mathematical_equivalence": {
+            "total_certified_equivalent": "1/48 (2.08%)",
+            "symbolic_equivalent": "0/48 (0.00%)",
+            "numerically_equivalent_probabilistic": "1/48 (2.08%)",
+            "non_equivalent": "12/48 (25.00%)",
+            "inconclusive": "2/48 (4.17%)",
+            "parse_errors": "30/48 (62.50%)",
+            "unsupported_out_of_scope": "3/48 (6.25%)"
+          }
+        },
+        "DIAGNOSTIC": {
+          "count": 17,
+          "exact_match": "0/17 (0.00%)",
+          "structural_accuracy": "12/17 (70.59%)",
+          "symbol_accuracy": "13/17 (76.47%)",
+          "localized_candidates": "6/17 (35.29%)",
+          "mathematical_equivalence": {
+            "total_certified_equivalent": "0/17 (0.00%)",
+            "symbolic_equivalent": "0/17 (0.00%)",
+            "numerically_equivalent_probabilistic": "0/17 (0.00%)",
+            "non_equivalent": "3/17 (17.65%)",
+            "inconclusive": "1/17 (5.88%)",
+            "parse_errors": "6/17 (35.29%)",
+            "unsupported_out_of_scope": "7/17 (41.18%)"
+          }
+        },
+        "OVERALL": {
+          "count": 65,
+          "exact_match": "0/65 (0.00%)",
+          "structural_accuracy": "39/65 (60.00%)",
+          "symbol_accuracy": "42/65 (64.62%)",
+          "localized_candidates": "37/65 (56.92%)",
+          "mathematical_equivalence": {
+            "total_certified_equivalent": "1/65 (1.54%)",
+            "symbolic_equivalent": "0/65 (0.00%)",
+            "numerically_equivalent_probabilistic": "1/65 (1.54%)",
+            "non_equivalent": "15/65 (23.08%)",
+            "inconclusive": "3/65 (4.62%)",
+            "parse_errors": "36/65 (55.38%)",
+            "unsupported_out_of_scope": "10/65 (15.38%)"
+          }
+        }
+      },
+      "category_breakdown": {
+        "ALGEBRA": {
+          "count": 23,
+          "equivalent": "0/23 (0.00%)",
+          "parse_errors": "14/23 (60.87%)",
+          "unsupported": "1/23 (4.35%)"
+        },
+        "CHEMICAL": {
+          "count": 12,
+          "equivalent": "0/12 (0.00%)",
+          "parse_errors": "4/12 (33.33%)",
+          "unsupported": "6/12 (50.00%)"
+        },
+        "GEOMETRY": {
+          "count": 9,
+          "equivalent": "0/9 (0.00%)",
+          "parse_errors": "6/9 (66.67%)",
+          "unsupported": "2/9 (22.22%)"
+        },
+        "NUMERIC_EXPRESSION": {
+          "count": 5,
+          "equivalent": "0/5 (0.00%)",
+          "parse_errors": "2/5 (40.00%)",
+          "unsupported": "1/5 (20.00%)"
+        },
+        "PHYSICS": {
+          "count": 9,
+          "equivalent": "1/9 (11.11%)",
+          "parse_errors": "4/9 (44.44%)",
+          "unsupported": "0/9 (0.00%)"
+        },
+        "TRIGONOMETRY": {
+          "count": 7,
+          "equivalent": "0/7 (0.00%)",
+          "parse_errors": "6/7 (85.71%)",
+          "unsupported": "0/7 (0.00%)"
+        }
+      },
+      "structural_breakdown": {
+        "fraction_preservation": "6/17 (35.29%)",
+        "sub_super_preservation": "30/41 (73.17%)",
+        "radical_preservation": "1/3 (33.33%)"
+      }
+    }
+  },
+  "equivalence_engine_latency_stats": {
+    "mean_ms": 76.01,
+    "median_ms": 44.459,
+    "p95_ms": 287.042,
+    "max_ms": 567.589,
+    "count": 195
+  }
+}
