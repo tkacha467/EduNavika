@@ -11,9 +11,13 @@ from backend.app.api.v1.endpoints import (
     forgetting_signals,
     teacher_actions,
     users,
+    adaptive,
 )
 
 api_router = APIRouter()
+
+# Adaptive Learning & Knowledge Decay
+api_router.include_router(adaptive.router, tags=["Adaptive Learning"])
 
 # Curriculum hierarchy
 api_router.include_router(curriculum.router, tags=["Curriculum"])
