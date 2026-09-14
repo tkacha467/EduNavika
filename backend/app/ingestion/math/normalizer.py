@@ -58,12 +58,22 @@ class CanonicalLaTeXNormalizer:
         return False
 
     @classmethod
-    def normalize(cls, raw_text: str) -> str:
+    def normalize(
+        cls,
+        raw_text: str,
+        has_stacked_geometry: bool = False,
+        in_math_region: bool = False
+    ) -> str:
         """
         Convert mathematical OCR output into canonical LaTeX.
         If the text is plain prose, returns it unmodified.
+        Requires math-region context and/or spatial evidence for ambiguous conversions.
         """
-        if not raw_text or not cls.is_likely_mathematical(raw_text):
+        if not raw_text:
+            return ""
+
+        is_math = cls.is_likely_mathematical(raw_text) or in_math_region
+        if not is_math:
             return raw_text
 
         text = raw_text.strip()
@@ -89,15 +99,37 @@ class CanonicalLaTeXNormalizer:
                 text = text.replace(op, ' ' + lat + ' ')
 
         # 6. Normalize radicals (square roots)
-        # e.g. √(x2 - x1) or √{...} or √x
-        # Match √(expr) -> \sqrt{expr}
+        # e.g. √(x2 - x1) or √{...} or √x or \sqrt(...)
         text = re.sub(r'√\s*\(([^)]+)\)', r'\\sqrt{\1}', text)
         text = re.sub(r'√\s*\{([^}]+)\}', r'\\sqrt{\1}', text)
-        text = re.sub(r'√\s*([a-zA-Z0-9]+)', r'\\sqrt{\1}', text)
+        text = re.sub(r'√\s*([a-zA-Z0-9_]+)', r'\\sqrt{\1}', text)
+        text = re.sub(r'\\sqrt\s*\(([^)]+)\)', r'\\sqrt{\1}', text)
+        text = re.sub(r'\bsqrt\s*\(([^)]+)\)', r'\\sqrt{\1}', text)
+        text = re.sub(r'\bsqrt\s*\{([^}]+)\}', r'\\sqrt{\1}', text)
 
-        # 7. Normalize simple horizontal fractions in formula context
-        # e.g. (a)/(b) -> \frac{a}{b} or \frac a b
+        # Radical vinculum dropout in verified math context ONLY:
+        # Require clear mathematical operator context (e.g. '= v3', '± v3', 'v(b^2 - 4ac)')
+        # Never convert standalone 'v3' in ordinary prose.
+        if in_math_region or any(sym in text for sym in ['=', '\\pm', '\\times', '^', '\\le', '\\ge']):
+            # Pattern: \pm v3 or = v3 or \pm v(expr) or = v(expr)
+            text = re.sub(r'([=±+\-*/]\s*)[vV]\s*\(([^)]+)\)', r'\1\\sqrt{\2}', text)
+            text = re.sub(r'([=±+\-*/]\s*)[vV]\s*([0-9]+)\b', r'\1\\sqrt{\2}', text)
+
+        # 7. Normalize fractions
+        # e.g. \frac a b -> \frac{a}{b}
         text = re.sub(r'\\frac\s+([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)', r'\\frac{\1}{\2}', text)
+
+        # Parenthesized division in formula context: (a)/(b) -> \frac{a}{b}
+        text = re.sub(r'\(([a-zA-Z0-9_+^.-]+)\)\s*\/\s*\(([a-zA-Z0-9_+^.-]+)\)', r'\\frac{\1}{\2}', text)
+
+        # Equation-context horizontal fractions (e.g. P = 1/f, alpha = -b/a)
+        text = re.sub(r'([=:]\s*[-+]?\s*)([a-zA-Z0-9_]+)\s*\/\s*([a-zA-Z0-9_]+)\b', r'\1\\frac{\2}{\3}', text)
+
+        # Fraction bars from stacked OCR geometry ONLY with spatial evidence:
+        # Never transform 'a - b' or 'Chapter 1 — Intro' without verified stacked geometry.
+        if has_stacked_geometry:
+            # Horizontal fraction bar representations between numerator and denominator tokens
+            text = re.sub(r'\b([a-zA-Z0-9_+^]+)\s*[—一]\s*([a-zA-Z0-9_+^]+)\b', r'\\frac{\1}{\2}', text)
 
         # 8. Variable subscript heuristic for common textbook OCR dropouts
         # e.g. x2 -> x_2, y1 -> y_1 when preceded by variable and in formula context

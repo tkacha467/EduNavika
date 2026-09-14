@@ -95,35 +95,37 @@ def run_benchmark(split: str = "dev") -> Dict[str, Any]:
 
         print(f"[{idx}/{total_pages}] Processing {rel_path} Page {page_num} ({len(items)} formulas)...", end="", flush=True)
 
-        # 1. Approach: PyPDFium2 Baseline
+        # 1. Approach: PyPDFium2 Baseline (unlocalized baseline extraction)
         t0 = time.time()
         base_text = get_pypdfium2_text(full_pdf_path, page_num)
         t_base = time.time() - t0
         approaches["pypdfium2_baseline"]["total_time_seconds"] += t_base
         approaches["pypdfium2_baseline"]["page_times"].append(t_base)
 
+        base_evals = evaluator.evaluate_page(page_num, {"text": base_text, "localization_status": "UNLOCALIZED"}, document=rel_path)
         for it in items:
-            ev = evaluator.evaluate_formula(base_text, it)
+            ev = base_evals.get(it["id"], evaluator.evaluate_formula("", it, localization_status="UNLOCALIZED"))
             ev["formula_id"] = it["id"]
             ev["document"] = rel_path
             ev["page"] = page_num
             approaches["pypdfium2_baseline"]["evaluations"].append(ev)
 
-        # 2. Approach: Heuristic Normalizer on baseline
+        # 2. Approach: Heuristic Normalizer on baseline (unlocalized)
         t0 = time.time()
         norm_text = normalizer.normalize(base_text)
         t_norm = t_base + (time.time() - t0)
         approaches["baseline_heuristic_norm"]["total_time_seconds"] += t_norm
         approaches["baseline_heuristic_norm"]["page_times"].append(t_norm)
 
+        norm_evals = evaluator.evaluate_page(page_num, {"text": norm_text, "localization_status": "UNLOCALIZED"}, document=rel_path)
         for it in items:
-            ev = evaluator.evaluate_formula(norm_text, it)
+            ev = norm_evals.get(it["id"], evaluator.evaluate_formula("", it, localization_status="UNLOCALIZED"))
             ev["formula_id"] = it["id"]
             ev["document"] = rel_path
             ev["page"] = page_num
             approaches["baseline_heuristic_norm"]["evaluations"].append(ev)
 
-        # 3. Approach: Targeted Math Extractor
+        # 3. Approach: Targeted Math Extractor (bounding-box localized)
         t0 = time.time()
         target_res = targeted_extractor.extract_page(full_pdf_path, page_num)
         t_target = time.time() - t0
@@ -131,9 +133,9 @@ def run_benchmark(split: str = "dev") -> Dict[str, Any]:
         approaches["targeted_math_extraction"]["page_times"].append(t_target)
         approaches["targeted_math_extraction"]["targeted_regions_cropped"] += len(target_res.get("recovered_formulas", []))
 
-        target_text = target_res.get("text", "")
+        target_evals = evaluator.evaluate_page(page_num, target_res, document=rel_path)
         for it in items:
-            ev = evaluator.evaluate_formula(target_text, it)
+            ev = target_evals.get(it["id"], evaluator.evaluate_formula("", it, localization_status="LOCALIZED"))
             ev["formula_id"] = it["id"]
             ev["document"] = rel_path
             ev["page"] = page_num

@@ -222,3 +222,78 @@ def test_aggregate_metrics_reporting():
 
     assert report["OVERALL"]["count"] == 3
     assert report["OVERALL"]["exact_match"] == "1/3 (33.33%)"
+
+
+def test_false_positive_digits_elsewhere_on_page_no_leakage(temp_gt_file):
+    evaluator = MathEvaluator(temp_gt_file)
+    # Target formula requires +, =, and ^
+    gt_item = {
+        "id": "eq_quad",
+        "category": "ALGEBRA",
+        "latex": "ax^2 + bx + c = 0",
+        "expected_symbols": ["^", "+", "="],
+        "has_fraction": False,
+        "has_subscript": False,
+        "has_superscript": True
+    }
+
+    # Baseline page text where digits and symbols appear scattered across unrelated paragraphs:
+    page_text = (
+        "In section 1 there were 1947 students enrolled in mathematics.\n"
+        "Chapter 2 has 3 exercises.\n"
+        "The historical background was established in year 2000.\n"
+        "Summary of the above text indicates good progress."
+    )
+
+    # Line-level evaluation prevents page-level token leakage
+    eval_result = evaluator.evaluate_page(10, page_text, document="STD-10/Math.pdf")
+    # eq_quad must FAIL because no coherent line has the quadratic formula
+    quad_res = eval_result["eq_quad"]
+    assert quad_res["exact_match"] == "FAIL"
+    assert quad_res["structural_accuracy"] == "FAIL"
+    assert quad_res["symbol_accuracy"] in ("FAIL", "LOW")
+    assert quad_res["localization_status"] == "UNLOCALIZED"
+
+
+def test_evaluator_isolated_bounding_boxes_no_cross_formula_leakage(temp_gt_file):
+    evaluator = MathEvaluator(temp_gt_file)
+    # Two distinct formulas on page: one with fraction, one without
+    # eq_quad (no fraction, has superscript), eq_frac (has fraction, no superscript)
+    rich_extraction = {
+        "text": "enriched page text",
+        "baseline_text": "raw baseline",
+        "recovered_formulas": [
+            {
+                "region_id": "r1",
+                "bbox": [100.0, 200.0, 300.0, 240.0],
+                "confidence": 0.9,
+                "raw_ocr": "ax^2 + bx + c = 0",
+                "canonical_latex": "ax^2 + bx + c = 0",
+                "localization_status": "LOCALIZED"
+            },
+            {
+                "region_id": "r2",
+                "bbox": [100.0, 400.0, 200.0, 450.0],
+                "confidence": 0.85,
+                "raw_ocr": "\\frac{a}{b}",
+                "canonical_latex": "\\frac{a}{b}",
+                "localization_status": "LOCALIZED"
+            }
+        ]
+    }
+
+    results = evaluator.evaluate_page(10, rich_extraction, document="STD-10/Math.pdf")
+    quad_ev = results["eq_quad"]
+    frac_ev = results["eq_frac"]
+
+    # eq_quad is matched to r1: exact match PASS, fraction is N/A (not leaked from r2)
+    assert quad_ev["localization_status"] == "LOCALIZED"
+    assert quad_ev["bbox"] == [100.0, 200.0, 300.0, 240.0]
+    assert quad_ev["exact_match"] == "PASS"
+    assert quad_ev["fraction_accuracy"] == "N/A"
+
+    # eq_frac is matched to r2: exact match PASS, sub_super is N/A (not leaked from r1)
+    assert frac_ev["localization_status"] == "LOCALIZED"
+    assert frac_ev["bbox"] == [100.0, 400.0, 200.0, 450.0]
+    assert frac_ev["exact_match"] == "PASS"
+    assert frac_ev["subscript_superscript"] == "N/A"

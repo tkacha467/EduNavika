@@ -98,6 +98,15 @@ We designed, implemented, and benchmarked a **Quality-Gated Targeted Mathematica
   `SHA-256: b806a18eab5f25a41082a6f68fda909aca268269a1b6c6b103a1a42eb9c3b69c`
 - **Post-Run Seal Verification:** Verified identical (`True`) before and after testing.
 
+### 4.1 Evaluation Protocol: Decoupling Exact Match and Semantic Equivalence
+
+To maintain rigorous research integrity and prevent normalization from artificially inflating extraction scores, extraction output, normalization output, and evaluation output remain strictly separated:
+- **Level 1: Exact Match (Canonical LaTeX Equivalence):** Defined strictly as literal canonical-LaTeX equivalence under pre-declared, deterministic normalization rules (whitespace trimming, uniform bracket standardization, and canonical macro naming). It does not permit heuristic equation solving or algebraic rewrites.
+- **Level 2: Structural Validity:** Assesses whether key mathematical syntax components (fraction bars `\frac`, subscripts `_`, superscripts `^`, and radicals `\sqrt`) present in the ground truth are retained in their correct structural positions.
+- **Level 3: Semantic Mathematical Equivalence:** Evaluates whether the extracted formula represents the identical mathematical statement under commutativity, algebraic identities, and alternate notation (e.g., `\frac{1}{2}x` vs `\frac{x}{2}`). 
+
+By defining Exact Match strictly as canonical-LaTeX equivalence under pre-declared rules, semantic and structural equivalence remain separate metrics, preventing normalization artifacts from misrepresenting literal OCR extraction fidelity.
+
 ---
 
 ## 5. Experimental Results

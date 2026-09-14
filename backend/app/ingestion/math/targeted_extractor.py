@@ -161,8 +161,13 @@ class TargetedMathExtractor(MathExtractor):
             raw_crop_lines = [str(item[1]).strip() for item in ocr_res if str(item[1]).strip()]
             raw_crop_text = " ".join(raw_crop_lines)
 
-            # Convert to canonical LaTeX
-            canonical_latex = self.normalizer.normalize(raw_crop_text)
+            # Convert to canonical LaTeX with math region context and spatial evidence
+            has_stacked = getattr(r, "has_stacked_geometry", False)
+            canonical_latex = self.normalizer.normalize(
+                raw_crop_text,
+                has_stacked_geometry=has_stacked,
+                in_math_region=True
+            )
 
             recovered_item = {
                 "region_id": r.region_id,
@@ -171,6 +176,8 @@ class TargetedMathExtractor(MathExtractor):
                 "raw_ocr": raw_crop_text,
                 "canonical_latex": canonical_latex,
                 "is_display_math": r.is_display_math,
+                "has_stacked_geometry": has_stacked,
+                "localization_status": "LOCALIZED",
                 "extraction_method": "targeted_crop_rapidocr"
             }
             recovered_formulas.append(recovered_item)

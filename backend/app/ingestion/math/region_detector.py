@@ -20,7 +20,8 @@ class MathRegion:
         confidence: float,
         raw_text: str,
         is_display_math: bool = False,
-        signals: Optional[List[str]] = None
+        signals: Optional[List[str]] = None,
+        has_stacked_geometry: bool = False
     ):
         self.region_id = region_id
         self.page_number = page_number
@@ -29,6 +30,7 @@ class MathRegion:
         self.raw_text = raw_text
         self.is_display_math = is_display_math
         self.signals = signals or []
+        self.has_stacked_geometry = has_stacked_geometry
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -38,7 +40,8 @@ class MathRegion:
             "confidence": round(self.confidence, 3),
             "raw_text": self.raw_text,
             "is_display_math": self.is_display_math,
-            "signals": self.signals
+            "signals": self.signals,
+            "has_stacked_geometry": self.has_stacked_geometry
         }
 
 
@@ -129,7 +132,8 @@ class MathRegionDetector:
                     "score": min(score, 1.0),
                     "text": text_clean,
                     "is_display": is_display_math,
-                    "signals": signals
+                    "signals": signals,
+                    "has_stacked_geometry": False
                 })
 
         if not candidate_boxes:
@@ -155,6 +159,8 @@ class MathRegionDetector:
                 prev["text"] += " " + box["text"]
                 prev["score"] = max(prev["score"], box["score"])
                 prev["signals"].extend(box["signals"])
+                prev["signals"].append("stacked_fraction_geometry")
+                prev["has_stacked_geometry"] = True
             else:
                 merged_boxes.append(box)
 
@@ -177,7 +183,8 @@ class MathRegionDetector:
                 confidence=b["score"],
                 raw_text=b["text"],
                 is_display_math=b["is_display"],
-                signals=b["signals"]
+                signals=b["signals"],
+                has_stacked_geometry=b.get("has_stacked_geometry", False)
             )
             detected.append(region)
 

@@ -105,3 +105,36 @@ def test_rag_provenance_contract():
     assert "canonical_latex" in recovered_item
     assert "extraction_method" in recovered_item
     assert recovered_item["confidence"] > 0.0
+
+
+def test_false_positive_v3_in_ordinary_prose():
+    normalizer = CanonicalLaTeXNormalizer()
+    prose = "We tested model v3 yesterday and evaluated version V3 in chapter 2."
+    result = normalizer.normalize(prose, in_math_region=False)
+    assert "\\sqrt" not in result
+    assert result == prose  # Completely untouched
+
+
+def test_false_positive_a_minus_b_not_fraction():
+    normalizer = CanonicalLaTeXNormalizer()
+    # a - b in formula context must remain a subtraction, never becoming \frac{a}{b}
+    math_expr = "x = a - b"
+    result = normalizer.normalize(math_expr, has_stacked_geometry=False)
+    assert "\\frac" not in result
+    assert "-" in result
+
+
+def test_false_positive_horizontal_punctuation_not_fraction():
+    normalizer = CanonicalLaTeXNormalizer()
+    prose = "Chapter 1 — Introduction to Secondary Science — Units 1 to 4"
+    result = normalizer.normalize(prose, has_stacked_geometry=False)
+    assert "\\frac" not in result
+    assert "Chapter 1" in result
+
+
+def test_stacked_geometry_fraction_evidence():
+    normalizer = CanonicalLaTeXNormalizer()
+    # With explicit spatial evidence of numerator-bar-denominator geometry
+    stacked_ocr = "x_1 一 x_2"
+    result = normalizer.normalize(stacked_ocr, has_stacked_geometry=True, in_math_region=True)
+    assert "\\frac{x_1}{x_2}" in result
