@@ -96,3 +96,71 @@ def update_mcq_status(id: str, payload: MCQUpdateStatus, db: Session = Depends(g
     db.commit()
     db.refresh(mcq)
     return mcq
+
+
+from pydantic import BaseModel, Field
+from backend.app.models.user import StudentProfile
+from backend.app.models.learning_event import EventType
+from backend.app.domain.enums import OptionKey
+from backend.app.services.event_recorder import EventRecorderService
+
+
+class MCQPracticeSubmit(BaseModel):
+    student_id: str
+    selected_option: OptionKey
+    response_time_ms: Optional[int] = Field(None, ge=0)
+    hint_used: bool = False
+    session_id: Optional[str] = None
+    idempotency_key: Optional[str] = None
+
+
+class MCQPracticeResponse(BaseModel):
+    question_id: str
+    selected_option: OptionKey
+    is_correct: bool
+    correct_option: OptionKey
+    explanation: Optional[str] = None
+    event_id: str
+
+
+@router.post("/mcqs/{id}/practice", response_model=MCQPracticeResponse, summary="Submit a formative practice answer on an MCQ (PRACTICE event)")
+def submit_practice_answer(id: str, payload: MCQPracticeSubmit, db: Session = Depends(get_db)):
+    mcq = db.query(MCQQuestion).filter(MCQQuestion.id == id).first()
+    if not mcq:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="MCQ not found")
+
+    student = db.query(StudentProfile).filter(StudentProfile.id == payload.student_id).first()
+    if not student:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student profile not found")
+
+    is_correct = (payload.selected_option == mcq.correct_option)
+    score_val = 100.0 if is_correct else 0.0
+
+    event = EventRecorderService.record_event(
+        db=db,
+        student_id=payload.student_id,
+        topic_id=mcq.topic_id,
+        event_type=EventType.PRACTICE,
+        score=score_val,
+        correctness=is_correct,
+        response_time_ms=payload.response_time_ms,
+        hint_used=payload.hint_used,
+        session_id=payload.session_id,
+        event_metadata={
+            "question_id": mcq.id,
+            "selected_option": payload.selected_option.value if hasattr(payload.selected_option, "value") else str(payload.selected_option),
+            "difficulty": mcq.difficulty.value if hasattr(mcq.difficulty, "value") else str(mcq.difficulty),
+        },
+        idempotency_key=payload.idempotency_key,
+        auto_commit=True,
+    )
+
+    return MCQPracticeResponse(
+        question_id=mcq.id,
+        selected_option=payload.selected_option,
+        is_correct=is_correct,
+        correct_option=mcq.correct_option,
+        explanation=mcq.explanation,
+        event_id=event.id,
+    )
+

@@ -325,6 +325,16 @@ def build_cli() -> argparse.ArgumentParser:
         action="store_true",
         help="Run complete Milestone 2.5 master corpus audit suite and render final verdict",
     )
+    parser.add_argument(
+        "--event-audit",
+        action="store_true",
+        help="Run Milestone 8 LearningEvent telemetry coverage and data-quality audit",
+    )
+    parser.add_argument(
+        "--target-audit",
+        action="store_true",
+        help="Run Milestone 9 real longitudinal data readiness and Target A validation audit",
+    )
     return parser
 
 
@@ -336,8 +346,26 @@ def main():
     reports_dir.mkdir(parents=True, exist_ok=True)
 
     # Handle independent audit switches
+    if getattr(args, "event_audit", False):
+        from backend.app.domain.prediction.audit import LearningEventAuditor
+        print("[AUDIT] Running LearningEvent Telemetry Coverage & Data-Quality Audit...")
+        auditor = LearningEventAuditor(output_dir=reports_dir)
+        rep = auditor.run_audit()
+        print(f"[AUDIT] Status: {rep['verdict']} | Total Events: {rep['total_events']} | Active Students: {rep['unique_students_with_events']} | Violations: {rep['data_quality_violations']['total_violations']}")
+        return
+
+    if getattr(args, "target_audit", False):
+        from backend.app.domain.prediction.target_validator import TargetValidityAuditor
+        print("[AUDIT] Running Milestone 9 Real Data Readiness & Target Validity Audit...")
+        auditor = TargetValidityAuditor(output_dir=reports_dir)
+        rep = auditor.run_audit()
+        target_info = rep["target_a_analysis"]
+        print(f"[AUDIT] Verdict: {rep['verdict']} | Valid Target A Pairs: {target_info['valid_observations_count']} | Total Evaluative Events: {rep['evaluative_events_count']}")
+        return
+
     if args.ocr_audit:
         from backend.app.ingestion.ocr.ocr_auditor import OCRAuditor
+
         print("[AUDIT] Running OCR Coverage Audit across 86 PDFs...")
         auditor = OCRAuditor(dataset_dir=Path(args.input), output_dir=reports_dir)
         rep = auditor.run_audit()

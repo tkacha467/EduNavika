@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-09-16T04:24:00.666026+00:00",
+  "verdict": "PASS",
+  "total_events": 5,
+  "event_type_distribution": {
+    "LEARN": 1,
+    "PRACTICE": 1,
+    "MCQ_ATTEMPT": 1,
+    "REVISION": 1,
+    "REVIEW": 1
+  },
+  "unique_students_with_events": 1,
+  "unique_topics_with_events": 1,
+  "unique_sessions": 0,
+  "unique_assessment_attempts": 0,
+  "database_coverage": {
+    "total_students_in_db": 1,
+    "student_coverage_rate": 1.0,
+    "total_topics_in_db": 1,
+    "topic_coverage_rate": 1.0
+  },
+  "data_quality_violations": {
+    "total_violations": 0,
+    "negative_latency_violations": 0,
+    "negative_score_violations": 0,
+    "missing_evaluative_correctness": 0,
+    "invalid_learn_correctness": 0,
+    "extreme_latency_count": 0,
+    "timestamp_duplicates": 0,
+    "orphan_student_records": 0,
+    "orphan_topic_records": 0
+  }
+}

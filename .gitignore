@@ -57,3 +57,14 @@ data/*
 data/processed/*
 !data/processed/reports/
 
+# Node & Frontend
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.vite/
+**/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+

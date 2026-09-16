@@ -26,10 +26,46 @@ class EventRecorderService:
         hint_used: bool = False,
         attempt_number: int = 1,
         event_metadata: Optional[Dict[str, Any]] = None,
+        idempotency_key: Optional[str] = None,
         auto_commit: bool = False
     ) -> LearningEvent:
         if timestamp is None:
             timestamp = datetime.now(timezone.utc)
+
+        # Validation safeguards
+        if score is not None and score < 0:
+            raise ValueError(f"Event score cannot be negative, got {score}")
+        if response_time_ms is not None and response_time_ms < 0:
+            raise ValueError(f"Event response_time_ms cannot be negative, got {response_time_ms}")
+        if attempt_number is not None and attempt_number < 1:
+            raise ValueError(f"Event attempt_number must be >= 1, got {attempt_number}")
+
+        # Semantic normalization by event_type
+        if event_type == EventType.LEARN:
+            correctness = None
+            score = None
+        elif event_type == EventType.REVIEW:
+            correctness = None
+
+        meta = dict(event_metadata) if event_metadata else {}
+        if idempotency_key:
+            meta["idempotency_key"] = idempotency_key
+
+        effective_idempotency_key = meta.get("idempotency_key")
+        if effective_idempotency_key:
+            # Check for existing event with identical idempotency_key
+            existing = (
+                db.query(LearningEvent)
+                .filter(
+                    LearningEvent.student_id == student_id,
+                    LearningEvent.topic_id == topic_id,
+                    LearningEvent.event_type == event_type,
+                )
+                .all()
+            )
+            for ev in existing:
+                if ev.event_metadata and ev.event_metadata.get("idempotency_key") == effective_idempotency_key:
+                    return ev
 
         # 1. Store immutable raw learning event
         event = LearningEvent(
@@ -44,7 +80,7 @@ class EventRecorderService:
             response_time_ms=response_time_ms,
             hint_used=hint_used,
             attempt_number=attempt_number,
-            event_metadata=event_metadata,
+            event_metadata=meta if meta else None,
         )
         db.add(event)
 
@@ -65,6 +101,7 @@ class EventRecorderService:
             db.refresh(event)
 
         return event
+
 
     @staticmethod
     def _update_topic_performance(

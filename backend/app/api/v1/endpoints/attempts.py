@@ -122,6 +122,7 @@ def submit_answer(id: str, payload: AnswerSubmit, db: Session = Depends(get_db))
         correctness=is_correct,
         response_time_ms=payload.response_time_ms,
         hint_used=payload.hint_used,
+        idempotency_key=f"attempt_{id}_q_{payload.question_id}",
         auto_commit=False,
     )
 
@@ -187,3 +188,58 @@ def get_attempt(id: str, db: Session = Depends(get_db)):
     if not attempt:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Attempt not found")
     return attempt
+
+
+from pydantic import BaseModel, Field
+
+
+class AttemptReviewRequest(BaseModel):
+    student_id: str
+    session_id: Optional[str] = None
+    review_duration_ms: Optional[int] = Field(None, ge=0)
+    topic_id: Optional[str] = None
+    idempotency_key: Optional[str] = None
+
+
+@router.post("/attempts/{id}/review", summary="Record a student review of an assessment attempt (REVIEW event)")
+def review_attempt(id: str, payload: AttemptReviewRequest, db: Session = Depends(get_db)):
+    attempt = db.query(Attempt).filter(Attempt.id == id).first()
+    if not attempt:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Attempt not found")
+
+    if attempt.student_id != payload.student_id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attempt does not belong to this student")
+
+    # Determine topic: use payload or assessment topic or first question's topic
+    target_topic_id = payload.topic_id
+    if not target_topic_id and attempt.assessment and attempt.assessment.topic_id:
+        target_topic_id = attempt.assessment.topic_id
+    elif not target_topic_id:
+        first_q = db.query(AssessmentQuestion).filter(AssessmentQuestion.assessment_id == attempt.assessment_id).first()
+        if first_q and first_q.question:
+            target_topic_id = first_q.question.topic_id
+
+    if not target_topic_id:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Cannot determine topic for attempt review")
+
+    event = EventRecorderService.record_event(
+        db=db,
+        student_id=payload.student_id,
+        topic_id=target_topic_id,
+        event_type=EventType.REVIEW,
+        score=attempt.percentage,
+        correctness=None,
+        response_time_ms=payload.review_duration_ms,
+        session_id=payload.session_id or attempt.id,
+        attempt_id=id,
+        idempotency_key=payload.idempotency_key or f"review_attempt_{id}",
+        event_metadata={
+            "attempt_id": id,
+            "attempt_score": attempt.total_score,
+            "percentage": attempt.percentage,
+        },
+        auto_commit=True,
+    )
+
+    return {"status": "REVIEW_RECORDED", "attempt_id": id, "event_id": event.id}
+

@@ -14,12 +14,19 @@ router = APIRouter(prefix="/adaptive")
 adaptive_service = AdaptiveLearningService()
 
 
+from backend.app.models.learning_event import EventType
+from backend.app.services.event_recorder import EventRecorderService
+
+
 class RevisionOutcomeRequest(BaseModel):
     student_id: str
     topic_id: str
     score: float = Field(..., ge=0.0, le=100.0)
     correctness: bool
     response_time_ms: Optional[int] = Field(None, ge=0)
+    session_id: Optional[str] = None
+    idempotency_key: Optional[str] = None
+
 
 
 @router.post(
@@ -80,6 +87,21 @@ def process_revision_outcome(
             detail=f"Student profile {payload.student_id} not found"
         )
 
+    # Record longitudinal REVISION learning event
+    event = EventRecorderService.record_event(
+        db=db,
+        student_id=payload.student_id,
+        topic_id=payload.topic_id,
+        event_type=EventType.REVISION,
+        score=payload.score,
+        correctness=payload.correctness,
+        response_time_ms=payload.response_time_ms,
+        session_id=payload.session_id,
+        idempotency_key=payload.idempotency_key,
+        event_metadata={"revision_flow": True},
+        auto_commit=False,
+    )
+
     result = adaptive_service.handle_revision_attempt(
         db=db,
         student_id=payload.student_id,
@@ -88,4 +110,5 @@ def process_revision_outcome(
         correctness=payload.correctness,
         response_time_ms=payload.response_time_ms
     )
-    return {"status": "SUCCESS", "lifecycle_update": result}
+    return {"status": "SUCCESS", "lifecycle_update": result, "event_id": event.id}
+
