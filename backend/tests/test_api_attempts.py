@@ -63,3 +63,49 @@ def test_assessment_and_student_attempt_flow(client, seed_data):
     assert submit_data["total_score"] == 5.0
     assert submit_data["percentage"] == 100.0
     assert submit_data["submitted_at"] is not None
+
+
+def test_formative_practice_telemetry_flow(client, seed_data, db_session):
+    student = seed_data["student_profile"]
+    topic = seed_data["topic"]
+
+    # Practice question telemetry without assessment_id (as sent from frontend QuizRunner)
+    payload = {
+        "student_id": student.id,
+        "mcq_id": "mcq-real-numbers-1",
+        "topic_id": topic.id,
+        "selected_option": "A",
+        "is_correct": False,
+        "score": 0,
+        "response_time_ms": 1600,
+        "hint_requested": False,
+    }
+
+    res = client.post("/api/v1/attempts", json=payload)
+    assert res.status_code == 201
+    data = res.json()
+    assert data["student_id"] == student.id
+    assert data["selected_option"] == "A"
+    assert data["is_correct"] is False
+    assert data["score"] == 0.0
+    assert data["status"] == "SUBMITTED"
+    assert data["id"] is not None
+
+    # Verify auto-provisioning when user_id is passed instead of student_profile_id
+    user = seed_data["student_user"]
+    payload_with_user_id = {
+        "student_id": user.id,
+        "mcq_id": "mcq-real-numbers-2",
+        "topic_id": topic.id,
+        "selected_option": "B",
+        "is_correct": True,
+        "score": 100,
+        "response_time_ms": 2100,
+        "hint_requested": False,
+    }
+    res2 = client.post("/api/v1/attempts", json=payload_with_user_id)
+    assert res2.status_code == 201
+    data2 = res2.json()
+    assert data2["is_correct"] is True
+    assert data2["score"] == 100.0
+

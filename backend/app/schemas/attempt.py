@@ -27,7 +27,14 @@ class AnswerResponse(BaseModel):
 
 class AttemptCreate(BaseModel):
     student_id: str
-    assessment_id: str
+    assessment_id: Optional[str] = None
+    mcq_id: Optional[str] = None
+    topic_id: Optional[str] = None
+    selected_option: Optional[str] = None
+    is_correct: Optional[bool] = None
+    score: Optional[float] = None
+    response_time_ms: Optional[int] = Field(default=0, ge=0)
+    hint_requested: Optional[bool] = False
 
 
 class AttemptSubmit(BaseModel):
@@ -37,15 +44,24 @@ class AttemptSubmit(BaseModel):
 class AttemptResponse(BaseModel):
     id: str
     student_id: str
-    assessment_id: str
-    started_at: datetime
+    assessment_id: Optional[str] = None
+    started_at: Optional[datetime] = None
     submitted_at: Optional[datetime] = None
-    total_score: float
-    percentage: float
+    total_score: Optional[float] = 0.0
+    percentage: Optional[float] = 0.0
     duration_seconds: Optional[int] = None
-    status: AttemptStatus
-    created_at: datetime
-    updated_at: datetime
+    status: Optional[AttemptStatus] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+
+    # Formative practice telemetry fields
+    mcq_id: Optional[str] = None
+    topic_id: Optional[str] = None
+    selected_option: Optional[str] = None
+    is_correct: Optional[bool] = None
+    score: Optional[float] = None
+    response_time_ms: Optional[int] = None
+    hint_requested: Optional[bool] = False
 
     model_config = ConfigDict(from_attributes=True)
 

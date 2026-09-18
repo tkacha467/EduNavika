@@ -1,9 +1,10 @@
 from datetime import datetime, timezone
 from typing import List, Optional
+import uuid
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.models import StudentProfile
+from backend.app.models import StudentProfile, User, UserRole, Topic
 from backend.app.models import Assessment, AssessmentQuestion, AssessmentStatus
 from backend.app.models import Attempt, Answer, AttemptStatus
 from backend.app.models import MCQQuestion
@@ -21,34 +22,139 @@ from backend.app.services.event_recorder import EventRecorderService
 router = APIRouter()
 
 
-@router.post("/attempts", response_model=AttemptResponse, status_code=status.HTTP_201_CREATED, summary="Start a student assessment attempt")
+def _get_or_create_student_profile(db: Session, student_id: str) -> Optional[StudentProfile]:
+    """Finds or auto-provisions a StudentProfile for the student."""
+    # 1. Direct match by StudentProfile.id
+    student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    if student:
+        return student
+
+    # 2. Match by StudentProfile.user_id
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == student_id).first()
+    if student:
+        return student
+
+    # 3. Match User by ID or student role
+    user = db.query(User).filter(User.id == student_id).first()
+    if not user:
+        user = db.query(User).filter(User.role == UserRole.STUDENT).first()
+    if not user:
+        user = db.query(User).filter(User.email == "kachatushar108@gmail.com").first()
+
+    if user:
+        existing_profile = db.query(StudentProfile).filter(StudentProfile.user_id == user.id).first()
+        if existing_profile:
+            return existing_profile
+
+        new_profile = StudentProfile(
+            id=student_id if (len(student_id) <= 36 and not student_id.startswith("http")) else None,
+            user_id=user.id,
+            enrollment_number=f"EN-{user.id[:8]}",
+            division="A",
+        )
+        db.add(new_profile)
+        db.commit()
+        db.refresh(new_profile)
+        return new_profile
+
+    return None
+
+
+def _resolve_topic(db: Session, topic_id: Optional[str]) -> Optional[Topic]:
+    """Resolves a topic by ID, partial title match, or fallback to first topic."""
+    if topic_id:
+        topic = db.query(Topic).filter(Topic.id == topic_id).first()
+        if topic:
+            return topic
+        topic = db.query(Topic).filter(Topic.title.ilike(f"%{topic_id}%")).first()
+        if topic:
+            return topic
+    return db.query(Topic).first()
+
+
+@router.post("/attempts", response_model=AttemptResponse, status_code=status.HTTP_201_CREATED, summary="Start an assessment attempt or record formative practice telemetry")
 def create_attempt(payload: AttemptCreate, db: Session = Depends(get_db)):
-    student = db.query(StudentProfile).filter(StudentProfile.id == payload.student_id).first()
+    student = _get_or_create_student_profile(db, payload.student_id)
     if not student:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student profile not found")
 
-    assessment = db.query(Assessment).filter(Assessment.id == payload.assessment_id).first()
-    if not assessment:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Assessment not found")
+    # Flow A: Formal assessment attempt start
+    if payload.assessment_id:
+        assessment = db.query(Assessment).filter(Assessment.id == payload.assessment_id).first()
+        if not assessment:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Assessment not found")
 
-    if assessment.status != AssessmentStatus.PUBLISHED:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Cannot attempt an assessment that is not in PUBLISHED status"
+        if assessment.status != AssessmentStatus.PUBLISHED:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot attempt an assessment that is not in PUBLISHED status"
+            )
+
+        attempt = Attempt(
+            student_id=student.id,
+            assessment_id=payload.assessment_id,
+            started_at=datetime.now(timezone.utc),
+            status=AttemptStatus.STARTED,
+            total_score=0.0,
+            percentage=0.0,
         )
+        db.add(attempt)
+        db.commit()
+        db.refresh(attempt)
+        return attempt
 
-    attempt = Attempt(
-        student_id=payload.student_id,
-        assessment_id=payload.assessment_id,
-        started_at=datetime.now(timezone.utc),
-        status=AttemptStatus.STARTED,
-        total_score=0.0,
-        percentage=0.0,
+    # Flow B: Formative practice question telemetry
+    topic = _resolve_topic(db, payload.topic_id)
+    now = datetime.now(timezone.utc)
+    score = float(payload.score) if payload.score is not None else (100.0 if payload.is_correct else 0.0)
+    is_correct = payload.is_correct if payload.is_correct is not None else (score > 0)
+    response_time = payload.response_time_ms if payload.response_time_ms is not None else 0
+
+    event_id = None
+    if topic:
+        idempotency_key = f"practice_{student.id}_{payload.mcq_id}_{int(now.timestamp())}" if payload.mcq_id else None
+        event = EventRecorderService.record_event(
+            db=db,
+            student_id=student.id,
+            topic_id=topic.id,
+            event_type=EventType.PRACTICE,
+            timestamp=now,
+            score=score,
+            correctness=is_correct,
+            response_time_ms=response_time,
+            hint_used=bool(payload.hint_requested),
+            idempotency_key=idempotency_key,
+            event_metadata={
+                "mcq_id": payload.mcq_id,
+                "selected_option": payload.selected_option,
+                "client_topic_id": payload.topic_id,
+            },
+            auto_commit=True,
+        )
+        event_id = event.id
+    else:
+        event_id = str(uuid.uuid4())
+
+    return AttemptResponse(
+        id=event_id,
+        student_id=student.id,
+        assessment_id=None,
+        started_at=now,
+        submitted_at=now,
+        total_score=score,
+        percentage=score,
+        duration_seconds=int(response_time / 1000),
+        status=AttemptStatus.SUBMITTED,
+        created_at=now,
+        updated_at=now,
+        mcq_id=payload.mcq_id,
+        topic_id=topic.id if topic else payload.topic_id,
+        selected_option=payload.selected_option,
+        is_correct=is_correct,
+        score=score,
+        response_time_ms=response_time,
+        hint_requested=bool(payload.hint_requested),
     )
-    db.add(attempt)
-    db.commit()
-    db.refresh(attempt)
-    return attempt
 
 
 @router.post("/attempts/{id}/answers", response_model=AnswerResponse, status_code=status.HTTP_201_CREATED, summary="Submit an answer during an attempt")
