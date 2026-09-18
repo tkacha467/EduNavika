@@ -66,21 +66,3 @@ export const CLASS_WEAK_TOPICS: Array<{
   severity: string;
 }> = [];
 
-export const CAL_EVENTS: Record<string, Array<{ t: string; title: string }>> = {};
-(function seed() {
-  const t = new Date();
-  const k = (d: Date) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-  const add = (off: number, items: Array<{ t: string; title: string }>) => {
-    const d = new Date(t);
-    d.setDate(t.getDate() + off);
-    CAL_EVENTS[k(d)] = items;
-  };
-  add(0, [{ t: 'class', title: 'Mathematics · Quadratic Eq.' }, { t: 'ai', title: 'EduNavika AI ready for first practice' }]);
-  add(1, [{ t: 'class', title: 'Physics · Light' }]);
-  add(3, [{ t: 'exam', title: 'Physics assessment — Electricity' }, { t: 'class', title: 'Chemistry · Periodic Table' }]);
-  add(6, [{ t: 'exam', title: 'Mathematics assessment — Quadratic' }]);
-  add(10, [{ t: 'exam', title: 'Chemistry assessment — Reactions' }]);
-  add(14, [{ t: 'holiday', title: 'School holiday' }]);
-})();
-export const calKey = (d: Date) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-

@@ -1,7 +1,6 @@
 // Right Rail Widget Component for EduNavika AppShell
 
 import { icon } from '../utils/icons';
-import { heatmap } from '../utils/charts';
 
 export function renderRightRail(): string {
   return `
@@ -46,25 +45,6 @@ export function renderRightRail(): string {
             <b style="color:var(--text)">48%</b>
           </div>
           <button class="btn btn-primary btn-sm" style="width:100%" data-go="student/revision">Revise for this test</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:13.5px">Study Consistency</h3></div>
-        <div class="card-b" style="padding-top:0">
-          <div class="tiny mb-2">Last 20 weeks · darker = more activity</div>
-          ${heatmap(20)}
-          <div class="flex-b mt-3 tiny">
-            <span>Less</span>
-            <div class="flex gap-2">
-              <span class="hm-c" style="width:10px;height:10px"></span>
-              <span class="hm-c l1" style="width:10px;height:10px"></span>
-              <span class="hm-c l2" style="width:10px;height:10px"></span>
-              <span class="hm-c l3" style="width:10px;height:10px"></span>
-              <span class="hm-c l4" style="width:10px;height:10px"></span>
-            </div>
-            <span>More</span>
-          </div>
         </div>
       </div>
     </div>

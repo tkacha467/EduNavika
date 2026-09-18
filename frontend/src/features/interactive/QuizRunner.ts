@@ -183,7 +183,6 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
   // Increment real user stats
   if (user) {
     user.todayGoal = (user.todayGoal || 0) + 1;
-    user.streak = Math.max(1, user.streak || 1);
     user.weeklyGoal = Math.min(100, Math.round(((user.todayGoal || 1) / 3) * 100));
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem('edunavika_user', JSON.stringify(user));

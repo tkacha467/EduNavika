@@ -14,7 +14,6 @@ export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
         { id: 'student/subjects', label: 'Subjects', icon: 'grid' },
         { id: 'student/revision', label: 'Revision Plan', icon: 'refresh' },
         { id: 'student/assessments', label: 'Assessments', icon: 'clipboard' },
-        { id: 'student/calendar', label: 'Calendar', icon: 'calendar' },
       ],
     },
     {
@@ -105,7 +104,6 @@ export const CRUMBS: Record<string, string[]> = {
   'student/subjects': ['Subjects'],
   'student/revision': ['Insights', 'Revision Plan'],
   'student/assessments': ['Assessments'],
-  'student/calendar': ['Calendar'],
   'student/knowledge': ['Insights', 'Knowledge Health'],
   'student/skills': ['Insights', 'Skill Mastery'],
   'student/analytics': ['Insights', 'Learning Analytics'],

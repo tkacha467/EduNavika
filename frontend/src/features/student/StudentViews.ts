@@ -1,7 +1,7 @@
 // Student View Renderers for EduNavika
 
 import { icon } from '../../utils/icons';
-import { sparkline, barChart, donut, heatmap } from '../../utils/charts';
+import { sparkline, barChart, donut } from '../../utils/charts';
 import {
   statBlock,
   progressBar,
@@ -25,8 +25,6 @@ import {
   NOTIFICATIONS,
   TIMETABLE,
   CLASS_WEAK_TOPICS,
-  CAL_EVENTS,
-  calKey,
 } from './studentData';
 
 declare const window: any;
@@ -36,7 +34,7 @@ export function studentDashboard(): string {
   const sub = SUBJECTS;
   const user = getCurrentUser();
   const firstName = user.full_name?.split(' ')[0] || user.name?.split(' ')[0] || 'Student';
-  const isNew = (user.todayGoal || 0) === 0 && (user.streak || 0) === 0;
+  const isNew = (user.todayGoal || 0) === 0;
 
   const todayFocus = [
     { kind: 'continue', label: 'Core Learning', subject: 'Mathematics', topic: 'Real Numbers & Polynomials', meta: 'Standard 10 · Chapter 1', pct: (user.todayGoal || 0) > 0 ? 100 : 0, go: "startQuiz('Real Numbers & Polynomials')", action: (user.todayGoal || 0) > 0 ? 'Completed ✓' : 'Start Practice' },
@@ -55,10 +53,10 @@ export function studentDashboard(): string {
           <p>${isNew ? "Welcome to EduNavika! You are registered in <b>Standard 10 (GSEB)</b>. Complete a practice quiz below to begin tracking your live knowledge retention and learning progress." : "Keep up the momentum! Review today's topics and continue your adaptive practice."}</p>
         </div>
         <div class="welcome-r">
-          <div class="wstat"><div class="l">Streak</div><div class="v">${user.streak || 0}<small>days</small></div><div class="d">${(user.streak || 0) > 0 ? '🔥 Active streak' : 'Start streak today'}</div></div>
-          <div class="wstat"><div class="l">Today</div><div class="v">${user.todayGoal || 0}<small>/ 3</small></div><div class="d">Goal progress</div></div>
-          <div class="wstat"><div class="l">Weekly</div><div class="v">${user.weeklyGoal || 0}<small>%</small></div><div class="d">Completion</div></div>
-          <div class="wstat"><div class="l">Class</div><div class="v">Std 10</div><div class="d">GSEB Science</div></div>
+          <div class="wstat"><div class="l">Curriculum</div><div class="v">Std 10</div><div class="d">GSEB Science</div></div>
+          <div class="wstat"><div class="l">Today</div><div class="v">${user.todayGoal || 0}<small>/ 3</small></div><div class="d">Tasks assigned</div></div>
+          <div class="wstat"><div class="l">Weekly</div><div class="v">${user.weeklyGoal || 0}<small>%</small></div><div class="d">School mandate</div></div>
+          <div class="wstat"><div class="l">Status</div><div class="v">Active</div><div class="d">Term 1 (2026)</div></div>
         </div>
       </div>
     </div>
@@ -206,7 +204,7 @@ export function studentDashboard(): string {
             ${statBlock('Study Time', isNew ? '0m' : '15m', isNew ? '0m' : '+15m', 'clock', 'up')}
             ${statBlock('Questions Solved', isNew ? '0' : '5', isNew ? '0' : '+5', 'target', 'up')}
             ${statBlock('Avg. Accuracy', isNew ? '--' : '100%', isNew ? '0%' : '+100%', 'chart', 'up')}
-            ${statBlock('Learning Streak', `${user.streak || 0} days`, isNew ? '0' : '+1', 'flame', 'up')}
+            ${statBlock('Curriculum Pace', isNew ? 'On Track' : 'Active', 'Standard 10', 'book', 'up')}
           </div>
           <div class="grid g-2">
             <div>
@@ -333,25 +331,6 @@ export function studentDashboard(): string {
             <b style="color:var(--text)">${(user.todayGoal || 0) > 0 ? '100%' : '0%'}</b>
           </div>
           <button class="btn btn-primary btn-sm" style="width:100%" onclick="startQuiz('Real Numbers & Polynomials')">Take Diagnostic Test</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:13.5px">Study Consistency</h3></div>
-        <div class="card-b" style="padding-top:0">
-          <div class="tiny mb-2">Last 20 weeks · darker = more activity</div>
-          ${heatmap(20)}
-          <div class="flex-b mt-3 tiny">
-            <span>Less</span>
-            <div class="flex gap-2">
-              <span class="hm-c" style="width:10px;height:10px"></span>
-              <span class="hm-c l1" style="width:10px;height:10px"></span>
-              <span class="hm-c l2" style="width:10px;height:10px"></span>
-              <span class="hm-c l3" style="width:10px;height:10px"></span>
-              <span class="hm-c l4" style="width:10px;height:10px"></span>
-            </div>
-            <span>More</span>
-          </div>
         </div>
       </div>
     </div>
@@ -911,7 +890,7 @@ export function studentAnalytics(): string {
       ${statBlock('Study time', isZero ? '0m' : '20m', isZero ? 'Baseline' : '+20m this week', 'clock', 'up')}
       ${statBlock('Questions solved', `${count * 5}`, isZero ? '0' : `+${count * 5} this week`, 'target', 'up')}
       ${statBlock('Avg. accuracy', avgAcc !== null ? `${avgAcc}%` : '--', isZero ? 'Not assessed' : 'Active', 'chart', 'up')}
-      ${statBlock('Consistency', `${(user.streak || 0) * 10}%`, isZero ? '0%' : 'Active', 'flame', 'up')}
+      ${statBlock('Curriculum Pace', isZero ? 'On Track' : 'Active', 'Term 1 · Std 10', 'book', 'up')}
     </div>
 
     <div class="grid g-2 mb-6">
@@ -953,12 +932,6 @@ export function studentAnalytics(): string {
             <b style="width:36px;text-align:right">${v}%</b>
           </div>`).join('')}
       </div>
-    </div>
-
-    <div class="card">
-      <div class="card-h"><h3>Learning consistency — last 20 weeks</h3><div class="right"><span class="badge ${user.streak ? 'green' : 'grey'}">${icon('flame', 'ic-xs')} ${user.streak || 0}-day streak</span></div></div>
-      <div class="card-b">${heatmap(20)}</div>
-    </div>
   </div>`;
 }
 
@@ -1004,120 +977,6 @@ export function studentWeak(): string {
   </div>`;
 }
 
-/* ---------- Calendar ---------- */
-export function studentCalendar(): string {
-  const c = UI.calCursor, y = c.getFullYear(), m = c.getMonth();
-  const first = new Date(y, m, 1).getDay();
-  const days = new Date(y, m + 1, 0).getDate();
-  const prev = new Date(y, m, 0).getDate();
-  const today = new Date();
-  const monthName = c.toLocaleString('en-US', { month: 'long', year: 'numeric' });
-  let cells = '';
-  for (let i = first - 1; i >= 0; i--) cells += `<div class="cal-day out"><div class="d">${prev - i}</div></div>`;
-  for (let d = 1; d <= days; d++) {
-    const date = new Date(y, m, d);
-    const isToday = date.toDateString() === today.toDateString();
-    const evs = CAL_EVENTS[calKey(date)] || [];
-    cells += `<div class="cal-day ${isToday ? 'today' : ''}" style="background:var(--surface);border:1px solid ${isToday ? 'var(--indigo)' : 'var(--border)'};border-radius:var(--r);padding:8px;min-height:100px;display:flex;flex-direction:column;gap:4px;transition:.15s">
-      <div style="font-size:12px;font-weight:700;color:${isToday ? 'var(--indigo)' : 'var(--text)'}">${d}</div>
-      ${evs.slice(0, 3).map(e => {
-        const clr = { revision: 'amber', exam: 'coral', class: 'indigo', done: 'green', holiday: 'violet', ai: 'teal' }[e.t] || 'grey';
-        return `<div style="font-size:10px;padding:2px 6px;border-radius:5px;background:var(--${clr}-50);color:var(--${clr}-600);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.title}</div>`;
-      }).join('')}
-    </div>`;
-  }
-  const tail = (7 - ((first + days) % 7)) % 7;
-  for (let i = 1; i <= tail; i++) cells += `<div class="cal-day out"><div class="d">${i}</div></div>`;
-
-  return `
-  <div class="page">
-    ${pageHead('Calendar', monthName, 'All your classes, revisions, exams and school events in one place.',
-      `<div class="flex gap-2">
-        <button class="btn btn-sm" onclick="setCalView('month')" style="${UI.calView === 'month' ? 'background:var(--indigo);color:#fff;border-color:var(--indigo)' : ''}">Month</button>
-        <button class="btn btn-sm" onclick="setCalView('week')" style="${UI.calView === 'week' ? 'background:var(--indigo);color:#fff;border-color:var(--indigo)' : ''}">Week</button>
-        <button class="btn btn-sm" onclick="setCalView('day')" style="${UI.calView === 'day' ? 'background:var(--indigo);color:#fff;border-color:var(--indigo)' : ''}">Day</button>
-      </div>`)}
-
-    <div class="grid g-3-1">
-      <div class="card">
-        <div class="card-h">
-          <button class="btn btn-sm btn-icon" onclick="calMove(-1)">${icon('chevL')}</button>
-          <h3 style="min-width:180px;text-align:center">${monthName}</h3>
-          <button class="btn btn-sm btn-icon" onclick="calMove(1)">${icon('chevR')}</button>
-          <div class="right"><button class="btn btn-sm" onclick="calToday()">Today</button></div>
-        </div>
-        <div class="card-b">
-          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px">
-            ${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => `<div class="tiny" style="text-align:center;font-weight:700;padding:6px 0">${d}</div>`).join('')}
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">${cells}</div>
-        </div>
-        <div class="card-f">
-          <div class="flex wrap gap-4 tiny">
-            <span class="flex gap-2"><span style="width:9px;height:9px;border-radius:3px;background:var(--indigo-50);border:1px solid var(--indigo-500)"></span>Class</span>
-            <span class="flex gap-2"><span style="width:9px;height:9px;border-radius:3px;background:var(--amber-50);border:1px solid var(--amber)"></span>Revision</span>
-            <span class="flex gap-2"><span style="width:9px;height:9px;border-radius:3px;background:var(--coral-50);border:1px solid var(--coral)"></span>Exam</span>
-            <span class="flex gap-2"><span style="width:9px;height:9px;border-radius:3px;background:var(--teal-50);border:1px solid var(--teal)"></span>AI recommended</span>
-            <span class="flex gap-2"><span style="width:9px;height:9px;border-radius:3px;background:var(--green-50);border:1px solid var(--green)"></span>Completed</span>
-            <span class="flex gap-2"><span style="width:9px;height:9px;border-radius:3px;background:var(--violet-50);border:1px solid var(--violet)"></span>Holiday</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex-c">
-        <div class="card">
-          <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:13.5px">Today · Sep 15</h3></div>
-          <div class="card-b" style="padding-top:0">
-            ${[
-              { t: '08:00', n: 'Mathematics — Quadratic Equations', c: 'indigo' },
-              { t: '10:30', n: 'Physics — Electricity', c: 'teal' },
-              { t: '13:30', n: 'Social Studies — Resources', c: 'coral' },
-              { t: '17:00', n: 'EduSense AI — Physics revision', c: 'amber', ai: true },
-            ].map(e => `
-              <div class="flex gap-3" style="padding:11px 0;border-bottom:1px solid var(--border-2)">
-                <div class="tiny mono" style="width:44px;color:var(--text-3);padding-top:2px">${e.t}</div>
-                <div style="flex:1;min-width:0;border-left:3px solid var(--${e.c});padding-left:10px">
-                  <div style="font-size:12.5px;font-weight:600">${e.n}</div>
-                  ${e.ai ? `<div class="tiny" style="color:var(--teal-600);margin-top:2px;display:flex;gap:4px;align-items:center">${icon('sparkles', 'ic-xs')} AI recommended</div>` : ''}
-                </div>
-              </div>`).join('')}
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:13.5px">Upcoming · This week</h3></div>
-          <div class="card-b" style="padding-top:0">
-            ${[
-              { d: 'Sep 18', n: 'Physics assessment', c: 'coral' },
-              { d: 'Sep 19', n: 'English revision due', c: 'amber' },
-              { d: 'Sep 21', n: 'Mathematics assessment', c: 'coral' },
-              { d: 'Sep 25', n: 'Chemistry assessment', c: 'coral' },
-            ].map(e => `
-              <div class="flex-b" style="padding:9px 0;border-bottom:1px solid var(--border-2)">
-                <div class="flex gap-3"><span class="tiny mono" style="color:var(--text-3);width:52px">${e.d}</span><span style="font-size:12.5px;font-weight:600">${e.n}</span></div>
-                <span style="width:8px;height:8px;border-radius:50%;background:var(--${e.c})"></span>
-              </div>`).join('')}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>`;
-}
-
-export function calMove(n: number): void {
-  UI.calCursor = new Date(UI.calCursor.getFullYear(), UI.calCursor.getMonth() + n, 1);
-  window.navigate('student/calendar');
-}
-
-export function calToday(): void {
-  UI.calCursor = new Date();
-  window.navigate('student/calendar');
-}
-
-export function setCalView(v: 'month' | 'week' | 'day'): void {
-  UI.calView = v;
-  window.navigate('student/calendar');
-}
 
 /* ---------- Assessments ---------- */
 export function studentAssessments(): string {
@@ -1513,7 +1372,7 @@ export function studentProfile(): string {
             <div class="flex gap-2 wrap">
               <span class="badge indigo">${u.school}</span>
               <span class="badge grey">Joined ${u.joined}</span>
-              <span class="badge green">${icon('flame', 'ic-xs')} ${u.streak}-day streak</span>
+              <span class="badge indigo">GSEB Curriculum</span>
             </div>
           </div>
           <div class="flex gap-2" style="align-self:flex-start">
@@ -1564,7 +1423,7 @@ export function studentProfile(): string {
           <div class="grid g-2">
             ${statBlock('Overall mastery', '73%', '+8% this term', 'award', 'up')}
             ${statBlock('Knowledge health', '73%', 'Stable', 'brain')}
-            ${statBlock('Current streak', u.streak + ' days', 'Personal best 12', 'flame')}
+            ${statBlock('Curriculum status', 'Enrolled', 'Term 1 · 2026', 'book')}
             ${statBlock('Topics mastered', '23', 'of 42', 'book2')}
           </div>
         </div>
@@ -1603,7 +1462,7 @@ export function studentSettings(): string {
             ['Assessment reminders', true],
             ['Weekly progress summary', true],
             ['New content alerts', false],
-            ['Study streak reminders', true],
+            ['School assessment schedule', true],
           ].map(([k, v]) => `
             <div class="flex-b" style="padding:12px 0;border-bottom:1px solid var(--border-2)">
               <span style="font-size:13px">${k}</span>
@@ -1804,9 +1663,7 @@ export function switchTab(btn: HTMLElement, paneId: string): void {
 if (typeof window !== 'undefined') {
   window.openSubject = openSubject;
   window.switchTab = switchTab;
-  window.calMove = calMove;
-  window.calToday = calToday;
-  window.setCalView = setCalView;
+
   window.openResult = openResult;
   window.openAIPanel = openAIPanel;
   window.sendAI = sendAI;

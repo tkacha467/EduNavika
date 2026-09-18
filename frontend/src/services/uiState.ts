@@ -3,8 +3,6 @@
 export interface UIState {
   subjectId: string | null;
   topicId: string | null;
-  calCursor: Date;
-  calView: 'month' | 'week' | 'day';
   notifFilter: string;
   builderStep: number;
   builderTopic: string;
@@ -13,8 +11,6 @@ export interface UIState {
 export const UI: UIState = {
   subjectId: null,
   topicId: null,
-  calCursor: new Date(),
-  calView: 'month',
   notifFilter: 'all',
   builderStep: 0,
   builderTopic: '',
