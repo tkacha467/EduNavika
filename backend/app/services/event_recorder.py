@@ -1,6 +1,8 @@
+import time
 from datetime import datetime, timezone
 from typing import Optional, Dict, Any
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError, OperationalError
 from backend.app.models import LearningEvent, EventType
 from backend.app.models import TopicPerformance
 
@@ -52,55 +54,67 @@ class EventRecorderService:
             meta["idempotency_key"] = idempotency_key
 
         effective_idempotency_key = meta.get("idempotency_key")
-        if effective_idempotency_key:
-            # Check for existing event with identical idempotency_key
-            existing = (
-                db.query(LearningEvent)
-                .filter(
-                    LearningEvent.student_id == student_id,
-                    LearningEvent.topic_id == topic_id,
-                    LearningEvent.event_type == event_type,
+
+        max_retries = 5 if auto_commit else 1
+        for attempt_i in range(max_retries):
+            try:
+                if effective_idempotency_key:
+                    # Check for existing event with identical idempotency_key
+                    existing = (
+                        db.query(LearningEvent)
+                        .filter(
+                            LearningEvent.student_id == student_id,
+                            LearningEvent.topic_id == topic_id,
+                            LearningEvent.event_type == event_type,
+                        )
+                        .all()
+                    )
+                    for ev in existing:
+                        if ev.event_metadata and ev.event_metadata.get("idempotency_key") == effective_idempotency_key:
+                            return ev
+
+                # 1. Store immutable raw learning event
+                event = LearningEvent(
+                    student_id=student_id,
+                    topic_id=topic_id,
+                    event_type=event_type,
+                    timestamp=timestamp,
+                    session_id=session_id,
+                    attempt_id=attempt_id,
+                    score=score,
+                    correctness=correctness,
+                    response_time_ms=response_time_ms,
+                    hint_used=hint_used,
+                    attempt_number=attempt_number,
+                    event_metadata=meta if meta else None,
                 )
-                .all()
-            )
-            for ev in existing:
-                if ev.event_metadata and ev.event_metadata.get("idempotency_key") == effective_idempotency_key:
-                    return ev
+                db.add(event)
 
-        # 1. Store immutable raw learning event
-        event = LearningEvent(
-            student_id=student_id,
-            topic_id=topic_id,
-            event_type=event_type,
-            timestamp=timestamp,
-            session_id=session_id,
-            attempt_id=attempt_id,
-            score=score,
-            correctness=correctness,
-            response_time_ms=response_time_ms,
-            hint_used=hint_used,
-            attempt_number=attempt_number,
-            event_metadata=meta if meta else None,
-        )
-        db.add(event)
+                # 2. Update TopicPerformance evidence aggregation
+                EventRecorderService._update_topic_performance(
+                    db=db,
+                    student_id=student_id,
+                    topic_id=topic_id,
+                    event_type=event_type,
+                    timestamp=timestamp,
+                    correctness=correctness,
+                    response_time_ms=response_time_ms,
+                    hint_used=hint_used,
+                )
 
-        # 2. Update TopicPerformance evidence aggregation
-        EventRecorderService._update_topic_performance(
-            db=db,
-            student_id=student_id,
-            topic_id=topic_id,
-            event_type=event_type,
-            timestamp=timestamp,
-            correctness=correctness,
-            response_time_ms=response_time_ms,
-            hint_used=hint_used,
-        )
+                if auto_commit:
+                    db.commit()
+                    db.refresh(event)
 
-        if auto_commit:
-            db.commit()
-            db.refresh(event)
-
-        return event
+                return event
+            except (IntegrityError, OperationalError) as exc:
+                if auto_commit:
+                    db.rollback()
+                    if attempt_i == max_retries - 1:
+                        raise exc
+                    time.sleep(0.04 * (attempt_i + 1))
+                else:
+                    raise exc
 
 
     @staticmethod
@@ -159,7 +173,7 @@ class EventRecorderService:
             perf.accuracy = round((perf.correct_attempts / perf.total_attempts) * 100.0, 2)
 
             if response_time_ms is not None:
-                current_avg = perf.average_response_time
+                current_avg = perf.average_response_time or 0.0
                 perf.average_response_time = round(
                     ((current_avg * prev_total) + response_time_ms) / perf.total_attempts, 2
                 )

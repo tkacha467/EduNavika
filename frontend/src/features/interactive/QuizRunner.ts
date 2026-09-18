@@ -160,14 +160,25 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
   const total = CURRENT_QUIZ.questions.length;
   const durationMs = Date.now() - CURRENT_QUIZ.startTime;
 
-  // Record attempts to backend asynchronously
+  // Record attempts to backend gracefully in sequence
+  const attemptPayloads: Array<{
+    student_id: string;
+    mcq_id: string;
+    topic_id: string;
+    selected_option: string;
+    is_correct: boolean;
+    score: number;
+    response_time_ms: number;
+    hint_requested: boolean;
+  }> = [];
+
   CURRENT_QUIZ.questions.forEach((q, i) => {
     const chosen = CURRENT_QUIZ!.answers[i];
     const isCorrect = chosen === q.a;
     if (isCorrect) correct++;
 
     if (chosen !== null) {
-      assessmentService.recordAttempt({
+      attemptPayloads.push({
         student_id: studentId,
         mcq_id: q.id || `mcq-${CURRENT_QUIZ!.topicId}-${i + 1}`,
         topic_id: CURRENT_QUIZ!.topicId,
@@ -178,6 +189,14 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
         hint_requested: false,
       });
     }
+  });
+
+  (async () => {
+    for (const payload of attemptPayloads) {
+      await assessmentService.recordAttempt(payload);
+    }
+  })().catch(err => {
+    console.debug('Telemetry recording note:', err);
   });
 
   // Increment real user stats

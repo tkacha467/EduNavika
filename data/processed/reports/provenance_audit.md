@@ -1,7 +1,7 @@
 # GSEB Curriculum Lineage & Provenance Audit Report
 
 - **Quality Gate Verdict**: **`PASS`**
-- **Timestamp**: `2026-09-18T12:19:41Z`
+- **Timestamp**: `2026-09-18T14:58:46Z`
 - **Provenance Integrity Score**: **100.0%**
 - **Total LearningContent Records**: 545
 - **Valid Full Relational Lineage**: 545 / 545 (100%)
@@ -17,15 +17,15 @@
 
 | Chunk ID | Curriculum Lineage | Source File & Page | Status | Verification Details |
 |----------|--------------------|--------------------|--------|----------------------|
-| `chk_cf66c4ba47b91c2c` | Standard 10 > English Literature & Language > Ch.9 'The Proposal' > 'The Proposal' | `STD-10/Std-10_Footprints Without Feet_EM.pdf` (p.75) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_40beab348d2c8315` | Standard 10 > Science & Technology > Ch.4 'Carbon and its Compounds' > '4.5 SOAPS AND DETERGENTS' | `STD-10/Std-10_Science_English Medium.pdf` (p.89) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_266033e26169b388` | Standard 10 > Science & Technology > Ch.5 'Life Processes' > 'Life Processes' | `STD-10/Std-10_Science_English Medium.pdf` (p.106) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_1ce422ad424b13de` | Standard 10 > Mathematics > Ch.10 'Circles' > '10.2 Tangent to a Circle' | `STD-10/Std-10_Maths_EnglishMedium.pdf` (p.160) | ✅ PASS | Page bounds validated (p.160 of 278) |
-| `chk_a8578a32f920ee09` | Standard 10 > Science & Technology > Ch.4 'Carbon and its Compounds' > '4.1 BONDING IN CARBON – THE CO VALENT BOND' | `STD-10/Std-10_Science_English Medium.pdf` (p.72) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_231e14979193112b` | Standard 10 > Science & Technology > Ch.1 'Chemical Reactions and Equations' > 'Chemical Reactions and Equations' | `STD-10/Std-10_Science_English Medium.pdf` (p.15) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_06e23fd915e74763` | Standard 10 > Science & Technology > Ch.1 'Chemical Reactions and Equations' > 'Chemical Reactions and Equations' | `STD-10/Std-10_Science_English Medium.pdf` (p.22) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_056d5dcbd193cb67` | Standard 10 > 10 Word and Expressions-2 Eng > Ch.3 '– Two StorieS aboUt Flying 33' > '– Two StorieS aboUt Flying 33' | `STD-10/Std-10_Word and Expressions-2_Eng.pdf` (p.47) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_ac16f94e4013e728` | Standard 10 > 10 Word and Expressions-2 Eng > Ch.1 '– A Letter to God' > '– A Letter to God' | `STD-10/Std-10_Word and Expressions-2_Eng.pdf` (p.17) | ✅ PASS | Page bounds validated (p.17 of 156) |
-| `chk_ed226d024aaa8dae` | Standard 10 > Science & Technology > Ch.12 'Magnetic Effects of Electric Current' > 'Magnetic Effects of Electric Current' | `STD-10/Std-10_Science_English Medium.pdf` (p.213) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_8d26e3cb5e74c5c8` | Standard 10 > Science & Technology > Ch.3 'Metals and Non-metals' > 'Metals and Non-metals' | `STD-10/Std-10_Science_English Medium.pdf` (p.56) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_f133c81a544d7623` | Standard 10 > Science & Technology > Ch.12 'Magnetic Effects of Electric Current' > 'Magnetic Effects of Electric Current' | `STD-10/Std-10_Science_English Medium.pdf` (p.211) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_2eef261a8da751e4` | Standard 10 > English Literature & Language > Ch.8 'The Sermon at Benares' > 'The Sermon at Benares' | `STD-10/Std-10_First Flight_EnglishMedium.pdf` (p.122) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_1bb6c68f07f78873` | Standard 10 > Mathematics > Ch.12 'Surface Areas and Volumes' > '11.1 Areas of Sector and Segment of a Circle' | `STD-10/Std-10_Maths_EnglishMedium.pdf` (p.174) | ✅ PASS | Page bounds validated (p.174 of 278) |
+| `chk_1264e1f531de2a74` | Standard 10 > 10 Word and Expressions-2 Eng > Ch.4 '– From the Diary oF anne Frank 47' > '– From the Diary oF anne Frank 47' | `STD-10/Std-10_Word and Expressions-2_Eng.pdf` (p.67) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_cb9ae8fc11c29f04` | Standard 10 > English Literature & Language > Ch.2 'Nelson Mandela: Long W alk to Fr eedom' > 'Nelson Mandela: Long W alk to Fr eedom' | `STD-10/Std-10_First Flight_EnglishMedium.pdf` (p.39) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_2e73bbb3c8835870` | Standard 10 > Science & Technology > Ch.6 'Control and Coordination' > 'Control and Coordination' | `STD-10/Std-10_Science_English Medium.pdf` (p.121) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_00c5f48db76b20da` | Standard 10 > English Literature & Language > Ch.9 'The Proposal' > 'The Proposal' | `STD-10/Std-10_First Flight_EnglishMedium.pdf` (p.135) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_40f65edf93d24641` | Standard 10 > English Literature & Language > Ch.8 'The Sermon at Benares' > 'The Sermon at Benares' | `STD-10/Std-10_Footprints Without Feet_EM.pdf` (p.64) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_24126e7c4e9eed95` | Standard 10 > Science & Technology > Ch.3 'Metals and Non-metals' > 'Metals and Non-metals' | `STD-10/Std-10_Science_English Medium.pdf` (p.58) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
 
 ---

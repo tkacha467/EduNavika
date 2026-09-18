@@ -68,16 +68,24 @@ export class AssessmentService {
     response_time_ms: number;
     hint_requested?: boolean;
   }): Promise<StudentAttempt | null> {
-    try {
-      // Posts to backend attempts endpoint, which triggers LearningEvent persistence with idempotency
-      return await api.post<StudentAttempt>('/attempts', {
-        ...payload,
-        hint_requested: payload.hint_requested || false,
-      });
-    } catch (err) {
-      console.warn('Backend attempt telemetry recording offline or failed:', err);
-      return null;
+    const postPayload = {
+      ...payload,
+      hint_requested: payload.hint_requested || false,
+    };
+
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        return await api.post<StudentAttempt>('/attempts', postPayload);
+      } catch (err) {
+        if (attempt === 0) {
+          await new Promise((resolve) => setTimeout(resolve, 150));
+          continue;
+        }
+        console.warn('Backend attempt telemetry recording offline or failed:', err);
+        return null;
+      }
     }
+    return null;
   }
 }
 

@@ -1,8 +1,10 @@
+import logging
 from datetime import datetime, timezone
 from typing import List, Optional
 import uuid
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError, OperationalError
 from backend.app.core.database import get_db
 from backend.app.models import StudentProfile, User, UserRole, Topic
 from backend.app.models import Assessment, AssessmentQuestion, AssessmentStatus
@@ -18,6 +20,8 @@ from backend.app.schemas.attempt import (
     AttemptDetailResponse,
 )
 from backend.app.services.event_recorder import EventRecorderService
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -46,16 +50,20 @@ def _get_or_create_student_profile(db: Session, student_id: str) -> Optional[Stu
         if existing_profile:
             return existing_profile
 
-        new_profile = StudentProfile(
-            id=student_id if (len(student_id) <= 36 and not student_id.startswith("http")) else None,
-            user_id=user.id,
-            enrollment_number=f"EN-{user.id[:8]}",
-            division="A",
-        )
-        db.add(new_profile)
-        db.commit()
-        db.refresh(new_profile)
-        return new_profile
+        try:
+            new_profile = StudentProfile(
+                id=student_id if (len(student_id) <= 36 and not student_id.startswith("http")) else None,
+                user_id=user.id,
+                enrollment_number=f"EN-{user.id[:8]}",
+                division="A",
+            )
+            db.add(new_profile)
+            db.commit()
+            db.refresh(new_profile)
+            return new_profile
+        except (IntegrityError, OperationalError):
+            db.rollback()
+            return db.query(StudentProfile).filter(StudentProfile.user_id == user.id).first()
 
     return None
 
@@ -108,30 +116,34 @@ def create_attempt(payload: AttemptCreate, db: Session = Depends(get_db)):
     now = datetime.now(timezone.utc)
     score = float(payload.score) if payload.score is not None else (100.0 if payload.is_correct else 0.0)
     is_correct = payload.is_correct if payload.is_correct is not None else (score > 0)
-    response_time = payload.response_time_ms if payload.response_time_ms is not None else 0
+    response_time = max(0, payload.response_time_ms or 0)
 
     event_id = None
     if topic:
         idempotency_key = f"practice_{student.id}_{payload.mcq_id}_{int(now.timestamp())}" if payload.mcq_id else None
-        event = EventRecorderService.record_event(
-            db=db,
-            student_id=student.id,
-            topic_id=topic.id,
-            event_type=EventType.PRACTICE,
-            timestamp=now,
-            score=score,
-            correctness=is_correct,
-            response_time_ms=response_time,
-            hint_used=bool(payload.hint_requested),
-            idempotency_key=idempotency_key,
-            event_metadata={
-                "mcq_id": payload.mcq_id,
-                "selected_option": payload.selected_option,
-                "client_topic_id": payload.topic_id,
-            },
-            auto_commit=True,
-        )
-        event_id = event.id
+        try:
+            event = EventRecorderService.record_event(
+                db=db,
+                student_id=student.id,
+                topic_id=topic.id,
+                event_type=EventType.PRACTICE,
+                timestamp=now,
+                score=score,
+                correctness=is_correct,
+                response_time_ms=response_time,
+                hint_used=bool(payload.hint_requested),
+                idempotency_key=idempotency_key,
+                event_metadata={
+                    "mcq_id": payload.mcq_id,
+                    "selected_option": payload.selected_option,
+                    "client_topic_id": payload.topic_id,
+                },
+                auto_commit=True,
+            )
+            event_id = event.id
+        except Exception as exc:
+            logger.warning(f"Telemetry record_event handled with fallback: {exc}")
+            event_id = str(uuid.uuid4())
     else:
         event_id = str(uuid.uuid4())
 
