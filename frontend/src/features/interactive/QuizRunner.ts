@@ -153,7 +153,7 @@ export function renderQuizModal(onFinishNavigate?: (route: string) => void) {
 async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
   if (!CURRENT_QUIZ) return;
   const user = authService.getUser();
-  const studentId = user?.id || 'stu-aarav-sharma-001';
+  const studentId = user?.id || 'stu-tushar-kacha-001';
   let correct = 0;
   const total = CURRENT_QUIZ.questions.length;
   const durationMs = Date.now() - CURRENT_QUIZ.startTime;
@@ -177,6 +177,16 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
       });
     }
   });
+
+  // Increment real user stats
+  if (user) {
+    user.todayGoal = (user.todayGoal || 0) + 1;
+    user.streak = Math.max(1, user.streak || 1);
+    user.weeklyGoal = Math.min(100, Math.round(((user.todayGoal || 1) / 3) * 100));
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('edunavika_user', JSON.stringify(user));
+    }
+  }
 
   const pct = Math.round((correct / total) * 100);
   const color = pct >= 75 ? '#2E9B68' : pct >= 55 ? '#E9A23B' : '#E56B6F';
@@ -217,6 +227,9 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
   resEl.querySelector('#btnResDone')?.addEventListener('click', () => {
     closeOverlay();
     CURRENT_QUIZ = null;
+    if (typeof window !== 'undefined' && (window as any).navigate) {
+      (window as any).navigate('student/dashboard');
+    }
   });
   resEl.querySelector('#btnResPlan')?.addEventListener('click', () => {
     closeOverlay();

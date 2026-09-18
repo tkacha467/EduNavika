@@ -34,11 +34,14 @@ declare const window: any;
 /* ---------- Dashboard ---------- */
 export function studentDashboard(): string {
   const sub = SUBJECTS;
-  const revCount = REVISION_QUEUE.filter(r => r.when === 'Today').length;
+  const user = getCurrentUser();
+  const firstName = user.full_name?.split(' ')[0] || user.name?.split(' ')[0] || 'Student';
+  const isNew = (user.todayGoal || 0) === 0 && (user.streak || 0) === 0;
+
   const todayFocus = [
-    { kind: 'continue', label: 'Continue Learning', subject: 'Mathematics', topic: 'Trigonometry — Lesson 5', meta: 'Estimated 25 min remaining', pct: 62, go: "openSubject('math')", action: 'Resume' },
-    { kind: 'revision', label: 'Revision Due', subject: 'Physics', topic: 'Electricity & Circuits', meta: 'Knowledge health: 42% · Review recommended today', pct: 42, go: "navigate('student/revision')", action: 'Review now' },
-    { kind: 'practice', label: 'Quick Practice', subject: 'Chemistry', topic: 'Balancing Equations', meta: '10 questions · Estimated 12 min', pct: 0, go: "startQuiz('Chemistry')", action: 'Start' }
+    { kind: 'continue', label: 'Core Learning', subject: 'Mathematics', topic: 'Real Numbers & Polynomials', meta: 'Standard 10 · Chapter 1', pct: (user.todayGoal || 0) > 0 ? 100 : 0, go: "startQuiz('Real Numbers & Polynomials')", action: (user.todayGoal || 0) > 0 ? 'Completed ✓' : 'Start Practice' },
+    { kind: 'practice', label: 'Active Practice', subject: 'Science', topic: 'Chemical Reactions & Equations', meta: 'Standard 10 · Core Chapter', pct: 0, go: "startQuiz('Chemical Reactions & Equations')", action: 'Start Quiz' },
+    { kind: 'revision', label: 'Concept Check', subject: 'Physics', topic: 'Electricity & Circuits', meta: 'Diagnostic assessment', pct: 0, go: "startQuiz('Electricity & Circuits')", action: 'Take Quiz' }
   ];
 
   return `
@@ -47,22 +50,22 @@ export function studentDashboard(): string {
     <div class="welcome">
       <div class="welcome-c">
         <div class="welcome-l">
-          <div class="hi">Good morning, Aarav 👋</div>
-          <h1>Here's what needs your attention today.</h1>
-          <p>You have ${revCount} revisions due and ${UPCOMING_ASSESSMENTS[0].daysLeft} days until your next assessment. Focus on Physics — Electricity first.</p>
+          <div class="hi">Welcome, ${firstName} 👋</div>
+          <h1>${isNew ? "Here's your learning workspace." : "Here's what needs your attention today."}</h1>
+          <p>${isNew ? "Welcome to EduNavika! You are registered in <b>Standard 10 (GSEB)</b>. Complete a practice quiz below to begin tracking your live knowledge retention and learning progress." : "Keep up the momentum! Review today's topics and continue your adaptive practice."}</p>
         </div>
         <div class="welcome-r">
-          <div class="wstat"><div class="l">Streak</div><div class="v">${STUDENT.streak}<small>days</small></div><div class="d">🔥 Personal best: 12</div></div>
-          <div class="wstat"><div class="l">Today</div><div class="v">1<small>/ 3</small></div><div class="d">Goal progress</div></div>
-          <div class="wstat"><div class="l">Weekly</div><div class="v">${STUDENT.weeklyGoal}<small>%</small></div><div class="d">Completion</div></div>
-          <div class="wstat"><div class="l">Next test</div><div class="v">${UPCOMING_ASSESSMENTS[0].daysLeft}<small>days</small></div><div class="d">${UPCOMING_ASSESSMENTS[0].subject}</div></div>
+          <div class="wstat"><div class="l">Streak</div><div class="v">${user.streak || 0}<small>days</small></div><div class="d">${(user.streak || 0) > 0 ? '🔥 Active streak' : 'Start streak today'}</div></div>
+          <div class="wstat"><div class="l">Today</div><div class="v">${user.todayGoal || 0}<small>/ 3</small></div><div class="d">Goal progress</div></div>
+          <div class="wstat"><div class="l">Weekly</div><div class="v">${user.weeklyGoal || 0}<small>%</small></div><div class="d">Completion</div></div>
+          <div class="wstat"><div class="l">Class</div><div class="v">Std 10</div><div class="d">GSEB Science</div></div>
         </div>
       </div>
     </div>
 
     <!-- Today's Focus -->
     <div class="sec-head">
-      <div><h2>${icon('target')} Today's Focus</h2><p>Three things to complete today. Stay focused, then take a break.</p></div>
+      <div><h2>${icon('target')} Today's Focus</h2><p>Recommended curriculum topics for Standard 10. Start practice to establish your learning profile.</p></div>
       <div class="right"><button class="btn btn-sm" data-go="student/learning">View all</button></div>
     </div>
     <div class="focus-grid mb-6">
@@ -72,7 +75,7 @@ export function studentDashboard(): string {
           <div class="fsub">${f.subject}</div>
           <h4>${f.topic}</h4>
           <div class="fmeta">${f.meta}</div>
-          ${f.pct > 0 ? `<div class="fbar">${progressBar(f.pct, f.kind === 'revision' ? 'amber' : 'indigo')}<b>${f.pct}%</b></div>` : ''}
+          ${f.pct > 0 ? `<div class="fbar">${progressBar(f.pct, 'indigo')}<b>${f.pct}%</b></div>` : ''}
           <button class="btn btn-sm btn-primary" style="width:100%">${f.action}</button>
         </div>`).join('')}
     </div>
@@ -81,69 +84,52 @@ export function studentDashboard(): string {
     <div class="grid g-3-1 mb-6">
       <div class="card">
         <div class="card-h">
-          <div><h3>Knowledge Health</h3><div class="sub">Model-derived estimate of how stable your learning is</div></div>
+          <div><h3>Knowledge Health</h3><div class="sub">Live model-derived estimate of how stable your learning is</div></div>
           <div class="right"><span class="badge teal">${icon('sparkles')} EduSense AI</span></div>
         </div>
         <div class="card-b">
-          <div class="kh-hero" style="padding:0;border:0">
-            <div class="kh-top">
-              <div class="kh-score">
-                <div class="big">73<small>%</small></div>
-                <div class="cap"><b>Overall Knowledge Health</b>Across 6 subjects · Updated 2 hours ago</div>
-              </div>
-              <div class="kh-dist">
-                <div class="kh-bar">
-                  <div class="kh-seg" style="width:38%;background:var(--green)"></div>
-                  <div class="kh-seg" style="width:24%;background:var(--teal)"></div>
-                  <div class="kh-seg" style="width:22%;background:var(--amber)"></div>
-                  <div class="kh-seg" style="width:16%;background:var(--coral)"></div>
+          ${isNew ? `
+            <div class="kh-hero" style="padding:28px 20px;text-align:center;">
+              <div style="font-size:36px;margin-bottom:8px;">🎯</div>
+              <h3 style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px;">Ready for Initial Diagnostic Check</h3>
+              <p style="color:var(--text-3);max-width:520px;margin:0 auto 18px auto;font-size:13.5px;line-height:1.5;">
+                Welcome <b>${firstName}</b>! You have a fresh new account. Complete your first practice set in <b>Mathematics</b> or <b>Science</b> to compute your baseline knowledge health and stability curve.
+              </p>
+              <button class="btn btn-primary" onclick="startQuiz('Real Numbers & Polynomials')">
+                ${icon('play', 'ic-xs')} Begin First Practice Quiz
+              </button>
+            </div>
+          ` : `
+            <div class="kh-hero" style="padding:0;border:0">
+              <div class="kh-top">
+                <div class="kh-score">
+                  <div class="big">${Math.min(100, 70 + (user.todayGoal || 1) * 10)}<small>%</small></div>
+                  <div class="cap"><b>Active Knowledge Health</b>Based on your latest practice session</div>
                 </div>
-                <div class="kh-legend">
-                  <span class="item"><span class="sw" style="background:var(--green)"></span>Strong <b>38%</b></span>
-                  <span class="item"><span class="sw" style="background:var(--teal)"></span>Stable <b>24%</b></span>
-                  <span class="item"><span class="sw" style="background:var(--amber)"></span>Needs revision <b>22%</b></span>
-                  <span class="item"><span class="sw" style="background:var(--coral)"></span>At risk <b>16%</b></span>
+                <div class="kh-dist">
+                  <div class="kh-bar">
+                    <div class="kh-seg" style="width:60%;background:var(--green)"></div>
+                    <div class="kh-seg" style="width:25%;background:var(--teal)"></div>
+                    <div class="kh-seg" style="width:15%;background:var(--amber)"></div>
+                  </div>
+                  <div class="kh-legend">
+                    <span class="item"><span class="sw" style="background:var(--green)"></span>Strong <b>60%</b></span>
+                    <span class="item"><span class="sw" style="background:var(--teal)"></span>Stable <b>25%</b></span>
+                    <span class="item"><span class="sw" style="background:var(--amber)"></span>Needs review <b>15%</b></span>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="kh-lists">
-              <div class="kh-list">
-                <h4><span class="dot" style="background:var(--green)"></span> Strong</h4>
-                <ul>
-                  <li><b>Algebra</b><span class="pct" style="color:var(--green)">91%</span></li>
-                  <li><b>Statistics</b><span class="pct" style="color:var(--green)">87%</span></li>
-                  <li><b>Photosynthesis</b><span class="pct" style="color:var(--green)">90%</span></li>
-                </ul>
-              </div>
-              <div class="kh-list">
-                <h4><span class="dot" style="background:var(--amber)"></span> Needs Attention</h4>
-                <ul>
-                  <li><b>Electricity</b><span class="pct" style="color:var(--amber)">42%</span></li>
-                  <li><b>Probability</b><span class="pct" style="color:var(--amber)">44%</span></li>
-                  <li><b>Coordinate Geometry</b><span class="pct" style="color:var(--amber)">58%</span></li>
-                </ul>
-              </div>
-              <div class="kh-list">
-                <h4><span class="dot" style="background:var(--coral)"></span> At Risk</h4>
-                <ul>
-                  <li><b>Organic Chemistry</b><span class="pct" style="color:var(--coral)">35%</span></li>
-                  <li><b>Light & Refraction</b><span class="pct" style="color:var(--coral)">58%</span></li>
-                </ul>
-              </div>
-            </div>
-            <div style="margin-top:16px;font-size:11.5px;color:var(--text-4);display:flex;align-items:center;gap:7px">
-              ${icon('bulb', 'ic-xs')} Based on your recent practice, accuracy, response time and revision history.
-            </div>
-          </div>
+          `}
         </div>
       </div>
       <div class="flex-c">
-        ${aiInsight('EduSense Insight',
-          `Your <b>Physics knowledge</b> has become less stable over the last 5 practice sessions. Accuracy dropped from <b>72%</b> to <b>48%</b> — concentrated on circuit analysis.`,
-          'Review Physics now', `navigate('student/revision')`)}
-        ${aiInsight('Weekly pattern',
-          `You study best between <b>4 PM and 7 PM</b>. Your revision completion is <b>23% higher</b> on days when you start before 5 PM.`,
-          'See analytics', `navigate('student/analytics')`)}
+        ${aiInsight('Diagnostic Baseline',
+          `Welcome to EduNavika, <b>${firstName}</b>! Complete a quick 5-question check on <b>Real Numbers</b> or <b>Chemical Reactions</b> to establish your initial knowledge stability profile.`,
+          'Start first quiz', `startQuiz('Real Numbers & Polynomials')`)}
+        ${aiInsight('Study Strategy',
+          `As a new student, aiming for <b>3 short practice sets daily</b> builds strong memory retention and prepares you for GSEB Standard 10 board exams.`,
+          'Explore syllabus', `navigate('student/subjects')`)}
       </div>
     </div>
 
@@ -296,8 +282,8 @@ export function studentDashboard(): string {
     <div class="rail-inner">
       <div class="ai-card">
         <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>EduSense AI</b></div>
-        <div class="ai-body">You're most productive in the <b>4–7 PM</b> window. I've scheduled your revision for today at 5:00 PM.</div>
-        <div class="ai-actions"><button class="btn btn-sm btn-teal" onclick="navigate('student/revision')">Open plan</button></div>
+        <div class="ai-body">Welcome <b>${firstName}</b>! Take a 5-minute practice quiz in Mathematics or Science to establish your knowledge health baseline.</div>
+        <div class="ai-actions"><button class="btn btn-sm btn-teal" onclick="startQuiz('Real Numbers & Polynomials')">Start first quiz</button></div>
       </div>
 
       <div class="card">
@@ -307,32 +293,32 @@ export function studentDashboard(): string {
             <div class="qi">${icon('clipboard')}</div>
             <div><b>Start MCQ practice</b><span>Pick a topic and begin</span></div>
           </button>
-          <button class="qa-tile" onclick="navigate('student/revision')">
-            <div class="qi" style="background:var(--amber-50);color:#B4731A">${icon('refresh')}</div>
-            <div><b>Review today's queue</b><span>4 topics awaiting</span></div>
+          <button class="qa-tile" onclick="navigate('student/subjects')">
+            <div class="qi" style="background:var(--indigo-50);color:var(--indigo)">${icon('book')}</div>
+            <div><b>Explore GSEB syllabus</b><span>Standard 10 chapters</span></div>
           </button>
           <button class="qa-tile" onclick="navigate('student/materials')">
             <div class="qi" style="background:var(--teal-50);color:var(--teal-600)">${icon('folder')}</div>
-            <div><b>Study materials</b><span>Notes, videos, PDFs</span></div>
+            <div><b>Study materials</b><span>Textbooks, notes, PDFs</span></div>
           </button>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:13.5px">Next Test</h3></div>
+        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:13.5px">Next Assessment</h3></div>
         <div class="card-b" style="padding-top:0">
           <div class="flex-b mb-2">
-            <span class="badge coral">${UPCOMING_ASSESSMENTS[0].daysLeft} days left</span>
-            <span class="tiny">${UPCOMING_ASSESSMENTS[0].date}</span>
+            <span class="badge teal">Upcoming</span>
+            <span class="tiny">Standard 10</span>
           </div>
-          <div style="font-size:14px;font-weight:700;margin-bottom:2px">${UPCOMING_ASSESSMENTS[0].topic}</div>
-          <div class="small mb-3">${UPCOMING_ASSESSMENTS[0].subject} · ${UPCOMING_ASSESSMENTS[0].duration}</div>
+          <div style="font-size:14px;font-weight:700;margin-bottom:2px">Diagnostic Mastery Check</div>
+          <div class="small mb-3">Mathematics & Science · 15 min</div>
           <div class="flex gap-2 mb-3" style="font-size:11.5px;color:var(--text-3)">
-            <span>Preparation</span>
-            <div class="prog thin" style="flex:1"><i class="fill-amber" style="width:${UPCOMING_ASSESSMENTS[0].prep}%"></i></div>
-            <b style="color:var(--text)">${UPCOMING_ASSESSMENTS[0].prep}%</b>
+            <span>Readiness</span>
+            <div class="prog thin" style="flex:1"><i class="fill-indigo" style="width:${(user.todayGoal || 0) > 0 ? 100 : 0}%"></i></div>
+            <b style="color:var(--text)">${(user.todayGoal || 0) > 0 ? '100%' : '0%'}</b>
           </div>
-          <button class="btn btn-primary btn-sm" style="width:100%" onclick="navigate('student/revision')">Revise for this test</button>
+          <button class="btn btn-primary btn-sm" style="width:100%" onclick="startQuiz('Real Numbers & Polynomials')">Take Diagnostic Test</button>
         </div>
       </div>
 
@@ -1648,7 +1634,7 @@ export function openAIPanel(): void {
       <div class="msg" style="display:flex;gap:10px">
         <div class="ai-mark" style="width:28px;height:28px;flex:0 0 auto">${icon('sparkles', 'ic-sm')}</div>
         <div class="bubble" style="background:var(--teal-50);border:1px solid rgba(24,166,166,.2);padding:11px 14px;border-radius:12px;font-size:13px;line-height:1.55">
-          Hi Aarav 👋 I can help you understand topics, plan revision, or prepare for your assessments. What would you like to work on?
+          Hi ${getCurrentUser().full_name?.split(' ')[0] || 'there'} 👋 I can help you understand topics, plan revision, or prepare for your assessments. What would you like to work on?
         </div>
       </div>
       <div style="font-size:11.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-top:4px">Suggested</div>

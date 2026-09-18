@@ -123,11 +123,11 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
             "grade": "Grade 10",
             "section": "Science",
             "school": "GSEB Higher Secondary School",
-            "roll": "STU-2026-0814",
-            "joined": "July 2024",
-            "streak": 12,
-            "weeklyGoal": 85,
-            "todayGoal": 3,
+            "roll": "STU-2026-0001",
+            "joined": "Today",
+            "streak": 0,
+            "weeklyGoal": 0,
+            "todayGoal": 0,
             "is_active": user.is_active,
         }
 

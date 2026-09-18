@@ -31,7 +31,7 @@ export function teacherDashboard(): string {
     <div class="welcome">
       <div class="welcome-c">
         <div class="welcome-l">
-          <div class="hi">Good morning, Ms. Nair 👋</div>
+          <div class="hi">Good morning, ${getCurrentUser().name || 'Prof. Tushar Kacha'} 👋</div>
           <h1>Here's what your classes need today.</h1>
           <p>5 students need attention, 4 high-priority forgetting events detected, and one assessment pending your approval.</p>
         </div>
