@@ -5,7 +5,7 @@ from typing import List, Dict, Any
 
 from sqlalchemy.orm import joinedload
 from backend.app.core.database import SessionLocal
-from backend.app.models.content import LearningContent
+from backend.app.models import LearningContent
 from backend.app.retrieval import (
     get_embedding_model,
     FAISSStore,
@@ -161,5 +161,5 @@ def run_hardened_evaluation():
     print(f"| BM25 + BGE + RRF | {fmt(hybrid_res['summary'])} |")
 
 if __name__ == "__main__":
-    from backend.app.models.curriculum import Topic, Chapter, Subject, Standard
+    from backend.app.models import Topic, Chapter, Subject, Standard
     run_hardened_evaluation()

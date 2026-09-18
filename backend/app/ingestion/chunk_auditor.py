@@ -7,8 +7,8 @@ from typing import List, Dict, Any, Optional, Tuple
 from pydantic import BaseModel, Field
 
 from backend.app.core.database import SessionLocal
-from backend.app.models.content import LearningContent
-from backend.app.models.curriculum import Topic, Chapter, Subject, Standard
+from backend.app.models import LearningContent
+from backend.app.models import Topic, Chapter, Subject, Standard
 
 
 class ChunkAnomaly(BaseModel):

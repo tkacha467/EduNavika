@@ -1,7 +1,7 @@
 from typing import Optional, Any, Dict
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
-from backend.app.models.mcq import QuestionStatus, QuestionDifficulty, OptionKey
+from backend.app.models import QuestionStatus, QuestionDifficulty, OptionKey
 
 
 class MCQBase(BaseModel):

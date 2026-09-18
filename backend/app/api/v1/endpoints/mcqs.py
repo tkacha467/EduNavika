@@ -2,9 +2,9 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.models.curriculum import Topic
-from backend.app.models.content import LearningContent
-from backend.app.models.mcq import MCQQuestion, QuestionStatus, QuestionDifficulty
+from backend.app.models import Topic
+from backend.app.models import LearningContent
+from backend.app.models import MCQQuestion, QuestionStatus, QuestionDifficulty
 from backend.app.schemas.mcq import (
     MCQCreate,
     MCQUpdateStatus,
@@ -99,8 +99,8 @@ def update_mcq_status(id: str, payload: MCQUpdateStatus, db: Session = Depends(g
 
 
 from pydantic import BaseModel, Field
-from backend.app.models.user import StudentProfile
-from backend.app.models.learning_event import EventType
+from backend.app.models import StudentProfile
+from backend.app.models import EventType
 from backend.app.domain.enums import OptionKey
 from backend.app.services.event_recorder import EventRecorderService
 

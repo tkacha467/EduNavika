@@ -1,9 +1,9 @@
 import pytest
 from datetime import datetime, timedelta, timezone
-from backend.app.models.learning_event import LearningEvent, EventType
-from backend.app.models.performance import TopicPerformance
-from backend.app.models.forgetting import ForgettingSignal, ForgettingSignalStatus
-from backend.app.models.revision import RevisionPlan, RevisionCompletionState
+from backend.app.models import LearningEvent, EventType
+from backend.app.models import TopicPerformance
+from backend.app.models import ForgettingSignal, ForgettingSignalStatus
+from backend.app.models import RevisionPlan, RevisionCompletionState
 from backend.app.domain.enums import RevisionPriority
 from backend.app.domain.constants import (
     EVIDENCE_STRENGTH_STRONG,

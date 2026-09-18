@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
-from backend.app.models.learning_event import LearningEvent, EventType
-from backend.app.models.performance import TopicPerformance
+from backend.app.models import LearningEvent, EventType
+from backend.app.models import TopicPerformance
 from backend.app.services.event_recorder import EventRecorderService
 
 

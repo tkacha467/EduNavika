@@ -9,7 +9,7 @@ from collections import defaultdict
 from sqlalchemy.orm import Session
 
 from backend.app.core.database import SessionLocal
-from backend.app.models.learning_event import LearningEvent, EventType
+from backend.app.models import LearningEvent, EventType
 from backend.app.domain.prediction.extractor import PointInTimeFeatureExtractor, _ensure_utc
 from backend.app.domain.prediction.sampling import ObservationSampler, RejectionReason
 from backend.app.domain.prediction.diagnostics import _percentile, _distribution_stats

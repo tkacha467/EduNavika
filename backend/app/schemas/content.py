@@ -1,7 +1,7 @@
 from typing import Optional, Any, Dict
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
-from backend.app.models.content import ContentType
+from backend.app.models import ContentType
 
 
 class LearningContentBase(BaseModel):

@@ -1,8 +1,8 @@
 from typing import Optional, List
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
-from backend.app.models.attempt import AttemptStatus
-from backend.app.models.mcq import OptionKey
+from backend.app.models import AttemptStatus
+from backend.app.models import OptionKey
 
 
 class AnswerSubmit(BaseModel):

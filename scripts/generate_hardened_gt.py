@@ -2,7 +2,7 @@ import json
 import os
 import random
 from backend.app.core.database import SessionLocal
-from backend.app.models.content import LearningContent
+from backend.app.models import LearningContent
 
 def generate_hardened_gt():
     db = SessionLocal()

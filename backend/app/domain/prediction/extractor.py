@@ -2,8 +2,8 @@ from datetime import datetime, timezone
 from typing import List, Optional, Dict, Any
 from sqlalchemy.orm import Session
 
-from backend.app.models.learning_event import LearningEvent
-from backend.app.models.curriculum import Topic
+from backend.app.models import LearningEvent
+from backend.app.models import Topic
 from backend.app.domain.enums import EventType
 from backend.app.domain.prediction.schemas import PointInTimeFeatures
 

@@ -2,11 +2,11 @@ import pytest
 from datetime import datetime, timezone
 from sqlalchemy.exc import IntegrityError
 
-from backend.app.models.user import User, UserRole
-from backend.app.models.curriculum import Standard
-from backend.app.models.attempt import Attempt, Answer, AttemptStatus
-from backend.app.models.learning_event import LearningEvent, EventType
-from backend.app.models.forgetting import ForgettingSignal, ForgettingSignalStatus
+from backend.app.models import User, UserRole
+from backend.app.models import Standard
+from backend.app.models import Attempt, Answer, AttemptStatus
+from backend.app.models import LearningEvent, EventType
+from backend.app.models import ForgettingSignal, ForgettingSignalStatus
 from backend.app.domain.constants import EVIDENCE_STRENGTH_STRONG, VALID_EVIDENCE_STRENGTHS
 
 

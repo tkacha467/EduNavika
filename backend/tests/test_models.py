@@ -1,9 +1,9 @@
 import pytest
 from sqlalchemy.exc import IntegrityError
-from backend.app.models.user import User, StudentProfile, TeacherProfile, UserRole
-from backend.app.models.curriculum import Standard, Subject, Chapter, Topic
-from backend.app.models.content import LearningContent, ContentType
-from backend.app.models.mcq import MCQQuestion, QuestionHistory, QuestionStatus, QuestionDifficulty, OptionKey
+from backend.app.models import User, StudentProfile, TeacherProfile, UserRole
+from backend.app.models import Standard, Subject, Chapter, Topic
+from backend.app.models import LearningContent, ContentType
+from backend.app.models import MCQQuestion, QuestionHistory, QuestionStatus, QuestionDifficulty, OptionKey
 
 
 def test_create_user_and_profiles(db_session):

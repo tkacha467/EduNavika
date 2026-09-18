@@ -1,7 +1,7 @@
 from typing import Optional, List
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
-from backend.app.models.assessment import AssessmentStatus
+from backend.app.models import AssessmentStatus
 from backend.app.schemas.mcq import MCQResponse
 
 

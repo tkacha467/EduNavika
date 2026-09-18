@@ -1,9 +1,9 @@
 import pytest
 from datetime import datetime, timezone
-from backend.app.models.learning_event import LearningEvent, EventType
-from backend.app.models.mcq import MCQQuestion, QuestionDifficulty, QuestionStatus
-from backend.app.models.assessment import Assessment, AssessmentQuestion, AssessmentStatus
-from backend.app.models.attempt import Attempt, AttemptStatus
+from backend.app.models import LearningEvent, EventType
+from backend.app.models import MCQQuestion, QuestionDifficulty, QuestionStatus
+from backend.app.models import Assessment, AssessmentQuestion, AssessmentStatus
+from backend.app.models import Attempt, AttemptStatus
 from backend.app.domain.enums import OptionKey
 from backend.app.domain.prediction.audit import LearningEventAuditor
 

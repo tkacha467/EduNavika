@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 
-from backend.app.models.learning_event import LearningEvent, EventType
+from backend.app.models import LearningEvent, EventType
 from backend.app.domain.prediction.target_validator import TargetValidityAuditor
 from backend.app.domain.prediction.extractor import PointInTimeFeatureExtractor
 from backend.app.domain.prediction.diagnostics import _percentile

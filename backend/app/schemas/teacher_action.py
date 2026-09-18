@@ -1,7 +1,7 @@
 from typing import Optional
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict
-from backend.app.models.teacher_action import TeacherActionType
+from backend.app.models import TeacherActionType
 
 
 class TeacherActionBase(BaseModel):

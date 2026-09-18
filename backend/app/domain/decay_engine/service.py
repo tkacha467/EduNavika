@@ -1,10 +1,10 @@
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
 from sqlalchemy.orm import Session
-from backend.app.models.learning_event import LearningEvent
-from backend.app.models.performance import TopicPerformance
-from backend.app.models.forgetting import ForgettingSignal
-from backend.app.models.revision import RevisionPlan
+from backend.app.models import LearningEvent
+from backend.app.models import TopicPerformance
+from backend.app.models import ForgettingSignal
+from backend.app.models import RevisionPlan
 from backend.app.domain.enums import RevisionPriority, RevisionCompletionState, ForgettingSignalStatus
 from backend.app.domain.decay_engine.schemas import (
     DecayDetectionConfig,

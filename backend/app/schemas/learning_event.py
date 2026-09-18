@@ -1,7 +1,7 @@
 from typing import Optional, Any, Dict
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
-from backend.app.models.learning_event import EventType
+from backend.app.models import EventType
 
 
 class LearningEventBase(BaseModel):

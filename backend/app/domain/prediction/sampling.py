@@ -3,7 +3,7 @@ from typing import List, Optional, Dict, Any, Tuple, Set
 from collections import defaultdict
 import uuid
 
-from backend.app.models.learning_event import LearningEvent
+from backend.app.models import LearningEvent
 from backend.app.domain.prediction.schemas import (
     PointInTimeFeatures,
     DatasetSample,

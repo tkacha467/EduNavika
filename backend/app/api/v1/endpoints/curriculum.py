@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.models.curriculum import Standard, Subject, Chapter, Topic
+from backend.app.models import Standard, Subject, Chapter, Topic
 from backend.app.schemas.curriculum import (
     StandardCreate,
     StandardResponse,

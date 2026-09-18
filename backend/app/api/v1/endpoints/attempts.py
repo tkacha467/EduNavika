@@ -3,11 +3,11 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.models.user import StudentProfile
-from backend.app.models.assessment import Assessment, AssessmentQuestion, AssessmentStatus
-from backend.app.models.attempt import Attempt, Answer, AttemptStatus
-from backend.app.models.mcq import MCQQuestion
-from backend.app.models.learning_event import EventType
+from backend.app.models import StudentProfile
+from backend.app.models import Assessment, AssessmentQuestion, AssessmentStatus
+from backend.app.models import Attempt, Answer, AttemptStatus
+from backend.app.models import MCQQuestion
+from backend.app.models import EventType
 from backend.app.schemas.attempt import (
     AttemptCreate,
     AnswerSubmit,

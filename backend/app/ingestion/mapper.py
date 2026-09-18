@@ -2,8 +2,8 @@ import uuid
 from typing import List, Dict, Any, Tuple
 from sqlalchemy.orm import Session
 
-from backend.app.models.curriculum import Standard, Subject, Chapter, Topic
-from backend.app.models.content import LearningContent, ContentType
+from backend.app.models import Standard, Subject, Chapter, Topic
+from backend.app.models import LearningContent, ContentType
 from backend.app.ingestion.schemas import (
     DocumentIdentity,
     ChapterCandidate,

@@ -8,9 +8,9 @@ from collections import defaultdict
 from sqlalchemy.orm import Session
 
 from backend.app.core.database import SessionLocal
-from backend.app.models.learning_event import LearningEvent, EventType
-from backend.app.models.user import StudentProfile
-from backend.app.models.curriculum import Topic
+from backend.app.models import LearningEvent, EventType
+from backend.app.models import StudentProfile
+from backend.app.models import Topic
 
 
 class LearningEventAuditor:

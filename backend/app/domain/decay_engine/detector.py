@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import List, Optional, Dict, Any
-from backend.app.models.learning_event import LearningEvent
-from backend.app.models.performance import TopicPerformance
+from backend.app.models import LearningEvent
+from backend.app.models import TopicPerformance
 from backend.app.domain.decay_engine.schemas import (
     DecayDetectionConfig,
     EvidenceProfile,

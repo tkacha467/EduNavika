@@ -5,8 +5,8 @@ import pypdf
 import pypdfium2 as pdfium
 from sqlalchemy.orm import joinedload
 from backend.app.core.database import SessionLocal
-from backend.app.models.content import LearningContent
-from backend.app.models.curriculum import Topic, Chapter, Subject, Standard
+from backend.app.models import LearningContent
+from backend.app.models import Topic, Chapter, Subject, Standard
 
 def get_pypdf_text(pdf_path: str, page_num: int) -> str:
     try:

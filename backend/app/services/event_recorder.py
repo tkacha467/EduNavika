@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 from typing import Optional, Dict, Any
 from sqlalchemy.orm import Session
-from backend.app.models.learning_event import LearningEvent, EventType
-from backend.app.models.performance import TopicPerformance
+from backend.app.models import LearningEvent, EventType
+from backend.app.models import TopicPerformance
 
 
 class EventRecorderService:

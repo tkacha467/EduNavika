@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime, timedelta, timezone
-from backend.app.models.learning_event import LearningEvent, EventType
+from backend.app.models import LearningEvent, EventType
 from backend.app.domain.prediction import (
     PointInTimeFeatureExtractor,
     ObservationSampler,

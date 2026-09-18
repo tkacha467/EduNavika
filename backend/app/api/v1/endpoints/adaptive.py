@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.models.user import StudentProfile
+from backend.app.models import StudentProfile
 from backend.app.domain.decay_engine import (
     AdaptiveLearningService,
     DecayDetectionResponse,
@@ -14,7 +14,7 @@ router = APIRouter(prefix="/adaptive")
 adaptive_service = AdaptiveLearningService()
 
 
-from backend.app.models.learning_event import EventType
+from backend.app.models import EventType
 from backend.app.services.event_recorder import EventRecorderService
 
 

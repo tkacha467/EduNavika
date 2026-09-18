@@ -2,9 +2,9 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.models.user import TeacherProfile, StudentProfile
-from backend.app.models.curriculum import Topic
-from backend.app.models.teacher_action import TeacherAction
+from backend.app.models import TeacherProfile, StudentProfile
+from backend.app.models import Topic
+from backend.app.models import TeacherAction
 from backend.app.schemas.teacher_action import TeacherActionCreate, TeacherActionResponse
 
 router = APIRouter()

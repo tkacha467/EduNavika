@@ -7,7 +7,7 @@ from backend.app.domain.constants import (
     EVIDENCE_STRENGTH_WEAK,
 )
 from backend.app.domain.decay_engine.schemas import DecaySignalDraft, RevisionScheduleDraft
-from backend.app.models.performance import TopicPerformance
+from backend.app.models import TopicPerformance
 
 
 class SpacedRepetitionScheduler:

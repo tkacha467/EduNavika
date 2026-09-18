@@ -3,7 +3,7 @@ import hashlib
 import re
 from typing import Optional, Tuple
 from sqlalchemy.orm import Session
-from backend.app.models.mcq import QuestionHistory, MCQQuestion
+from backend.app.models import QuestionHistory, MCQQuestion
 from backend.app.schemas.mcq import DuplicateCheckResult
 
 

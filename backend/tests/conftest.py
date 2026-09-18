@@ -7,8 +7,8 @@ from fastapi.testclient import TestClient
 import backend.app.models  # Ensure all SQLAlchemy models are registered with Base.metadata
 from backend.app.core.database import Base, get_db
 from backend.app.main import app
-from backend.app.models.user import User, StudentProfile, TeacherProfile, UserRole
-from backend.app.models.curriculum import Standard, Subject, Chapter, Topic
+from backend.app.models import User, StudentProfile, TeacherProfile, UserRole
+from backend.app.models import Standard, Subject, Chapter, Topic
 
 # Single shared in-memory SQLite database using StaticPool
 test_engine = create_engine(

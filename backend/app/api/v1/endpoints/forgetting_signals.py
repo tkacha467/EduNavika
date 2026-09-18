@@ -2,9 +2,9 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.models.user import StudentProfile
-from backend.app.models.curriculum import Topic
-from backend.app.models.forgetting import ForgettingSignal
+from backend.app.models import StudentProfile
+from backend.app.models import Topic
+from backend.app.models import ForgettingSignal
 from backend.app.domain.enums import ForgettingSignalStatus
 from backend.app.schemas.forgetting import ForgettingSignalCreate, ForgettingSignalResponse
 

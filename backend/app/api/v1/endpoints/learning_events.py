@@ -3,9 +3,9 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.models.user import StudentProfile
-from backend.app.models.curriculum import Topic
-from backend.app.models.learning_event import LearningEvent, EventType
+from backend.app.models import StudentProfile
+from backend.app.models import Topic
+from backend.app.models import LearningEvent, EventType
 from backend.app.schemas.learning_event import LearningEventCreate, LearningEventResponse
 from backend.app.schemas.common import PaginatedResponse, ResponseMetadata
 from backend.app.services.event_recorder import EventRecorderService

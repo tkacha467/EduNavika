@@ -2,8 +2,8 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from backend.app.core.database import Base
-from backend.app.models.curriculum import Standard, Subject, Chapter, Topic
-from backend.app.models.content import LearningContent
+from backend.app.models import Standard, Subject, Chapter, Topic
+from backend.app.models import LearningContent
 from backend.app.ingestion.mapper import DatabaseCurriculumMapper
 from backend.app.ingestion.schemas import (
     DocumentIdentity,

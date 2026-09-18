@@ -3,10 +3,10 @@ from pydantic import BaseModel, Field
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.models.curriculum import Topic
-from backend.app.models.content import LearningContent
-from backend.app.models.user import StudentProfile
-from backend.app.models.learning_event import EventType
+from backend.app.models import Topic
+from backend.app.models import LearningContent
+from backend.app.models import StudentProfile
+from backend.app.models import EventType
 from backend.app.schemas.content import LearningContentCreate, LearningContentResponse
 from backend.app.schemas.learning_event import LearningEventResponse
 from backend.app.services.event_recorder import EventRecorderService

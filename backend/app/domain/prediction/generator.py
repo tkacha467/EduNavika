@@ -4,7 +4,7 @@ from collections import defaultdict
 import uuid
 from sqlalchemy.orm import Session
 
-from backend.app.models.learning_event import LearningEvent
+from backend.app.models import LearningEvent
 from backend.app.domain.prediction.schemas import (
     PointInTimeFeatures,
     DatasetSample,

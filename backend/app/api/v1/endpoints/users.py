@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
 from backend.app.core.security import get_password_hash
-from backend.app.models.user import User, StudentProfile, TeacherProfile, UserRole
+from backend.app.models import User, StudentProfile, TeacherProfile, UserRole
 from backend.app.schemas.user import (
     UserCreate,
     UserResponse,

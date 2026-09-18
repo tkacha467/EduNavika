@@ -1,7 +1,7 @@
 from typing import Optional
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict
-from backend.app.models.revision import RevisionPriority, RevisionCompletionState
+from backend.app.models import RevisionPriority, RevisionCompletionState
 
 
 class RevisionPlanBase(BaseModel):

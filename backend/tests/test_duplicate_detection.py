@@ -1,4 +1,4 @@
-from backend.app.models.mcq import MCQQuestion, QuestionDifficulty, OptionKey, QuestionStatus
+from backend.app.models import MCQQuestion, QuestionDifficulty, OptionKey, QuestionStatus
 from backend.app.services.duplicate_detection import (
     normalize_text,
     compute_text_hash,

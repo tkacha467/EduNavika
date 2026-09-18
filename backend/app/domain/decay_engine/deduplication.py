@@ -1,8 +1,8 @@
 import hashlib
 from typing import Optional
 from sqlalchemy.orm import Session
-from backend.app.models.forgetting import ForgettingSignal
-from backend.app.models.revision import RevisionPlan
+from backend.app.models import ForgettingSignal
+from backend.app.models import RevisionPlan
 from backend.app.domain.enums import ForgettingSignalStatus, RevisionCompletionState
 
 
