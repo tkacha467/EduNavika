@@ -65,6 +65,7 @@ export interface Topic {
   last: string;
   next: string;
   status: string;
+  done?: number;
 }
 
 export interface Subject {

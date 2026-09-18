@@ -6,6 +6,8 @@ import { donut } from '../../utils/charts';
 import { progressBar, openModal, closeOverlay, toast } from '../../components/common';
 import { assessmentService } from '../../services/assessmentService';
 import { authService } from '../../services/authService';
+import { COMPLETED_ASSESSMENTS } from '../student/studentData';
+import { APPROVED_SUBJECTS } from '../../services/curriculumService';
 
 export interface QuizQuestion {
   q: string;
@@ -189,6 +191,42 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
   }
 
   const pct = Math.round((correct / total) * 100);
+  const durationMin = Math.max(1, Math.round(durationMs / 60000));
+
+  // Find matching subject and update topic mastery & knowledge health
+  let matchedSubject = 'Mathematics';
+  for (const subj of APPROVED_SUBJECTS) {
+    const t = subj.topicList.find(top => top.name === CURRENT_QUIZ!.topic || top.id === CURRENT_QUIZ!.topicId);
+    if (t) {
+      matchedSubject = subj.name;
+      t.mastery = pct;
+      t.kh = pct;
+      t.done = 1;
+      t.last = 'Today';
+      t.status = pct >= 70 ? 'ok' : pct >= 45 ? 'review' : 'alert';
+      t.risk = pct >= 70 ? 'ok' : pct >= 45 ? 'medium' : 'high';
+      const doneList = subj.topicList.filter(x => (x.done || 0) > 0);
+      subj.done = doneList.length;
+      subj.mastery = Math.round(subj.topicList.reduce((acc, x) => acc + (x.mastery || 0), 0) / subj.topicList.length);
+      subj.kh = subj.mastery;
+      subj.risk = subj.mastery >= 60 ? 'low' : subj.mastery >= 40 ? 'medium' : 'high';
+      break;
+    }
+  }
+
+  // Push real completed assessment to list
+  COMPLETED_ASSESSMENTS.unshift({
+    subject: matchedSubject,
+    topic: CURRENT_QUIZ.topic,
+    date: 'Today',
+    score: pct,
+    accuracy: pct,
+    time: `${durationMin} min`,
+    strong: pct >= 60 ? [CURRENT_QUIZ.topic] : [],
+    weak: pct < 60 ? [CURRENT_QUIZ.topic] : [],
+    kh: pct >= 60 ? +6 : -5,
+  });
+
   const color = pct >= 75 ? '#2E9B68' : pct >= 55 ? '#E9A23B' : '#E56B6F';
   const label = pct >= 75 ? 'Excellent — well done!' : pct >= 55 ? 'Decent — a short revision will help.' : 'This topic needs another revision pass.';
   const tone = pct >= 75 ? 'good' : pct >= 55 ? 'warn' : 'bad';

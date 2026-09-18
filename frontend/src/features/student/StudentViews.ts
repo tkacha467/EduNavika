@@ -141,6 +141,13 @@ export function studentDashboard(): string {
           <div class="right"><button class="btn btn-sm" data-go="student/knowledge">Details</button></div>
         </div>
         <div class="card-b">
+          ${FORGETTING_TIMELINE.length === 0 ? `
+            <div style="padding:28px 20px;text-align:center;color:var(--text-3)">
+              <div style="font-size:28px;margin-bottom:6px">📈</div>
+              <div style="font-weight:600;color:var(--text);font-size:13.5px">No memory decay detected</div>
+              <p style="font-size:12px;max-width:380px;margin:4px auto 0 auto">Take quizzes or practice sessions to allow EduSense AI to model your memory retention curve.</p>
+            </div>
+          ` : `
           <div class="timeline">
             ${FORGETTING_TIMELINE.slice(0, 5).map(t => `
               <div class="tl-item risk-${t.risk}">
@@ -153,6 +160,7 @@ export function studentDashboard(): string {
                 </div>
               </div>`).join('')}
           </div>
+          `}
           <p class="tiny" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border-2);display:flex;gap:6px;align-items:flex-start">
             ${icon('bulb', 'ic-xs')}
             <span>Estimates are model-derived from accuracy, response time and revision history. They are not absolute predictions — a single low score never means "forgotten".</span>
@@ -178,7 +186,7 @@ export function studentDashboard(): string {
                 <div class="flex gap-2" style="font-size:11.5px;color:var(--text-3)">
                   <span>Preparation</span>
                   <div class="prog thin" style="flex:1"><i class="fill-${a.prep >= 70 ? 'green' : a.prep >= 50 ? 'amber' : 'coral'}" style="width:${a.prep}%"></i></div>
-                  <b style="color:var(--text)">${a.prep}%</b>
+                  <b style="color:var(--text)">${a.prep === 0 ? 'Not started' : a.prep + '%'}</b>
                 </div>
               </div>`).join('')}
           </div>
@@ -190,24 +198,24 @@ export function studentDashboard(): string {
     <div class="grid g-3-1 mb-6">
       <div class="card">
         <div class="card-h">
-          <div><h3>Learning This Week</h3><div class="sub">Sep 9 – Sep 15 · compared to previous week</div></div>
-          <div class="right"><span class="badge green">${icon('arrowUp', 'ic-xs')} +12% activity</span></div>
+          <div><h3>Learning This Week</h3><div class="sub">Current weekly activity</div></div>
+          <div class="right"><span class="badge grey">Baseline</span></div>
         </div>
         <div class="card-b">
           <div class="grid g-4 mb-5">
-            ${statBlock('Study Time', '2h 40m', '+22m', 'clock', 'up')}
-            ${statBlock('Questions Solved', '126', '+18', 'target', 'up')}
-            ${statBlock('Avg. Accuracy', '84%', '+6%', 'chart', 'up')}
-            ${statBlock('Learning Streak', '7 days', '+2', 'flame', 'up')}
+            ${statBlock('Study Time', isNew ? '0m' : '15m', isNew ? '0m' : '+15m', 'clock', 'up')}
+            ${statBlock('Questions Solved', isNew ? '0' : '5', isNew ? '0' : '+5', 'target', 'up')}
+            ${statBlock('Avg. Accuracy', isNew ? '--' : '100%', isNew ? '0%' : '+100%', 'chart', 'up')}
+            ${statBlock('Learning Streak', `${user.streak || 0} days`, isNew ? '0' : '+1', 'flame', 'up')}
           </div>
           <div class="grid g-2">
             <div>
               <div class="tiny mb-2" style="font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.04em">Study time · daily</div>
-              ${barChart([35, 52, 48, 68, 45, 72, 55], ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], 400, 130, '#243B6B')}
+              ${barChart(isNew ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 0, 15, 0], ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], 400, 130, '#243B6B')}
             </div>
             <div>
               <div class="tiny mb-2" style="font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.04em">Accuracy trend</div>
-              ${sparkline([62, 68, 71, 74, 78, 82, 84], 400, 130, '#2E9B68')}
+              ${sparkline(isNew ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 0, 100, 100], 400, 130, '#2E9B68')}
             </div>
           </div>
         </div>
@@ -219,7 +227,13 @@ export function studentDashboard(): string {
           <div class="right"><button class="btn btn-sm" data-go="student/weak">View all</button></div>
         </div>
         <div class="card-b">
-          ${CLASS_WEAK_TOPICS.slice(0, 3).map(t => `
+          ${CLASS_WEAK_TOPICS.length === 0 ? `
+            <div style="padding:24px 12px;text-align:center;color:var(--text-3)">
+              <div style="font-size:24px;margin-bottom:6px">🎯</div>
+              <div style="font-weight:600;color:var(--text);font-size:13px">No weak areas identified</div>
+              <p style="font-size:11.5px;margin-top:4px">Weak concepts will automatically surface here after you attempt quizzes.</p>
+            </div>
+          ` : CLASS_WEAK_TOPICS.slice(0, 3).map(t => `
             <div style="padding:11px 0;border-bottom:1px solid var(--border-2)">
               <div class="flex-b mb-2">
                 <span style="font-size:12.5px;font-weight:600">${t.topic}</span>
@@ -246,11 +260,11 @@ export function studentDashboard(): string {
               <h4>${s.name}</h4>
               <span>${s.done} of ${s.topics} topics complete</span>
             </div>
-            ${riskBadge(s.risk)}
+            ${s.done === 0 ? '<span class="badge grey">Unassessed</span>' : riskBadge(s.risk)}
           </div>
           <div class="subj-metrics">
             <div class="m"><div class="l">Mastery</div><div class="v">${s.mastery}%</div>${progressBar(s.mastery, s.mastery >= 80 ? 'green' : s.mastery >= 60 ? 'indigo' : 'amber')}</div>
-            <div class="m"><div class="l">Knowledge Health</div><div class="v" style="color:${s.kh >= 70 ? 'var(--green)' : s.kh >= 55 ? 'var(--amber)' : 'var(--coral)'}">${s.kh}%</div>${progressBar(s.kh, s.kh >= 70 ? 'green' : s.kh >= 55 ? 'amber' : 'coral')}</div>
+            <div class="m"><div class="l">Knowledge Health</div><div class="v" style="color:${s.kh >= 70 ? 'var(--green)' : s.kh >= 55 ? 'var(--amber)' : 'var(--text-3)'}">${s.kh === 0 ? '--' : s.kh + '%'}</div>${progressBar(s.kh, s.kh >= 70 ? 'green' : s.kh >= 55 ? 'amber' : 'coral')}</div>
           </div>
         </div>`).join('')}
     </div>
@@ -347,19 +361,22 @@ export function studentDashboard(): string {
 /* ---------- My Learning ---------- */
 export function studentLearning(): string {
   if (UI.subjectId) return subjectDetailPage();
+  const user = getCurrentUser();
+  const hasActivity = (user.todayGoal || 0) > 0 || COMPLETED_ASSESSMENTS.length > 0;
+
   return `
   <div class="page">
     ${pageHead('My Learning', 'Continue your learning journey', 'Everything you are studying right now — continue, review or explore new topics.', `<button class="btn btn-primary" onclick="navigate('student/assessments')">${icon('play')} Take a practice check</button>`)}
 
     <!-- Continue learning -->
-    <div class="sec-head"><div><h2>${icon('play')} Continue Learning</h2><p>Pick up where you left off</p></div></div>
+    <div class="sec-head"><div><h2>${icon('play')} Core GSEB Curriculum</h2><p>Recommended starting topics for Standard 10</p></div></div>
     <div class="grid g-3 mb-6">
       ${[
-        { subject: 'Mathematics', topic: 'Trigonometry — Lesson 5', pct: 62, time: '25 min remaining', color: '#243B6B', bg: '#E8EDF7', icon: 'MTH' },
-        { subject: 'Physics', topic: 'Electricity & Circuits — Lesson 3', pct: 34, time: '38 min remaining', color: '#18A6A6', bg: '#E3F5F5', icon: 'PHY' },
-        { subject: 'Chemistry', topic: 'Chemical Reactions — Practice', pct: 78, time: '12 min remaining', color: '#2E9B68', bg: '#E7F5EE', icon: 'CHM' }
+        { subject: 'Mathematics', topic: 'Real Numbers & Polynomials', pct: (user.todayGoal || 0) > 0 ? 100 : 0, time: (user.todayGoal || 0) > 0 ? 'Completed ✓' : 'Not started', color: '#243B6B', bg: '#E8EDF7', icon: 'MTH', id: 'math' },
+        { subject: 'Physics', topic: 'Electricity & Circuits', pct: 0, time: 'Not started', color: '#18A6A6', bg: '#E3F5F5', icon: 'PHY', id: 'phy' },
+        { subject: 'Chemistry', topic: 'Chemical Reactions & Equations', pct: 0, time: 'Not started', color: '#2E9B68', bg: '#E7F5EE', icon: 'CHM', id: 'chem' }
       ].map(c => `
-        <div class="card hoverable pad" style="cursor:pointer" onclick="openSubject('${c.subject === 'Mathematics' ? 'math' : c.subject === 'Physics' ? 'phy' : 'chem'}')">
+        <div class="card hoverable pad" style="cursor:pointer" onclick="openSubject('${c.id}')">
           <div class="flex gap-3 mb-4">
             <div class="subj-ic" style="background:${c.bg};color:${c.color};width:44px;height:44px;font-size:12px">${c.icon}</div>
             <div style="flex:1;min-width:0">
@@ -373,7 +390,7 @@ export function studentLearning(): string {
           </div>
           <div class="flex-b">
             <span class="tiny">${c.time}</span>
-            <span class="btn btn-sm btn-primary">Continue ${icon('arrowR', 'ic-xs')}</span>
+            <span class="btn btn-sm btn-primary">Open ${icon('arrowR', 'ic-xs')}</span>
           </div>
         </div>`).join('')}
     </div>
@@ -389,10 +406,11 @@ export function studentLearning(): string {
               <h4>${s.name}</h4>
               <span>${s.done} of ${s.topics} topics complete</span>
             </div>
+            ${s.done === 0 ? '<span class="badge grey">Unassessed</span>' : riskBadge(s.risk)}
           </div>
           <div class="subj-metrics">
             <div class="m"><div class="l">Mastery</div><div class="v">${s.mastery}%</div>${progressBar(s.mastery, s.mastery >= 80 ? 'green' : 'indigo')}</div>
-            <div class="m"><div class="l">Knowledge Health</div><div class="v" style="color:${s.kh >= 70 ? 'var(--green)' : s.kh >= 55 ? 'var(--amber)' : 'var(--coral)'}">${s.kh}%</div>${progressBar(s.kh, s.kh >= 70 ? 'green' : s.kh >= 55 ? 'amber' : 'coral')}</div>
+            <div class="m"><div class="l">Knowledge Health</div><div class="v" style="color:${s.kh >= 70 ? 'var(--green)' : s.kh >= 55 ? 'var(--amber)' : 'var(--text-3)'}">${s.kh === 0 ? '--' : s.kh + '%'}</div>${progressBar(s.kh, s.kh >= 70 ? 'green' : s.kh >= 55 ? 'amber' : 'coral')}</div>
           </div>
         </div>`).join('')}
     </div>
@@ -400,21 +418,26 @@ export function studentLearning(): string {
     <!-- Recommended + Recent Activity -->
     <div class="grid g-2-1">
       <div class="card">
-        <div class="card-h"><div><h3>Recommended for you</h3><div class="sub">Based on weak areas and forgetting signals</div></div></div>
+        <div class="card-h"><div><h3>Recommended for you</h3><div class="sub">Curriculum guidance from EduSense AI</div></div></div>
         <div class="card-b">
           <div class="flex-c">
-            ${aiInsight('Focus on Physics — Electricity', `Accuracy has dropped 24% over the last 5 sessions. A 20-minute revision now will help stabilise your knowledge health (currently 42%).`, 'Start revision', `navigate('student/revision')`)}
-            ${aiInsight('Reinforce Organic Chemistry basics', `This topic has been at 35% knowledge health for 11 days. Revisit the core concepts before they fully decay.`, 'Open topic', `openSubject('chem')`)}
+            ${aiInsight('Diagnostic Practice', `Welcome to Standard 10! Complete a quick 5-question baseline practice set in Mathematics or Science to calibrate your knowledge curve.`, 'Start practice', `startQuiz('Real Numbers & Polynomials')`)}
+            ${aiInsight('Structured Revision', `EduSense AI continuously schedules revision sessions to reinforce retention before concepts fade.`, 'View revision plan', `navigate('student/revision')`)}
           </div>
         </div>
       </div>
       <div class="card">
         <div class="card-h"><h3>Recent activity</h3></div>
         <div class="card-b" style="padding-top:8px">
-          <div class="notice"><span class="n-dot teal"></span><div class="n-body"><b>Completed Trigonometry practice</b><p>18 / 20 correct · 92% accuracy</p><div class="n-time">${icon('clock', 'ic-xs')} 2 hours ago</div></div></div>
-          <div class="notice"><span class="n-dot"></span><div class="n-body"><b>Read "Electricity — Chapter 4"</b><p>25 minutes · completed</p><div class="n-time">${icon('clock', 'ic-xs')} Yesterday</div></div></div>
-          <div class="notice"><span class="n-dot"></span><div class="n-body"><b>Submitted Chemistry assignment</b><p>Balancing equations — 15 questions</p><div class="n-time">${icon('clock', 'ic-xs')} 2 days ago</div></div></div>
-          <div class="notice"><span class="n-dot"></span><div class="n-body"><b>Retook Light — MCQ check</b><p>Score: 58% · improved by 6%</p><div class="n-time">${icon('clock', 'ic-xs')} 3 days ago</div></div></div>
+          ${!hasActivity ? `
+            <div style="padding:28px 16px;text-align:center;color:var(--text-3)">
+              <div style="font-size:24px;margin-bottom:6px">📋</div>
+              <div style="font-weight:600;color:var(--text);font-size:13px">No activity recorded yet</div>
+              <p style="font-size:12px;margin-top:4px">Your study sessions, reading history, and quiz submissions will appear here.</p>
+            </div>
+          ` : COMPLETED_ASSESSMENTS.slice(0, 4).map(c => `
+            <div class="notice"><span class="n-dot teal"></span><div class="n-body"><b>Completed ${c.topic} check</b><p>${c.accuracy}% accuracy · ${c.time} duration</p><div class="n-time">${icon('clock', 'ic-xs')} ${c.date}</div></div></div>
+          `).join('')}
         </div>
       </div>
     </div>
@@ -444,10 +467,10 @@ export function subjectDetailPage(): string {
           </div>
         </div>
         <div class="grid g-4 mt-5" style="padding-top:20px;border-top:1px solid var(--border-2)">
-          ${statBlock('Mastery', s.mastery + '%', '+4% this month', 'award', 'up')}
-          ${statBlock('Knowledge Health', s.kh + '%', s.kh >= 70 ? 'Stable' : 'Declining', 'brain', s.kh >= 70 ? 'up' : 'down')}
+          ${statBlock('Mastery', s.mastery + '%', s.mastery === 0 ? 'Baseline' : '+4% this month', 'award', 'up')}
+          ${statBlock('Knowledge Health', s.kh === 0 ? '--' : s.kh + '%', s.kh === 0 ? 'Unassessed' : s.kh >= 70 ? 'Stable' : 'Needs practice', 'brain', s.kh >= 70 ? 'up' : 'down')}
           ${statBlock('Topics', s.done + ' / ' + s.topics, s.topics - s.done + ' remaining', 'book2')}
-          ${statBlock('Practice', '124 Q', '86% avg accuracy', 'target', 'up')}
+          ${statBlock('Practice', s.done === 0 ? '0 Q' : `${s.done * 10} Q`, s.done === 0 ? 'Not started' : 'In progress', 'target', 'up')}
         </div>
       </div>
     </div>
@@ -588,14 +611,14 @@ export function studentSubjects(): string {
               <h3 class="h4">${s.name}</h3>
               <div class="tiny">${s.topics} topics · ${s.done} completed</div>
             </div>
-            ${riskBadge(s.risk)}
+            ${s.done === 0 ? '<span class="badge grey">Unassessed</span>' : riskBadge(s.risk)}
           </div>
           <div class="grid g-2 mb-4">
             <div><div class="tiny mb-2">Mastery</div><div style="font-size:18px;font-weight:800;font-family:Manrope">${s.mastery}%</div></div>
-            <div><div class="tiny mb-2">Knowledge Health</div><div style="font-size:18px;font-weight:800;font-family:Manrope;color:${s.kh >= 70 ? 'var(--green)' : s.kh >= 55 ? 'var(--amber)' : 'var(--coral)'}">${s.kh}%</div></div>
+            <div><div class="tiny mb-2">Knowledge Health</div><div style="font-size:18px;font-weight:800;font-family:Manrope;color:${s.kh >= 70 ? 'var(--green)' : s.kh >= 55 ? 'var(--amber)' : 'var(--text-3)'}">${s.kh === 0 ? '--' : s.kh + '%'}</div></div>
           </div>
           ${progressBar(s.mastery, 'indigo')}
-          <div class="flex-b mt-3"><span class="tiny">Updated 2h ago</span><span class="btn btn-sm">Open ${icon('arrowR', 'ic-xs')}</span></div>
+          <div class="flex-b mt-3"><span class="tiny">${s.done === 0 ? 'Not started' : 'Active'}</span><span class="btn btn-sm">Open ${icon('arrowR', 'ic-xs')}</span></div>
         </div>`).join('')}
     </div>
   </div>`;
@@ -606,20 +629,32 @@ export function studentRevision(): string {
   const dueToday = REVISION_QUEUE.filter(r => r.when === 'Today');
   const dueWeek = REVISION_QUEUE.filter(r => r.when !== 'Today' && r.risk === 'High');
   const upcoming = REVISION_QUEUE.filter(r => r.when !== 'Today' && r.risk !== 'High');
+  const hasCompletedRev = COMPLETED_ASSESSMENTS.filter(a => a.kh > 0);
+
   return `
   <div class="page">
     ${pageHead('Revision Plan', 'Your personalised revision plan', 'EduSense AI schedules revision at the moment it will have the greatest impact — based on your knowledge health, accuracy and last revision date.')}
 
     <div class="grid g-4 mb-6">
-      ${statBlock('Due today', dueToday.length, 'High priority', 'alert', 'down')}
-      ${statBlock('This week', dueWeek.length, 'Scheduled for you', 'calendar')}
-      ${statBlock('Completed', '9', 'Last 30 days', 'check', 'up')}
-      ${statBlock('Revision accuracy', '+12%', 'On revised topics', 'trendUp', 'up')}
+      ${statBlock('Due today', dueToday.length, dueToday.length ? 'High priority' : 'None due', 'alert', dueToday.length ? 'down' : 'up')}
+      ${statBlock('This week', dueWeek.length, dueWeek.length ? 'Scheduled for you' : 'None scheduled', 'calendar')}
+      ${statBlock('Completed', `${hasCompletedRev.length}`, 'Last 30 days', 'check', 'up')}
+      ${statBlock('Revision accuracy', hasCompletedRev.length ? '+8%' : '--', 'On revised topics', 'trendUp', 'up')}
     </div>
 
+    ${REVISION_QUEUE.length === 0 ? `
+      <div class="card pad-lg mb-6" style="padding:48px 24px;text-align:center">
+        <div style="font-size:36px;margin-bottom:8px">🎉</div>
+        <h3 class="h3 mb-2">No revisions currently due</h3>
+        <p style="color:var(--text-3);max-width:520px;margin:0 auto 20px auto;font-size:13.5px;line-height:1.5">
+          Your revision queue is clear. As you complete lessons and quizzes across your 6 subjects, EduSense AI will track memory decay and schedule spaced revision here when it's most effective.
+        </p>
+        <button class="btn btn-primary" onclick="navigate('student/learning')">${icon('play')} Practice Standard 10 Syllabus</button>
+      </div>
+    ` : `
     ${aiInsight('This week\'s priority',
-      `Your <b>Physics knowledge has become less stable</b> over the last 5 practice sessions. Focus on <b>Electricity & Circuits</b> first — accuracy has dropped 24% and the last revision was 9 days ago.`,
-      'Start with Physics', `startQuiz('Electricity')`)}
+      `Your <b>Physics knowledge has become less stable</b> over recent sessions. Focus on <b>Electricity & Circuits</b> first to reverse forgetting.`,
+      'Start with Physics', `startQuiz('Electricity & Circuits')`)}
 
     <!-- Due Today -->
     <div class="sec-head mt-6"><div><h2>${icon('alert')} Due Today</h2><p>${dueToday.length} high-priority topics · recommended before 7 PM</p></div></div>
@@ -668,23 +703,25 @@ export function studentRevision(): string {
           <button class="btn btn-sm">View</button>
         </div>`).join('')}
     </div>
+    `}
 
     <!-- Completed -->
     <div class="sec-head"><div><h2>${icon('check')} Recently Completed</h2><p>Last 7 days</p></div></div>
     <div class="card">
       <div class="card-b">
-        ${[
-          { s: 'Mathematics', t: 'Quadratic Equations', d: '3 days ago', r: '+4% KH' },
-          { s: 'Chemistry', t: 'Acids, Bases & Salts', d: '2 days ago', r: '+6% KH' },
-          { s: 'English', t: 'Reading Comprehension', d: '2 days ago', r: '+2% KH' },
-          { s: 'Biology', t: 'Photosynthesis', d: '1 day ago', r: '+3% KH' },
-        ].map(c => `
+        ${hasCompletedRev.length === 0 ? `
+          <div style="padding:24px;text-align:center;color:var(--text-3)">
+            <div style="font-size:24px;margin-bottom:4px">📚</div>
+            <div style="font-weight:600;color:var(--text);font-size:13px">No revisions completed yet</div>
+            <p style="font-size:12px;margin-top:4px">Topics you revise will appear here along with their measured knowledge health recovery.</p>
+          </div>
+        ` : hasCompletedRev.map(c => `
           <div class="flex-b" style="padding:12px 0;border-bottom:1px solid var(--border-2)">
             <div class="flex gap-3">
               <div class="ri" style="background:var(--green-50);color:var(--green);width:30px;height:30px;border-radius:8px;display:grid;place-items:center">${icon('check', 'ic-sm')}</div>
-              <div><div style="font-size:13px;font-weight:600">${c.s} — ${c.t}</div><div class="tiny">Completed ${c.d}</div></div>
+              <div><div style="font-size:13px;font-weight:600">${c.subject} — ${c.topic}</div><div class="tiny">Completed ${c.date}</div></div>
             </div>
-            <span class="badge green">${c.r}</span>
+            <span class="badge green">+${c.kh}% KH</span>
           </div>`).join('')}
       </div>
     </div>
@@ -693,6 +730,15 @@ export function studentRevision(): string {
 
 /* ---------- Knowledge Health ---------- */
 export function studentKnowledge(): string {
+  const allTopics = SUBJECTS.flatMap(s => s.topicList);
+  const assessedTopics = allTopics.filter(t => (t.done || 0) > 0 || (t.mastery || 0) > 0);
+  const overallKh = assessedTopics.length > 0 ? Math.round(assessedTopics.reduce((a, b) => a + (b.kh || 0), 0) / assessedTopics.length) : 0;
+  const isZero = assessedTopics.length === 0;
+
+  const strongTopics = allTopics.filter(t => (t.done || 0) > 0 && (t.kh || 0) >= 75);
+  const attentionTopics = allTopics.filter(t => (t.done || 0) > 0 && (t.kh || 0) >= 45 && (t.kh || 0) < 75);
+  const atRiskTopics = allTopics.filter(t => (t.done || 0) > 0 && (t.kh || 0) < 45);
+
   return `
   <div class="page">
     ${pageHead('Knowledge Health', 'How stable is your learning?', 'A model-derived estimate combining your accuracy, response time, revision history and time since last practice.')}
@@ -700,30 +746,42 @@ export function studentKnowledge(): string {
     <div class="card mb-6">
       <div class="card-b" style="padding:24px">
         <div class="flex gap-5 wrap" style="align-items:center">
-          <div style="text-align:center">${donut(73, 160, 14, '#243B6B')}<div class="small mt-2">Overall Knowledge Health</div></div>
+          <div style="text-align:center">${donut(overallKh, 160, 14, isZero ? '#A0AEC0' : '#243B6B')}<div class="small mt-2">${isZero ? 'Unassessed Baseline' : 'Overall Knowledge Health'}</div></div>
           <div style="flex:1;min-width:280px">
-            <div class="h3 mb-3">Across 6 subjects and 42 active topics</div>
+            <div class="h3 mb-3">${isZero ? 'No topics assessed yet' : `Across 6 subjects and ${assessedTopics.length} active topics`}</div>
             <div class="kh-bar mb-3" style="height:14px">
-              <div class="kh-seg" style="width:38%;background:var(--green)"></div>
-              <div class="kh-seg" style="width:24%;background:var(--teal)"></div>
-              <div class="kh-seg" style="width:22%;background:var(--amber)"></div>
-              <div class="kh-seg" style="width:16%;background:var(--coral)"></div>
+              ${isZero ? `
+                <div class="kh-seg" style="width:100%;background:var(--border-2)"></div>
+              ` : `
+                <div class="kh-seg" style="width:${Math.round((strongTopics.length / assessedTopics.length) * 100)}%;background:var(--green)"></div>
+                <div class="kh-seg" style="width:${Math.round((attentionTopics.length / assessedTopics.length) * 100)}%;background:var(--amber)"></div>
+                <div class="kh-seg" style="width:${Math.round((atRiskTopics.length / assessedTopics.length) * 100)}%;background:var(--coral)"></div>
+              `}
             </div>
             <div class="kh-legend">
-              <span class="item"><span class="sw" style="background:var(--green)"></span>Strong <b>38%</b></span>
-              <span class="item"><span class="sw" style="background:var(--teal)"></span>Stable <b>24%</b></span>
-              <span class="item"><span class="sw" style="background:var(--amber)"></span>Needs revision <b>22%</b></span>
-              <span class="item"><span class="sw" style="background:var(--coral)"></span>At risk <b>16%</b></span>
+              ${isZero ? `
+                <span class="item"><span class="sw" style="background:var(--border-2)"></span>Unassessed <b>100%</b></span>
+              ` : `
+                <span class="item"><span class="sw" style="background:var(--green)"></span>Strong <b>${strongTopics.length}</b></span>
+                <span class="item"><span class="sw" style="background:var(--amber)"></span>Needs revision <b>${attentionTopics.length}</b></span>
+                <span class="item"><span class="sw" style="background:var(--coral)"></span>At risk <b>${atRiskTopics.length}</b></span>
+              `}
             </div>
-            <p class="tiny mt-4">${icon('bulb', 'ic-xs')} Knowledge Health is an estimate, not a fixed truth. It changes as you practice and revise.</p>
+            <p class="tiny mt-4">${icon('bulb', 'ic-xs')} Knowledge Health is calibrated through diagnostic practice and tests.</p>
           </div>
         </div>
       </div>
     </div>
 
-    ${aiInsight('EduSense Insight',
-      `You have <b>2 high-priority forgetting risks</b> this week. If you revise <b>Electricity & Circuits</b> today, your knowledge health could recover to an estimated <b>62–68%</b> by Friday.`,
-      'Schedule revision', `navigate('student/revision')`)}
+    ${isZero ? `
+      ${aiInsight('Diagnostic Baseline Ready',
+        `You have not completed any quizzes yet. Complete your first practice set in <b>Mathematics</b> or <b>Science</b> to compute your initial knowledge health and stability curve.`,
+        'Start Diagnostic Practice', `startQuiz('Real Numbers & Polynomials')`)}
+    ` : `
+      ${aiInsight('EduSense Insight',
+        `Your retention models are active. Spaced revision will trigger automatically when topics approach the forgetting threshold.`,
+        'View revision plan', `navigate('student/revision')`)}
+    `}
 
     <div class="sec-head mt-6"><div><h2>${icon('grid')} By Subject</h2><p>Knowledge health and trend across your subjects</p></div></div>
     <div class="grid g-2 mb-6">
@@ -734,66 +792,69 @@ export function studentKnowledge(): string {
               <div class="subj-ic" style="background:${s.bg};color:${s.color};width:40px;height:40px;font-size:12px">${s.code}</div>
               <div><div class="h4">${s.name}</div><div class="tiny">${s.topics} topics · ${s.done} complete</div></div>
             </div>
-            <div style="font-size:24px;font-weight:800;font-family:Manrope;color:${s.kh >= 70 ? 'var(--green)' : s.kh >= 55 ? 'var(--amber)' : 'var(--coral)'}">${s.kh}%</div>
+            <div style="font-size:24px;font-weight:800;font-family:Manrope;color:${s.kh >= 70 ? 'var(--green)' : s.kh >= 55 ? 'var(--amber)' : 'var(--text-3)'}">${s.kh === 0 ? '--' : s.kh + '%'}</div>
           </div>
           ${progressBar(s.kh, s.kh >= 70 ? 'green' : s.kh >= 55 ? 'amber' : 'coral')}
           <div class="flex-b mt-3">
             <span class="tiny">Mastery ${s.mastery}%</span>
-            ${riskBadge(s.risk)}
+            ${s.done === 0 ? '<span class="badge grey">Unassessed</span>' : riskBadge(s.risk)}
           </div>
         </div>`).join('')}
     </div>
 
     <div class="sec-head"><div><h2>${icon('brain')} Topic-level breakdown</h2><p>Subjects ranked by knowledge health</p></div></div>
+    ${isZero ? `
+      <div class="card pad-lg text-center" style="padding:40px 20px;text-align:center;color:var(--text-3)">
+        <div style="font-size:32px;margin-bottom:8px">🎯</div>
+        <h3 class="h3 mb-2">No Topic Scores Yet</h3>
+        <p style="font-size:13px;max-width:440px;margin:0 auto">As you take quizzes, topics will automatically be grouped into Strong, Needs Attention, and At Risk.</p>
+      </div>
+    ` : `
     <div class="grid g-3">
       <div class="card">
-        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:14px"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:7px"></span>Strong</h3></div>
+        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:14px"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:7px"></span>Strong (${strongTopics.length})</h3></div>
         <div class="card-b" style="padding-top:0">
           <ul style="list-style:none">
-            ${[['Algebra', '91%'], ['Statistics', '87%'], ['Photosynthesis', '90%'], ['Motion & Force', '78%'], ['Chemical Reactions', '80%']].map(([n, v]) => `
-              <li class="flex-b" style="padding:9px 0;border-bottom:1px solid var(--border-2);font-size:13px"><b>${n}</b><span style="color:var(--green);font-weight:700">${v}</span></li>`).join('')}
+            ${strongTopics.length === 0 ? '<li class="tiny p-3 text-center text-muted">None yet</li>' : strongTopics.map(t => `
+              <li class="flex-b" style="padding:9px 0;border-bottom:1px solid var(--border-2);font-size:13px"><b>${t.name}</b><span style="color:var(--green);font-weight:700">${t.kh}%</span></li>`).join('')}
           </ul>
         </div>
       </div>
       <div class="card">
-        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:14px"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--amber);margin-right:7px"></span>Needs Attention</h3></div>
+        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:14px"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--amber);margin-right:7px"></span>Needs Attention (${attentionTopics.length})</h3></div>
         <div class="card-b" style="padding-top:0">
           <ul style="list-style:none">
-            ${[['Electricity', '42%'], ['Probability', '44%'], ['Coordinate Geometry', '58%'], ['Light & Refraction', '58%'], ['Nationalism in India', '58%']].map(([n, v]) => `
-              <li class="flex-b" style="padding:9px 0;border-bottom:1px solid var(--border-2);font-size:13px"><b>${n}</b><span style="color:var(--amber);font-weight:700">${v}</span></li>`).join('')}
+            ${attentionTopics.length === 0 ? '<li class="tiny p-3 text-center text-muted">None yet</li>' : attentionTopics.map(t => `
+              <li class="flex-b" style="padding:9px 0;border-bottom:1px solid var(--border-2);font-size:13px"><b>${t.name}</b><span style="color:var(--amber);font-weight:700">${t.kh}%</span></li>`).join('')}
           </ul>
         </div>
       </div>
       <div class="card">
-        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:14px"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--coral);margin-right:7px"></span>At Risk</h3></div>
+        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:14px"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--coral);margin-right:7px"></span>At Risk (${atRiskTopics.length})</h3></div>
         <div class="card-b" style="padding-top:0">
           <ul style="list-style:none">
-            ${[['Organic Chemistry', '35%'], ['Work & Energy', '48%']].map(([n, v]) => `
-              <li class="flex-b" style="padding:9px 0;border-bottom:1px solid var(--border-2);font-size:13px"><b>${n}</b><span style="color:var(--coral);font-weight:700">${v}</span></li>`).join('')}
+            ${atRiskTopics.length === 0 ? '<li class="tiny p-3 text-center text-muted">None yet</li>' : atRiskTopics.map(t => `
+              <li class="flex-b" style="padding:9px 0;border-bottom:1px solid var(--border-2);font-size:13px"><b>${t.name}</b><span style="color:var(--coral);font-weight:700">${t.kh}%</span></li>`).join('')}
           </ul>
         </div>
       </div>
     </div>
+    `}
   </div>`;
 }
 
 /* ---------- Skill Mastery ---------- */
 export function studentSkills(): string {
-  const skills = [
-    { name: 'Algebraic reasoning', level: 88, cat: 'Mathematics', trend: +4 },
-    { name: 'Geometric problem solving', level: 64, cat: 'Mathematics', trend: -3 },
-    { name: 'Circuit analysis', level: 48, cat: 'Physics', trend: -9 },
-    { name: 'Optical reasoning', level: 58, cat: 'Physics', trend: -5 },
-    { name: 'Chemical equation balancing', level: 84, cat: 'Chemistry', trend: +2 },
-    { name: 'Organic structure recognition', level: 38, cat: 'Chemistry', trend: -6 },
-    { name: 'Biological process understanding', level: 92, cat: 'Biology', trend: +3 },
-    { name: 'Reading & interpretation', level: 88, cat: 'English', trend: +2 },
-    { name: 'Grammar application', level: 74, cat: 'English', trend: +1 },
-    { name: 'Historical analysis', level: 62, cat: 'Social Studies', trend: -2 },
-  ];
+  const completedCount = COMPLETED_ASSESSMENTS.length;
+  // Dynamic skill modeling based on real assessments
+  const skills: Array<{ name: string; level: number; cat: string; trend: number }> = [];
+  if (completedCount > 0) {
+    skills.push({ name: 'Curriculum Comprehension', level: COMPLETED_ASSESSMENTS[0].score, cat: COMPLETED_ASSESSMENTS[0].subject, trend: +2 });
+  }
   const strong = skills.filter(s => s.level >= 75);
   const mid = skills.filter(s => s.level >= 50 && s.level < 75);
   const weak = skills.filter(s => s.level < 50);
+
   return `
   <div class="page">
     ${pageHead('Skill Mastery', 'Your developing skills', 'A breakdown of the specific skills assessed across your practice and MCQ checks.')}
@@ -805,9 +866,18 @@ export function studentSkills(): string {
     </div>
 
     <div class="card">
-      <div class="card-h"><h3>All skills</h3><div class="right"><span class="badge grey">${skills.length} skills</span></div></div>
+      <div class="card-h"><h3>All skills</h3><div class="right"><span class="badge grey">${skills.length} assessed</span></div></div>
       <div class="card-b">
-        ${skills.map(s => `
+        ${skills.length === 0 ? `
+          <div style="padding:48px 24px;text-align:center;color:var(--text-3)">
+            <div style="font-size:32px;margin-bottom:8px">🎯</div>
+            <h3 class="h3 mb-2">No Skill Data Recorded</h3>
+            <p style="font-size:13px;max-width:440px;margin:0 auto 16px auto">
+              Cognitive skills like reasoning, equation solving, and comprehension will calibrate here once you submit topic practice checks.
+            </p>
+            <button class="btn btn-primary" onclick="navigate('student/learning')">${icon('play')} Start Topic Practice</button>
+          </div>
+        ` : skills.map(s => `
           <div style="padding:13px 0;border-bottom:1px solid var(--border-2)">
             <div class="flex-b mb-2">
               <div>
@@ -828,25 +898,30 @@ export function studentSkills(): string {
 
 /* ---------- Learning Analytics ---------- */
 export function studentAnalytics(): string {
+  const user = getCurrentUser();
+  const count = COMPLETED_ASSESSMENTS.length;
+  const isZero = count === 0 && (user.todayGoal || 0) === 0;
+  const avgAcc = count > 0 ? Math.round(COMPLETED_ASSESSMENTS.reduce((a, b) => a + b.accuracy, 0) / count) : null;
+
   return `
   <div class="page">
     ${pageHead('Learning Analytics', 'How you are learning', 'Weekly and long-term patterns across study time, accuracy, revision effectiveness and consistency.', '<button class="btn" onclick="toast(\'Analytics exported\',\'PDF ready\',\'good\')">' + icon('download') + ' Export</button>')}
 
     <div class="grid g-4 mb-6">
-      ${statBlock('Study time', '2h 40m', '+22m vs last week', 'clock', 'up')}
-      ${statBlock('Questions solved', '126', '+18 this week', 'target', 'up')}
-      ${statBlock('Avg. accuracy', '84%', '+6% this week', 'chart', 'up')}
-      ${statBlock('Consistency', '86%', '+4% this month', 'flame', 'up')}
+      ${statBlock('Study time', isZero ? '0m' : '20m', isZero ? 'Baseline' : '+20m this week', 'clock', 'up')}
+      ${statBlock('Questions solved', `${count * 5}`, isZero ? '0' : `+${count * 5} this week`, 'target', 'up')}
+      ${statBlock('Avg. accuracy', avgAcc !== null ? `${avgAcc}%` : '--', isZero ? 'Not assessed' : 'Active', 'chart', 'up')}
+      ${statBlock('Consistency', `${(user.streak || 0) * 10}%`, isZero ? '0%' : 'Active', 'flame', 'up')}
     </div>
 
     <div class="grid g-2 mb-6">
       <div class="card">
         <div class="card-h"><h3>Weekly activity</h3><div class="right"><span class="badge grey">Last 7 days</span></div></div>
-        <div class="card-b">${barChart([35, 52, 48, 68, 45, 72, 55], ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], 600, 180, '#243B6B')}</div>
+        <div class="card-b">${barChart(isZero ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 0, 20, 0], ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], 600, 180, '#243B6B')}</div>
       </div>
       <div class="card">
-        <div class="card-h"><h3>Accuracy trend</h3><div class="right"><span class="badge green">${icon('arrowUp', 'ic-xs')} Improving</span></div></div>
-        <div class="card-b">${sparkline([62, 68, 71, 74, 72, 78, 82, 84], 600, 180, '#2E9B68')}</div>
+        <div class="card-h"><h3>Accuracy trend</h3><div class="right"><span class="badge ${avgAcc ? 'green' : 'grey'}">${avgAcc ? icon('arrowUp', 'ic-xs') + ' Active' : 'Baseline'}</span></div></div>
+        <div class="card-b">${sparkline(isZero ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 0, avgAcc || 100, avgAcc || 100], 600, 180, '#2E9B68')}</div>
       </div>
     </div>
 
@@ -854,23 +929,23 @@ export function studentAnalytics(): string {
       <div class="card pad">
         <div class="h4 mb-3">Revision effectiveness</div>
         <div class="tiny mb-3">Knowledge health improvement after each revision session</div>
-        ${sparkline([4, 6, 5, 8, 7, 11, 9, 12], 400, 120, '#18A6A6')}
-        <div class="flex-b mt-3"><span class="tiny">Avg. +8.4% per session</span><span class="badge teal">Strong</span></div>
+        ${sparkline(isZero ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 0, 6, 6], 400, 120, '#18A6A6')}
+        <div class="flex-b mt-3"><span class="tiny">${isZero ? 'No sessions yet' : 'Positive retention'}</span><span class="badge ${isZero ? 'grey' : 'teal'}">${isZero ? 'Baseline' : 'Active'}</span></div>
       </div>
       <div class="card pad">
         <div class="h4 mb-3">Study session frequency</div>
         <div class="tiny mb-3">Sessions per day this week</div>
-        ${barChart([2, 3, 2, 4, 3, 5, 3], ['M', 'T', 'W', 'T', 'F', 'S', 'S'], 400, 120, '#7C5CD6')}
-        <div class="flex-b mt-3"><span class="tiny">3.1 avg/day</span><span class="badge violet">Above target</span></div>
+        ${barChart(isZero ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 0, 1, 0], ['M', 'T', 'W', 'T', 'F', 'S', 'S'], 400, 120, '#7C5CD6')}
+        <div class="flex-b mt-3"><span class="tiny">${isZero ? '0 avg/day' : '1 session today'}</span><span class="badge ${isZero ? 'grey' : 'violet'}">${isZero ? 'Starting' : 'On track'}</span></div>
       </div>
       <div class="card pad">
         <div class="h4 mb-3">Time distribution</div>
         <div class="tiny mb-3">Where your study time goes</div>
         ${[
-          ['Practice questions', 42, 'indigo'],
-          ['Revision', 28, 'amber'],
-          ['Reading materials', 18, 'teal'],
-          ['Assessments', 12, 'violet'],
+          ['Practice questions', isZero ? 0 : 70, 'indigo'],
+          ['Revision', isZero ? 0 : 20, 'amber'],
+          ['Reading materials', isZero ? 0 : 10, 'teal'],
+          ['Assessments', 0, 'violet'],
         ].map(([n, v, c]) => `
           <div class="flex gap-3 mb-3" style="font-size:12.5px">
             <span style="flex:0 0 130px">${n}</span>
@@ -881,7 +956,7 @@ export function studentAnalytics(): string {
     </div>
 
     <div class="card">
-      <div class="card-h"><h3>Learning consistency — last 20 weeks</h3><div class="right"><span class="badge green">${icon('flame', 'ic-xs')} 7-day streak</span></div></div>
+      <div class="card-h"><h3>Learning consistency — last 20 weeks</h3><div class="right"><span class="badge ${user.streak ? 'green' : 'grey'}">${icon('flame', 'ic-xs')} ${user.streak || 0}-day streak</span></div></div>
       <div class="card-b">${heatmap(20)}</div>
     </div>
   </div>`;
@@ -889,38 +964,43 @@ export function studentAnalytics(): string {
 
 /* ---------- Weak Areas ---------- */
 export function studentWeak(): string {
+  const allTopics = SUBJECTS.flatMap(s => s.topicList);
+  const weakTopics = allTopics.filter(t => (t.done || 0) > 0 && (t.mastery || 0) < 60);
+
   return `
   <div class="page">
     ${pageHead('Weak Areas', 'Topics that need your attention', 'Ranked by knowledge health, forgetting risk and recent accuracy.')}
 
-    ${aiInsight('Priority focus this week', 'Your <b>Physics knowledge is declining fastest</b> — 2 of your top 3 weak topics are from Physics. Set aside <b>40 minutes today</b> to reverse the trend.', 'Open revision plan', `navigate('student/revision')`)}
+    ${weakTopics.length === 0 ? `
+      <div class="card pad-lg mb-6" style="padding:48px 24px;text-align:center;color:var(--text-3)">
+        <div style="font-size:36px;margin-bottom:8px">✨</div>
+        <h3 class="h3 mb-2">No Weak Areas Identified</h3>
+        <p style="font-size:13.5px;max-width:480px;margin:0 auto 18px auto;line-height:1.5">
+          You have a clean slate with no detected weak areas. Take topic quizzes and practice tests — if your accuracy on any topic falls below the target threshold, it will automatically appear here for remediation.
+        </p>
+        <button class="btn btn-primary" onclick="navigate('student/learning')">${icon('play')} Start Topic Practice</button>
+      </div>
+    ` : `
+    ${aiInsight('Priority focus this week', 'EduSense AI has flagged topics requiring attention based on your latest practice sessions.', 'Open revision plan', `navigate('student/revision')`)}
 
     <div class="card mt-5">
       <div class="card-h"><h3>Ranked by urgency</h3></div>
       <table class="tbl">
         <thead><tr><th>Topic</th><th>Subject</th><th>Knowledge Health</th><th>Risk</th><th>Last revised</th><th></th></tr></thead>
         <tbody>
-          ${[
-            ['Organic Chemistry', 'Chemistry', 35, 'high', '11 days ago'],
-            ['Electricity & Circuits', 'Physics', 42, 'high', '9 days ago'],
-            ['Probability', 'Mathematics', 44, 'high', '9 days ago'],
-            ['Work, Energy & Power', 'Physics', 48, 'high', '6 days ago'],
-            ['Light — Reflection', 'Physics', 58, 'medium', '12 days ago'],
-            ['Coordinate Geometry', 'Mathematics', 58, 'medium', '16 days ago'],
-            ['Nationalism in India', 'Social Studies', 58, 'medium', '17 days ago'],
-            ['Grammar — Tenses', 'English', 72, 'medium', '4 days ago'],
-          ].map(([t, s, kh, r, last]) => `
+          ${weakTopics.map(t => `
             <tr>
-              <td class="nm">${t}</td>
-              <td class="muted">${s}</td>
-              <td><div class="flex gap-2" style="width:130px">${progressBar(kh as number, (kh as number) >= 70 ? 'green' : (kh as number) >= 55 ? 'amber' : 'coral')}<b style="font-size:12px">${kh}%</b></div></td>
-              <td>${riskBadge(r as string)}</td>
-              <td class="muted">${last}</td>
-              <td class="right"><button class="btn btn-sm btn-primary" onclick="startQuiz('${t}')">Review</button></td>
+              <td class="nm">${t.name}</td>
+              <td class="muted">Standard 10</td>
+              <td><div class="flex gap-2" style="width:130px">${progressBar(t.kh, t.kh >= 70 ? 'green' : t.kh >= 55 ? 'amber' : 'coral')}<b style="font-size:12px">${t.kh}%</b></div></td>
+              <td>${riskBadge(t.risk)}</td>
+              <td class="muted">${t.last}</td>
+              <td class="right"><button class="btn btn-sm btn-primary" onclick="startQuiz('${t.name}')">Review</button></td>
             </tr>`).join('')}
         </tbody>
       </table>
     </div>
+    `}
   </div>`;
 }
 
@@ -1041,16 +1121,20 @@ export function setCalView(v: 'month' | 'week' | 'day'): void {
 
 /* ---------- Assessments ---------- */
 export function studentAssessments(): string {
+  const count = COMPLETED_ASSESSMENTS.length;
+  const avgScore = count > 0 ? Math.round(COMPLETED_ASSESSMENTS.reduce((a, b) => a + b.score, 0) / count) : null;
+  const bestSubj = count > 0 ? COMPLETED_ASSESSMENTS[0].subject : 'None';
+
   return `
   <div class="page">
     ${pageHead('Assessments', 'Your assessments', 'Scheduled tests, completed attempts and detailed performance breakdowns.',
-      `<button class="btn btn-primary" onclick="startQuiz('Mixed practice')">${icon('play')} Quick practice</button>`)}
+      `<button class="btn btn-primary" onclick="startQuiz('Diagnostic Check')">${icon('play')} Quick practice</button>`)}
 
     <div class="grid g-4 mb-6">
-      ${statBlock('Upcoming', UPCOMING_ASSESSMENTS.length, 'Next in 3 days', 'calendar')}
-      ${statBlock('Completed', COMPLETED_ASSESSMENTS.length, 'This month', 'check', 'up')}
-      ${statBlock('Avg. score', '71%', '+6% vs last month', 'chart', 'up')}
-      ${statBlock('Best subject', 'Biology', '88% avg accuracy', 'award', 'up')}
+      ${statBlock('Upcoming', UPCOMING_ASSESSMENTS.length, 'Scheduled', 'calendar')}
+      ${statBlock('Completed', count, count === 0 ? 'None yet' : 'This month', 'check', 'up')}
+      ${statBlock('Avg. score', avgScore !== null ? `${avgScore}%` : '--', count === 0 ? 'Not taken yet' : 'Active', 'chart', 'up')}
+      ${statBlock('Best subject', bestSubj, count === 0 ? 'Unassessed' : 'Top performer', 'award', 'up')}
     </div>
 
     <div class="sec-head"><div><h2>${icon('calendar')} Upcoming Tests</h2><p>Scheduled by your teacher</p></div></div>
@@ -1071,7 +1155,7 @@ export function studentAssessments(): string {
             <div class="m">${icon('target')} ${a.difficulty}</div>
           </div>
           <div class="flex-b mb-3" style="font-size:11.5px;color:var(--text-3)">
-            <span>Preparation</span><b style="color:var(--text)">${a.prep}%</b>
+            <span>Preparation</span><b style="color:var(--text)">${a.prep === 0 ? 'Not started' : a.prep + '%'}</b>
           </div>
           ${progressBar(a.prep, a.prep >= 70 ? 'green' : a.prep >= 50 ? 'amber' : 'coral')}
           <div class="flex gap-2 mt-3">
@@ -1083,6 +1167,16 @@ export function studentAssessments(): string {
 
     <div class="sec-head"><div><h2>${icon('award')} Completed Tests</h2><p>Review performance and knowledge impact</p></div></div>
     <div class="card">
+      ${count === 0 ? `
+        <div style="padding:48px 24px;text-align:center;color:var(--text-3)">
+          <div style="font-size:36px;margin-bottom:8px">📝</div>
+          <h3 class="h3 mb-2">No Completed Tests Yet</h3>
+          <p style="font-size:13px;max-width:440px;margin:0 auto 16px auto">
+            You haven't completed any assessments or quizzes yet. When you take a quiz or exam, your score, question accuracy, and knowledge health impact will be recorded here.
+          </p>
+          <button class="btn btn-primary" onclick="startQuiz('Diagnostic Check')">${icon('play')} Take Practice Check</button>
+        </div>
+      ` : `
       <table class="tbl">
         <thead><tr><th>Topic</th><th>Subject</th><th>Date</th><th>Score</th><th>Accuracy</th><th>Knowledge Impact</th><th></th></tr></thead>
         <tbody>
@@ -1098,6 +1192,7 @@ export function studentAssessments(): string {
             </tr>`).join('')}
         </tbody>
       </table>
+      `}
     </div>
   </div>`;
 }
