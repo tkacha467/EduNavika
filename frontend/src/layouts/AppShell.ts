@@ -2,6 +2,7 @@
 
 import { icon } from '../utils/icons';
 import { NavGroup, User } from '../types';
+import { REVISION_QUEUE, CLASS_WEAK_TOPICS, NOTIFICATIONS } from '../features/student/studentData';
 
 export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
   student: [
@@ -11,8 +12,8 @@ export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
         { id: 'student/dashboard', label: 'Dashboard', icon: 'home' },
         { id: 'student/learning', label: 'My Learning', icon: 'book' },
         { id: 'student/subjects', label: 'Subjects', icon: 'grid' },
-        { id: 'student/revision', label: 'Revision Plan', icon: 'refresh', badge: '4' },
-        { id: 'student/assessments', label: 'Assessments', icon: 'clipboard', badge: '3' },
+        { id: 'student/revision', label: 'Revision Plan', icon: 'refresh' },
+        { id: 'student/assessments', label: 'Assessments', icon: 'clipboard' },
         { id: 'student/calendar', label: 'Calendar', icon: 'calendar' },
       ],
     },
@@ -22,7 +23,7 @@ export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
         { id: 'student/knowledge', label: 'Knowledge Health', icon: 'brain' },
         { id: 'student/skills', label: 'Skill Mastery', icon: 'target' },
         { id: 'student/analytics', label: 'Learning Analytics', icon: 'chart' },
-        { id: 'student/weak', label: 'Weak Areas', icon: 'alert', badge: '3' },
+        { id: 'student/weak', label: 'Weak Areas', icon: 'alert' },
       ],
     },
     {
@@ -30,7 +31,7 @@ export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
       items: [
         { id: 'student/materials', label: 'Study Materials', icon: 'folder' },
         { id: 'student/notes', label: 'Notes', icon: 'file' },
-        { id: 'student/assignments', label: 'Assignments', icon: 'edit', badge: '2' },
+        { id: 'student/assignments', label: 'Assignments', icon: 'edit' },
         { id: 'student/exams', label: 'Exams', icon: 'award' },
         { id: 'student/timetable', label: 'Timetable', icon: 'clock' },
       ],
@@ -38,7 +39,7 @@ export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
     {
       group: 'Support',
       items: [
-        { id: 'student/notifications', label: 'Notifications', icon: 'bell', badge: '3' },
+        { id: 'student/notifications', label: 'Notifications', icon: 'bell' },
         { id: 'student/help', label: 'Help & Support', icon: 'help' },
         { id: 'student/profile', label: 'Profile', icon: 'users' },
         { id: 'student/settings', label: 'Settings', icon: 'cog' },
@@ -58,7 +59,7 @@ export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
     {
       group: 'Teaching',
       items: [
-        { id: 'teacher/assessments', label: 'Assessments', icon: 'clipboard', badge: '1' },
+        { id: 'teacher/assessments', label: 'Assessments', icon: 'clipboard' },
         { id: 'teacher/assignments', label: 'Assignments', icon: 'edit' },
         { id: 'teacher/attendance', label: 'Attendance', icon: 'check' },
         { id: 'teacher/content', label: 'Content', icon: 'folder' },
@@ -68,18 +69,35 @@ export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
       group: 'Insights',
       items: [
         { id: 'teacher/analytics', label: 'Analytics', icon: 'chart' },
-        { id: 'teacher/revision', label: 'Revision Insights', icon: 'refresh', badge: '5' },
+        { id: 'teacher/revision', label: 'Revision Insights', icon: 'refresh' },
       ],
     },
     {
       group: 'Support',
       items: [
-        { id: 'teacher/notifications', label: 'Notifications', icon: 'bell', badge: '2' },
+        { id: 'teacher/notifications', label: 'Notifications', icon: 'bell' },
         { id: 'teacher/profile', label: 'Profile', icon: 'users' },
       ],
     },
   ],
 };
+
+function getDynamicBadge(id: string, role: string): string | null {
+  if (role === 'student') {
+    if (id === 'student/revision') {
+      return REVISION_QUEUE.length > 0 ? String(REVISION_QUEUE.length) : null;
+    }
+    if (id === 'student/weak') {
+      return CLASS_WEAK_TOPICS.length > 0 ? String(CLASS_WEAK_TOPICS.length) : null;
+    }
+    if (id === 'student/notifications') {
+      const count = NOTIFICATIONS.filter(n => n.unread).length;
+      return count > 0 ? String(count) : null;
+    }
+  }
+  return null;
+}
+
 
 export const CRUMBS: Record<string, string[]> = {
   'student/dashboard': ['Dashboard'],
@@ -136,18 +154,21 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
     <div class="nav-group">
       <div class="nav-title">${g.group}</div>
       ${g.items
-        .map(
-          it => `
+        .map(it => {
+          const badge = getDynamicBadge(it.id, role);
+          return `
         <div class="nav-item ${currentRoute === it.id ? 'on' : ''}" data-go="${it.id}">
           ${icon(it.icon)}<span class="lbl">${it.label}</span>
-          ${it.badge ? `<span class="bdg">${it.badge}</span>` : ''}
+          ${badge ? `<span class="bdg">${badge}</span>` : ''}
           <span class="tip">${it.label}</span>
-        </div>`
-        )
+        </div>`;
+        })
         .join('')}
     </div>`
     )
     .join('');
+
+  const hasUnread = role === 'student' && NOTIFICATIONS.some(n => n.unread);
 
   return `
 <div id="app" class="app">
@@ -185,9 +206,9 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
           <svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7L18.5 9.5 13.8 11.3 12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/></svg>
           <span>EduNavika AI</span>
         </button>
-        <button class="tb-icon" data-go="${role}/notifications">
+        <button class="tb-icon" data-go="${role}/notifications" title="Notifications">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
-          <span class="dot"></span>
+          ${hasUnread ? '<span class="dot"></span>' : ''}
         </button>
         <button class="tb-profile" data-go="${role}/profile" title="View Profile">
           <div class="av sm" id="topAvatar">${user.initials || 'U'}</div>

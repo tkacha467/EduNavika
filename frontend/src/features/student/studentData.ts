@@ -38,8 +38,8 @@ export const COMPLETED_ASSESSMENTS: Array<{
 }> = [];
 
 export const NOTIFICATIONS = [
-  { id: 1, cat: 'system', title: 'Welcome to EduNavika', body: 'Your learning workspace is active. Take your first practice quiz or diagnostic assessment to calibrate your knowledge health.', time: 'Just now', unread: true },
-  { id: 2, cat: 'academic', title: 'Curriculum assigned for Grade 10', body: 'All 6 core subjects (Math, Physics, Chemistry, Biology, English, SST) are ready in your portal.', time: '1 hour ago', unread: true },
+  { id: 1, cat: 'system', title: 'Welcome to EduNavika', body: 'Your learning workspace is active. Take your first practice quiz or diagnostic assessment to calibrate your knowledge health.', time: 'Just now', unread: false },
+  { id: 2, cat: 'academic', title: 'Curriculum assigned for Grade 10', body: 'All 6 core subjects (Math, Physics, Chemistry, Biology, English, SST) are ready in your portal.', time: '1 hour ago', unread: false },
   { id: 3, cat: 'assessment', title: 'Diagnostic assessment scheduled', body: 'Physics & Mathematics baseline diagnostic checks are ready.', time: 'Today', unread: false, urgent: false },
 ];
 
