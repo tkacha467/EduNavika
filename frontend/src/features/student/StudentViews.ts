@@ -998,7 +998,11 @@ export function studentAssessments(): string {
 
     <div class="sec-head"><div><h2>${icon('calendar')} Upcoming Tests</h2><p>Scheduled by your teacher</p></div></div>
     <div class="grid g-3 mb-6">
-      ${UPCOMING_ASSESSMENTS.map(a => `
+      ${UPCOMING_ASSESSMENTS.length === 0 ? `
+        <div class="card pad-lg" style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:36px 24px">
+          No upcoming tests scheduled by your teacher.
+        </div>
+      ` : UPCOMING_ASSESSMENTS.map(a => `
         <div class="assess-card">
           <div class="ac-h">
             <div>
@@ -1128,58 +1132,23 @@ export function studentMaterials(): string {
         </div>
 
         <div class="grid g-3">
-          ${[
-            { n: 'Forgetting Curves & Revision Planning', s: 'Study Skills', t: 'PDF', m: '2.4 MB', c: 'indigo' },
-            { n: 'Quadratic Equations — Complete Notes', s: 'Mathematics', t: 'PDF', m: '1.8 MB', c: 'indigo' },
-            { n: 'Electricity — Video Lecture 1', s: 'Physics', t: 'Video', m: '48 min', c: 'teal' },
-            { n: 'Chemical Reactions — Practice Set', s: 'Chemistry', t: 'Practice', m: '30 Q', c: 'green' },
-            { n: 'Life Processes — Presentation', s: 'Biology', t: 'Presentation', m: '8.2 MB', c: 'amber' },
-            { n: 'Trigonometry Quick Revision Sheet', s: 'Mathematics', t: 'PDF', m: '680 KB', c: 'indigo' },
-            { n: 'Light & Refraction — Notes', s: 'Physics', t: 'Notes', m: '1.2 MB', c: 'teal' },
-            { n: 'Grammar — Tenses Worksheet', s: 'English', t: 'PDF', m: '420 KB', c: 'violet' },
-            { n: 'Nationalism in India — Summary', s: 'Social Studies', t: 'Notes', m: '780 KB', c: 'coral' },
-          ].map(m => `
-            <div class="card hoverable pad" style="cursor:pointer">
-              <div class="flex gap-3 mb-4">
-                <div class="qa-tile" style="padding:0;border:0;background:var(--${m.c}-50);width:42px;height:42px;justify-content:center;border-radius:11px">
-                  <span style="color:var(--${m.c});display:grid;place-items:center">${icon(m.t === 'Video' ? 'video' : m.t === 'Presentation' ? 'layers' : m.t === 'Practice' ? 'target' : 'file')}</span>
-                </div>
-                <div style="flex:1;min-width:0">
-                  <div class="h4" style="font-size:13.5px;line-height:1.35">${m.n}</div>
-                  <div class="tiny mt-1">${m.s}</div>
-                </div>
-              </div>
-              <div class="flex-b">
-                <span class="badge ${m.c}">${m.t}</span>
-                <span class="tiny">${m.m}</span>
-              </div>
-            </div>`).join('')}
+          <div class="card pad-lg" style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:48px 24px">
+            No study materials uploaded by your school yet. Official materials added by your teachers will appear here.
+          </div>
         </div>
       </div>
 
       <div class="flex-c">
         <div class="ai-card">
-          <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>Recommended for you</b></div>
-          <div class="ai-body">Since you're revising <b>Electricity</b>, these resources will help:</div>
-          <div class="flex-c mt-3" style="gap:8px">
-            <button class="qa-tile" style="padding:10px">
-              <div class="qi" style="background:var(--teal-50);color:var(--teal-600);width:28px;height:28px">${icon('video')}</div>
-              <div><b style="font-size:12px">Video Lecture 1</b><span style="font-size:11px">48 min</span></div>
-            </button>
-            <button class="qa-tile" style="padding:10px">
-              <div class="qi" style="background:var(--indigo-50);color:var(--indigo);width:28px;height:28px">${icon('file')}</div>
-              <div><b style="font-size:12px">Chapter notes</b><span style="font-size:11px">1.8 MB PDF</span></div>
-            </button>
-          </div>
+          <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>Study Guidance</b></div>
+          <div class="ai-body">Curriculum syllabus is active. Select any chapter from <b>My Learning</b> to start adaptive practice.</div>
+          <div class="ai-actions"><button class="btn btn-sm btn-teal" onclick="navigate('student/learning')">View Curriculum</button></div>
         </div>
 
         <div class="card">
           <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:13.5px">Recently opened</h3></div>
           <div class="card-b" style="padding-top:0">
-            ${['Quadratic Equations Notes', 'Electricity Video', 'Chemical Reactions Set'].map(n => `
-              <div class="flex gap-3" style="padding:10px 0;border-bottom:1px solid var(--border-2);font-size:12.5px">
-                ${icon('clock', 'ic-xs')}<span>${n}</span>
-              </div>`).join('')}
+            <div style="color:var(--text-3);font-size:12px;padding:12px 0">No recently opened materials.</div>
           </div>
         </div>
       </div>
@@ -1189,19 +1158,16 @@ export function studentMaterials(): string {
 
 /* ---------- Notes ---------- */
 export function studentNotes(): string {
-  const notes = [
-    { title: 'Quadratic Equations — key formulas', subject: 'Mathematics', updated: '3 days ago', words: 420 },
-    { title: 'Electricity — circuit analysis steps', subject: 'Physics', updated: '5 days ago', words: 680 },
-    { title: 'Chemical Reactions — balancing rules', subject: 'Chemistry', updated: '1 week ago', words: 340 },
-    { title: 'Photosynthesis — diagram notes', subject: 'Biology', updated: '2 days ago', words: 520 },
-    { title: 'Grammar — Tenses cheat sheet', subject: 'English', updated: '1 week ago', words: 280 },
-    { title: 'Nationalism in India — timeline', subject: 'Social Studies', updated: '2 weeks ago', words: 610 },
-  ];
+  const notes: any[] = [];
   return `
   <div class="page">
-    ${pageHead('Notes', 'Your personal notes', 'Everything you have written or saved while studying.', '<button class="btn btn-primary">' + icon('plus') + ' New note</button>')}
+    ${pageHead('Notes', 'Your personal notes', 'Everything you have written or saved while studying.', '<button class="btn btn-primary" onclick="toast(\'Note editor ready\',\'\',\'good\')">' + icon('plus') + ' New note</button>')}
     <div class="grid g-3">
-      ${notes.map(n => `
+      ${notes.length === 0 ? `
+        <div class="card pad-lg" style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:48px 24px">
+          No notes created yet. Click "New note" to write your first study note.
+        </div>
+      ` : notes.map(n => `
         <div class="card hoverable pad" style="cursor:pointer">
           <div class="flex-b mb-3">
             <span class="badge indigo">${n.subject}</span>
@@ -1217,26 +1183,24 @@ export function studentNotes(): string {
 
 /* ---------- Assignments ---------- */
 export function studentAssignments(): string {
-  const items = [
-    { title: 'Balancing chemical equations', subject: 'Chemistry', due: 'Sep 17, 2026', status: 'pending', progress: 0 },
-    { title: 'Physics numericals — Electricity', subject: 'Physics', due: 'Sep 19, 2026', status: 'pending', progress: 45 },
-    { title: 'Essay: Nationalism in India', subject: 'Social Studies', due: 'Sep 22, 2026', status: 'in-progress', progress: 20 },
-    { title: 'Trigonometry worksheet', subject: 'Mathematics', due: 'Sep 12, 2026', status: 'submitted', progress: 100 },
-    { title: 'Grammar worksheet — Tenses', subject: 'English', due: 'Sep 08, 2026', status: 'graded', progress: 100, score: 88 },
-  ];
+  const items: any[] = [];
   return `
   <div class="page">
     ${pageHead('Assignments', 'Your assignments', 'Track pending work, in-progress tasks and graded submissions.')}
     <div class="grid g-4 mb-6">
-      ${statBlock('Pending', items.filter(i => i.status === 'pending').length, 'Due this week', 'alert', 'down')}
-      ${statBlock('In progress', items.filter(i => i.status === 'in-progress').length, 'Submitted soon', 'edit')}
-      ${statBlock('Submitted', items.filter(i => i.status === 'submitted' || i.status === 'graded').length, 'This month', 'check', 'up')}
-      ${statBlock('Avg. score', '86%', 'On graded work', 'award', 'up')}
+      ${statBlock('Pending', 0, 'Due this week', 'alert')}
+      ${statBlock('In progress', 0, 'Active tasks', 'edit')}
+      ${statBlock('Submitted', 0, 'This month', 'check')}
+      ${statBlock('Avg. score', '--', 'On graded work', 'award')}
     </div>
     <div class="card">
       <div class="card-h"><h3>All assignments</h3></div>
       <div class="card-b">
-        ${items.map(i => `
+        ${items.length === 0 ? `
+          <div style="text-align:center;padding:36px 24px;color:var(--text-3)">
+            No assignments assigned yet. Work assigned by your teachers will appear here.
+          </div>
+        ` : items.map(i => `
           <div style="padding:16px 0;border-bottom:1px solid var(--border-2)">
             <div class="flex-b mb-2 wrap" style="gap:12px">
               <div>
@@ -1257,16 +1221,16 @@ export function studentAssignments(): string {
 
 /* ---------- Exams ---------- */
 export function studentExams(): string {
+  const exams: any[] = [];
   return `
   <div class="page">
     ${pageHead('Exams', 'Your exam schedule', 'Board exams, internal assessments and unit tests this term.')}
     <div class="grid g-3 mb-6">
-      ${[
-        { t: 'Unit Test 2 — Mathematics', d: 'Sep 21, 2026 · 9:30 AM', w: '6 days', c: 'indigo' },
-        { t: 'Unit Test 2 — Physics', d: 'Sep 18, 2026 · 10:00 AM', w: '3 days', c: 'teal' },
-        { t: 'Unit Test 2 — Chemistry', d: 'Sep 25, 2026 · 11:00 AM', w: '10 days', c: 'green' },
-        { t: 'Mid-term Examination', d: 'Oct 12, 2026 · 9:00 AM', w: '27 days', c: 'amber' },
-      ].map(e => `
+      ${exams.length === 0 ? `
+        <div class="card pad-lg" style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:36px 24px">
+          No exams scheduled yet. Official school examination schedules will appear here.
+        </div>
+      ` : exams.map(e => `
         <div class="card pad">
           <div class="flex-b mb-3"><span class="badge ${e.c}">${e.w} left</span>${icon('award', 'ic-sm')}</div>
           <div class="h4 mb-2" style="line-height:1.35">${e.t}</div>
@@ -1278,12 +1242,11 @@ export function studentExams(): string {
       <table class="tbl">
         <thead><tr><th>Exam</th><th>Date</th><th>Duration</th><th>Pattern</th><th>Syllabus</th></tr></thead>
         <tbody>
-          ${[
-            ['Unit Test 2 — Physics', 'Sep 18, 2026', '45 min', '25 MCQ', 'Electricity'],
-            ['Unit Test 2 — Mathematics', 'Sep 21, 2026', '60 min', '30 MCQ', 'Quadratic, Trig'],
-            ['Unit Test 2 — Chemistry', 'Sep 25, 2026', '40 min', '20 MCQ', 'Reactions'],
-            ['Mid-term — All subjects', 'Oct 12-20, 2026', '2 hours', 'Written + MCQ', 'Full syllabus'],
-          ].map(([a, b, c, d, e]) => `<tr><td class="nm">${a}</td><td class="muted">${b}</td><td>${c}</td><td>${d}</td><td class="muted">${e}</td></tr>`).join('')}
+          <tr>
+            <td colspan="5" style="text-align:center;padding:36px;color:var(--text-3)">
+              No examination schedules published at this time.
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -1389,10 +1352,10 @@ export function studentProfile(): string {
           ${[
             ['Full name', u.name],
             ['Email', u.email],
-            ['Date of birth', '14 Mar 2010'],
-            ['Phone', '+91 ••••• 43210'],
-            ['Address', 'Bangalore, Karnataka'],
-            ['Guardian', 'Mr. Rajesh Sharma'],
+            ['Date of birth', '—'],
+            ['Phone', '—'],
+            ['Address', '—'],
+            ['Guardian', '—'],
           ].map(([k, v]) => `
             <div class="flex-b" style="padding:11px 0;border-bottom:1px solid var(--border-2);font-size:13px">
               <span class="muted">${k}</span><b>${v}</b>
@@ -1409,7 +1372,7 @@ export function studentProfile(): string {
             ['Roll number', u.roll],
             ['Academic year', '2025-2026'],
             ['Stream', 'Science'],
-            ['Class teacher', 'Ms. Priya Nair'],
+            ['Class teacher', '—'],
           ].map(([k, v]) => `
             <div class="flex-b" style="padding:11px 0;border-bottom:1px solid var(--border-2);font-size:13px">
               <span class="muted">${k}</span><b>${v}</b>
@@ -1421,10 +1384,10 @@ export function studentProfile(): string {
         <div class="card-h"><h3>Learning snapshot</h3></div>
         <div class="card-b">
           <div class="grid g-2">
-            ${statBlock('Overall mastery', '73%', '+8% this term', 'award', 'up')}
-            ${statBlock('Knowledge health', '73%', 'Stable', 'brain')}
+            ${statBlock('Overall mastery', '--', 'Unassessed', 'award')}
+            ${statBlock('Knowledge health', '--', 'Unassessed', 'brain')}
             ${statBlock('Curriculum status', 'Enrolled', 'Term 1 · 2026', 'book')}
-            ${statBlock('Topics mastered', '23', 'of 42', 'book2')}
+            ${statBlock('Topics mastered', '0', 'of 42', 'book2')}
           </div>
         </div>
       </div>
@@ -1433,10 +1396,10 @@ export function studentProfile(): string {
         <div class="card-h"><h3>Study preferences</h3></div>
         <div class="card-b">
           ${[
-            ['Preferred study time', '4:00 PM – 7:00 PM'],
+            ['Preferred study time', 'Self-paced'],
             ['Session length', '25 minutes'],
             ['Revision reminders', 'Enabled · push + email'],
-            ['Weekly goal', '5 sessions / week'],
+            ['Weekly goal', 'School Mandate'],
           ].map(([k, v]) => `
             <div class="flex-b" style="padding:11px 0;border-bottom:1px solid var(--border-2);font-size:13px">
               <span class="muted">${k}</span><b>${v}</b>

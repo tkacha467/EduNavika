@@ -8,8 +8,8 @@ export function renderRightRail(): string {
     <div class="rail-inner">
       <div class="ai-card">
         <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>EduNavika AI</b></div>
-        <div class="ai-body">You're most productive in the <b>4–7 PM</b> window. I've scheduled your revision for today at 5:00 PM.</div>
-        <div class="ai-actions"><button class="btn btn-sm btn-teal" data-go="student/revision">Open plan</button></div>
+        <div class="ai-body">Your learning workspace is active. Start a practice quiz to calibrate your knowledge health and generate your personalized revision plan.</div>
+        <div class="ai-actions"><button class="btn btn-sm btn-teal" data-go="student/assessments">Start practice</button></div>
       </div>
 
       <div class="card">
@@ -21,30 +21,25 @@ export function renderRightRail(): string {
           </button>
           <button class="qa-tile" data-go="student/revision">
             <div class="qi" style="background:var(--amber-50);color:#B4731A">${icon('refresh')}</div>
-            <div><b>Review today's queue</b><span>4 topics awaiting</span></div>
+            <div><b>Revision plan</b><span>Adaptive spaced practice</span></div>
           </button>
           <button class="qa-tile" data-go="student/materials">
             <div class="qi" style="background:var(--teal-50);color:var(--teal-600)">${icon('folder')}</div>
-            <div><b>Study materials</b><span>Notes, videos, PDFs</span></div>
+            <div><b>Study materials</b><span>Curriculum textbooks & notes</span></div>
           </button>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:13.5px">Next Test</h3></div>
+        <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:13.5px">Diagnostic Assessment</h3></div>
         <div class="card-b" style="padding-top:0">
           <div class="flex-b mb-2">
-            <span class="badge coral">2 days left</span>
-            <span class="tiny">Sept 18, 2026</span>
+            <span class="badge indigo">Standard 10</span>
+            <span class="tiny">GSEB</span>
           </div>
-          <div style="font-size:14px;font-weight:700;margin-bottom:2px">Electricity & Circuits — Quiz 2</div>
-          <div class="small mb-3">Physics · 30 min · 25 MCQs</div>
-          <div class="flex gap-2 mb-3" style="font-size:11.5px;color:var(--text-3)">
-            <span>Preparation</span>
-            <div class="prog thin" style="flex:1"><i class="fill-amber" style="width:48%"></i></div>
-            <b style="color:var(--text)">48%</b>
-          </div>
-          <button class="btn btn-primary btn-sm" style="width:100%" data-go="student/revision">Revise for this test</button>
+          <div style="font-size:14px;font-weight:700;margin-bottom:2px">Baseline Knowledge Check</div>
+          <div class="small mb-3">Mathematics & Science · 10 MCQs</div>
+          <button class="btn btn-primary btn-sm" style="width:100%" data-go="student/assessments">Take Practice Check</button>
         </div>
       </div>
     </div>

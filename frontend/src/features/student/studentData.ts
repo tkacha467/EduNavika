@@ -19,11 +19,18 @@ export const FORGETTING_TIMELINE: Array<{
   reason: string;
 }> = [];
 
-export const UPCOMING_ASSESSMENTS = [
-  { subject: 'Physics', topic: 'Electricity & Circuits', date: 'Sep 22, 2026', time: '10:00 AM', daysLeft: 3, prep: 0, duration: '45 min', questions: 25, difficulty: 'Medium', color: '#18A6A6' },
-  { subject: 'Mathematics', topic: 'Quadratic Equations', date: 'Sep 25, 2026', time: '9:30 AM', daysLeft: 6, prep: 0, duration: '60 min', questions: 30, difficulty: 'Medium', color: '#243B6B' },
-  { subject: 'Chemistry', topic: 'Chemical Reactions', date: 'Sep 29, 2026', time: '11:00 AM', daysLeft: 10, prep: 0, duration: '40 min', questions: 20, difficulty: 'Easy', color: '#2E9B68' },
-];
+export const UPCOMING_ASSESSMENTS: Array<{
+  subject: string;
+  topic: string;
+  date: string;
+  time: string;
+  daysLeft: number;
+  prep: number;
+  duration: string;
+  questions: number;
+  difficulty: string;
+  color: string;
+}> = [];
 
 export const COMPLETED_ASSESSMENTS: Array<{
   subject: string;
