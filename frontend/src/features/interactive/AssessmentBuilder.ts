@@ -1,4 +1,4 @@
-// Assessment Builder Wizard Modal from Final Design/final desgin.html
+// Assessment Builder Wizard Modal for EduNavika
 
 import { icon } from '../../utils/icons';
 import { openModal, closeOverlay, toast } from '../../components/common';

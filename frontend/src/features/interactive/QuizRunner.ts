@@ -1,4 +1,4 @@
-// Interactive Quiz Runner Modal from Final Design/final desgin.html
+// Interactive Quiz Runner Modal for EduNavika
 // Integrated with real backend attempt telemetry
 
 import { icon } from '../../utils/icons';

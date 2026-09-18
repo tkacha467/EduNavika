@@ -1,4 +1,4 @@
-// Student View Renderers — Exact reproduction from Final Design/final desgin.html
+// Student View Renderers for EduNavika
 
 import { icon } from '../../utils/icons';
 import { sparkline, barChart, donut, heatmap } from '../../utils/charts';

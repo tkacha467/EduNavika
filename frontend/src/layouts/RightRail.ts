@@ -1,4 +1,4 @@
-// Right Rail Widget Component from Final Design/final desgin.html
+// Right Rail Widget Component for EduNavika AppShell
 
 import { icon } from '../utils/icons';
 import { heatmap } from '../utils/charts';

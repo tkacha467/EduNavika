@@ -1,4 +1,4 @@
-// Shared UI interaction state matching final desgin.html
+// Shared UI interaction state for EduNavika portals
 
 export interface UIState {
   subjectId: string | null;

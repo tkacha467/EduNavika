@@ -1,4 +1,4 @@
-// Authoritative SVG Icon Definitions from Final Design/final desgin.html
+// Authoritative SVG Icon Definitions for EduNavika
 
 export const I: Record<string, string> = {
   home: '<path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',

@@ -1,4 +1,4 @@
-// Login Page Feature from Final Design/final desgin.html
+// Login Page Feature for EduNavika
 
 import { Role } from '../../types';
 

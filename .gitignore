@@ -50,6 +50,7 @@ htmlcov/
 # Large PDF Textbook Datasets (Prevent exceeding GitHub 100MB limit)
 GSEB-Dataset/**/*.pdf
 *.pdf
+!EduNavika_Product_Status_Report.pdf
 
 # Intermediate Ingestion Data & Processed Artifacts
 data/*

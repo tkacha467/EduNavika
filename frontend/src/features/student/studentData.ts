@@ -1,4 +1,4 @@
-// Authoritative Reference Data from Final Design/final desgin.html
+// Authoritative Student Reference Data for EduNavika
 
 export const REVISION_QUEUE = [
   { subject: 'Physics', topic: 'Electricity & Circuits', kh: 42, risk: 'High', when: 'Today', reason: 'Recent accuracy dropped from 72% to 48%, last revised 9 days ago.' },

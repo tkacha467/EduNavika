@@ -1,4 +1,4 @@
-// Teacher View Renderers — Exact reproduction from Final Design/final desgin.html
+// Teacher View Renderers for EduNavika
 
 import { icon } from '../../utils/icons';
 import { sparkline } from '../../utils/charts';

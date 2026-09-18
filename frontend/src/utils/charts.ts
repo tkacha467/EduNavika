@@ -1,4 +1,4 @@
-// Chart and visualization helpers from Final Design/final desgin.html
+// Chart and visualization helpers for EduNavika
 
 export function sparkline(values: number[], w = 640, h = 130, color = '#243B6B', fill = true): string {
   if (!values.length) return '';

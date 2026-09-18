@@ -1,4 +1,4 @@
-// Common Visual Components and Overlay Helpers from Final Design/final desgin.html
+// Common Visual Components and Overlay Helpers for EduNavika
 
 import { icon } from '../utils/icons';
 

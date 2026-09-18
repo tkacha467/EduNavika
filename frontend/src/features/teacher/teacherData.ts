@@ -1,4 +1,4 @@
-// Authoritative Teacher Reference Data from Final Design/final desgin.html
+// Authoritative Teacher Reference Data for EduNavika
 
 export interface TeacherClass {
   id: string;
