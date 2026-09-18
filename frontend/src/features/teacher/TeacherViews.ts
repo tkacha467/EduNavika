@@ -12,7 +12,7 @@ import {
   openDrawer,
   toast,
 } from '../../components/common';
-import { TEACHER } from '../../services/authService';
+import { getCurrentUser } from '../../services/authService';
 import { CLASS_WEAK_TOPICS } from '../student/studentData';
 import {
   TEACHER_CLASSES,
@@ -629,10 +629,10 @@ export function teacherNotifications(): string {
 
 /* ---------- Teacher Profile ---------- */
 export function teacherProfile(): string {
-  const u = TEACHER;
+  const u = getCurrentUser();
   return `
   <div class="page">
-    ${pageHead('Profile', 'Your profile', 'Personal and professional information.', `<button class="btn btn-primary" onclick="toast('Profile edit opened','','good')">${icon('edit')} Edit profile</button>`)}
+    ${pageHead('Profile', 'Your profile', 'Personal and professional information.', `<button class="btn btn-primary" onclick="window.openChangePasswordModal()">${icon('lock', 'ic-xs')} Change Password</button>`)}
     <div class="card mb-6">
       <div class="card-b" style="padding:28px">
         <div class="flex gap-5 wrap">

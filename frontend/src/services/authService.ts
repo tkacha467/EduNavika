@@ -5,36 +5,37 @@ import { User, Role } from '../types';
 
 const STORAGE_KEY_USER = 'edunavika_user';
 const STORAGE_KEY_ROLE = 'edunavika_role';
+const STORAGE_KEY_TOKEN = 'edunavika_token';
 
 export const DEFAULT_STUDENT: User = {
-  id: 'stu-aarav-sharma-001',
-  email: 'a.sharma@dps.edu.in',
-  full_name: 'Aarav Sharma',
-  name: 'Aarav Sharma',
+  id: 'stu-tushar-kacha-001',
+  email: 'kachatushar108@gmail.com',
+  full_name: 'Tushar Kacha',
+  name: 'Tushar Kacha',
   role: 'student',
   is_active: true,
-  initials: 'AS',
+  initials: 'TK',
   grade: 'Grade 10',
   section: 'Science',
-  school: 'Delhi Public School, Bangalore',
-  roll: 'STU-2026-0142',
-  joined: 'June 2024',
-  streak: 7,
+  school: 'GSEB Higher Secondary School',
+  roll: 'STU-2026-0814',
+  joined: 'July 2024',
+  streak: 12,
   weeklyGoal: 85,
   todayGoal: 3,
 };
 
 export const DEFAULT_TEACHER: User = {
-  id: 'tch-priya-nair-001',
-  email: 'p.nair@dps.edu.in',
-  full_name: 'Ms. Priya Nair',
-  name: 'Ms. Priya Nair',
+  id: 'tch-prof-tushar-kacha-001',
+  email: 'tushar.kacha141862@marwadiuniversity.ac.in',
+  full_name: 'Prof. Tushar Kacha',
+  name: 'Prof. Tushar Kacha',
   role: 'teacher',
   is_active: true,
-  initials: 'PN',
+  initials: 'TK',
   grade: 'Grade 10',
   section: 'Science',
-  school: 'Delhi Public School, Bangalore',
+  school: 'Marwadi University · GSEB Faculty',
   subjects: 'Mathematics & Physics',
 };
 
@@ -68,9 +69,18 @@ export class AuthService {
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(STORAGE_KEY_ROLE, role);
     }
+    if (this.currentUser) {
+      this.currentUser.role = role;
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(this.currentUser));
+      }
+    }
   }
 
   public getRole(): Role {
+    if (this.currentUser && this.currentUser.role) {
+      return this.currentUser.role;
+    }
     return this.currentRole;
   }
 
@@ -82,46 +92,89 @@ export class AuthService {
     return this.currentUser !== null;
   }
 
-  public async login(email: string, role: Role): Promise<User> {
-    this.currentRole = role;
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY_ROLE, role);
-    }
+  public async login(email: string, password?: string, role?: Role): Promise<User> {
+    const targetRole = role || this.currentRole;
+    this.currentRole = targetRole;
 
-    // If backend has user endpoint, attempt lookup or fallback gracefully
     try {
-      // Look up user by email or ID if available
-      const backendUser = await api.get<User>(`/users/${encodeURIComponent(email)}`);
-      if (backendUser && backendUser.id) {
+      const resp = await api.post<{ success: boolean; access_token: string; user: User }>('/auth/login', {
+        email: email.trim().toLowerCase(),
+        password: password || (targetRole === 'teacher' ? '2120@8030' : 'Tushar@21'),
+        role: targetRole,
+      });
+
+      if (resp && resp.user) {
         this.currentUser = {
-          ...backendUser,
-          role,
-          initials: backendUser.full_name
-            ? backendUser.full_name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
-            : 'U',
+          ...resp.user,
+          role: targetRole,
         };
         if (typeof localStorage !== 'undefined') {
+          localStorage.setItem(STORAGE_KEY_ROLE, targetRole);
           localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(this.currentUser));
+          if (resp.access_token) {
+            localStorage.setItem(STORAGE_KEY_TOKEN, resp.access_token);
+          }
         }
         return this.currentUser;
       }
-    } catch {
-      // Graceful fallback to approved role default
+    } catch (err: any) {
+      // Check offline or direct validation
+      const cleanEmail = email.trim().toLowerCase();
+      if (cleanEmail === 'kachatushar108@gmail.com') {
+        if (password && password !== 'Tushar@21') {
+          throw new Error('Incorrect password for student account');
+        }
+        this.currentUser = { ...DEFAULT_STUDENT };
+      } else if (cleanEmail === 'tushar.kacha141862@marwadiuniversity.ac.in') {
+        if (password && password !== '2120@8030') {
+          throw new Error('Incorrect password for teacher account');
+        }
+        this.currentUser = { ...DEFAULT_TEACHER };
+      } else {
+        throw new Error(err.message || 'Invalid credentials or user not found');
+      }
+
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(STORAGE_KEY_ROLE, targetRole);
+        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(this.currentUser));
+      }
+      return this.currentUser;
     }
 
-    // Default profile matching approved design specifications
-    const fallbackUser = role === 'student' ? { ...DEFAULT_STUDENT, email } : { ...DEFAULT_TEACHER, email };
+    const fallbackUser = targetRole === 'student' ? { ...DEFAULT_STUDENT, email } : { ...DEFAULT_TEACHER, email };
     this.currentUser = fallbackUser;
     if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY_ROLE, targetRole);
       localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(this.currentUser));
     }
     return this.currentUser;
+  }
+
+  public async forgotPassword(email: string): Promise<{ success: boolean; message: string; reset_link: string; reset_token: string }> {
+    return await api.post('/auth/forgot-password', { email: email.trim().toLowerCase() });
+  }
+
+  public async resetPassword(email: string, token: string, newPassword: string): Promise<{ success: boolean; message: string }> {
+    return await api.post('/auth/reset-password', {
+      email: email.trim().toLowerCase(),
+      token: token.trim(),
+      new_password: newPassword,
+    });
+  }
+
+  public async changePassword(email: string, currentPassword: string, newPassword: string): Promise<{ success: boolean; message: string }> {
+    return await api.post('/auth/change-password', {
+      email: email.trim().toLowerCase(),
+      current_password: currentPassword,
+      new_password: newPassword,
+    });
   }
 
   public logout() {
     this.currentUser = null;
     if (typeof localStorage !== 'undefined') {
       localStorage.removeItem(STORAGE_KEY_USER);
+      localStorage.removeItem(STORAGE_KEY_TOKEN);
     }
   }
 }
@@ -132,7 +185,9 @@ export const STUDENT = DEFAULT_STUDENT;
 export const TEACHER = DEFAULT_TEACHER;
 
 export function getCurrentUser(): User {
-  return authService.getUser() || (authService.getRole() === 'teacher' ? DEFAULT_TEACHER : DEFAULT_STUDENT);
+  const user = authService.getUser();
+  if (user) return user;
+  return authService.getRole() === 'teacher' ? DEFAULT_TEACHER : DEFAULT_STUDENT;
 }
 
 export function isAuthenticated(): boolean {

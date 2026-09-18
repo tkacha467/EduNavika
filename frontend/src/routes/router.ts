@@ -1,8 +1,13 @@
 // Centralized Role-Aware Router & Application Controller
 
-import { renderLogin } from '../features/auth/Login';
+import {
+  renderLogin,
+  bindLoginEvents,
+  renderResetPasswordPage,
+  bindResetPasswordEvents,
+} from '../features/auth/Login';
 import { renderAppShell } from '../layouts/AppShell';
-import { getCurrentUser, isAuthenticated, getRole } from '../services/authService';
+import { getCurrentUser, isAuthenticated, getRole, authService } from '../services/authService';
 import {
   studentDashboard,
   studentLearning,
@@ -94,6 +99,14 @@ export function navigate(route: string): void {
     target = `${role}/dashboard`;
   }
 
+  // Handle Reset Password route
+  if (target.startsWith('reset-password')) {
+    currentRoute = target;
+    window.location.hash = `#/${target}`;
+    renderCurrentRoute();
+    return;
+  }
+
   // Handle Login route
   if (target === 'login') {
     currentRoute = 'login';
@@ -119,7 +132,8 @@ export function navigate(route: string): void {
     target = 'teacher/dashboard';
   }
 
-  if (!ROUTES[target]) {
+  const cleanTarget = target.split('?')[0];
+  if (!ROUTES[cleanTarget]) {
     target = `${role}/dashboard`;
   }
 
@@ -132,15 +146,29 @@ export function renderCurrentRoute(): void {
   const root = document.getElementById('appRoot');
   if (!root) return;
 
+  // Handle Reset Password View
+  if (currentRoute.startsWith('reset-password')) {
+    const queryString = window.location.hash.includes('?') ? window.location.hash.split('?')[1] : '';
+    const params = new URLSearchParams(queryString);
+    const email = params.get('email') || '';
+    const token = params.get('token') || '';
+    root.innerHTML = renderResetPasswordPage(email, token);
+    bindResetPasswordEvents();
+    return;
+  }
+
+  // Handle Login View
   if (currentRoute === 'login' || !isAuthenticated()) {
-    root.innerHTML = renderLogin();
+    root.innerHTML = renderLogin(getRole());
+    bindLoginEvents();
     return;
   }
 
   const user = getCurrentUser();
-  const renderer = ROUTES[currentRoute] || (user.role === 'teacher' ? teacherDashboard : studentDashboard);
+  const cleanRoute = currentRoute.split('?')[0];
+  const renderer = ROUTES[cleanRoute] || (user.role === 'teacher' ? teacherDashboard : studentDashboard);
   const pageHtml = renderer();
-  root.innerHTML = renderAppShell(user, currentRoute, pageHtml);
+  root.innerHTML = renderAppShell(user, cleanRoute, pageHtml);
 
   // Re-bind dynamic layout interactions
   bindShellInteractions();
@@ -161,6 +189,15 @@ function bindShellInteractions(): void {
   if (btnBurger && sidebar) {
     btnBurger.onclick = () => {
       sidebar.classList.toggle('open');
+    };
+  }
+
+  // Sign out button
+  const btnLogout = document.getElementById('btnAppLogout');
+  if (btnLogout) {
+    btnLogout.onclick = () => {
+      authService.logout();
+      navigate('login');
     };
   }
 

@@ -5,6 +5,9 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from backend.app.core.config import settings
+from backend.app.core.database import engine, Base, SessionLocal
+import backend.app.models  # noqa: F401
+from backend.app.api.v1.endpoints.auth import ensure_default_accounts
 from backend.app.api.v1.router import api_router
 
 app = FastAPI(
@@ -15,6 +18,12 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
 )
+
+@app.on_event("startup")
+def on_startup():
+    Base.metadata.create_all(bind=engine)
+    with SessionLocal() as db:
+        ensure_default_accounts(db)
 
 # CORS
 app.add_middleware(

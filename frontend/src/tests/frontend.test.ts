@@ -102,9 +102,9 @@ describe('Role-Aware Router & Application Shell', () => {
 
 describe('Authentication & Session Management', () => {
   it('should manage default student and teacher credentials', () => {
-    expect(DEFAULT_STUDENT.email).toBe('a.sharma@dps.edu.in');
+    expect(DEFAULT_STUDENT.email).toBe('kachatushar108@gmail.com');
     expect(DEFAULT_STUDENT.role).toBe('student');
-    expect(DEFAULT_TEACHER.email).toBe('p.nair@dps.edu.in');
+    expect(DEFAULT_TEACHER.email).toBe('tushar.kacha141862@marwadiuniversity.ac.in');
     expect(DEFAULT_TEACHER.role).toBe('teacher');
   });
 

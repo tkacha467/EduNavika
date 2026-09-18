@@ -189,10 +189,13 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
           <span class="dot"></span>
         </button>
-        <button class="tb-profile" data-go="${role}/profile">
+        <button class="tb-profile" data-go="${role}/profile" title="View Profile">
           <div class="av sm" id="topAvatar">${user.initials || 'U'}</div>
           <div class="who"><b id="topName">${user.full_name}</b><span id="topMeta">${user.grade || 'Grade 10'} · ${user.section || 'Science'}</span></div>
           <svg class="ic ic-sm" style="color:var(--text-4)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <button class="tb-icon" id="btnAppLogout" title="Sign out / Switch account" style="color:var(--coral,#ef4444);cursor:pointer">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         </button>
       </div>
     </header>

@@ -1,6 +1,7 @@
 // Common Visual Components and Overlay Helpers for EduNavika
 
 import { icon } from '../utils/icons';
+import { getCurrentUser, authService } from '../services/authService';
 
 export function pageHead(kicker: string, title: string, sub = '', actions = ''): string {
   return `<div class="page-head mb-5" style="display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap">
@@ -120,3 +121,105 @@ export function closeOverlay() {
   const overlayRoot = document.getElementById('overlayRoot');
   if (overlayRoot) overlayRoot.innerHTML = '';
 }
+
+export function openChangePasswordModal(): void {
+  const user = getCurrentUser();
+  const html = `
+    <div class="modal-h">
+      <div>
+        <h3>Change Password</h3>
+        <p class="tiny">Update login credentials for ${user.email}</p>
+      </div>
+      <button class="btn btn-icon" onclick="window.closeOverlay()">✕</button>
+    </div>
+    <div class="modal-b">
+      <div id="changePassAlert" style="display:none;margin-bottom:14px;padding:10px 12px;border-radius:8px;font-size:12.5px;"></div>
+      <form id="changePassForm" onsubmit="return false;">
+        <div class="field mb-3">
+          <label class="lbl-sm">Account Email</label>
+          <input class="input" type="text" value="${user.email}" readonly style="background:var(--bg-2);color:var(--text-3);cursor:not-allowed">
+        </div>
+        <div class="field mb-3">
+          <label class="lbl-sm">Current Password</label>
+          <input class="input" type="password" id="currentPassInput" placeholder="Enter current password" required>
+        </div>
+        <div class="field mb-3">
+          <label class="lbl-sm">New Password</label>
+          <input class="input" type="password" id="newPassInput" placeholder="Enter new password (min 6 characters)" required>
+        </div>
+        <div class="field mb-4">
+          <label class="lbl-sm">Confirm New Password</label>
+          <input class="input" type="password" id="confirmPassInput" placeholder="Re-enter new password" required>
+        </div>
+        <div class="flex-b">
+          <button type="button" class="btn" onclick="window.closeOverlay()">Cancel</button>
+          <button type="submit" id="btnSubmitChangePass" class="btn btn-primary">Update Password</button>
+        </div>
+      </form>
+    </div>
+  `;
+  openModal(html);
+
+  const form = document.getElementById('changePassForm');
+  const curInput = document.getElementById('currentPassInput') as HTMLInputElement | null;
+  const newInput = document.getElementById('newPassInput') as HTMLInputElement | null;
+  const confInput = document.getElementById('confirmPassInput') as HTMLInputElement | null;
+  const alertBox = document.getElementById('changePassAlert');
+  const btnSubmit = document.getElementById('btnSubmitChangePass') as HTMLButtonElement | null;
+
+  if (form && curInput && newInput && confInput) {
+    form.onsubmit = async (e: Event) => {
+      e.preventDefault();
+      const currentPass = curInput.value.trim();
+      const newPass = newInput.value.trim();
+      const confirmPass = confInput.value.trim();
+
+      if (!currentPass || !newPass) {
+        showAlert('Please fill in both current and new passwords.', false);
+        return;
+      }
+      if (newPass !== confirmPass) {
+        showAlert('New password and confirmation do not match.', false);
+        return;
+      }
+      if (newPass.length < 6) {
+        showAlert('New password must be at least 6 characters long.', false);
+        return;
+      }
+
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = 'Saving…';
+      }
+
+      try {
+        const resp = await authService.changePassword(user.email, currentPass, newPass);
+        toast(resp.message || 'Password updated successfully!', '', 'good');
+        closeOverlay();
+      } catch (err: any) {
+        showAlert(err.message || 'Current password is incorrect.', false);
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.textContent = 'Update Password';
+        }
+      }
+    };
+  }
+
+  function showAlert(msg: string, success: boolean) {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = success ? '#f0fdf4' : '#fef2f2';
+      alertBox.style.color = success ? '#15803d' : '#b91c1c';
+      alertBox.style.border = `1px solid ${success ? '#bbf7d0' : '#fecaca'}`;
+      alertBox.innerHTML = msg;
+    }
+  }
+}
+
+if (typeof window !== 'undefined') {
+  (window as any).openChangePasswordModal = openChangePasswordModal;
+  (window as any).closeOverlay = closeOverlay;
+  (window as any).toast = toast;
+}
+

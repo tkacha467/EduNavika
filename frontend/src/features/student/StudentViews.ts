@@ -15,7 +15,7 @@ import {
   toast,
 } from '../../components/common';
 import { SUBJECTS } from '../../services/curriculumService';
-import { STUDENT } from '../../services/authService';
+import { STUDENT, getCurrentUser } from '../../services/authService';
 import { UI } from '../../services/uiState';
 import {
   REVISION_QUEUE,
@@ -1417,10 +1417,10 @@ export function studentNotifications(): string {
 
 /* ---------- Profile ---------- */
 export function studentProfile(): string {
-  const u = STUDENT;
+  const u = getCurrentUser();
   return `
   <div class="page">
-    ${pageHead('Profile', 'Your profile', 'Your personal and academic information.', `<button class="btn btn-primary">${icon('edit')} Edit profile</button>`)}
+    ${pageHead('Profile', 'Your profile', 'Your personal and academic information.', `<button class="btn btn-primary" onclick="window.openChangePasswordModal()">${icon('lock', 'ic-xs')} Change Password</button>`)}
 
     <div class="card mb-6">
       <div class="card-b" style="padding:28px">

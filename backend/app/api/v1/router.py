@@ -12,9 +12,13 @@ from backend.app.api.v1.endpoints import (
     teacher_actions,
     users,
     adaptive,
+    auth,
 )
 
 api_router = APIRouter()
+
+# Authentication & Password Recovery
+api_router.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 
 # Adaptive Learning & Knowledge Decay
 api_router.include_router(adaptive.router, tags=["Adaptive Learning"])
