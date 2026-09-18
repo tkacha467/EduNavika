@@ -1,90 +1,84 @@
 @echo off
-setlocal enabledelayedexpansion
-
-title EduNavika — Launcher
+cd /d "%~dp0"
+title EduNavika Launcher
 
 echo =====================================================================
-echo                 EDUNAVIKA — LAUNCHER & ORCHESTRATOR
-echo     Research-Grade Adaptive Learning & Assessment Platform (GSEB)
+echo                    EDUNAVIKA APPLICATION LAUNCHER
+echo          GSEB Adaptive Learning Platform Standards 9 to 12
 echo =====================================================================
 echo.
 
 :: 1. Check Python
-where python >nul 2>&1
-if %ERRORLEVEL% neq 0 (
-    echo [ERROR] Python is not found in your PATH!
-    echo Please install Python 3.10+ from https://www.python.org/ and check "Add to PATH".
+python --version >nul 2>&1
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Python is not installed or not in your PATH.
+    echo Please install Python 3.10+ from https://www.python.org/
+    echo Make sure to check "Add Python to PATH" during installation.
     echo.
     pause
     exit /b 1
 )
-for /f "tokens=*" %%i in ('python --version 2^>^&1') do set PYTHON_VER=%%i
-echo [OK] %PYTHON_VER% detected.
+echo [OK] Python is available.
 
-:: 2. Check Node / npm
-where npm >nul 2>&1
-if %ERRORLEVEL% neq 0 (
-    echo [ERROR] Node.js / npm is not found in your PATH!
-    echo Please install Node.js (v18+) from https://nodejs.org/
+:: 2. Check Node.js and npm
+call npm --version >nul 2>&1
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Node.js and npm are not installed or not in your PATH.
+    echo Please install Node.js from https://nodejs.org/
     echo.
     pause
     exit /b 1
 )
-for /f "tokens=*" %%i in ('npm --version 2^>^&1') do set NPM_VER=%%i
-echo [OK] npm v%NPM_VER% detected.
+echo [OK] Node.js and npm are available.
 
 :: 3. Check frontend node_modules
-if not exist "frontend\node_modules\" (
+if not exist "frontend\node_modules" (
     echo.
-    echo [*] Installing frontend dependencies (first-time setup)...
+    echo [*] Installing frontend dependencies...
     cd frontend
     call npm install
-    cd ..
-    echo [OK] Frontend dependencies installed.
+    cd /d "%~dp0"
+    echo [OK] Dependencies installed.
 )
 
 echo.
-echo ---------------------------------------------------------------------
-echo  Starting Services...
-echo ---------------------------------------------------------------------
+echo =====================================================================
+echo  Starting Backend and Frontend Services...
+echo =====================================================================
+echo.
 
-:: 4. Start Backend Server (FastAPI + Uvicorn)
-echo [*] Launching Backend on http://127.0.0.1:8000 ...
-start "EduNavika Backend (FastAPI)" cmd /k "title EduNavika Backend && cd /d "%~dp0" && python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload"
+:: 4. Launch Backend in separate window
+echo [*] Starting Backend Server on http://127.0.0.1:8000 ...
+start "EduNavika Backend" cmd /k "python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload"
 
-:: 5. Start Frontend Server (Vite)
-echo [*] Launching Frontend on http://localhost:3000 ...
-start "EduNavika Frontend (Vite)" cmd /k "title EduNavika Frontend && cd /d "%~dp0frontend" && npm run dev"
+:: 5. Launch Frontend in separate window
+echo [*] Starting Frontend Server on http://localhost:3000 ...
+start "EduNavika Frontend" cmd /k "cd frontend && npm run dev"
 
-:: 6. Wait for servers to spin up
+:: 6. Wait 3 seconds for servers to start
 echo [*] Waiting for services to initialize...
-timeout /t 4 /nobreak >nul
+ping 127.0.0.1 -n 4 >nul
 
-:: 7. Launch browser to the application
-echo [*] Opening application in default web browser...
+:: 7. Open browser
+echo [*] Opening application in browser...
 start http://localhost:3000
 
 echo.
 echo =====================================================================
-echo                      ALL SERVICES RUNNING!
+echo                    SERVICES ARE RUNNING!
 echo =====================================================================
 echo.
-echo   * Student & Teacher Web Portal:  http://localhost:3000
-echo   * Backend REST API (Swagger UI): http://localhost:8000/docs
-echo   * Backend Alternative (ReDoc):   http://localhost:8000/redoc
+echo   * Frontend Web App:     http://localhost:3000
+echo   * Backend REST API:     http://localhost:8000/docs
 echo.
-echo  To stop EduNavika:
-echo   - Close the Backend and Frontend terminal windows, or
-echo   - Press any key below to automatically terminate both services.
+echo  Keep this window open. Press any key to stop all EduNavika services.
 echo =====================================================================
 echo.
-
 pause
 
-echo [*] Stopping EduNavika processes...
+echo [*] Stopping services...
 taskkill /fi "WINDOWTITLE eq EduNavika Backend*" /f >nul 2>&1
 taskkill /fi "WINDOWTITLE eq EduNavika Frontend*" /f >nul 2>&1
-
-echo [OK] EduNavika services stopped.
-timeout /t 2 /nobreak >nul
+echo [OK] All services stopped.
+ping 127.0.0.1 -n 2 >nul
 exit /b 0
