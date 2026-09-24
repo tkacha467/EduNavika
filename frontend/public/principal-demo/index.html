@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0d203a" />
+  <title>EduNavika — Principal Demo</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="topbar">
+      <a class="brand" href="#s0" aria-label="EduNavika home"><span class="brand-mark">E</span><span><b>EduNavika</b><small>Principal Demo</small></span></a>
+      <div class="top-actions">
+        <button class="ghost" id="reduceMotion">Reduce motion</button>
+        <button class="primary" data-jump="s12">Skip to summary</button>
+      </div>
+    </header>
+
+    <div class="progress"><span id="progressBar"></span></div>
+    <div class="scene-count" id="sceneCount">01 / 13</div>
+
+    <main id="story">
+      <section class="scene hero-scene" id="s0" data-label="A student's day">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">A learning journey</p>
+          <h1>Every student learns.</h1>
+          <p class="hero-sub">But learning is not finished when the lesson ends.</p>
+          <div class="scroll-hint"><span></span> Scroll to enter the classroom</div>
+        </div>
+        <div class="room room-hero" aria-hidden="true">
+          <div class="window"><i></i><i></i><i></i><i></i></div>
+          <div class="board"><span>Today</span><strong>Quadratic Equations</strong></div>
+          <div class="desk desk-main"><div class="book"></div><div class="pencil"></div><div class="bag"></div></div>
+          <div class="student"><div class="head"></div><div class="body"></div><div class="arm"></div></div>
+          <div class="floor"></div>
+        </div>
+      </section>
+
+      <section class="scene split" id="s1" data-label="Learn">
+        <div class="copy reveal"><span class="step">01 · LEARN</span><h2>Today, the student understands the concept.</h2><p>A lesson becomes a learning event: the topic is introduced, practice happens, and evidence of learning is recorded.</p></div>
+        <div class="visual notebook-card">
+          <div class="paper"><small>MATHEMATICS · CLASS 10</small><h3>Quadratic Equations</h3><div class="equation">x² + 5x + 6 = 0</div><div class="check-row"><span>✓ Learning completed</span><span>✓ Practice completed</span><span>✓ Understanding recorded</span></div></div>
+          <div class="knowledge-node" id="node1"><span></span><b>learned skill</b></div>
+        </div>
+      </section>
+
+      <section class="scene timeline-scene" id="s2" data-label="Time passes">
+        <div class="copy reveal centered"><span class="step">02 · TIME PASSES</span><h2>Time passes. Practice becomes less frequent.</h2><p>Without retrieval practice, previously learned skills can become less accessible.</p></div>
+        <div class="timeline visual">
+          <div class="day active"><b>MON</b><span>Lesson</span></div><i></i><div class="day"><b>WEEK 1</b><span>Less practice</span></div><i></i><div class="day"><b>WEEK 2</b><span>Less retrieval</span></div><i></i><div class="day faded"><b>WEEK 3</b><span>Harder to retrieve</span></div>
+          <div class="fading-node"></div>
+        </div>
+      </section>
+
+      <section class="scene split reverse" id="s3" data-label="The problem">
+        <div class="visual question-card">
+          <div class="question-top"><span>Math · Revision check</span><em>Illustrative example</em></div>
+          <h3>Solve x² + 5x + 6 = 0</h3>
+          <div class="answer-line"></div><div class="answer-line short"></div>
+          <div class="hesitation">…</div>
+          <p>Previously learned ≠ always readily retrievable</p>
+        </div>
+        <div class="copy reveal"><span class="step">03 · THE REAL SCHOOL PROBLEM</span><h2>A test score alone may not show the whole learning journey.</h2><p>Teachers have limited time and many students. EduNavika is designed to add learning evidence across time—not to replace teacher judgment.</p></div>
+      </section>
+
+      <section class="scene intro-scene" id="s4" data-label="Meet EduNavika">
+        <div class="orbital"></div>
+        <div class="copy reveal centered">
+          <div class="brand-lockup"><span class="brand-mark big">E</span><span>EduNavika</span></div>
+          <h2>Make the learning journey visible.</h2>
+          <p>From learning activity → to learning history → to timely revision.</p>
+        </div>
+      </section>
+
+      <section class="scene pipeline-scene" id="s5" data-label="How it works">
+        <div class="copy reveal centered"><span class="step">04 · HOW EDUNAVIKA WORKS</span><h2>One continuous learning loop.</h2><p>A simple journey turns scattered activity into a clearer revision signal.</p></div>
+        <div class="pipeline visual">
+          <div class="pipe active"><strong>01</strong><b>LEARN</b><span>Student learns a topic.</span></div><div class="pipe-arrow">→</div>
+          <div class="pipe"><strong>02</strong><b>PRACTICE</b><span>Student answers and practices.</span></div><div class="pipe-arrow">→</div>
+          <div class="pipe"><strong>03</strong><b>OBSERVE</b><span>Activity is recorded over time.</span></div><div class="pipe-arrow">→</div>
+          <div class="pipe"><strong>04</strong><b>IDENTIFY</b><span>Skills needing attention are surfaced.</span></div><div class="pipe-arrow">→</div>
+          <div class="pipe"><strong>05</strong><b>REVISE</b><span>Revision is suggested at an appropriate time.</span></div>
+          <div class="signal"></div>
+        </div>
+      </section>
+
+      <section class="scene dashboard-scene" id="s6" data-label="Student experience">
+        <div class="copy reveal"><span class="step">05 · STUDENT EXPERIENCE</span><h2>A student sees what deserves attention next.</h2><p>Illustrative demo data only. No fabricated forgetting probabilities or ML scores.</p></div>
+        <div class="dashboard visual">
+          <div class="dash-head"><span>Student Dashboard</span><small>Example student · Demo data</small></div>
+          <div class="dash-grid">
+            <div class="dash-card"><small>Today's learning</small><b>3 topics</b><span>Completed</span></div>
+            <div class="dash-card"><small>Practice</small><b>12 questions</b><span>8 correct</span></div>
+            <div class="dash-card"><small>Progress</small><b>Learning history</b><span>Updated today</span></div>
+            <div class="revision-card"><div><span>REVISION RECOMMENDED</span><h3>Quadratic Equations</h3><p>Revision suggested based on the learning history shown in this demo.</p></div><button data-jump="s7">Revise now</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene revision-scene" id="s7" data-label="Revision">
+        <div class="copy reveal centered"><span class="step">06 · REVISION</span><h2>Revision creates another opportunity to retrieve the skill.</h2><p>EduNavika records the new evidence rather than claiming that memory is permanent.</p></div>
+        <div class="revision-loop visual">
+          <div class="loop-node old">Learned<br><b>earlier</b></div><div class="loop-line"></div><div class="loop-node revise">Revision<br><b>+ practice</b></div><div class="loop-line"></div><div class="loop-node new">New retrieval<br><b>evidence</b></div>
+        </div>
+      </section>
+
+      <section class="scene teacher-scene" id="s8" data-label="Teacher view">
+        <div class="copy reveal"><span class="step">07 · TEACHER VIEW</span><h2>Teachers see learning patterns, not just marks.</h2><p>EduNavika is designed to support teachers with additional learning evidence: students, activity, skills needing attention, revision, and progress trends.</p></div>
+        <div class="teacher-board visual">
+          <div class="tb-head"><b>Class 10 · Mathematics</b><span>DEMO DATA</span></div>
+          <div class="student-row"><span>Aarav</span><i></i><b>Quadratic Equations</b><em>Revision due</em></div>
+          <div class="student-row"><span>Diya</span><i></i><b>Polynomials</b><em>Practising</em></div>
+          <div class="student-row"><span>Kabir</span><i></i><b>Linear Equations</b><em>Recent evidence</em></div>
+          <div class="mini-flow"><span>Student</span><b>→</b><span>Topics</span><b>→</b><span>Learning activity</span><b>→</b><span>Revision status</span></div>
+        </div>
+      </section>
+
+      <section class="scene school-scene" id="s9" data-label="School view">
+        <div class="copy reveal centered"><span class="step">08 · SCHOOL-LEVEL VALUE</span><h2>From one student to a clearer picture of learning.</h2></div>
+        <div class="network visual">
+          <div class="school-core">SCHOOL</div>
+          <div class="orbit o1"><span>Students</span><span>Teachers</span></div>
+          <div class="orbit o2"><span>Subjects</span><span>Topics</span></div>
+          <div class="orbit o3"><span>Revision</span></div>
+        </div>
+        <div class="benefits">
+          <article><b>FOR STUDENTS</b><span>Know what to revise.</span></article>
+          <article><b>FOR TEACHERS</b><span>See where students may need attention.</span></article>
+          <article><b>FOR SCHOOLS</b><span>Build a more continuous picture of learning.</span></article>
+        </div>
+      </section>
+
+      <section class="scene compare-scene" id="s10" data-label="A different view">
+        <div class="copy reveal centered"><span class="step">09 · THE DIFFERENCE</span><h2>Learning should be a journey, not only a series of tests.</h2></div>
+        <div class="compare visual">
+          <div class="compare-col old"><label>TRADITIONAL VIEW</label><span>Lesson</span><b>↓</b><span>Homework</span><b>↓</b><span>Test</span><b>↓</b><span>Marks</span></div>
+          <div class="compare-col new"><label>EDUNAVIKA VISION</label><span>Learn</span><b>↓</b><span>Practice</span><b>↓</b><span>Learning history</span><b>↓</b><span>Knowledge-risk signals</span><b>↓</b><span>Revision</span><b>↓</b><span>New evidence</span></div>
+        </div>
+      </section>
+
+      <section class="scene research-scene" id="s11" data-label="Research engine">
+        <div class="copy reveal"><span class="step">10 · RESEARCH & DEVELOPMENT</span><h2>The product foundation comes before the final ML claim.</h2><p>Today's system provides the foundation for future data-driven forgetting prediction. With sufficient longitudinal student data, predictive models can be empirically trained and evaluated.</p><span class="status-pill">Research & development</span></div>
+        <div class="architecture visual">
+          <div>Student Activity</div><i>↓</i><div>Learning Events</div><i>↓</i><div>Point-in-Time Features</div><i>↓</i><div>Knowledge Decay Analysis</div><i>↓</i><div>Prediction Models</div><i>↓</i><div>Personalized Revision</div>
+        </div>
+      </section>
+
+      <section class="scene future-scene" id="s12" data-label="Future vision">
+        <div class="copy reveal centered"><span class="step">11 · FUTURE VISION</span><h2>A learning loop that keeps moving.</h2><p>Learn → Practice → Observe → Identify → Revise → Learn again.</p></div>
+        <div class="cycle visual"><span>LEARN</span><span>PRACTICE</span><span>OBSERVE</span><span>IDENTIFY</span><span>REVISE</span><b>↻</b></div>
+        <div class="final-panel">
+          <div class="brand-lockup"><span class="brand-mark big">E</span><span>EduNavika</span></div>
+          <h2>Personalized learning support through learning history, knowledge-decay signals and timely revision.</h2>
+          <p>We are now seeking guidance from schools.</p>
+          <div class="questions"><article><b>01</b><span>Does this solve a real problem for students?</span></article><article><b>02</b><span>What would teachers need to make this practical?</span></article><article><b>03</b><span>What should we improve before testing it with real students?</span></article></div>
+          <div class="final-actions"><button class="primary" data-jump="s6">Explore the Student Demo</button><button class="secondary" data-jump="s11">View Product Architecture</button><button class="secondary" id="briefBtn">Download 1-Page Overview</button></div>
+          <button class="replay" data-jump="s0">↺ Start Demo Again</button>
+        </div>
+      </section>
+    </main>
+
+    <nav class="side-nav" aria-label="Demo scenes"><div id="dots"></div></nav>
+    <div class="toast" id="toast" role="status"></div>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>
