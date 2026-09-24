@@ -1,0 +1,12 @@
+const scenes=[...document.querySelectorAll('.scene')];const dots=document.getElementById('dots');const progress=document.getElementById('progressBar');const count=document.getElementById('sceneCount');const toast=document.getElementById('toast');let reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+scenes.forEach((s,i)=>{const b=document.createElement('button');b.className='dot';b.title=s.dataset.label||('Scene '+(i+1));b.onclick=()=>s.scrollIntoView({behavior:reduced?'auto':'smooth'});dots.appendChild(b);});
+const dotEls=[...dots.children];
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){const i=scenes.indexOf(e.target);scenes.forEach(x=>x.classList.remove('is-active'));e.target.classList.add('is-active');dotEls.forEach((d,j)=>d.classList.toggle('active',j===i));count.textContent=String(i+1).padStart(2,'0')+' / '+String(scenes.length).padStart(2,'0');}}),{threshold:.45});
+scenes.forEach(s=>obs.observe(s));
+function updateProgress(){const max=document.documentElement.scrollHeight-innerHeight;progress.style.width=(max>0?(scrollY/max)*100:0)+'%'}addEventListener('scroll',updateProgress,{passive:true});updateProgress();
+document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>{const target=document.getElementById(b.dataset.jump);if(target)target.scrollIntoView({behavior:reduced?'auto':'smooth'})}));
+document.getElementById('reduceMotion').onclick=()=>{reduced=!reduced;document.body.classList.toggle('reduce-motion',reduced);document.getElementById('reduceMotion').textContent=reduced?'Motion reduced':'Reduce motion';showToast(reduced?'Reduced motion enabled':'Motion restored')};
+function showToast(t){toast.textContent=t;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2200)}
+document.getElementById('briefBtn').onclick=()=>{window.print()};
+addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='PageDown'){e.preventDefault();const i=scenes.findIndex(s=>s.classList.contains('is-active'));scenes[Math.min(i+1,scenes.length-1)].scrollIntoView({behavior:reduced?'auto':'smooth'})}if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();const i=scenes.findIndex(s=>s.classList.contains('is-active'));scenes[Math.max(i-1,0)].scrollIntoView({behavior:reduced?'auto':'smooth'})}});
+document.addEventListener('DOMContentLoaded',()=>{scenes[0].classList.add('is-active');dotEls[0].classList.add('active')});
