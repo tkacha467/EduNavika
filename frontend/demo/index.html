@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduNavika — The Memory & Mastery Story</title>
+  <meta name="description" content="An interactive 3D visual journey explaining how EduNavika transforms classroom learning retention for principals, teachers, and students.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body class="theme-dark">
+  <!-- 3D Global Canvas Background -->
+  <canvas id="bg3dCanvas" class="bg-3d-canvas"></canvas>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+
+  <!-- Floating Header Navigation -->
+  <header class="demo-header" id="demoHeader">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-badge-3d">
+          <svg viewBox="0 0 32 32" class="brand-icon">
+            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2.5" fill="none" opacity="0.4"/>
+            <path d="M10 20 L16 8 L22 20 Z" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+            <circle cx="16" cy="14" r="2.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">EduNavika</span>
+          <span class="brand-tag">School Leadership Briefing</span>
+        </div>
+      </div>
+
+      <nav class="scene-quick-nav" id="sceneQuickNav">
+        <button class="nav-dot active" data-target="0" title="1. The Reality"><span class="dot-label">Overview</span></button>
+        <button class="nav-dot" data-target="1" title="2. The Spark"><span class="dot-label">Learning</span></button>
+        <button class="nav-dot" data-target="2" title="3. The Decay"><span class="dot-label">Forgetting Curve</span></button>
+        <button class="nav-dot" data-target="3" title="4. The Blindspot"><span class="dot-label">Exam Trap</span></button>
+        <button class="nav-dot" data-target="4" title="5. EduNavika Engine"><span class="dot-label">Radar Engine</span></button>
+        <button class="nav-dot" data-target="5" title="6. 5-Step Flow"><span class="dot-label">How It Works</span></button>
+        <button class="nav-dot" data-target="6" title="7. Student App"><span class="dot-label">3-Min Drill</span></button>
+        <button class="nav-dot" data-target="7" title="8. Teacher Cockpit"><span class="dot-label">Class Heatmap</span></button>
+        <button class="nav-dot" data-target="8" title="9. Live Simulation"><span class="dot-label">60-Day Simulator</span></button>
+        <button class="nav-dot" data-target="9" title="10. Principal ROI"><span class="dot-label">Impact</span></button>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn-pill-sm" id="btnAutoPlay" title="Auto-advance scenes">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <span class="label">Play Tour</span>
+        </button>
+        <button class="btn-pill-sm highlight" id="btnJumpSim" title="Jump to Interactive 3D Simulator">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          <span class="label">Live Sim</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Side Navigation Controls -->
+  <aside class="scene-sidebar-controls" id="sidebarControls">
+    <button class="side-btn" id="btnPrevScene" title="Previous scene (Up arrow)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+    <div class="scene-counter">
+      <span class="current" id="counterCurrent">01</span>
+      <span class="slash">/</span>
+      <span class="total" id="counterTotal">10</span>
+    </div>
+    <button class="side-btn" id="btnNextScene" title="Next scene (Down arrow)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+  </aside>
+
+  <!-- Main Presentation Story Scroll Flow -->
+  <main class="story-viewport" id="storyViewport">
+
+    <!-- ==================== SCENE 0: HERO & THE BIG QUESTION ==================== -->
+    <section class="story-scene scene-hero" id="scene-0" data-scene-index="0">
+      <div class="scene-wrapper hero-grid">
+        <div class="scene-content hero-text-panel">
+          <div class="badge-hero">
+            <span class="pulse-dot"></span>
+            <span>A 3-Minute Visual Briefing for School Leaders</span>
+          </div>
+          <h1 class="hero-main-title">
+            Every Student <span class="gradient-text-gold">Learns.</span><br>
+            Why Does 70% Fade <span class="gradient-text-coral">Before Exams?</span>
+          </h1>
+          <p class="hero-desc">
+            In every classroom, students master concepts today. But human memory naturally decays quietly over weeks. 
+            <strong>EduNavika is the real-time learning retention radar</strong> that keeps knowledge permanently active in just 3 minutes a day.
+          </p>
+
+          <div class="hero-quick-stats">
+            <div class="stat-bubble">
+              <span class="stat-number">Day 1</span>
+              <span class="stat-label">95% Mastery</span>
+              <div class="stat-bar"><div class="fill green" style="width: 95%"></div></div>
+            </div>
+            <div class="stat-arrow">➜</div>
+            <div class="stat-bubble warning">
+              <span class="stat-number">Day 30</span>
+              <span class="stat-label">34% Retained</span>
+              <div class="stat-bar"><div class="fill red" style="width: 34%"></div></div>
+            </div>
+            <div class="stat-arrow">➜</div>
+            <div class="stat-bubble edunavika">
+              <span class="stat-number">With EduNavika</span>
+              <span class="stat-label">92% Long-Term</span>
+              <div class="stat-bar"><div class="fill cyan" style="width: 92%"></div></div>
+            </div>
+          </div>
+
+          <div class="hero-cta-group">
+            <button class="btn-hero-primary" onclick="window.scrollToScene(1)">
+              <span>Explore The 3-Minute Story</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <span class="hint-text">Use Mouse Wheel / Arrow Keys to navigate</span>
+          </div>
+        </div>
+
+        <div class="scene-visual-3d hero-3d-stage">
+          <div class="interactive-card-3d" id="heroOrbCard">
+            <canvas id="canvasHeroOrb" class="stage-canvas"></canvas>
+            <div class="floating-3d-tag tag-top">
+              <span class="tag-icon">🧠</span>
+              <span class="tag-text">Active Memory Simulation</span>
+            </div>
+            <div class="floating-3d-tag tag-bottom">
+              <span class="tag-pulse"></span>
+              <span class="tag-text">Interactive 3D Universe</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 1: THE TEACHING SPARK ==================== -->
+    <section class="story-scene scene-learning" id="scene-1" data-scene-index="1">
+      <div class="scene-wrapper">
+        <div class="section-badge"><span class="badge-num">01</span> The Classroom Day</div>
+        <h2 class="scene-title">Day 1: The Concept is Understood</h2>
+        <p class="scene-subtitle">Teacher explains Quadratic Equations. Student solves exercises. Everything feels 100% understood.</p>
+
+        <div class="split-3d-layout">
+          <div class="card-3d-glass" id="cardClassroomSpark">
+            <div class="card-header-glow">
+              <div class="status-indicator-green"></div>
+              <span>Classroom Session: Class 10 Math</span>
+              <span class="badge-time">September 12</span>
+            </div>
+            
+            <div class="concept-visual-board">
+              <div class="chalk-equation">
+                <span class="eq-highlight">x² + 5x + 6 = 0</span>
+                <span class="eq-sub">(x + 2)(x + 3) = 0 &nbsp;➔&nbsp; <strong class="text-green">x = -2, -3</strong></span>
+              </div>
+              
+              <div class="student-reaction-box">
+                <div class="avatar-student-3d">
+                  <div class="avatar-face">🧑‍🎓</div>
+                  <div class="avatar-name">Rohan Patel</div>
+                </div>
+                <div class="dialogue-bubble">
+                  "I understand this topic completely! Got 10/10 in today's class practice."
+                </div>
+              </div>
+
+              <div class="mastery-meter-container">
+                <div class="meter-info">
+                  <span>Day 1 Retention Strength</span>
+                  <span class="meter-val text-green" id="day1MeterVal">98% Mastered</span>
+                </div>
+                <div class="meter-track">
+                  <div class="meter-glow-fill green" style="width: 98%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-footer-metric">
+              <div class="metric-item">
+                <span class="metric-label">Teacher Observation</span>
+                <span class="metric-val text-green">✓ Concept Clear</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-label">Immediate Test</span>
+                <span class="metric-val text-green">100% Score</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-label">Memory Status</span>
+                <span class="metric-val text-cyan">Fresh & High</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="visual-3d-container">
+            <canvas id="canvasScene1" class="stage-canvas"></canvas>
+            <div class="caption-overlay">
+              <strong>Interactive 3D Synaptic Spark:</strong> Hover or drag to orbit the glowing concept node formed in the student's brain.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 2: THE 30-DAY FORGETTING DECAY ==================== -->
+    <section class="story-scene scene-decay" id="scene-2" data-scene-index="2">
+      <div class="scene-wrapper">
+        <div class="section-badge warning"><span class="badge-num">02</span> The Natural Law of Memory</div>
+        <h2 class="scene-title">Weeks Pass Without Practice: The Silent Decay</h2>
+        <p class="scene-subtitle">Human psychology is universal: without scheduled retrieval, 65% of memory fades quietly in 30 days.</p>
+
+        <!-- Interactive 3D Decay Slider Arena -->
+        <div class="decay-interactive-arena">
+          <div class="decay-controller-panel">
+            <div class="controller-header">
+              <span class="controller-title">🕹️ Interactive Memory Decay Scrubber</span>
+              <span class="controller-tag">Drag slider to watch memory vanish</span>
+            </div>
+
+            <div class="slider-wrapper">
+              <div class="slider-labels">
+                <span class="label-point" data-day="1">Day 1 (Taught)</span>
+                <span class="label-point" data-day="7">Day 7 (Week 1)</span>
+                <span class="label-point" data-day="14">Day 14 (Week 2)</span>
+                <span class="label-point" data-day="30">Day 30 (Exam Eve)</span>
+              </div>
+              <input type="range" min="1" max="30" value="1" class="decay-slider" id="decaySlider">
+            </div>
+
+            <div class="decay-live-stats-row">
+              <div class="decay-stat-card">
+                <span class="label">Timeline Day</span>
+                <span class="val" id="decayStatDay">Day 1</span>
+                <span class="sub" id="decayStatDate">Sept 12 (Fresh)</span>
+              </div>
+              <div class="decay-stat-card">
+                <span class="label">Retention Strength</span>
+                <span class="val text-green" id="decayStatRetention">95%</span>
+                <span class="sub" id="decayStatCondition">Peak Memory</span>
+              </div>
+              <div class="decay-stat-card">
+                <span class="label">Student Behavior</span>
+                <span class="val" id="decayStatBehavior">Looks Calm & Normal</span>
+                <span class="sub">No symptoms shown</span>
+              </div>
+              <div class="decay-stat-card warning-card" id="decayWarningCard">
+                <span class="label">Teacher Awareness</span>
+                <span class="val text-coral" id="decayStatTeacher">Invisible Blindspot</span>
+                <span class="sub">Assumes concept is intact</span>
+              </div>
+            </div>
+
+            <div class="decay-quick-actions">
+              <button class="btn-play-decay" id="btnPlayDecay">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Animate 30-Day Decay</span>
+              </button>
+              <button class="btn-reset-decay" id="btnResetDecay">Reset to Day 1</button>
+            </div>
+          </div>
+
+          <div class="decay-3d-viewport">
+            <canvas id="canvasScene2" class="stage-canvas"></canvas>
+            <div class="decay-3d-hud" id="decayHud">
+              <div class="hud-item">
+                <span class="hud-label">Neural Core Energy:</span>
+                <span class="hud-val" id="hudCoreEnergy">100%</span>
+              </div>
+              <div class="hud-item">
+                <span class="hud-label">Forgetting Rate:</span>
+                <span class="hud-val" id="hudDecayRate">Ebbinghaus curve active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 3: THE EXAM TRAP ==================== -->
+    <section class="story-scene scene-blindspot" id="scene-3" data-scene-index="3">
+      <div class="scene-wrapper">
+        <div class="section-badge alert"><span class="badge-num">03</span> The Traditional Blindspot</div>
+        <h2 class="scene-title">The Term Exam: Why Surprise Failures Happen</h2>
+        <p class="scene-subtitle">Traditional tests test memory 60 days too late. EduNavika eliminates the surprise by tracking skill health daily.</p>
+
+        <div class="comparison-3d-grid">
+          <!-- The Old Broken Way -->
+          <div class="card-comparison old-way">
+            <div class="comp-badge bad">❌ The Traditional Model</div>
+            <h3 class="comp-title">Post-Mortem Discovery</h3>
+            <p class="comp-desc">Teach in Sept ➜ Zero tracking for 8 weeks ➜ Exam in Nov ➜ Panic & low marks.</p>
+
+            <div class="exam-shock-visual">
+              <div class="exam-paper-3d">
+                <div class="exam-stamp-red">42/100</div>
+                <div class="exam-question-item">
+                  <span>Q3. Quadratic Formula:</span>
+                  <span class="cross-mark">✗ Blank / Forgotten</span>
+                </div>
+                <div class="exam-question-item">
+                  <span>Q7. Factoring Terms:</span>
+                  <span class="cross-mark">✗ Mixed up signs</span>
+                </div>
+              </div>
+              
+              <div class="teacher-frustration">
+                <div class="frustration-avatar">👨‍🏫</div>
+                <div class="frustration-quote">
+                  "I taught this in detail! Why did half the class fail this exact question?"
+                </div>
+              </div>
+            </div>
+
+            <div class="comp-point bad">
+              <span>⚠️ Discovery happens AFTER student fails</span>
+            </div>
+            <div class="comp-point bad">
+              <span>⚠️ Remedial classes rush everything at once</span>
+            </div>
+          </div>
+
+          <!-- The EduNavika Way -->
+          <div class="card-comparison new-way">
+            <div class="comp-badge good">✨ The EduNavika Model</div>
+            <h3 class="comp-title">Continuous Pre-Emptive Radar</h3>
+            <p class="comp-desc">Teach in Sept ➜ Daily 3-min micro-radar ➜ Smart revival on Day 6 & 18 ➜ 92% Exam Mastery.</p>
+
+            <div class="radar-live-preview">
+              <div class="radar-pulse-ring">
+                <div class="radar-sweep"></div>
+                <div class="radar-target green" style="top: 25%; left: 35%;">Quadratic (94%)</div>
+                <div class="radar-target warning" style="top: 65%; left: 70%;">Trigonometry (Needs 3-min drill)</div>
+                <div class="radar-target green" style="top: 45%; left: 60%;">Linear Eq (91%)</div>
+              </div>
+              
+              <div class="principal-satisfaction">
+                <div class="satisfaction-avatar">👩‍💼</div>
+                <div class="satisfaction-quote">
+                  "We know every student's weak link 4 weeks before the exam. No surprises."
+                </div>
+              </div>
+            </div>
+
+            <div class="comp-point good">
+              <span>✅ Zero teacher grading burden (100% automated)</span>
+            </div>
+            <div class="comp-point good">
+              <span>✅ 3-minute micro-drills lock memory for months</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 4: EDUNAVIKA SPACED REPETITION ENGINE ==================== -->
+    <section class="story-scene scene-engine" id="scene-4" data-scene-index="4">
+      <div class="scene-wrapper">
+        <div class="section-badge magic"><span class="badge-num">04</span> The Solution</div>
+        <h2 class="scene-title">The EduNavika Spaced Memory Engine</h2>
+        <p class="scene-subtitle">EduNavika calculates the exact moment memory begins to fade and injects a 3-minute micro-drill, resetting retention to 100%.</p>
+
+        <div class="engine-3d-interactive-zone">
+          <div class="engine-visual-stage">
+            <canvas id="canvasScene4" class="stage-canvas"></canvas>
+            <div class="engine-floating-hud">
+              <div class="hud-pill">
+                <span class="dot-green"></span>
+                <span>Active Spaced-Repetition Engine</span>
+              </div>
+              <button class="btn-trigger-pulse" id="btnTriggerPulse">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <span>Trigger 3-Minute Micro-Revision Pulse</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="engine-info-cards">
+            <div class="engine-card" id="engineStep1">
+              <div class="step-num-pill">Pass 1</div>
+              <div class="step-details">
+                <h4>Day 1: Initial Learning</h4>
+                <p>Concept understood in class. Base memory established (95%).</p>
+              </div>
+              <div class="step-icon">📖</div>
+            </div>
+
+            <div class="engine-card" id="engineStep2">
+              <div class="step-num-pill">Pass 2</div>
+              <div class="step-details">
+                <h4>Day 5: 3-Min Micro-Recall</h4>
+                <p>Memory dips to 70%. EduNavika prompts 2 quick questions. Memory shoots to 98%.</p>
+              </div>
+              <div class="step-icon">⚡</div>
+            </div>
+
+            <div class="engine-card" id="engineStep3">
+              <div class="step-num-pill">Pass 3</div>
+              <div class="step-details">
+                <h4>Day 18: Permanent Lock</h4>
+                <p>Third micro-check anchors neural pathway. Retention stays above 90% for months.</p>
+              </div>
+              <div class="step-icon">🔒</div>
+            </div>
+
+            <div class="engine-card highlight-card">
+              <div class="step-num-pill special">Total Time</div>
+              <div class="step-details">
+                <h4>Only 3 Minutes per Session</h4>
+                <p>No heavy homework. Students complete it on phone/tablet effortlessly.</p>
+              </div>
+              <div class="step-icon">⏱️</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 5: 5-STEP COMPLETE WORKFLOW ==================== -->
+    <section class="story-scene scene-flow" id="scene-5" data-scene-index="5">
+      <div class="scene-wrapper">
+        <div class="section-badge"><span class="badge-num">05</span> Automated Flow</div>
+        <h2 class="scene-title">How EduNavika Works in 5 Simple Steps</h2>
+        <p class="scene-subtitle">Seamless integration with your existing school curriculum with zero disruption.</p>
+
+        <div class="flow-pipeline-3d">
+          <div class="pipeline-step-3d" data-step="1">
+            <div class="step-3d-box">
+              <div class="step-3d-top">
+                <span class="step-icon-lg">👩‍🏫</span>
+                <span class="step-order">01</span>
+              </div>
+              <h3 class="step-title">Normal Teaching</h3>
+              <p class="step-text">Teacher conducts regular classes as usual. No changes to school timetable.</p>
+            </div>
+            <div class="pipeline-arrow-3d">➜</div>
+          </div>
+
+          <div class="pipeline-step-3d" data-step="2">
+            <div class="step-3d-box">
+              <div class="step-3d-top">
+                <span class="step-icon-lg">📡</span>
+                <span class="step-order">02</span>
+              </div>
+              <h3 class="step-title">Memory Tracking</h3>
+              <p class="step-text">EduNavika creates an individual retention curve for each student & topic.</p>
+            </div>
+            <div class="pipeline-arrow-3d">➜</div>
+          </div>
+
+          <div class="pipeline-step-3d" data-step="3">
+            <div class="step-3d-box">
+              <div class="step-3d-top">
+                <span class="step-icon-lg">🧠</span>
+                <span class="step-order">03</span>
+              </div>
+              <h3 class="step-title">Decay Alert</h3>
+              <p class="step-text">System detects when topic retention crosses the 65% warning threshold.</p>
+            </div>
+            <div class="pipeline-arrow-3d">➜</div>
+          </div>
+
+          <div class="pipeline-step-3d" data-step="4">
+            <div class="step-3d-box">
+              <div class="step-3d-top">
+                <span class="step-icon-lg">📱</span>
+                <span class="step-order">04</span>
+              </div>
+              <h3 class="step-title">3-Min Drill</h3>
+              <p class="step-text">Student receives 3 adaptive questions on their app to reactivate memory.</p>
+            </div>
+            <div class="pipeline-arrow-3d">➜</div>
+          </div>
+
+          <div class="pipeline-step-3d highlight" data-step="5">
+            <div class="step-3d-box">
+              <div class="step-3d-top">
+                <span class="step-icon-lg">🏆</span>
+                <span class="step-order">05</span>
+              </div>
+              <h3 class="step-title">Guaranteed Recall</h3>
+              <p class="step-text">Student enters term exams with rock-solid confidence and permanent retention.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 6: THE 3-MINUTE STUDENT EXPERIENCE ==================== -->
+    <section class="story-scene scene-student-app" id="scene-6" data-scene-index="6">
+      <div class="scene-wrapper">
+        <div class="section-badge good"><span class="badge-num">06</span> Student Experience</div>
+        <h2 class="scene-title">What the Student Sees: Fun, Fast & Stress-Free</h2>
+        <p class="scene-subtitle">Try the live interactive micro-drill right below!</p>
+
+        <div class="interactive-phone-stage">
+          <!-- 3D Mobile Phone Mockup -->
+          <div class="phone-frame-3d" id="phone3d">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="phone-app-header">
+                <div class="user-greeting">
+                  <span class="avatar-sm">🧑‍🎓</span>
+                  <div>
+                    <div class="name">Rohan Patel</div>
+                    <div class="sub">Class 10-A • 3 Min Daily Drill</div>
+                  </div>
+                </div>
+                <div class="streak-badge">🔥 14-Day Streak</div>
+              </div>
+
+              <div class="drill-card-active">
+                <div class="drill-tag">⚡ Timed Memory Recall (30s)</div>
+                <h4 class="drill-question">Solve for x: <span class="text-cyan">x² - 9 = 0</span></h4>
+                
+                <div class="quiz-options-list" id="quizOptionsList">
+                  <button class="quiz-opt" data-correct="false">
+                    <span class="opt-letter">A</span>
+                    <span class="opt-text">x = 3 only</span>
+                  </button>
+                  <button class="quiz-opt" data-correct="true" id="correctQuizOpt">
+                    <span class="opt-letter">B</span>
+                    <span class="opt-text">x = 3 or x = -3</span>
+                  </button>
+                  <button class="quiz-opt" data-correct="false">
+                    <span class="opt-letter">C</span>
+                    <span class="opt-text">x = 9</span>
+                  </button>
+                </div>
+
+                <div class="drill-feedback-toast" id="drillToast">
+                  <div class="toast-content">
+                    <span class="toast-icon">🎉</span>
+                    <div>
+                      <strong>Concept Locked! (+25 XP)</strong>
+                      <p>Quadratic factoring memory boosted to 98%!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="phone-app-summary">
+                <div class="summary-chip">
+                  <span class="val">3 mins</span>
+                  <span class="lbl">Daily Time</span>
+                </div>
+                <div class="summary-chip">
+                  <span class="val text-green">98%</span>
+                  <span class="lbl">Memory Score</span>
+                </div>
+                <div class="summary-chip">
+                  <span class="val text-cyan">4 / 4</span>
+                  <span class="lbl">Topics Intact</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="student-app-explainer">
+            <div class="explainer-bullet">
+              <div class="bullet-icon">🎮</div>
+              <div>
+                <h4>Gamified, Micro-Learning</h4>
+                <p>Bite-sized questions that take less than 3 minutes. No intimidation, no stress.</p>
+              </div>
+            </div>
+            <div class="explainer-bullet">
+              <div class="bullet-icon">🎯</div>
+              <div>
+                <h4>Personalized Question AI</h4>
+                <p>Every student receives questions tailored strictly to their individual forgetting curve.</p>
+              </div>
+            </div>
+            <div class="explainer-bullet">
+              <div class="bullet-icon">💡</div>
+              <div>
+                <h4>Instant Explanations</h4>
+                <p>If a student gets stuck, instant visual hints guide them without requiring teacher time.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 7: TEACHER & PRINCIPAL COCKPIT ==================== -->
+    <section class="story-scene scene-cockpit" id="scene-7" data-scene-index="7">
+      <div class="scene-wrapper">
+        <div class="section-badge magic"><span class="badge-num">07</span> Leadership Dashboard</div>
+        <h2 class="scene-title">The Principal & Teacher Cockpit: 100% Visibility</h2>
+        <p class="scene-subtitle">Instant class-wide knowledge heatmap without a single minute spent manually grading.</p>
+
+        <!-- Live 3D Classroom Mastery Heatmap -->
+        <div class="dashboard-cockpit-3d">
+          <div class="cockpit-header">
+            <div class="class-selector">
+              <span class="label">Viewing:</span>
+              <strong class="val">Class 10 (Section A) — Mathematics Matrix</strong>
+            </div>
+            <div class="cockpit-legend">
+              <span class="legend-item"><span class="dot green"></span> Mastered (&gt;85%)</span>
+              <span class="legend-item"><span class="dot amber"></span> Needs Revision (60-84%)</span>
+              <span class="legend-item"><span class="dot red"></span> High Forgetting Risk (&lt;60%)</span>
+            </div>
+          </div>
+
+          <div class="cockpit-grid-table">
+            <div class="table-head-row">
+              <div class="th-student">Student Name</div>
+              <div class="th-topic">Algebra & Poly</div>
+              <div class="th-topic">Quadratic Eq</div>
+              <div class="th-topic">Trigonometry</div>
+              <div class="th-topic">Probability</div>
+              <div class="th-action">AI Recommendation</div>
+            </div>
+
+            <div class="table-body">
+              <div class="student-row">
+                <div class="col-student">
+                  <div class="s-avatar">AP</div>
+                  <span>Aarav Patel</span>
+                </div>
+                <div class="col-cell"><span class="badge-heat green">96%</span></div>
+                <div class="col-cell"><span class="badge-heat green">92%</span></div>
+                <div class="col-cell"><span class="badge-heat amber">74%</span></div>
+                <div class="col-cell"><span class="badge-heat green">90%</span></div>
+                <div class="col-action"><span class="action-tag">Trig 3-min drill queued</span></div>
+              </div>
+
+              <div class="student-row highlight-risk">
+                <div class="col-student">
+                  <div class="s-avatar warning">SK</div>
+                  <span>Sneha Kapoor</span>
+                </div>
+                <div class="col-cell"><span class="badge-heat green">88%</span></div>
+                <div class="col-cell"><span class="badge-heat red">48% ⚠️</span></div>
+                <div class="col-cell"><span class="badge-heat amber">68%</span></div>
+                <div class="col-cell"><span class="badge-heat green">91%</span></div>
+                <div class="col-action"><span class="action-tag alert">Auto-reinforcement sent</span></div>
+              </div>
+
+              <div class="student-row">
+                <div class="col-student">
+                  <div class="s-avatar">RP</div>
+                  <span>Rohan Patel</span>
+                </div>
+                <div class="col-cell"><span class="badge-heat green">95%</span></div>
+                <div class="col-cell"><span class="badge-heat green">98%</span></div>
+                <div class="col-cell"><span class="badge-heat green">89%</span></div>
+                <div class="col-cell"><span class="badge-heat green">94%</span></div>
+                <div class="col-action"><span class="action-tag good">All skills optimal</span></div>
+              </div>
+
+              <div class="student-row">
+                <div class="col-student">
+                  <div class="s-avatar">ZS</div>
+                  <span>Zoya Sheikh</span>
+                </div>
+                <div class="col-cell"><span class="badge-heat green">91%</span></div>
+                <div class="col-cell"><span class="badge-heat amber">78%</span></div>
+                <div class="col-cell"><span class="badge-heat green">86%</span></div>
+                <div class="col-cell"><span class="badge-heat amber">64%</span></div>
+                <div class="col-action"><span class="action-tag">Probability drill scheduled</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cockpit-footer-banner">
+            <div class="teacher-time-saved">
+              <span class="icon-clock">⏳</span>
+              <div>
+                <strong>Teacher Time Saved: ~4.5 Hours / Week</strong>
+                <p>No paper quizzes to print, administer, grade, or enter into spreadsheets.</p>
+              </div>
+            </div>
+            <button class="btn-cockpit-action" onclick="alert('Demo Action: EduNavika sent scheduled micro-revisions to all 4 at-risk students!')">
+              ⚡ Trigger Automated Batch Reinforcement
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 8: INTERACTIVE 60-DAY CLASS SIMULATOR ==================== -->
+    <section class="story-scene scene-simulation" id="scene-8" data-scene-index="8">
+      <div class="scene-wrapper">
+        <div class="section-badge special"><span class="badge-num">08</span> Live 3D Experiment</div>
+        <h2 class="scene-title">Interactive 60-Day Class Simulation</h2>
+        <p class="scene-subtitle">Click "Run Simulation" to watch a real class of 30 students across two months: Traditional Teaching vs EduNavika.</p>
+
+        <div class="sim-arena-3d">
+          <div class="sim-controls-top">
+            <button class="btn-run-sim" id="btnRunSim">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Run 60-Day Simulation</span>
+            </button>
+            <div class="sim-timeline-indicator">
+              <span>Day: <strong id="simDayNumber" class="text-cyan">0 / 60</strong></span>
+              <div class="sim-progress-track"><div class="sim-fill" id="simProgressFill"></div></div>
+            </div>
+          </div>
+
+          <div class="sim-dual-charts">
+            <!-- Traditional Method Chart -->
+            <div class="sim-chart-card bad">
+              <div class="sim-chart-head">
+                <span class="tag-bad">Traditional Teaching</span>
+                <span class="final-score" id="tradFinalScore">Avg Retention: --</span>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="canvasSimTraditional" width="400" height="220"></canvas>
+              </div>
+              <div class="sim-chart-foot">
+                <span>Result: Steep forgetting cliff before final exam</span>
+              </div>
+            </div>
+
+            <!-- EduNavika Spaced Repetition Chart -->
+            <div class="sim-chart-card good">
+              <div class="sim-chart-head">
+                <span class="tag-good">With EduNavika Radar</span>
+                <span class="final-score text-green" id="eduFinalScore">Avg Retention: --</span>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="canvasSimEduNavika" width="400" height="220"></canvas>
+              </div>
+              <div class="sim-chart-foot">
+                <span class="text-green">Result: Bounces back at each 3-min drill ➔ Stable 92%+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 9: PRINCIPAL ROI & NEXT STEPS ==================== -->
+    <section class="story-scene scene-leadership" id="scene-9" data-scene-index="9">
+      <div class="scene-wrapper">
+        <div class="section-badge good"><span class="badge-num">09</span> School Leadership Impact</div>
+        <h2 class="scene-title">Why School Principals Choose EduNavika</h2>
+        <p class="scene-subtitle">Transforming academic outcomes without adding burden to teachers or students.</p>
+
+        <div class="roi-cards-grid">
+          <div class="roi-card-3d">
+            <div class="roi-icon-glow">📈</div>
+            <h3>+28% Higher Exam Confidence</h3>
+            <p>Students enter board & term exams without pre-exam cramming panic because knowledge was continuously refreshed.</p>
+          </div>
+
+          <div class="roi-card-3d">
+            <div class="roi-icon-glow">⏳</div>
+            <h3>Zero Extra Teacher Workload</h3>
+            <p>Fully automated micro-question generation and automated diagnosis. Teachers get insights, not grading chores.</p>
+          </div>
+
+          <div class="roi-card-3d">
+            <div class="roi-icon-glow">🎯</div>
+            <h3>Early Parent Satisfaction</h3>
+            <p>Parents see daily 3-minute engagement and clear progress reports rather than sudden unexpected report card drops.</p>
+          </div>
+
+          <div class="roi-card-3d highlight">
+            <div class="roi-icon-glow">🏫</div>
+            <h3>Seamless Curriculum Pilot</h3>
+            <p>Works right alongside your current textbooks and syllabus for CBSE, ICSE, State & International boards.</p>
+          </div>
+        </div>
+
+        <div class="principal-action-box">
+          <div class="action-box-left">
+            <h3 class="action-title">Let's Discuss Guidance for Your School</h3>
+            <p class="action-desc">We would love your insights, feedback, and advice on tailoring EduNavika to your classrooms.</p>
+          </div>
+          <div class="action-box-right">
+            <button class="btn-action-primary" onclick="alert('Thank you Principal! We are excited to collaborate on a 2-week pilot with your school.')">
+              Schedule Pilot Discussion
+            </button>
+            <button class="btn-action-secondary" onclick="window.scrollToScene(0)">
+              ↺ Replay Presentation Tour
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="demo.js"></script>
+</body>
+</html>
