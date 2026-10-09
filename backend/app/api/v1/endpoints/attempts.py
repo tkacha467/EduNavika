@@ -3,10 +3,11 @@ from datetime import datetime, timezone
 from typing import List, Optional
 import uuid
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError, OperationalError
 from backend.app.core.database import get_db
-from backend.app.models import StudentProfile, User, UserRole, Topic
+from backend.app.models import StudentProfile, User, UserRole, Topic, Chapter
 from backend.app.models import Assessment, AssessmentQuestion, AssessmentStatus
 from backend.app.models import Attempt, Answer, AttemptStatus
 from backend.app.models import MCQQuestion
@@ -69,15 +70,62 @@ def _get_or_create_student_profile(db: Session, student_id: str) -> Optional[Stu
 
 
 def _resolve_topic(db: Session, topic_id: Optional[str]) -> Optional[Topic]:
-    """Resolves a topic by ID, partial title match, or fallback to first topic."""
-    if topic_id:
-        topic = db.query(Topic).filter(Topic.id == topic_id).first()
-        if topic:
-            return topic
-        topic = db.query(Topic).filter(Topic.title.ilike(f"%{topic_id}%")).first()
-        if topic:
-            return topic
-    return db.query(Topic).first()
+    """
+    Robustly resolves a topic by:
+    1. Exact UUID match on Topic.id
+    2. Exact title match on Topic.title (case-insensitive)
+    3. Normalized title match (e.g. '&' -> 'and', '—' -> '-')
+    4. Substring / partial match on Topic.title
+    5. Chapter title match -> returns primary topic under that chapter
+    Returns None if no matching topic is found. Never falls back to unrelated topics.
+    """
+    if not topic_id:
+        return None
+
+    # 1. Exact ID
+    topic = db.query(Topic).filter(Topic.id == topic_id).first()
+    if topic:
+        return topic
+
+    # 2. Exact Title
+    topic = db.query(Topic).filter(func.lower(Topic.title) == func.lower(topic_id)).first()
+    if topic:
+        return topic
+
+    # 3. Normalized Title
+    norm = topic_id.replace('&', 'and').replace('—', '-').strip()
+    topic = db.query(Topic).filter(func.lower(Topic.title) == func.lower(norm)).first()
+    if topic:
+        return topic
+
+    # 4. Partial Title Match
+    topic = db.query(Topic).filter(Topic.title.ilike(f"%{norm}%")).first()
+    if topic:
+        return topic
+
+    # 5. Reverse Substring Match (e.g. "Chemical Reactions" matching "Chemical Reactions and Equations")
+    all_topics = db.query(Topic).all()
+    norm_lower = norm.lower()
+    for t in all_topics:
+        t_clean = t.title.replace('&', 'and').replace('—', '-').lower().strip()
+        if (len(t_clean) >= 4 and t_clean in norm_lower) or (len(norm_lower) >= 4 and norm_lower in t_clean):
+            return t
+
+    # 6. Chapter match: check if a chapter matches the topic_id / name
+    all_chapters = db.query(Chapter).all()
+    for c in all_chapters:
+        c_clean = c.title.replace('&', 'and').replace('—', '-').lower().strip()
+        if (len(c_clean) >= 4 and c_clean in norm_lower) or (len(norm_lower) >= 4 and norm_lower in c_clean):
+            first_top = (
+                db.query(Topic)
+                .filter(Topic.chapter_id == c.id)
+                .order_by(Topic.topic_order.asc())
+                .first()
+            )
+            if first_top:
+                return first_top
+
+    return None
 
 
 @router.post("/attempts", response_model=AttemptResponse, status_code=status.HTTP_201_CREATED, summary="Start an assessment attempt or record formative practice telemetry")
@@ -113,39 +161,38 @@ def create_attempt(payload: AttemptCreate, db: Session = Depends(get_db)):
 
     # Flow B: Formative practice question telemetry
     topic = _resolve_topic(db, payload.topic_id)
+    if not topic:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Topic could not be resolved from identifier '{payload.topic_id}'. Valid curriculum topic required."
+        )
+
     now = datetime.now(timezone.utc)
     score = float(payload.score) if payload.score is not None else (100.0 if payload.is_correct else 0.0)
     is_correct = payload.is_correct if payload.is_correct is not None else (score > 0)
     response_time = max(0, payload.response_time_ms or 0)
 
-    event_id = None
-    if topic:
-        idempotency_key = f"practice_{student.id}_{payload.mcq_id}_{int(now.timestamp())}" if payload.mcq_id else None
-        try:
-            event = EventRecorderService.record_event(
-                db=db,
-                student_id=student.id,
-                topic_id=topic.id,
-                event_type=EventType.PRACTICE,
-                timestamp=now,
-                score=score,
-                correctness=is_correct,
-                response_time_ms=response_time,
-                hint_used=bool(payload.hint_requested),
-                idempotency_key=idempotency_key,
-                event_metadata={
-                    "mcq_id": payload.mcq_id,
-                    "selected_option": payload.selected_option,
-                    "client_topic_id": payload.topic_id,
-                },
-                auto_commit=True,
-            )
-            event_id = event.id
-        except Exception as exc:
-            logger.warning(f"Telemetry record_event handled with fallback: {exc}")
-            event_id = str(uuid.uuid4())
-    else:
-        event_id = str(uuid.uuid4())
+    idempotency_key = f"practice_{student.id}_{payload.mcq_id}_{int(now.timestamp())}" if payload.mcq_id else None
+    event = EventRecorderService.record_event(
+        db=db,
+        student_id=student.id,
+        topic_id=topic.id,
+        event_type=EventType.PRACTICE,
+        timestamp=now,
+        score=score,
+        correctness=is_correct,
+        response_time_ms=response_time,
+        hint_used=bool(payload.hint_requested),
+        idempotency_key=idempotency_key,
+        event_metadata={
+            "mcq_id": payload.mcq_id,
+            "selected_option": payload.selected_option,
+            "client_topic_id": payload.topic_id,
+            "resolved_topic_title": topic.title,
+        },
+        auto_commit=True,
+    )
+    event_id = event.id
 
     return AttemptResponse(
         id=event_id,

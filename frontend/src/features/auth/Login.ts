@@ -22,8 +22,8 @@ export function renderLogin(currentRole: Role = 'student'): string {
       <div><b>EduNavika</b><span>INTELLIGENT LEARNING PLATFORM</span></div>
     </div>
     <div class="login-hero">
-      <h1>The learning portal that<br>understands <em>how you learn.</em></h1>
-      <p>Personalised revision, knowledge health tracking, forgetting prediction and continuous assessment — designed for GSEB schools, teachers, and students.</p>
+      <h1>The on-device assistant that<br>adapts to <em>how you learn.</em></h1>
+      <p>Personalized revision, knowledge health tracking, and curriculum mastery — private, accessible, and running locally for Standard 10 students.</p>
       <div class="login-feats">
         <div class="login-feat">
           <div class="fic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
@@ -35,7 +35,7 @@ export function renderLogin(currentRole: Role = 'student'): string {
         </div>
         <div class="login-feat">
           <div class="fic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7L18.5 9.5 13.8 11.3 12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/></svg></div>
-          <div><b>Teacher Analytics</b><span>Real-time class mastery, struggling student alerts and curriculum coverage.</span></div>
+          <div><b>On-Device AI Assistant</b><span>Private local SLM and deterministic grounding with zero constant internet dependency.</span></div>
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@ export function renderLogin(currentRole: Role = 'student'): string {
 
       <div id="loginAlertBox" style="display:none;margin-bottom:16px;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.4;"></div>
 
-      <div class="role-toggle">
+      <div class="role-toggle" style="display:none">
         <button type="button" class="role-btn ${isStudent ? 'on' : ''}" id="roleStudentBtn">
           <div class="ric"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5C10.5 5 8.5 4.5 5 4.5v13c3.5 0 5.5.5 7 2 1.5-1.5 3.5-2 7-2v-13c-3.5 0-5.5.5-7 2z"/><path d="M12 6.5v13"/></svg></div>
           <b>Student</b><span>Learn & revise</span>
@@ -58,6 +58,10 @@ export function renderLogin(currentRole: Role = 'student'): string {
           <div class="ric"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-1.5a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4V20"/><circle cx="9.5" cy="7" r="3.5"/><path d="M21 20v-1.5a4 4 0 0 0-3-3.87"/><path d="M16.5 3.6a4 4 0 0 1 0 7.75"/></svg></div>
           <b>Teacher</b><span>Manage your class</span>
         </button>
+      </div>
+
+      <div style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;background:rgba(59,89,152,0.1);color:#3b5998;font-size:12px;font-weight:700;margin-bottom:16px;">
+        🎓 Standard 10 Student · On-Device Assistant
       </div>
 
       <div class="field">
@@ -77,8 +81,8 @@ export function renderLogin(currentRole: Role = 'student'): string {
       <button type="submit" class="btn-login" id="btnSubmitLogin" style="cursor:pointer">Sign in to EduNavika</button>
 
       <p class="login-alt" style="margin-top:16px;font-size:12.5px;color:var(--text-3)">
-        Student Demo: <span style="font-family:monospace;background:rgba(0,0,0,0.05);padding:2px 4px;border-radius:4px">kachatushar108@gmail.com</span><br>
-        Teacher Demo: <span style="font-family:monospace;background:rgba(0,0,0,0.05);padding:2px 4px;border-radius:4px">tushar.kacha141862@marwadiuniversity.ac.in</span>
+        Student Account: <span style="font-family:monospace;background:rgba(0,0,0,0.05);padding:2px 4px;border-radius:4px">kachatushar108@gmail.com</span> / <span style="font-family:monospace;background:rgba(0,0,0,0.05);padding:2px 4px;border-radius:4px">Tushar@21</span><br>
+        <span style="font-size:11.5px;color:var(--text-3)">Standard 10 · GSEB Science & Mathematics</span>
       </p>
     </form>
   </div>

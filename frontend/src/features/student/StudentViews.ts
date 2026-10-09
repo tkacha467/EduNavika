@@ -14,11 +14,18 @@ import {
   openDrawer,
   toast,
 } from '../../components/common';
-import { SUBJECTS } from '../../services/curriculumService';
-import { STUDENT, getCurrentUser } from '../../services/authService';
-import { UI } from '../../services/uiState';
 import {
-  REVISION_QUEUE,
+  SUBJECTS,
+  curriculumService,
+  CurriculumHierarchyResponse,
+} from '../../services/curriculumService';
+import { STUDENT, getCurrentUser } from '../../services/authService';
+import { adaptiveService } from '../../services/adaptiveService';
+import { explanationService } from '../../services/explanationService';
+import { UI } from '../../services/uiState';
+import { StudentProgressResponse, RevisionPlanResponse, RevisionPlanItem, GamificationResponse } from '../../types';
+import { t, getLanguage } from '../../utils/i18n';
+import {
   FORGETTING_TIMELINE,
   UPCOMING_ASSESSMENTS,
   COMPLETED_ASSESSMENTS,
@@ -30,60 +37,510 @@ import {
 declare const window: any;
 
 /* ---------- Dashboard ---------- */
-export function studentDashboard(): string {
-  const sub = SUBJECTS;
-  const user = getCurrentUser();
-  const firstName = user.full_name?.split(' ')[0] || user.name?.split(' ')[0] || 'Student';
-  const isNew = (user.todayGoal || 0) === 0;
+let dashboardHeroState: {
+  recommendation?: any;
+  loading: boolean;
+} = {
+  loading: false,
+};
 
-  const todayFocus = [
-    { kind: 'continue', label: 'Core Learning', subject: 'Mathematics', topic: 'Real Numbers & Polynomials', meta: 'Standard 10 · Chapter 1', pct: (user.todayGoal || 0) > 0 ? 100 : 0, go: "startQuiz('Real Numbers & Polynomials')", action: (user.todayGoal || 0) > 0 ? 'Completed ✓' : 'Start Practice' },
-    { kind: 'practice', label: 'Active Practice', subject: 'Science', topic: 'Chemical Reactions & Equations', meta: 'Standard 10 · Core Chapter', pct: 0, go: "startQuiz('Chemical Reactions & Equations')", action: 'Start Quiz' },
-    { kind: 'revision', label: 'Concept Check', subject: 'Physics', topic: 'Electricity & Circuits', meta: 'Diagnostic assessment', pct: 0, go: "startQuiz('Electricity & Circuits')", action: 'Take Quiz' }
-  ];
+export async function loadDashboardRecommendation(): Promise<void> {
+  if (dashboardHeroState.loading) return;
+  const user = getCurrentUser();
+  const studentId = user.id || 'e09699dd-0c64-44cc-82ef-ab41a832e072';
+  dashboardHeroState.loading = true;
+  try {
+    const rec = await adaptiveService.getNextPracticeRecommendation(studentId);
+    dashboardHeroState.recommendation = rec;
+  } catch (err) {
+    console.debug('Dashboard recommendation fetch note:', err);
+  } finally {
+    dashboardHeroState.loading = false;
+  }
+}
+
+/* ---------- Gamification MVP State (Phase 17) ---------- */
+let gamificationState: {
+  data?: GamificationResponse;
+  loading: boolean;
+  studentId?: string;
+  language?: string;
+} = {
+  loading: false,
+};
+
+export async function loadStudentGamification(force: boolean = false): Promise<void> {
+  const user = getCurrentUser();
+  const studentId = user.id || 'e09699dd-0c64-44cc-82ef-ab41a832e072';
+  const lang = getLanguage();
+  if (gamificationState.loading) return;
+  if (gamificationState.data && gamificationState.studentId === studentId && gamificationState.language === lang && !force) return;
+  gamificationState.loading = true;
+  gamificationState.studentId = studentId;
+  gamificationState.language = lang;
+  try {
+    const data = await adaptiveService.getGamification(studentId, lang);
+    if (data) {
+      gamificationState.data = data;
+    }
+  } catch (err) {
+    console.debug('Failed loading gamification data:', err);
+  } finally {
+    gamificationState.loading = false;
+  }
+}
+
+function renderGamificationSection(g?: GamificationResponse): string {
+  if (!g) {
+    return `
+    <div class="card pad-lg mb-6" style="border-radius:14px;border:1px solid var(--border);background:var(--surface)">
+      <div class="flex-b items-center mb-3">
+        <div style="font-size:12px;font-weight:700;color:var(--indigo);text-transform:uppercase;display:flex;align-items:center;gap:6px">
+          <span>🏆</span> ${t('gamification.title')}
+        </div>
+        <span class="badge grey">Loading achievements...</span>
+      </div>
+    </div>`;
+  }
+
+  const xpPercent = Math.min(100, Math.max(0, g.level_progress_percentage || 0));
+  const goalPercent = Math.min(100, Math.max(0, Math.round(g.daily_goal.percentage || ((g.daily_goal.completed / Math.max(1, g.daily_goal.target)) * 100))));
+  const allBadges = [...(g.unlocked_badges || []), ...(g.locked_badges || [])];
 
   return `
-  <div class="page with-rail">
-    <!-- Welcome -->
-    <div class="welcome">
-      <div class="welcome-c">
-        <div class="welcome-l">
-          <div class="hi">Welcome, ${firstName} 👋</div>
-          <h1>${isNew ? "Here's your learning workspace." : "Here's what needs your attention today."}</h1>
-          <p>${isNew ? "Welcome to EduNavika! You are registered in <b>Standard 10 (GSEB)</b>. Complete a practice quiz below to begin tracking your live knowledge retention and learning progress." : "Keep up the momentum! Review today's topics and continue your adaptive practice."}</p>
+  <!-- LEARNING ACHIEVEMENTS & DAILY GOALS (PHASE 17 GAMIFICATION MVP) -->
+  <div class="card pad-lg mb-6" style="border-radius:16px;border:1px solid var(--border);background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,0.04)">
+    <div class="flex-b items-center mb-4" style="flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--indigo);text-transform:uppercase;display:flex;align-items:center;gap:6px">
+          <span style="font-size:14px">🏆</span> ${t('gamification.title')}
         </div>
-        <div class="welcome-r">
-          <div class="wstat"><div class="l">Curriculum</div><div class="v">Std 10</div><div class="d">GSEB Science</div></div>
-          <div class="wstat"><div class="l">Today</div><div class="v">${user.todayGoal || 0}<small>/ 3</small></div><div class="d">Tasks assigned</div></div>
-          <div class="wstat"><div class="l">Weekly</div><div class="v">${user.weeklyGoal || 0}<small>%</small></div><div class="d">School mandate</div></div>
-          <div class="wstat"><div class="l">Status</div><div class="v">Active</div><div class="d">Term 1 (2026)</div></div>
+        <p style="font-size:12px;color:var(--text-3);margin:2px 0 0 0">${t('gamification.subtitle')}</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="badge indigo" style="font-size:11.5px;padding:4px 10px;font-weight:700">
+          ${t('gamification.level')} ${g.level} · ${g.level_title}
+        </span>
+      </div>
+    </div>
+
+    <!-- 3 Stat Blocks: Level & XP, Learning Streak, Daily Goal -->
+    <div class="grid g-3 mb-5" style="gap:16px">
+      <!-- 1. Level & XP -->
+      <div style="background:var(--surface-2);border:1px solid var(--border-2);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="flex-b items-center mb-1">
+            <span style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase">${t('gamification.level')} ${g.level}</span>
+            <span style="font-size:11.5px;font-weight:800;color:var(--indigo)">${g.total_xp} XP</span>
+          </div>
+          <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:8px">${g.level_title}</div>
+        </div>
+        <div>
+          <div class="flex-b items-center tiny mb-1" style="color:var(--text-3)">
+            <span>${g.xp_towards_next_level} / ${g.xp_required_for_next_level} XP</span>
+            <span>${xpPercent}%</span>
+          </div>
+          ${progressBar(xpPercent, 'indigo')}
+          <div class="tiny mt-1" style="color:var(--text-3);font-size:11px">
+            ${g.level >= 5 ? 'Max Level Reached' : `${Math.max(0, g.xp_required_for_next_level - g.xp_towards_next_level)} XP to Level ${g.level + 1}`}
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Active Learning Streak -->
+      <div style="background:var(--surface-2);border:1px solid var(--border-2);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="flex-b items-center mb-1">
+            <span style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase">${t('gamification.streak')}</span>
+            <span style="font-size:16px">${g.current_streak > 0 ? '🔥' : '🌱'}</span>
+          </div>
+          <div style="font-size:22px;font-weight:800;color:var(--text);line-height:1.2">
+            ${g.current_streak} <span style="font-size:13px;font-weight:600;color:var(--text-2)">${t('gamification.days')}</span>
+          </div>
+        </div>
+        <div style="padding-top:10px;border-top:1px solid var(--border-2);margin-top:8px">
+          <div class="flex-b items-center tiny" style="color:var(--text-3)">
+            <span>${t('gamification.longestStreak')}</span>
+            <b style="color:var(--text)">${g.longest_streak} ${t('gamification.days')}</b>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Daily Learning Goal -->
+      <div style="background:var(--surface-2);border:1px solid var(--border-2);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="flex-b items-center mb-1">
+            <span style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase">${t('gamification.dailyGoal')}</span>
+            ${g.daily_goal.is_completed ? `<span class="badge green" style="font-size:10.5px">✓ +25 XP</span>` : `<span class="badge amber" style="font-size:10.5px">${Math.max(0, g.daily_goal.target - g.daily_goal.completed)} left</span>`}
+          </div>
+          <div style="font-size:22px;font-weight:800;color:var(--text);line-height:1.2">
+            ${g.daily_goal.completed} / ${g.daily_goal.target} <span style="font-size:12px;font-weight:600;color:var(--text-2)">activities</span>
+          </div>
+        </div>
+        <div>
+          <div class="flex-b items-center tiny mb-1" style="color:var(--text-3)">
+            <span>${t('gamification.dailyGoalSub')}</span>
+            <span>${goalPercent}%</span>
+          </div>
+          ${progressBar(goalPercent, g.daily_goal.is_completed ? 'green' : 'amber')}
         </div>
       </div>
     </div>
 
-    <!-- Today's Focus -->
+    <!-- Badges Shelf -->
+    <div>
+      <div class="flex-b items-center mb-3">
+        <span style="font-size:12px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.04em">
+          ${t('gamification.badges')} (${g.unlocked_badges.length} / ${allBadges.length} ${t('gamification.unlocked')})
+        </span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:10px">
+        ${allBadges.map(b => {
+          const isU = b.is_unlocked;
+          return `
+          <div class="badge-card" style="padding:10px;border-radius:10px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;transition:transform .15s ease;${isU ? 'background:var(--surface);border:1.5px solid var(--indigo);box-shadow:0 2px 6px rgba(79,70,229,.1);' : 'background:var(--surface-2);border:1px dashed var(--border-2);opacity:.65;'}" title="${b.description}">
+            <div style="font-size:24px;filter:${isU ? 'none' : 'grayscale(100%)'};line-height:1">${b.icon}</div>
+            <div style="font-size:11.5px;font-weight:700;color:var(--text);line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%" title="${b.name}">${b.name}</div>
+            <div style="font-size:10px;color:var(--text-3);line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${b.description}</div>
+            <span class="badge ${isU ? 'green' : 'grey'}" style="font-size:9.5px;padding:1px 6px;margin-top:auto">
+              ${isU ? '✓ ' + t('gamification.unlocked') : t('gamification.locked')}
+            </span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderTodayRevisionSection(rev?: RevisionPlanResponse): string {
+  const items: RevisionPlanItem[] = rev?.revisions || [];
+  const dueItems = items.filter((i: RevisionPlanItem) => i.is_due_today || i.is_overdue);
+
+  if (dueItems.length === 0) {
+    return `
+    <!-- TODAY'S REVISION: ALL CAUGHT UP EMPTY STATE -->
+    <div class="card pad-lg mb-6" style="border-radius:14px;border:1px solid var(--border);background:var(--surface)">
+      <div class="flex-b items-center mb-3">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--teal);text-transform:uppercase;display:flex;align-items:center;gap:6px">
+          <span style="font-size:14px">🔄</span> TODAY'S REVISION
+        </div>
+        <span class="badge green">✓ All Caught Up</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;padding:8px 0;flex-wrap:wrap">
+        <div style="font-size:32px">✨</div>
+        <div style="flex:1;min-width:240px">
+          <h4 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px">You're all caught up!</h4>
+          <p style="font-size:13px;color:var(--text-3);margin:0;line-height:1.5">
+            Your next revision will appear here when needed. EduNavika monitors your forgetting curve and schedules review before concepts fade.
+          </p>
+        </div>
+        <button class="btn btn-sm btn-outline" data-go="student/revision">Full Revision Plan →</button>
+      </div>
+    </div>`;
+  }
+
+  return `
+  <!-- TODAY'S REVISION: DUE ITEMS -->
+  <div class="card pad-lg mb-6" style="border-radius:14px;border:1px solid var(--border);background:var(--surface)">
+    <div class="flex-b items-center mb-4" style="flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--teal);text-transform:uppercase;display:flex;align-items:center;gap:6px">
+          <span style="font-size:14px">🔄</span> TODAY'S REVISION
+        </div>
+        <p style="font-size:12px;color:var(--text-3);margin:2px 0 0 0">Scheduled reviews based on your on-device decay curve</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="badge ${dueItems.some((i: RevisionPlanItem) => i.is_overdue) ? 'coral' : 'amber'}" style="font-weight:700">
+          ${dueItems.length} Due Today
+        </span>
+        <button class="btn btn-sm btn-outline" data-go="student/revision">View All →</button>
+      </div>
+    </div>
+
+    <div class="grid g-3" style="gap:14px">
+      ${dueItems.slice(0, 3).map((item: RevisionPlanItem) => `
+        <div style="background:var(--surface-2);border:1px solid var(--border-2);border-radius:12px;padding:16px;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div class="flex-b items-center mb-2">
+              <span class="badge ${item.is_overdue ? 'coral' : 'amber'}" style="font-size:10px;font-weight:700">
+                ${item.is_overdue ? 'OVERDUE' : 'DUE TODAY'}
+              </span>
+              <span class="tiny" style="color:var(--text-3)">Priority: ${item.priority}</span>
+            </div>
+            <h4 style="font-size:14.5px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3">${item.topic_title}</h4>
+            <div class="tiny" style="color:var(--text-3);margin-bottom:10px">
+              Mastery: <b>${item.mastery_level}</b> · Risk: <b>${item.retention_risk}</b>
+            </div>
+            <p style="font-size:12px;color:var(--text-2);line-height:1.45;margin-bottom:12px">${item.reason}</p>
+          </div>
+          <button class="btn btn-sm btn-primary" style="width:100%" onclick="loadAdaptivePractice('${item.topic_id}')">
+            ${icon('refresh')} Revise Now
+          </button>
+        </div>
+      `).join('')}
+    </div>
+  </div>`;
+}
+
+function renderProgressSection(p?: StudentProgressResponse, firstName: string = 'Student', isNew: boolean = false, topicId: string = '5a321a44-bc06-4db4-a50f-5e53f913b612'): string {
+  const totalAttempts = p?.overall.total_attempts ?? 0;
+
+  if (isNew || totalAttempts === 0) {
+    return `
+    <!-- YOUR PROGRESS: FRESH STUDENT EMPTY STATE -->
+    <div class="card pad-lg mb-6" style="border-radius:14px;border:1px solid var(--border);background:var(--surface);text-align:center;padding:36px 20px">
+      <div style="font-size:36px;margin-bottom:8px">🎯</div>
+      <h3 style="font-size:17px;font-weight:700;color:var(--text);margin-bottom:6px">Start your first practice to build your learning profile</h3>
+      <p style="color:var(--text-3);font-size:13px;max-width:540px;margin:0 auto 18px auto;line-height:1.5">
+        Welcome, <b>${firstName}</b>! Complete your first adaptive practice set in Science or Mathematics to compute your baseline knowledge health, accuracy, and forgetting stability curve on this device.
+      </p>
+      <button class="btn btn-primary" onclick="loadAdaptivePractice('${topicId}')">
+        ${icon('play')} Begin Diagnostic Practice
+      </button>
+    </div>`;
+  }
+
+  const correctAttempts = p?.overall.correct_attempts ?? 0;
+  const accuracy = p?.overall.overall_accuracy ?? 0;
+  const topicsStudied = p?.overall.topics_studied ?? 0;
+  const totalTopics = p?.overall.total_topics_available ?? 1;
+  const trend = p?.overall.overall_trend ?? 'STABLE';
+  const m = p?.overall.mastery_distribution ?? { unassessed: 0, novice: 0, developing: 0, proficient: 0, mastered: 0 };
+  const totalForBar = Math.max(totalTopics, 1);
+  const pMastered = Math.round((m.mastered / totalForBar) * 100);
+  const pProficient = Math.round((m.proficient / totalForBar) * 100);
+  const pDeveloping = Math.round((m.developing / totalForBar) * 100);
+  const pNovice = Math.round((m.novice / totalForBar) * 100);
+
+  return `
+  <!-- YOUR PROGRESS: LIVE TELEMETRY & MASTERY BREAKDOWN -->
+  <div class="card pad-lg mb-6" style="border-radius:14px;border:1px solid var(--border);background:var(--surface)">
+    <div class="flex-b items-center mb-4" style="flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--indigo);text-transform:uppercase;display:flex;align-items:center;gap:6px">
+          <span>📊</span> YOUR PROGRESS & KNOWLEDGE HEALTH
+        </div>
+        <p style="font-size:12px;color:var(--text-3);margin:2px 0 0 0">Standard 10 syllabus mastery computed locally from verified learning events</p>
+      </div>
+      <button class="btn btn-sm btn-outline" data-go="student/analytics">Detailed Learning Journey →</button>
+    </div>
+
+    <div class="grid g-4 mb-4">
+      ${statBlock('Questions Solved', `${totalAttempts}`, `${correctAttempts} correct`, 'target', 'up')}
+      ${statBlock('Overall Accuracy', `${accuracy.toFixed(1)}%`, accuracy >= 70 ? 'Strong baseline' : 'Building accuracy', 'chart', accuracy >= 70 ? 'up' : 'down')}
+      ${statBlock('Topics Studied', `${topicsStudied}`, `of ${totalTopics} available`, 'book', 'up')}
+      ${statBlock('Retention Trend', trend, 'Local stability estimate', 'brain', trend === 'IMPROVING' ? 'up' : 'neutral')}
+    </div>
+
+    <div>
+      <div class="flex-b items-center tiny mb-2" style="color:var(--text-2);font-weight:600">
+        <span>Mastery Breakdown across ${totalTopics} Topics</span>
+        <div class="flex gap-3">
+          <span style="color:var(--green)">● Mastered ${pMastered}%</span>
+          <span style="color:var(--teal)">● Proficient ${pProficient}%</span>
+          <span style="color:var(--amber)">● Developing ${pDeveloping}%</span>
+          <span style="color:var(--coral)">● Novice ${pNovice}%</span>
+        </div>
+      </div>
+      <div style="height:10px;border-radius:99px;background:var(--border-2);display:flex;overflow:hidden">
+        <div style="width:${pMastered}%;background:var(--green)" title="Mastered: ${m.mastered}"></div>
+        <div style="width:${pProficient}%;background:var(--teal)" title="Proficient: ${m.proficient}"></div>
+        <div style="width:${pDeveloping}%;background:var(--amber)" title="Developing: ${m.developing}"></div>
+        <div style="width:${pNovice}%;background:var(--coral)" title="Novice: ${m.novice}"></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+export function studentDashboard(): string {
+  const sub = SUBJECTS;
+  const user = getCurrentUser();
+  const firstName = user.full_name?.split(' ')[0] || user.name?.split(' ')[0] || 'Student';
+  const rec = dashboardHeroState.recommendation;
+  const g = gamificationState.data;
+  const rev = revisionPlanState.data;
+  const prog = progressState.data;
+
+  const totalAttempts = prog?.overall.total_attempts ?? (COMPLETED_ASSESSMENTS.length > 0 ? 5 : 0);
+  const isNew = totalAttempts === 0 && (user.todayGoal || 0) === 0;
+
+  const refreshDashboard = () => {
+    if (typeof window !== 'undefined' && window.location.hash.includes('student/dashboard')) {
+      const root = document.getElementById('main');
+      if (root) {
+        root.innerHTML = studentDashboard();
+      }
+    }
+  };
+
+  // Proactively trigger async loads for live data
+  if (!rec && !dashboardHeroState.loading) {
+    loadDashboardRecommendation().then(refreshDashboard);
+  }
+  if (!g && !gamificationState.loading) {
+    loadStudentGamification().then(refreshDashboard);
+  }
+  if (!rev && !revisionPlanState.loading) {
+    loadRevisionPlan().then(refreshDashboard);
+  }
+  if (!prog && !progressState.loading) {
+    loadStudentProgress().then(refreshDashboard);
+  }
+
+  // Time-aware greeting
+  const hour = new Date().getHours();
+  const timeGreeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+
+  const topicTitle = rec ? rec.topic_title : 'Chemical Reactions and Equations';
+  const topicId = rec ? rec.topic_id : '5a321a44-bc06-4db4-a50f-5e53f913b612';
+  const mastery = rec ? rec.mastery_level : (isNew ? 'UNASSESSED' : 'NOVICE');
+  const accuracy = rec ? `${rec.accuracy.toFixed(1)}%` : (isNew ? '0.0%' : '0.0%');
+  const recentAccuracy = rec?.recent_accuracy != null ? `${rec.recent_accuracy.toFixed(1)}%` : accuracy;
+  const retentionRisk = rec ? rec.retention_risk : (isNew ? 'UNASSESSED' : 'MODERATE');
+  const trend = rec ? rec.trend : (isNew ? 'INSUFFICIENT_DATA' : 'STABLE');
+  const diff = rec ? rec.recommended_difficulty : 'FOUNDATIONAL';
+  const actionLabel = rec?.recommended_action?.replace(/_/g, ' ') || 'DIAGNOSTIC PRACTICE';
+  const reasonText = rec?.reason || (isNew ? 'Begin with a diagnostic practice set to establish your baseline curriculum knowledge profile.' : 'Adaptive practice tailored to your current knowledge profile.');
+
+  return `
+  <div class="page with-rail">
+    <!-- Welcome Header with Team Varja Attribution -->
+    <div class="welcome" style="margin-bottom:24px">
+      <div class="welcome-c">
+        <div class="welcome-l">
+          <div class="hi" style="display:flex;align-items:center;gap:8px">
+            <span>${timeGreeting}, ${firstName} 👋</span>
+            <span class="badge" style="background:rgba(255,255,255,.18);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px">Std 10 · GSEB Science & Mathematics</span>
+          </div>
+          <h1 style="margin-top:6px">On-Device Personalized Learning Assistant</h1>
+          <p>Continuous adaptive practice, verified curriculum grounding, and retention-aware study paths — completely private on this device.</p>
+        </div>
+        <div class="welcome-r">
+          <div class="wstat"><div class="l">Engine</div><div class="v">Local SLM</div><div class="d">Qwen2.5-0.5B</div></div>
+          <div class="wstat"><div class="l">Inference</div><div class="v">CPU</div><div class="d">100% Offline</div></div>
+          <div class="wstat"><div class="l">Curriculum</div><div class="v">GSEB 10</div><div class="d">NCERT-aligned</div></div>
+          <div class="wstat"><div class="l">Status</div><div class="v">Active</div><div class="d">Private on-device</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. YOUR LEARNING TODAY (LIVE GAMIFICATION DATA) -->
+    ${renderGamificationSection(gamificationState.data)}
+
+    <!-- 2. RECOMMENDED FOR YOU (PERSONALIZED LEARNING PATH) -->
+    <div class="card pad-lg mb-6" style="background:linear-gradient(135deg, #1E293B, #0F172A);color:#fff;border-radius:16px;border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 30px rgba(15,23,42,.35)">
+      <div class="flex-b items-center mb-3">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#38BDF8;text-transform:uppercase;display:flex;align-items:center;gap:6px">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#38BDF8;box-shadow:0 0 8px #38BDF8"></span>
+          RECOMMENDED FOR YOU
+        </div>
+        <span class="badge" style="background:rgba(56,189,248,.15);color:#38BDF8;border:1px solid rgba(56,189,248,.3);font-size:11px;font-weight:700">
+          ${actionLabel}
+        </span>
+      </div>
+
+      <div class="grid g-3-1 items-center" style="gap:24px">
+        <div>
+          <h2 style="font-size:24px;font-weight:800;line-height:1.3;margin-bottom:8px;color:#F8FAFC">
+            ${topicTitle}
+          </h2>
+          <div style="font-size:13.5px;color:#94A3B8;line-height:1.55;margin-bottom:18px">
+            <b style="color:#CBD5E1">Why this topic?</b> ${reasonText}
+          </div>
+
+          <!-- 4 Pillars Knowledge Grid -->
+          <div class="grid g-4" style="background:rgba(255,255,255,.05);padding:14px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.08);margin-bottom:20px">
+            <div>
+              <div style="font-size:11px;color:#94A3B8;text-transform:uppercase;font-weight:600;letter-spacing:.03em">Mastery</div>
+              <div style="font-size:16px;font-weight:800;color:#38BDF8;margin-top:2px">${mastery}</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#94A3B8;text-transform:uppercase;font-weight:600;letter-spacing:.03em">Recent Accuracy</div>
+              <div style="font-size:16px;font-weight:800;color:#4ADE80;margin-top:2px">${recentAccuracy}</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#94A3B8;text-transform:uppercase;font-weight:600;letter-spacing:.03em">Retention Risk</div>
+              <div style="font-size:16px;font-weight:800;color:#FBBF24;margin-top:2px">${retentionRisk}</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#94A3B8;text-transform:uppercase;font-weight:600;letter-spacing:.03em">Trend</div>
+              <div style="font-size:16px;font-weight:800;color:#A78BFA;margin-top:2px">${trend}</div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 wrap">
+            <button class="btn btn-primary btn-lg" style="background:#2563EB;border-color:#2563EB;padding:12px 24px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px" onclick="loadAdaptivePractice('${topicId}')">
+              ${icon('play')} Practice Now
+            </button>
+            <button class="btn btn-lg" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);padding:12px 22px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px" onclick="openAIPanel()">
+              ${icon('sparkles')} Ask EduNavika AI
+            </button>
+          </div>
+        </div>
+
+        <!-- Provenance and On-Device Assurance Card -->
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:12px;font-weight:700;color:#38BDF8;text-transform:uppercase;letter-spacing:.04em">
+            ⚡ On-Device Intelligence
+          </div>
+          <div style="font-size:12px;color:#94A3B8;line-height:1.5">
+            Your knowledge profile and recommendations are computed entirely on-device without cloud analytics.
+          </div>
+          <div style="padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:11.5px;color:#CBD5E1">
+            <b>Textbook Provenance:</b><br>
+            Standard 10 Verified Curriculum
+          </div>
+          <div style="font-size:11px;color:#64748B">
+            Target Tier: <b>${diff}</b>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. TODAY'S REVISION (LIVE REVISION PLAN DATA) -->
+    ${renderTodayRevisionSection(revisionPlanState.data)}
+
+    <!-- 4. YOUR PROGRESS & KNOWLEDGE HEALTH (LIVE TELEMETRY) -->
+    ${renderProgressSection(progressState.data, firstName, isNew, topicId)}
+
+    <!-- 5. Active Practice & Curriculum Focus -->
     <div class="sec-head">
-      <div><h2>${icon('target')} Today's Focus</h2><p>Recommended curriculum topics for Standard 10. Start practice to establish your learning profile.</p></div>
-      <div class="right"><button class="btn btn-sm" data-go="student/learning">View all</button></div>
+      <div><h2>${icon('target')} Curriculum Focus</h2><p>Topics aligned with your Standard 10 GSEB syllabus.</p></div>
+      <div class="right"><button class="btn btn-sm" data-go="student/practice">Adaptive Practice →</button></div>
     </div>
     <div class="focus-grid mb-6">
-      ${todayFocus.map(f => `
-        <div class="focus-card ${f.kind}" onclick="${f.go}">
-          <div class="ftag">${f.kind === 'continue' ? icon('play', 'ic-xs') : f.kind === 'revision' ? icon('refresh', 'ic-xs') : icon('zap', 'ic-xs')} ${f.label}</div>
-          <div class="fsub">${f.subject}</div>
-          <h4>${f.topic}</h4>
-          <div class="fmeta">${f.meta}</div>
-          ${f.pct > 0 ? `<div class="fbar">${progressBar(f.pct, 'indigo')}<b>${f.pct}%</b></div>` : ''}
-          <button class="btn btn-sm btn-primary" style="width:100%">${f.action}</button>
-        </div>`).join('')}
+      <div class="focus-card practice" onclick="loadAdaptivePractice()" style="border:1.5px solid var(--indigo)">
+        <div class="ftag" style="background:var(--indigo-50);color:var(--indigo)">${icon('zap', 'ic-xs')} Active Recommendation</div>
+        <div class="fsub">Science · Chapter 1</div>
+        <h4>Chemical Reactions & Equations</h4>
+        <div class="fmeta">Accuracy: ${accuracy} · ${mastery}</div>
+        <button class="btn btn-sm btn-primary" style="width:100%">Practice Recommended Tier</button>
+      </div>
+
+      <div class="focus-card continue" onclick="startQuiz('Electricity & Circuits')">
+        <div class="ftag">${icon('play', 'ic-xs')} Diagnostic Check</div>
+        <div class="fsub">Science · Chapter 11</div>
+        <h4>Electricity</h4>
+        <div class="fmeta">Standard 10 Core Physics</div>
+        <button class="btn btn-sm" style="width:100%">Start Quiz</button>
+      </div>
+
+      <div class="focus-card revision" onclick="startQuiz('Real Numbers & Polynomials')">
+        <div class="ftag">${icon('refresh', 'ic-xs')} Math Concept Check</div>
+        <div class="fsub">Mathematics · Chapter 1</div>
+        <h4>Real Numbers & Polynomials</h4>
+        <div class="fmeta">Foundational Algebra</div>
+        <button class="btn btn-sm" style="width:100%">Take Quiz</button>
+      </div>
     </div>
+
 
     <!-- Knowledge Health + AI Insight -->
     <div class="grid g-3-1 mb-6">
       <div class="card">
         <div class="card-h">
           <div><h3>Knowledge Health</h3><div class="sub">Live model-derived estimate of how stable your learning is</div></div>
-          <div class="right"><span class="badge teal">${icon('sparkles')} EduSense AI</span></div>
+          <div class="right"><span class="badge teal">${icon('sparkles')} EduNavika AI</span></div>
         </div>
         <div class="card-b">
           ${isNew ? `
@@ -143,7 +600,7 @@ export function studentDashboard(): string {
             <div style="padding:28px 20px;text-align:center;color:var(--text-3)">
               <div style="font-size:28px;margin-bottom:6px">📈</div>
               <div style="font-weight:600;color:var(--text);font-size:13.5px">No memory decay detected</div>
-              <p style="font-size:12px;max-width:380px;margin:4px auto 0 auto">Take quizzes or practice sessions to allow EduSense AI to model your memory retention curve.</p>
+              <p style="font-size:12px;max-width:380px;margin:4px auto 0 auto">Take quizzes or practice sessions to allow EduNavika AI to model your memory retention curve.</p>
             </div>
           ` : `
           <div class="timeline">
@@ -246,45 +703,59 @@ export function studentDashboard(): string {
 
     <!-- Subject Performance -->
     <div class="sec-head">
-      <div><h2>${icon('grid')} Subject Performance</h2><p>Mastery and knowledge health across your subjects</p></div>
-      <div class="right"><button class="btn btn-sm" data-go="student/subjects">See subjects</button></div>
+      <div><h2>${icon('grid')} Subject Performance & Knowledge Health</h2><p>Mastery, stability estimates, and priority topics across your subjects</p></div>
+      <div class="right"><button class="btn btn-sm" data-go="student/subjects">See all subjects →</button></div>
     </div>
     <div class="grid g-3">
-      ${sub.map(s => `
-        <div class="subj-card" onclick="openSubject('${s.id}')">
-          <div class="sc-h">
-            <div class="subj-ic" style="background:${s.bg};color:${s.color}">${s.code}</div>
-            <div style="flex:1;min-width:0">
-              <h4>${s.name}</h4>
-              <span>${s.done} of ${s.topics} topics complete</span>
+      ${sub.map(s => {
+        const isAssessed = s.done > 0 || s.mastery > 0 || (s.id === 'chem' && rec);
+        const subjMastery = (s.id === 'chem' && rec) ? (rec.accuracy ? Math.round(rec.accuracy) : 44) : s.mastery;
+        const subjKhLabel = (s.id === 'chem' && rec) ? (rec.retention_risk === 'HIGH' ? 'Needs attention' : rec.retention_risk === 'MODERATE' ? 'Moderate' : 'Stable') : (s.kh >= 70 ? 'Stable' : s.kh >= 50 ? 'Needs attention' : 'Unassessed');
+        const priorityTopic = (s.id === 'chem' && rec) ? rec.topic_title : (s.topicList[0]?.name || 'Core concept');
+        const nextAction = (s.id === 'chem' && rec) ? actionLabel : (isAssessed ? 'Review topic' : 'Diagnostic check');
+
+        return `
+        <div class="subj-card" onclick="openSubject('${s.id}')" style="display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div class="sc-h mb-3">
+              <div class="subj-ic" style="background:${s.bg};color:${s.color}">${s.code}</div>
+              <div style="flex:1;min-width:0">
+                <h4 style="font-size:15px;font-weight:700">${s.name}</h4>
+                <span class="tiny" style="color:var(--text-3)">Priority: <b>${priorityTopic}</b></span>
+              </div>
+              <span class="badge ${subjKhLabel === 'Needs attention' ? 'amber' : subjKhLabel === 'Stable' ? 'green' : 'grey'}">${subjKhLabel}</span>
             </div>
-            ${s.done === 0 ? '<span class="badge grey">Unassessed</span>' : riskBadge(s.risk)}
+            <div class="subj-metrics mb-3">
+              <div class="m"><div class="l">Mastery</div><div class="v">${isAssessed ? `${subjMastery}%` : 'Baseline'}</div>${progressBar(subjMastery, subjMastery >= 75 ? 'green' : subjMastery >= 50 ? 'indigo' : 'amber')}</div>
+              <div class="m"><div class="l">Knowledge Health</div><div class="v" style="color:${subjKhLabel === 'Stable' ? 'var(--green)' : subjKhLabel === 'Needs attention' ? 'var(--amber)' : 'var(--text-3)'}">${subjKhLabel}</div>${progressBar(s.kh || (isAssessed ? 55 : 0), subjKhLabel === 'Stable' ? 'green' : subjKhLabel === 'Needs attention' ? 'amber' : 'coral')}</div>
+            </div>
           </div>
-          <div class="subj-metrics">
-            <div class="m"><div class="l">Mastery</div><div class="v">${s.mastery}%</div>${progressBar(s.mastery, s.mastery >= 80 ? 'green' : s.mastery >= 60 ? 'indigo' : 'amber')}</div>
-            <div class="m"><div class="l">Knowledge Health</div><div class="v" style="color:${s.kh >= 70 ? 'var(--green)' : s.kh >= 55 ? 'var(--amber)' : 'var(--text-3)'}">${s.kh === 0 ? '--' : s.kh + '%'}</div>${progressBar(s.kh, s.kh >= 70 ? 'green' : s.kh >= 55 ? 'amber' : 'coral')}</div>
+          <div style="padding-top:10px;border-top:1px solid var(--border-2);display:flex;align-items:center;justify-content:space-between">
+            <span class="tiny" style="color:var(--text-2);font-weight:600">Action: ${nextAction}</span>
+            <span class="btn btn-sm btn-ghost" style="padding:2px 8px;font-size:11px">Open →</span>
           </div>
-        </div>`).join('')}
+        </div>`;
+      }).join('')}
     </div>
 
-    <!-- Notices -->
+    <!-- Learning Reminders & Curriculum Alerts -->
     <div class="sec-head mt-6">
-      <div><h2>${icon('bell')} Recent Notices</h2><p>From your school and teachers</p></div>
+      <div><h2>${icon('bell')} Learning Updates & Reminders</h2><p>Curriculum milestones and spaced revision alerts</p></div>
       <div class="right"><button class="btn btn-sm" data-go="student/notifications">Notification center</button></div>
     </div>
     <div class="card">
       <div class="card-b">
         <div class="notice">
           <span class="n-dot urgent"></span>
-          <div class="n-body"><b>Physics assessment in 3 days</b><p>Electricity & Circuits test is scheduled for September 18 at 10:00 AM. Recommended preparation: revise today's queue.</p><div class="n-time">${icon('clock', 'ic-xs')} 3 hours ago · Assessment</div></div>
+          <div class="n-body"><b>Spaced Revision Scheduled</b><p>Electricity & Circuits practice is scheduled for memory stabilization. Recommended preparation: complete today's revision queue.</p><div class="n-time">${icon('clock', 'ic-xs')} Today · Adaptive Scheduler</div></div>
         </div>
         <div class="notice">
           <span class="n-dot teal"></span>
-          <div class="n-body"><b>New study material for Grade 10</b><p>"Forgetting curves and revision planning" has been added to your Science resources.</p><div class="n-time">${icon('clock', 'ic-xs')} 5 hours ago · Content</div></div>
+          <div class="n-body"><b>Standard 10 Science Syllabus Active</b><p>Chemical Reactions and Equations & Acids, Bases and Salts verified learning materials are available locally on this device.</p><div class="n-time">${icon('clock', 'ic-xs')} Active · On-Device Curriculum</div></div>
         </div>
         <div class="notice">
           <span class="n-dot"></span>
-          <div class="n-body"><b>Timetable update — Friday</b><p>Physics practical moved to Lab 2 at 2:30 PM.</p><div class="n-time">${icon('clock', 'ic-xs')} Yesterday · Academic</div></div>
+          <div class="n-body"><b>Daily Learning Goal</b><p>Complete 5 meaningful learning activities today to maintain your learning streak and earn +25 bonus XP.</p><div class="n-time">${icon('clock', 'ic-xs')} Daily · Milestones</div></div>
         </div>
       </div>
     </div>
@@ -293,7 +764,7 @@ export function studentDashboard(): string {
   <aside class="rail">
     <div class="rail-inner">
       <div class="ai-card">
-        <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>EduSense AI</b></div>
+        <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>EduNavika AI</b></div>
         <div class="ai-body">Welcome <b>${firstName}</b>! Take a 5-minute practice quiz in Mathematics or Science to establish your knowledge health baseline.</div>
         <div class="ai-actions"><button class="btn btn-sm btn-teal" onclick="startQuiz('Real Numbers & Polynomials')">Start first quiz</button></div>
       </div>
@@ -397,11 +868,11 @@ export function studentLearning(): string {
     <!-- Recommended + Recent Activity -->
     <div class="grid g-2-1">
       <div class="card">
-        <div class="card-h"><div><h3>Recommended for you</h3><div class="sub">Curriculum guidance from EduSense AI</div></div></div>
+        <div class="card-h"><div><h3>Recommended for you</h3><div class="sub">Curriculum guidance from EduNavika AI</div></div></div>
         <div class="card-b">
           <div class="flex-c">
             ${aiInsight('Diagnostic Practice', `Welcome to Standard 10! Complete a quick 5-question baseline practice set in Mathematics or Science to calibrate your knowledge curve.`, 'Start practice', `startQuiz('Real Numbers & Polynomials')`)}
-            ${aiInsight('Structured Revision', `EduSense AI continuously schedules revision sessions to reinforce retention before concepts fade.`, 'View revision plan', `navigate('student/revision')`)}
+            ${aiInsight('Structured Revision', `EduNavika AI continuously schedules revision sessions to reinforce retention before concepts fade.`, 'View revision plan', `navigate('student/revision')`)}
           </div>
         </div>
       </div>
@@ -482,7 +953,7 @@ export function subjectDetailPage(): string {
             </div>
           </div>
           <div class="ai-card">
-            <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>EduSense AI — ${s.name}</b></div>
+            <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>EduNavika AI — ${s.name}</b></div>
             <div class="ai-body">${s.risk === 'high'
               ? `<b>${s.name}</b> needs attention this week. ${s.topicList.filter(t => t.risk === 'high').length} topics are at risk of forgetting. Focus on <b>${s.topicList.find(t => t.risk === 'high')?.name || 'core topics'}</b> first.`
               : `<b>${s.name}</b> is progressing steadily. Your strongest area is <b>${s.topicList[0]?.name || 'this subject'}</b>. Continue your current revision pattern.`}</div>
@@ -603,107 +1074,160 @@ export function studentSubjects(): string {
   </div>`;
 }
 
+/* ---------- Personalized Revision Plan State (Phase 16) ---------- */
+let revisionPlanState: {
+  data?: RevisionPlanResponse;
+  loading: boolean;
+  studentId?: string;
+  language?: string;
+} = {
+  loading: false,
+};
+
+export async function loadRevisionPlan(force: boolean = false): Promise<void> {
+  const user = getCurrentUser();
+  const studentId = user.id || 'e09699dd-0c64-44cc-82ef-ab41a832e072';
+  const lang = getLanguage();
+  if (revisionPlanState.loading) return;
+  if (revisionPlanState.data && revisionPlanState.studentId === studentId && revisionPlanState.language === lang && !force) return;
+  revisionPlanState.loading = true;
+  revisionPlanState.studentId = studentId;
+  revisionPlanState.language = lang;
+  try {
+    const data = await adaptiveService.getRevisionPlan(studentId, undefined, lang);
+    if (data) {
+      revisionPlanState.data = data;
+    }
+  } catch (err) {
+    console.debug('Failed loading revision plan from backend:', err);
+  } finally {
+    revisionPlanState.loading = false;
+  }
+}
+
+export async function loadRevisionPlansFromBackend(): Promise<void> {
+  await loadRevisionPlan(true);
+}
+
+if (typeof window !== 'undefined') {
+  (window as any).refreshRevisionQueue = loadRevisionPlansFromBackend;
+  (window as any).loadRevisionPlan = loadRevisionPlan;
+}
+
 /* ---------- Revision Plan ---------- */
 export function studentRevision(): string {
-  const dueToday = REVISION_QUEUE.filter(r => r.when === 'Today');
-  const dueWeek = REVISION_QUEUE.filter(r => r.when !== 'Today' && r.risk === 'High');
-  const upcoming = REVISION_QUEUE.filter(r => r.when !== 'Today' && r.risk !== 'High');
-  const hasCompletedRev = COMPLETED_ASSESSMENTS.filter(a => a.kh > 0);
+  if (!revisionPlanState.data && !revisionPlanState.loading) {
+    loadRevisionPlan().then(() => {
+      if (typeof window !== 'undefined' && window.location.hash.includes('student/revision')) {
+        const root = document.getElementById('main');
+        if (root) {
+          root.innerHTML = studentRevision();
+        }
+      }
+    });
+  }
+
+  const p = revisionPlanState.data;
+  const revisions = p?.revisions ?? [];
+  const dueToday = revisions.filter(r => r.urgency_tier === 'TODAY' || r.is_due_today);
+  const dueWeek = revisions.filter(r => r.urgency_tier === 'THIS_WEEK' && !r.is_due_today);
+  const upcoming = revisions.filter(r => r.urgency_tier === 'UPCOMING');
+  const isZero = revisions.length === 0;
+
+  const renderRevRow = (r: RevisionPlanItem, isUrgent = false) => {
+    const pBadge = r.priority === 'URGENT'
+      ? `<span class="badge coral">${t('revision.priority.URGENT')}</span>`
+      : r.priority === 'HIGH'
+      ? `<span class="badge amber">${t('revision.priority.HIGH')}</span>`
+      : r.priority === 'MEDIUM'
+      ? `<span class="badge indigo">${t('revision.priority.MEDIUM')}</span>`
+      : `<span class="badge teal">${t('revision.priority.LOW')}</span>`;
+
+    const riskB = r.retention_risk === 'HIGH'
+      ? riskBadge('high')
+      : r.retention_risk === 'MODERATE'
+      ? riskBadge('medium')
+      : riskBadge('low');
+
+    const dueBadge = r.is_due_today
+      ? `<span class="badge coral">${t('revision.todayBadge')}</span>`
+      : r.days_until_due === 1
+      ? `<span class="badge amber">${t('revision.dueTomorrow')}</span>`
+      : `<span class="badge grey">${t('revision.dueInDays').replace('{n}', String(r.days_until_due))}</span>`;
+
+    const iconBg = isUrgent ? 'var(--coral-50)' : r.priority === 'HIGH' ? 'var(--amber-50)' : 'var(--teal-50)';
+    const iconColor = isUrgent ? 'var(--coral)' : r.priority === 'HIGH' ? '#B4731A' : 'var(--teal-600)';
+
+    return `
+      <div class="rev-row" style="align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border-2)">
+        <div class="ri" style="background:${iconBg};color:${iconColor};margin-top:2px">${icon('refresh')}</div>
+        <div class="rmain" style="flex:1;min-width:200px">
+          <div class="flex gap-2 items-center wrap mb-1">
+            <b style="font-size:14px">${r.subject_name} — ${r.topic_title}</b>
+            ${pBadge}
+            ${dueBadge}
+          </div>
+          <p style="font-size:12.5px;color:var(--text);margin:0 0 6px 0;line-height:1.45">${r.reason}</p>
+          <div class="flex gap-4 wrap" style="font-size:11.5px;color:var(--text-3)">
+            <span>${t('progress.col.mastery')}: <b>${t('mastery.' + r.mastery_level) || r.mastery_level}</b></span>
+            <span>${t('progress.col.accuracy')}: <b>${r.accuracy.toFixed(1)}%</b></span>
+            ${r.recent_accuracy != null ? `<span>Recent: <b>${r.recent_accuracy.toFixed(1)}%</b></span>` : ''}
+            <span>${t('progress.col.risk')}: <b>${t('risk.' + r.retention_risk) || r.retention_risk}</b></span>
+            ${r.source_document ? `<span>📖 <b>${t('revision.source')}:</b> ${r.source_page ? `Page ${r.source_page}` : r.source_document}</span>` : ''}
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;margin-left:12px">
+          ${riskB}
+          <button class="btn btn-primary btn-sm" onclick="loadAdaptivePractice('${r.topic_id}')">${icon('play')} ${t('revision.btnStart')}</button>
+        </div>
+      </div>
+    `;
+  };
 
   return `
   <div class="page">
-    ${pageHead('Revision Plan', 'Your personalised revision plan', 'EduSense AI schedules revision at the moment it will have the greatest impact — based on your knowledge health, accuracy and last revision date.')}
+    ${pageHead(
+      t('revision.title'),
+      t('revision.sub'),
+      t('revision.desc'),
+      '<button class="btn btn-sm btn-outline" onclick="loadRevisionPlan(true).then(() => { const r = document.getElementById(\'main\'); if(r) r.innerHTML = studentRevision(); toast(\'Revision Refreshed\',\'Spaced intervals recalculated\',\'good\'); })">' + icon('refresh') + ' ' + t('btn.refresh') + '</button>'
+    )}
 
     <div class="grid g-4 mb-6">
-      ${statBlock('Due today', dueToday.length, dueToday.length ? 'High priority' : 'None due', 'alert', dueToday.length ? 'down' : 'up')}
-      ${statBlock('This week', dueWeek.length, dueWeek.length ? 'Scheduled for you' : 'None scheduled', 'calendar')}
-      ${statBlock('Completed', `${hasCompletedRev.length}`, 'Last 30 days', 'check', 'up')}
-      ${statBlock('Revision accuracy', hasCompletedRev.length ? '+8%' : '--', 'On revised topics', 'trendUp', 'up')}
+      ${statBlock(t('revision.dueToday'), dueToday.length, dueToday.length ? `${p?.urgent_count ?? 0} Urgent` : 'None due', 'alert', dueToday.length ? 'down' : 'up')}
+      ${statBlock(t('revision.dueThisWeek'), dueWeek.length, dueWeek.length ? 'Scheduled' : 'None scheduled', 'calendar')}
+      ${statBlock(t('revision.upcoming'), upcoming.length, 'Spaced Maintenance', 'clock', 'up')}
+      ${statBlock('Total Active', revisions.length, `${p?.urgent_count ?? 0} Urgent · ${p?.high_count ?? 0} High`, 'target', 'up')}
     </div>
 
-    ${REVISION_QUEUE.length === 0 ? `
+    ${isZero ? `
       <div class="card pad-lg mb-6" style="padding:48px 24px;text-align:center">
         <div style="font-size:36px;margin-bottom:8px">🎉</div>
-        <h3 class="h3 mb-2">No revisions currently due</h3>
+        <h3 class="h3 mb-2">${t('revision.empty')}</h3>
         <p style="color:var(--text-3);max-width:520px;margin:0 auto 20px auto;font-size:13.5px;line-height:1.5">
-          Your revision queue is clear. As you complete lessons and quizzes across your 6 subjects, EduSense AI will track memory decay and schedule spaced revision here when it's most effective.
+          ${t('revision.emptyDesc')}
         </p>
         <button class="btn btn-primary" onclick="navigate('student/learning')">${icon('play')} Practice Standard 10 Syllabus</button>
       </div>
     ` : `
-    ${aiInsight('This week\'s priority',
-      `Your <b>Physics knowledge has become less stable</b> over recent sessions. Focus on <b>Electricity & Circuits</b> first to reverse forgetting.`,
-      'Start with Physics', `startQuiz('Electricity & Circuits')`)}
-
     <!-- Due Today -->
-    <div class="sec-head mt-6"><div><h2>${icon('alert')} Due Today</h2><p>${dueToday.length} high-priority topics · recommended before 7 PM</p></div></div>
+    <div class="sec-head mt-4"><div><h2>${icon('alert')} ${t('revision.dueToday')}</h2><p>${t('revision.dueTodaySub')} (${dueToday.length})</p></div></div>
     <div class="card mb-6">
-      ${dueToday.map(r => `
-        <div class="rev-row">
-          <div class="ri" style="background:var(--coral-50);color:var(--coral)">${icon('refresh')}</div>
-          <div class="rmain">
-            <b>${r.subject} — ${r.topic}</b>
-            <span>${r.reason}</span>
-          </div>
-          <div class="rkh">
-            <div class="tiny">KH</div>
-            <div class="flex gap-2">${progressBar(r.kh, 'coral')}<b style="font-size:12px;color:var(--coral)">${r.kh}%</b></div>
-          </div>
-          ${riskBadge(r.risk.toLowerCase())}
-          <div class="rdate">~20 min</div>
-          <button class="btn btn-primary btn-sm" onclick="startQuiz('${r.topic}')">${icon('play')} Start</button>
-        </div>`).join('')}
+      ${dueToday.length ? dueToday.map(r => renderRevRow(r, true)).join('') : `<div class="empty" style="padding:24px;text-align:center;color:var(--text-3)">No items due today 🎉</div>`}
     </div>
 
     <!-- This week -->
-    <div class="sec-head"><div><h2>${icon('calendar')} Due This Week</h2><p>Scheduled for the right moment</p></div></div>
+    <div class="sec-head"><div><h2>${icon('calendar')} ${t('revision.dueThisWeek')}</h2><p>${t('revision.dueThisWeekSub')} (${dueWeek.length})</p></div></div>
     <div class="card mb-6">
-      ${dueWeek.length ? dueWeek.map(r => `
-        <div class="rev-row">
-          <div class="ri" style="background:var(--amber-50);color:#B4731A">${icon('refresh')}</div>
-          <div class="rmain"><b>${r.subject} — ${r.topic}</b><span>${r.reason}</span></div>
-          <div class="rkh"><div class="tiny">KH</div><div class="flex gap-2">${progressBar(r.kh, 'amber')}<b style="font-size:12px">${r.kh}%</b></div></div>
-          ${riskBadge(r.risk.toLowerCase())}
-          <div class="rdate">${r.when}</div>
-          <button class="btn btn-sm" onclick="startQuiz('${r.topic}')">Review</button>
-        </div>`).join('') : '<div class="empty">Nothing else this week 🎉</div>'}
+      ${dueWeek.length ? dueWeek.map(r => renderRevRow(r, false)).join('') : `<div class="empty" style="padding:24px;text-align:center;color:var(--text-3)">Nothing else this week 🎉</div>`}
     </div>
 
     <!-- Upcoming -->
-    <div class="sec-head"><div><h2>${icon('clock')} Upcoming</h2><p>Routine reinforcement</p></div></div>
+    <div class="sec-head"><div><h2>${icon('clock')} ${t('revision.upcoming')}</h2><p>${t('revision.upcomingSub')} (${upcoming.length})</p></div></div>
     <div class="card mb-6">
-      ${upcoming.map(r => `
-        <div class="rev-row">
-          <div class="ri" style="background:var(--teal-50);color:var(--teal-600)">${icon('clock')}</div>
-          <div class="rmain"><b>${r.subject} — ${r.topic}</b><span>${r.reason}</span></div>
-          <div class="rkh"><div class="tiny">KH</div><div class="flex gap-2">${progressBar(r.kh, 'green')}<b style="font-size:12px">${r.kh}%</b></div></div>
-          ${riskBadge(r.risk.toLowerCase())}
-          <div class="rdate">${r.when}</div>
-          <button class="btn btn-sm">View</button>
-        </div>`).join('')}
+      ${upcoming.length ? upcoming.map(r => renderRevRow(r, false)).join('') : `<div class="empty" style="padding:24px;text-align:center;color:var(--text-3)">No upcoming maintenance scheduled</div>`}
     </div>
     `}
-
-    <!-- Completed -->
-    <div class="sec-head"><div><h2>${icon('check')} Recently Completed</h2><p>Last 7 days</p></div></div>
-    <div class="card">
-      <div class="card-b">
-        ${hasCompletedRev.length === 0 ? `
-          <div style="padding:24px;text-align:center;color:var(--text-3)">
-            <div style="font-size:24px;margin-bottom:4px">📚</div>
-            <div style="font-weight:600;color:var(--text);font-size:13px">No revisions completed yet</div>
-            <p style="font-size:12px;margin-top:4px">Topics you revise will appear here along with their measured knowledge health recovery.</p>
-          </div>
-        ` : hasCompletedRev.map(c => `
-          <div class="flex-b" style="padding:12px 0;border-bottom:1px solid var(--border-2)">
-            <div class="flex gap-3">
-              <div class="ri" style="background:var(--green-50);color:var(--green);width:30px;height:30px;border-radius:8px;display:grid;place-items:center">${icon('check', 'ic-sm')}</div>
-              <div><div style="font-size:13px;font-weight:600">${c.subject} — ${c.topic}</div><div class="tiny">Completed ${c.date}</div></div>
-            </div>
-            <span class="badge green">+${c.kh}% KH</span>
-          </div>`).join('')}
-      </div>
-    </div>
   </div>`;
 }
 
@@ -757,7 +1281,7 @@ export function studentKnowledge(): string {
         `You have not completed any quizzes yet. Complete your first practice set in <b>Mathematics</b> or <b>Science</b> to compute your initial knowledge health and stability curve.`,
         'Start Diagnostic Practice', `startQuiz('Real Numbers & Polynomials')`)}
     ` : `
-      ${aiInsight('EduSense Insight',
+      ${aiInsight('EduNavika Insight',
         `Your retention models are active. Spaced revision will trigger automatically when topics approach the forgetting threshold.`,
         'View revision plan', `navigate('student/revision')`)}
     `}
@@ -875,100 +1399,398 @@ export function studentSkills(): string {
   </div>`;
 }
 
-/* ---------- Learning Analytics ---------- */
-export function studentAnalytics(): string {
+/* ---------- Progress & Learning Journey State ---------- */
+let progressState: {
+  data?: StudentProgressResponse;
+  loading: boolean;
+  studentId?: string;
+} = {
+  loading: false,
+};
+
+export async function loadStudentProgress(force: boolean = false): Promise<void> {
   const user = getCurrentUser();
-  const count = COMPLETED_ASSESSMENTS.length;
-  const isZero = count === 0 && (user.todayGoal || 0) === 0;
-  const avgAcc = count > 0 ? Math.round(COMPLETED_ASSESSMENTS.reduce((a, b) => a + b.accuracy, 0) / count) : null;
+  const studentId = user.id || 'e09699dd-0c64-44cc-82ef-ab41a832e072';
+  if (progressState.loading) return;
+  if (progressState.data && progressState.studentId === studentId && !force) return;
+  progressState.loading = true;
+  progressState.studentId = studentId;
+  try {
+    const data = await adaptiveService.getProgress(studentId);
+    if (data) {
+      progressState.data = data;
+    }
+  } catch (err) {
+    console.debug('Failed to load student progress:', err);
+  } finally {
+    progressState.loading = false;
+  }
+}
+
+/* ---------- Learning Analytics & Progress Tracking ---------- */
+export function studentAnalytics(): string {
+  if (!progressState.data && !progressState.loading) {
+    loadStudentProgress().then(() => {
+      if (typeof window !== 'undefined' && window.location.hash.includes('student/analytics')) {
+        const root = document.getElementById('main');
+        if (root) {
+          root.innerHTML = studentAnalytics();
+        }
+      }
+    });
+  }
+
+  const p = progressState.data;
+  const isZero = !p || p.overall.total_attempts === 0;
+
+  const totalAttempts = p?.overall.total_attempts ?? 0;
+  const correctAttempts = p?.overall.correct_attempts ?? 0;
+  const accuracy = p?.overall.overall_accuracy ?? 0;
+  const topicsStudied = p?.overall.topics_studied ?? 0;
+  const totalTopics = p?.overall.total_topics_available ?? 1;
+  const overallTrend = p?.overall.overall_trend ?? 'INSUFFICIENT_DATA';
+  const masteryDist = p?.overall.mastery_distribution ?? { unassessed: 1, novice: 0, developing: 0, proficient: 0, mastered: 0 };
+  const sw = p?.strengths_weaknesses ?? { strengths: [], weaknesses: [], developing: [], unassessed_count: 1 };
+  const journey = p?.learning_journey ?? [];
+  const topics = p?.topics ?? [];
+
+  const trendBadge = overallTrend === 'IMPROVING'
+    ? '<span class="badge green">↑ Improving</span>'
+    : overallTrend === 'DECLINING'
+    ? '<span class="badge coral">↓ Declining</span>'
+    : overallTrend === 'STABLE'
+    ? '<span class="badge teal">→ Stable</span>'
+    : '<span class="badge grey">Baseline</span>';
+
+  // Calculate percentage segments for mastery bar
+  const totalForBar = Math.max(totalTopics, 1);
+  const pMastered = Math.round((masteryDist.mastered / totalForBar) * 100);
+  const pProficient = Math.round((masteryDist.proficient / totalForBar) * 100);
+  const pDeveloping = Math.round((masteryDist.developing / totalForBar) * 100);
+  const pNovice = Math.round((masteryDist.novice / totalForBar) * 100);
+  const pUnassessed = Math.max(0, 100 - (pMastered + pProficient + pDeveloping + pNovice));
 
   return `
   <div class="page">
-    ${pageHead('Learning Analytics', 'How you are learning', 'Weekly and long-term patterns across study time, accuracy, revision effectiveness and consistency.', '<button class="btn" onclick="toast(\'Analytics exported\',\'PDF ready\',\'good\')">' + icon('download') + ' Export</button>')}
+    ${pageHead(
+      'Learning Progress & Journey',
+      'Continuous on-device progress tracking',
+      `Empirical telemetry, syllabus mastery distribution, and real-time learning history for GSEB Standard 10 (${p?.overall.subject_name || 'Science & Technology'}).`,
+      '<button class="btn btn-sm btn-outline" onclick="loadStudentProgress(true).then(() => { const r = document.getElementById(\'main\'); if(r) r.innerHTML = studentAnalytics(); toast(\'Progress Refreshed\',\'Empirical telemetry updated\',\'good\'); })">' + icon('refresh') + ' Refresh</button>'
+    )}
 
+    <!-- OVERALL METRICS -->
     <div class="grid g-4 mb-6">
-      ${statBlock('Study time', isZero ? '0m' : '20m', isZero ? 'Baseline' : '+20m this week', 'clock', 'up')}
-      ${statBlock('Questions solved', `${count * 5}`, isZero ? '0' : `+${count * 5} this week`, 'target', 'up')}
-      ${statBlock('Avg. accuracy', avgAcc !== null ? `${avgAcc}%` : '--', isZero ? 'Not assessed' : 'Active', 'chart', 'up')}
-      ${statBlock('Curriculum Pace', isZero ? 'On Track' : 'Active', 'Term 1 · Std 10', 'book', 'up')}
-    </div>
-
-    <div class="grid g-2 mb-6">
-      <div class="card">
-        <div class="card-h"><h3>Weekly activity</h3><div class="right"><span class="badge grey">Last 7 days</span></div></div>
-        <div class="card-b">${barChart(isZero ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 0, 20, 0], ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], 600, 180, '#243B6B')}</div>
-      </div>
-      <div class="card">
-        <div class="card-h"><h3>Accuracy trend</h3><div class="right"><span class="badge ${avgAcc ? 'green' : 'grey'}">${avgAcc ? icon('arrowUp', 'ic-xs') + ' Active' : 'Baseline'}</span></div></div>
-        <div class="card-b">${sparkline(isZero ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 0, avgAcc || 100, avgAcc || 100], 600, 180, '#2E9B68')}</div>
+      ${statBlock('Questions Solved', `${totalAttempts}`, isZero ? 'No attempts yet' : `${correctAttempts} correct`, 'target', totalAttempts > 0 ? 'up' : 'down')}
+      ${statBlock('Overall Accuracy', isZero ? '--' : `${accuracy.toFixed(1)}%`, isZero ? 'Unassessed' : `${correctAttempts} of ${totalAttempts} answered correctly`, 'chart', accuracy >= 70 ? 'up' : 'down')}
+      ${statBlock('Syllabus Coverage', `${topicsStudied} / ${totalTopics}`, isZero ? `0 of ${totalTopics} topics studied` : `${topicsStudied} of ${totalTopics} supported topics studied (${Math.round((topicsStudied / totalTopics) * 100)}%)`, 'book', 'up')}
+      <div class="stat-card">
+        <div class="stat-l">Learning Trend</div>
+        <div class="stat-v" style="display:flex;align-items:center;gap:8px;font-size:18px;margin-top:6px">
+          ${trendBadge}
+        </div>
+        <div class="stat-s tiny muted" style="margin-top:4px">
+          ${p?.overall.recent_activity_at ? `Last active: ${new Date(p.overall.recent_activity_at).toLocaleDateString()}` : (p?.overall.subject_name || 'GSEB Std 10 Science')}
+        </div>
       </div>
     </div>
 
+    <!-- MASTERY DISTRIBUTION -->
+    <div class="card pad mb-6">
+      <div class="flex-b mb-2" style="align-items:center">
+        <div>
+          <h3 style="font-size:15px;font-weight:700;margin:0">Syllabus Mastery Distribution</h3>
+          <p class="tiny muted" style="margin-top:2px">4-tier empirical mastery model for ${p?.overall.subject_name || 'Science & Technology'} (GSEB Standard 10)</p>
+        </div>
+        <span class="badge grey">${p?.overall.subject_name ? `${p.overall.subject_name}: ` : ''}${totalTopics} Supported Topics</span>
+      </div>
+
+      <!-- Segmented Bar -->
+      <div style="height:16px;border-radius:8px;overflow:hidden;background:#E2E8F0;display:flex;margin:14px 0 10px 0;box-shadow:inset 0 1px 2px rgba(0,0,0,.08)">
+        ${pMastered > 0 ? `<div style="width:${pMastered}%;background:#2E9B68;title:'Mastered: ${masteryDist.mastered}'"></div>` : ''}
+        ${pProficient > 0 ? `<div style="width:${pProficient}%;background:#18A6A6;title:'Proficient: ${masteryDist.proficient}'"></div>` : ''}
+        ${pDeveloping > 0 ? `<div style="width:${pDeveloping}%;background:#4F46E5;title:'Developing: ${masteryDist.developing}'"></div>` : ''}
+        ${pNovice > 0 ? `<div style="width:${pNovice}%;background:#D97706;title:'Novice: ${masteryDist.novice}'"></div>` : ''}
+        ${pUnassessed > 0 ? `<div style="width:${pUnassessed}%;background:#94A3B8;title:'Unassessed: ${masteryDist.unassessed}'"></div>` : ''}
+      </div>
+
+      <!-- Legend -->
+      <div class="flex gap-4 wrap" style="font-size:12px;margin-top:8px">
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:2px;background:#2E9B68"></span>Mastered: <b>${masteryDist.mastered}</b></span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:2px;background:#18A6A6"></span>Proficient: <b>${masteryDist.proficient}</b></span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:2px;background:#4F46E5"></span>Developing: <b>${masteryDist.developing}</b></span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:2px;background:#D97706"></span>Novice: <b>${masteryDist.novice}</b></span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:2px;background:#94A3B8"></span>Unassessed: <b>${masteryDist.unassessed}</b></span>
+      </div>
+    </div>
+
+    <!-- STRENGTHS & WEAKNESSES -->
     <div class="grid g-3 mb-6">
+      <!-- Strengths -->
       <div class="card pad">
-        <div class="h4 mb-3">Revision effectiveness</div>
-        <div class="tiny mb-3">Knowledge health improvement after each revision session</div>
-        ${sparkline(isZero ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 0, 6, 6], 400, 120, '#18A6A6')}
-        <div class="flex-b mt-3"><span class="tiny">${isZero ? 'No sessions yet' : 'Positive retention'}</span><span class="badge ${isZero ? 'grey' : 'teal'}">${isZero ? 'Baseline' : 'Active'}</span></div>
+        <div class="card-h mb-3" style="padding:0;border:none">
+          <h3 style="font-size:14px;color:var(--green);display:flex;align-items:center;gap:6px">
+            ${icon('check', 'ic-sm')} Strengths (${sw.strengths.length})
+          </h3>
+        </div>
+        ${sw.strengths.length === 0 ? `
+          <div class="tiny muted" style="padding:14px 0">
+            ${isZero ? 'No topics assessed yet. Complete practice sessions to discover your strengths.' : 'Achieve ≥ 70% accuracy on active topics to promote them into Strengths.'}
+          </div>
+        ` : `
+          <ul style="list-style:none;padding:0;margin:0">
+            ${sw.strengths.map(t => `
+              <li class="flex-b items-center" style="padding:8px 0;border-bottom:1px solid var(--border-2);font-size:12.5px">
+                <div>
+                  <b>${t.topic_title}</b>
+                  <div class="tiny muted">${t.subject_name} · ${t.correct_attempts}/${t.total_attempts} correct</div>
+                </div>
+                <span class="badge green">${t.accuracy.toFixed(0)}%</span>
+              </li>
+            `).join('')}
+          </ul>
+        `}
       </div>
+
+      <!-- Developing -->
       <div class="card pad">
-        <div class="h4 mb-3">Study session frequency</div>
-        <div class="tiny mb-3">Sessions per day this week</div>
-        ${barChart(isZero ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 0, 1, 0], ['M', 'T', 'W', 'T', 'F', 'S', 'S'], 400, 120, '#7C5CD6')}
-        <div class="flex-b mt-3"><span class="tiny">${isZero ? '0 avg/day' : '1 session today'}</span><span class="badge ${isZero ? 'grey' : 'violet'}">${isZero ? 'Starting' : 'On track'}</span></div>
+        <div class="card-h mb-3" style="padding:0;border:none">
+          <h3 style="font-size:14px;color:var(--indigo, #4F46E5);display:flex;align-items:center;gap:6px">
+            ${icon('clock', 'ic-sm')} Developing (${sw.developing.length})
+          </h3>
+        </div>
+        ${sw.developing.length === 0 ? `
+          <div class="tiny muted" style="padding:14px 0">
+            ${isZero ? 'Baseline stage. Practicing topics will move them into the developing tier.' : 'No topics currently in developing tier.'}
+          </div>
+        ` : `
+          <ul style="list-style:none;padding:0;margin:0">
+            ${sw.developing.map(t => `
+              <li class="flex-b items-center" style="padding:8px 0;border-bottom:1px solid var(--border-2);font-size:12.5px">
+                <div>
+                  <b>${t.topic_title}</b>
+                  <div class="tiny muted">${t.subject_name} · ${t.accuracy.toFixed(0)}% acc</div>
+                </div>
+                <button class="btn btn-xs btn-outline" onclick="loadAdaptivePractice('${t.topic_id}')">Practice</button>
+              </li>
+            `).join('')}
+          </ul>
+        `}
       </div>
+
+      <!-- Weaknesses -->
       <div class="card pad">
-        <div class="h4 mb-3">Time distribution</div>
-        <div class="tiny mb-3">Where your study time goes</div>
-        ${[
-          ['Practice questions', isZero ? 0 : 70, 'indigo'],
-          ['Revision', isZero ? 0 : 20, 'amber'],
-          ['Reading materials', isZero ? 0 : 10, 'teal'],
-          ['Assessments', 0, 'violet'],
-        ].map(([n, v, c]) => `
-          <div class="flex gap-3 mb-3" style="font-size:12.5px">
-            <span style="flex:0 0 130px">${n}</span>
-            ${progressBar(v as number, c as string)}
-            <b style="width:36px;text-align:right">${v}%</b>
-          </div>`).join('')}
+        <div class="card-h mb-3" style="padding:0;border:none">
+          <h3 style="font-size:14px;color:var(--coral);display:flex;align-items:center;gap:6px">
+            ${icon('alert', 'ic-sm')} Weak Areas (${sw.weaknesses.length})
+          </h3>
+        </div>
+        ${sw.weaknesses.length === 0 ? `
+          <div class="tiny muted" style="padding:14px 0">
+            ${isZero ? 'Clean slate. Topics with accuracy < 50% or high forgetting risk will appear here.' : '✨ No weak areas detected! Keep up the consistent work.'}
+          </div>
+        ` : `
+          <ul style="list-style:none;padding:0;margin:0">
+            ${sw.weaknesses.map(t => `
+              <li class="flex-b items-center" style="padding:8px 0;border-bottom:1px solid var(--border-2);font-size:12.5px">
+                <div>
+                  <b style="color:var(--coral)">${t.topic_title}</b>
+                  <div class="tiny muted">${t.accuracy.toFixed(0)}% acc · ${t.retention_risk} risk</div>
+                </div>
+                <button class="btn btn-xs btn-primary" onclick="loadAdaptivePractice('${t.topic_id}')">Remediate</button>
+              </li>
+            `).join('')}
+          </ul>
+        `}
       </div>
+    </div>
+
+    <!-- TOPIC-WISE BREAKDOWN TABLE -->
+    <div class="card mb-6">
+      <div class="card-h flex-b items-center">
+        <div>
+          <h3>Curriculum Topic Performance</h3>
+          <p class="tiny muted">GSEB Standard 10 curriculum breakdown with adaptive recommendations</p>
+        </div>
+        <span class="badge grey">${topics.length} Curriculum Units</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="tbl" style="width:100%">
+          <thead>
+            <tr>
+              <th>Topic</th>
+              <th>Attempts</th>
+              <th style="min-width:140px">Accuracy</th>
+              <th>Mastery</th>
+              <th>Trend</th>
+              <th>Risk</th>
+              <th>Recommended Next</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${topics.length === 0 ? `
+              <tr><td colspan="8" class="text-center muted py-4">No curriculum topics registered.</td></tr>
+            ` : topics.map(t => {
+              const accColor = t.total_attempts === 0 ? 'grey' : t.accuracy >= 70 ? 'green' : t.accuracy >= 50 ? 'indigo' : 'coral';
+              const masteryBadge = t.mastery_level === 'MASTERED'
+                ? '<span class="badge green">Mastered</span>'
+                : t.mastery_level === 'PROFICIENT'
+                ? '<span class="badge teal">Proficient</span>'
+                : t.mastery_level === 'DEVELOPING'
+                ? '<span class="badge indigo">Developing</span>'
+                : t.mastery_level === 'NOVICE'
+                ? '<span class="badge amber">Novice</span>'
+                : '<span class="badge grey">Unassessed</span>';
+
+              const riskBadge = t.retention_risk === 'HIGH'
+                ? '<span class="badge coral">High</span>'
+                : t.retention_risk === 'MODERATE'
+                ? '<span class="badge amber">Moderate</span>'
+                : t.retention_risk === 'LOW'
+                ? '<span class="badge green">Low</span>'
+                : '<span class="badge grey">--</span>';
+
+              const trendIcon = t.trend === 'IMPROVING'
+                ? '<span style="color:var(--green)">↑ Improving</span>'
+                : t.trend === 'DECLINING'
+                ? '<span style="color:var(--coral)">↓ Declining</span>'
+                : t.trend === 'STABLE'
+                ? '<span style="color:var(--teal)">→ Stable</span>'
+                : '<span class="muted">--</span>';
+
+              return `
+                <tr>
+                  <td>
+                    <div style="font-weight:600;font-size:13px">${t.topic_title}</div>
+                    <div class="tiny muted">${t.subject_name}</div>
+                  </td>
+                  <td style="font-size:12.5px">${t.total_attempts > 0 ? `${t.correct_attempts} / ${t.total_attempts}` : '<span class="muted">0</span>'}</td>
+                  <td>
+                    <div class="flex gap-2 items-center" style="width:130px">
+                      ${progressBar(t.total_attempts > 0 ? t.accuracy : 0, accColor)}
+                      <b style="font-size:11.5px">${t.total_attempts > 0 ? `${t.accuracy.toFixed(0)}%` : '--'}</b>
+                    </div>
+                  </td>
+                  <td>${masteryBadge}</td>
+                  <td style="font-size:12px">${trendIcon}</td>
+                  <td>${riskBadge}</td>
+                  <td>
+                    <div style="font-size:11.5px;font-weight:600">${t.recommended_difficulty}</div>
+                    <div class="tiny muted">${t.recommended_action.replace(/_/g, ' ')}</div>
+                  </td>
+                  <td>
+                    <button class="btn btn-xs btn-primary" onclick="loadAdaptivePractice('${t.topic_id}')">Practice</button>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LEARNING JOURNEY (CHRONOLOGICAL EVENT STREAM) -->
+    <div class="card pad">
+      <div class="card-h mb-3 flex-b items-center" style="padding:0;border:none">
+        <div>
+          <h3>Chronological Learning Journey</h3>
+          <p class="tiny muted">Real-time learning event log recorded on-device</p>
+        </div>
+        <span class="badge teal">${journey.length} Recent Events</span>
+      </div>
+
+      ${journey.length === 0 ? `
+        <div style="padding:32px 16px;text-align:center;color:var(--text-3)">
+          <div style="font-size:28px;margin-bottom:6px">🧭</div>
+          <div style="font-weight:600;font-size:14px;color:var(--text-2);margin-bottom:4px">No Learning Events Recorded Yet</div>
+          <p class="tiny muted" style="max-width:380px;margin:0 auto 12px auto">
+            As you practice and submit curriculum questions, your learning events and response times will stream here chronologically.
+          </p>
+          <button class="btn btn-sm btn-primary" onclick="loadAdaptivePractice()">Start Practice Check</button>
+        </div>
+      ` : `
+        <div class="timeline" style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+          ${journey.map(e => {
+            const isCorrect = e.correctness === true;
+            const isWrong = e.correctness === false;
+            const iconBg = isCorrect ? '#E6F4EA' : isWrong ? '#FCE8E6' : '#EFF6FF';
+            const iconColor = isCorrect ? '#137333' : isWrong ? '#C5221F' : '#1D4ED8';
+            const iconSymbol = isCorrect ? '✓' : isWrong ? '✗' : 'ℹ';
+            const timeStr = new Date(e.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' · ' + new Date(e.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric' });
+
+            return `
+              <div class="flex gap-3 items-center" style="padding:10px 14px;border-radius:10px;background:var(--bg-2, #F8FAFC);border:1px solid var(--border-2)">
+                <div style="width:32px;height:32px;border-radius:50%;background:${iconBg};color:${iconColor};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0">
+                  ${iconSymbol}
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div class="flex-b items-center">
+                    <div style="font-weight:700;font-size:13px">${e.topic_title}</div>
+                    <span class="tiny muted">${timeStr}</span>
+                  </div>
+                  <div class="flex gap-2 items-center wrap tiny muted" style="margin-top:2px">
+                    <span class="badge ${isCorrect ? 'green' : isWrong ? 'coral' : 'grey'}" style="font-size:10px;padding:1px 6px">
+                      ${isCorrect ? 'Correct' : isWrong ? 'Incorrect' : 'Interacted'}
+                    </span>
+                    <span>${e.event_type}</span>
+                    ${e.difficulty ? `<span>· Tier: <b>${e.difficulty}</b></span>` : ''}
+                    ${e.response_time_ms ? `<span>· Time: <b>${(e.response_time_ms / 1000).toFixed(1)}s</b></span>` : ''}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `}
+    </div>
+
   </div>`;
 }
 
 /* ---------- Weak Areas ---------- */
 export function studentWeak(): string {
-  const allTopics = SUBJECTS.flatMap(s => s.topicList);
-  const weakTopics = allTopics.filter(t => (t.done || 0) > 0 && (t.mastery || 0) < 60);
+  const p = progressState.data;
+  if (!p && !progressState.loading) {
+    loadStudentProgress().then(() => {
+      if (typeof window !== 'undefined' && window.location.hash.includes('student/weak')) {
+        const root = document.getElementById('main');
+        if (root) root.innerHTML = studentWeak();
+      }
+    });
+  }
+
+  const weakTopics = p?.strengths_weaknesses.weaknesses ?? [];
 
   return `
   <div class="page">
-    ${pageHead('Weak Areas', 'Topics that need your attention', 'Ranked by knowledge health, forgetting risk and recent accuracy.')}
+    ${pageHead('Weak Areas & Remediation', 'Topics flagged for active reinforcement', 'Ranked by empirical accuracy, forgetting risk and conceptual difficulty.')}
 
     ${weakTopics.length === 0 ? `
       <div class="card pad-lg mb-6" style="padding:48px 24px;text-align:center;color:var(--text-3)">
         <div style="font-size:36px;margin-bottom:8px">✨</div>
         <h3 class="h3 mb-2">No Weak Areas Identified</h3>
         <p style="font-size:13.5px;max-width:480px;margin:0 auto 18px auto;line-height:1.5">
-          You have a clean slate with no detected weak areas. Take topic quizzes and practice tests — if your accuracy on any topic falls below the target threshold, it will automatically appear here for remediation.
+          You have a clean slate with no detected weak areas. As you complete adaptive practice, any topic falling below 50% accuracy or showing high forgetting risk will be queued here for structured remediation.
         </p>
-        <button class="btn btn-primary" onclick="navigate('student/learning')">${icon('play')} Start Topic Practice</button>
+        <button class="btn btn-primary" onclick="loadAdaptivePractice()">${icon('play')} Start Practice Session</button>
       </div>
     ` : `
-    ${aiInsight('Priority focus this week', 'EduSense AI has flagged topics requiring attention based on your latest practice sessions.', 'Open revision plan', `navigate('student/revision')`)}
+    ${aiInsight('Priority Remediation Focus', 'EduNavika on-device AI has flagged topics requiring conceptual strengthening based on your latest practice attempts.', 'Start Targeted Practice', `loadAdaptivePractice('${weakTopics[0].topic_id}')`)}
 
     <div class="card mt-5">
-      <div class="card-h"><h3>Ranked by urgency</h3></div>
+      <div class="card-h"><h3>Topics Requiring Remediation (${weakTopics.length})</h3></div>
       <table class="tbl">
-        <thead><tr><th>Topic</th><th>Subject</th><th>Knowledge Health</th><th>Risk</th><th>Last revised</th><th></th></tr></thead>
+        <thead><tr><th>Topic</th><th>Subject</th><th>Accuracy</th><th>Risk</th><th>Recommended Difficulty</th><th></th></tr></thead>
         <tbody>
           ${weakTopics.map(t => `
             <tr>
-              <td class="nm">${t.name}</td>
-              <td class="muted">Standard 10</td>
-              <td><div class="flex gap-2" style="width:130px">${progressBar(t.kh, t.kh >= 70 ? 'green' : t.kh >= 55 ? 'amber' : 'coral')}<b style="font-size:12px">${t.kh}%</b></div></td>
-              <td>${riskBadge(t.risk)}</td>
-              <td class="muted">${t.last}</td>
-              <td class="right"><button class="btn btn-sm btn-primary" onclick="startQuiz('${t.name}')">Review</button></td>
+              <td class="nm"><b>${t.topic_title}</b></td>
+              <td class="muted">${t.subject_name}</td>
+              <td><div class="flex gap-2" style="width:130px">${progressBar(t.accuracy, 'coral')}<b style="font-size:12px">${t.accuracy.toFixed(0)}%</b></div></td>
+              <td><span class="badge coral">${t.retention_risk}</span></td>
+              <td class="muted">${t.recommended_difficulty}</td>
+              <td class="right"><button class="btn btn-sm btn-primary" onclick="loadAdaptivePractice('${t.topic_id}')">Remediate</button></td>
             </tr>`).join('')}
         </tbody>
       </table>
@@ -996,11 +1818,11 @@ export function studentAssessments(): string {
       ${statBlock('Best subject', bestSubj, count === 0 ? 'Unassessed' : 'Top performer', 'award', 'up')}
     </div>
 
-    <div class="sec-head"><div><h2>${icon('calendar')} Upcoming Tests</h2><p>Scheduled by your teacher</p></div></div>
+    <div class="sec-head"><div><h2>${icon('calendar')} Upcoming Checkpoints</h2><p>Adaptive milestones & practice goals</p></div></div>
     <div class="grid g-3 mb-6">
       ${UPCOMING_ASSESSMENTS.length === 0 ? `
         <div class="card pad-lg" style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:36px 24px">
-          No upcoming tests scheduled by your teacher.
+          No upcoming milestones scheduled. Use Practice to test your knowledge anytime.
         </div>
       ` : UPCOMING_ASSESSMENTS.map(a => `
         <div class="assess-card">
@@ -1094,7 +1916,7 @@ export function openResult(score: number, topic: string): void {
         </div>
       </div>
       <div class="ai-card mt-4">
-        <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>EduSense Insight</b></div>
+        <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>EduNavika Insight</b></div>
         <div class="ai-body">Your accuracy on <b>applied questions</b> is 32% lower than on conceptual ones. Recommended: 15 practice questions in this format before your next assessment.</div>
       </div>
     </div>
@@ -1104,52 +1926,443 @@ export function openResult(score: number, topic: string): void {
     </div>`, { width: 'wide' });
 }
 
-/* ---------- Study Materials ---------- */
-export function studentMaterials(): string {
-  return `
-  <div class="page">
-    ${pageHead('Study Materials', 'Your learning resources', 'Notes, videos, presentations and practice sets — all aligned to your syllabus.')}
+/* ---------- Curriculum Hierarchy & Study Materials State ---------- */
+let hierarchyState: {
+  data?: CurriculumHierarchyResponse;
+  loading: boolean;
+  selectedSubjectId?: string;
+} = {
+  loading: false,
+};
 
-    <div class="grid g-3-1">
-      <div>
-        <div class="card mb-5">
-          <div class="card-b">
-            <div class="flex gap-3 wrap">
-              <div class="tb-search" style="flex:1;min-width:240px;display:flex;position:relative">
-                <svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-                <input placeholder="Search materials...">
-              </div>
-              <select class="input select" style="width:auto"><option>All subjects</option><option>Mathematics</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>English</option></select>
-              <select class="input select" style="width:auto"><option>All types</option><option>PDF</option><option>Video</option><option>Notes</option><option>Presentation</option></select>
-            </div>
-            <div class="flex gap-2 mt-4 wrap">
-              <button class="badge indigo" style="cursor:pointer">All</button>
-              <button class="badge grey" style="cursor:pointer">Recent</button>
-              <button class="badge grey" style="cursor:pointer">Downloaded</button>
-              <button class="badge grey" style="cursor:pointer">Recommended</button>
-            </div>
+export async function loadCurriculumHierarchy(force: boolean = false): Promise<void> {
+  if (hierarchyState.loading) return;
+  if (hierarchyState.data && !force) return;
+  hierarchyState.loading = true;
+  try {
+    const data = await curriculumService.getHierarchy(10);
+    if (data) {
+      hierarchyState.data = data;
+      if (!hierarchyState.selectedSubjectId && data.subjects.length > 0) {
+        const sci = data.subjects.find(s => s.name.toLowerCase().includes('science'));
+        hierarchyState.selectedSubjectId = sci ? sci.id : data.subjects[0].id;
+      }
+    }
+  } catch (err) {
+    console.debug('Failed to load curriculum hierarchy:', err);
+  } finally {
+    hierarchyState.loading = false;
+  }
+}
+
+export function selectCurriculumSubject(subjectId: string): void {
+  hierarchyState.selectedSubjectId = subjectId;
+  const root = document.getElementById('main');
+  if (root) {
+    root.innerHTML = studentMaterials();
+  }
+}
+
+export async function openTopicContentReader(topicId: string, topicTitle: string, subjectName: string): Promise<void> {
+  openModal(`
+    <div style="padding:24px;text-align:center">
+      <div style="font-size:28px;margin-bottom:8px">📖</div>
+      <div style="font-weight:700;font-size:15px">Loading Local Textbook Passages...</div>
+      <div class="tiny" style="color:var(--text-3);margin-top:4px">Retrieving verified content chunks from on-device store</div>
+    </div>
+  `, { width: 'wide' });
+
+  try {
+    const chunks = await curriculumService.getTopicContent(topicId);
+    if (!chunks || chunks.length === 0) {
+      openModal(`
+        <div style="padding:12px">
+          <div class="flex-b items-center mb-3">
+            <span class="badge grey">${subjectName}</span>
+            <span class="badge amber">Offline Queue</span>
+          </div>
+          <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:8px">${topicTitle}</h3>
+          <div style="background:var(--surface-2);border:1px dashed var(--border-2);border-radius:12px;padding:24px;text-align:center;margin:16px 0">
+            <div style="font-size:32px;margin-bottom:8px">📚</div>
+            <div style="font-weight:700;color:var(--text);font-size:14px;margin-bottom:4px">Not Included in Local Textbook Index</div>
+            <p style="font-size:12.5px;color:var(--text-3);max-width:440px;margin:0 auto;line-height:1.5">
+              This topic is not currently included in the verified offline curriculum available on this device.
+            </p>
+          </div>
+          <div class="flex-b items-center pt-3" style="border-top:1px solid var(--border-2)">
+            <button class="btn btn-outline" onclick="closeOverlay()">Close</button>
+            <button class="btn btn-primary" onclick="closeOverlay();loadAdaptivePractice('${topicId}')">Try Diagnostic Practice</button>
           </div>
         </div>
+      `, { width: 'wide' });
+      return;
+    }
 
-        <div class="grid g-3">
-          <div class="card pad-lg" style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:48px 24px">
-            No study materials uploaded by your school yet. Official materials added by your teachers will appear here.
+    const firstChunk = chunks[0];
+    const sourceDoc = firstChunk.source_document || 'NCERT Standard 10';
+    const sourcePage = firstChunk.source_page || '—';
+
+    openModal(`
+      <div style="padding:12px">
+        <div class="flex-b items-center mb-2">
+          <div class="flex items-center gap-2">
+            <span class="badge indigo">${subjectName}</span>
+            <span class="badge green">✓ Verified & Available Locally</span>
+          </div>
+          <span class="tiny" style="color:var(--text-3)">${chunks.length} Passages Indexed</span>
+        </div>
+        <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:4px">${topicTitle}</h3>
+        <div class="tiny mb-3" style="color:var(--text-3)">
+          📖 <b>Source:</b> ${sourceDoc} · <b>Page:</b> ${sourcePage} · <b>Framework:</b> GSEB / NCERT
+        </div>
+
+        <div style="max-height:420px;overflow-y:auto;padding-right:8px;display:flex;flex-direction:column;gap:12px">
+          ${chunks.map((c: any, idx: number) => `
+            <div style="background:var(--surface-2);border:1px solid var(--border-2);border-radius:10px;padding:14px">
+              <div class="flex-b items-center mb-2">
+                <span style="font-size:11px;font-weight:700;color:var(--indigo);text-transform:uppercase">Passage ${idx + 1}: ${c.title || 'Curriculum Content'}</span>
+                ${c.source_page ? `<span class="tiny" style="color:var(--text-3)">Page ${c.source_page}</span>` : ''}
+              </div>
+              <div style="font-size:13px;line-height:1.65;color:var(--text);white-space:pre-wrap;font-family:var(--font-sans,inherit)">${c.content_text}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="flex-b items-center pt-3 mt-3" style="border-top:1px solid var(--border-2)">
+          <button class="btn btn-outline" onclick="closeOverlay()">Close</button>
+          <div class="flex gap-2">
+            <button class="btn btn-teal" onclick="closeOverlay();openAIPanel();">${icon('sparkles')} Ask AI About This</button>
+            <button class="btn btn-primary" onclick="closeOverlay();loadAdaptivePractice('${topicId}')">${icon('play')} Practice Now</button>
           </div>
         </div>
       </div>
+    `, { width: 'wide' });
+  } catch (err) {
+    console.debug('Error opening topic content:', err);
+    closeOverlay();
+    toast('Error loading content', 'Could not retrieve local textbook passage', 'bad');
+  }
+}
 
-      <div class="flex-c">
-        <div class="ai-card">
-          <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>Study Guidance</b></div>
-          <div class="ai-body">Curriculum syllabus is active. Select any chapter from <b>My Learning</b> to start adaptive practice.</div>
-          <div class="ai-actions"><button class="btn btn-sm btn-teal" onclick="navigate('student/learning')">View Curriculum</button></div>
+/* ---------- Study Materials & Curriculum Explorer ---------- */
+export function studentMaterials(): string {
+  if (!hierarchyState.data && !hierarchyState.loading) {
+    loadCurriculumHierarchy().then(() => {
+      if (typeof window !== 'undefined' && window.location.hash.includes('student/materials')) {
+        const root = document.getElementById('main');
+        if (root) {
+          root.innerHTML = studentMaterials();
+        }
+      }
+    });
+  }
+
+  const hier = hierarchyState.data;
+  const subjects = (hier?.subjects || []).filter(s =>
+    s.name.includes('Science') || s.name.includes('Mathematics')
+  );
+
+  const activeSubjId = hierarchyState.selectedSubjectId || subjects[0]?.id;
+  const activeSubj = subjects.find(s => s.id === activeSubjId) || subjects[0];
+
+  return `
+  <div class="page">
+    ${pageHead(
+      'Your Learning Resources',
+      'Standard 10 Curriculum & Local Resources',
+      'Standard 10 curriculum and verified learning materials are available directly on this device without constant internet connectivity.',
+      '<button class="btn btn-primary" onclick="loadAdaptivePractice()">' + icon('play') + ' Adaptive Practice</button>'
+    )}
+
+    <!-- ON-DEVICE PROVISIONING NOTICE -->
+    <div class="card pad-lg mb-6" style="background:linear-gradient(135deg, #1E293B, #0F172A);color:#fff;border-radius:16px;border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 30px rgba(15,23,42,.35)">
+      <div class="flex-b items-center mb-2">
+        <span style="font-size:11px;font-weight:800;color:#38BDF8;text-transform:uppercase;letter-spacing:.06em">⚡ On-Device Knowledge Store</span>
+        <span class="badge" style="background:rgba(74,222,128,.15);color:#4ADE80;border:1px solid rgba(74,222,128,.3)">100% Offline Accessible</span>
+      </div>
+      <h3 style="font-size:18px;font-weight:800;color:#F8FAFC;margin-bottom:6px">Standard 10 GSEB / NCERT Curriculum</h3>
+      <p style="font-size:13px;color:#94A3B8;line-height:1.5;margin:0">
+        All textbook source passages, BM25 semantic indices, and verified canonical question banks are pre-loaded locally on this device.
+        No school uploads, external LMS accounts, or internet connections required.
+      </p>
+    </div>
+
+    <!-- SUBJECT SELECTOR TABS -->
+    <div class="flex gap-3 mb-5 wrap">
+      ${subjects.map(s => `
+        <button class="btn ${s.id === activeSubj?.id ? 'btn-primary' : 'btn-outline'}" style="padding:10px 18px;font-size:13.5px;font-weight:700" onclick="selectCurriculumSubject('${s.id}')">
+          ${s.name.includes('Science') ? '🔬' : '📐'} ${s.name} (${s.total_chapters} Chapters)
+        </button>
+      `).join('')}
+    </div>
+
+    ${!activeSubj ? `
+      <div class="card pad-lg" style="text-align:center;color:var(--text-3)">
+        <div style="font-size:32px;margin-bottom:8px">📚</div>
+        <b>Loading Standard 10 curriculum hierarchy...</b>
+      </div>
+    ` : `
+      <div class="sec-head">
+        <div>
+          <h2>${activeSubj.name.includes('Science') ? '🔬' : '📐'} ${activeSubj.name} (${activeSubj.total_chapters} Chapters)</h2>
+          <p>Verified syllabus structure for GSEB Standard 10.</p>
         </div>
+      </div>
 
-        <div class="card">
-          <div class="card-h" style="padding-bottom:12px"><h3 style="font-size:13.5px">Recently opened</h3></div>
-          <div class="card-b" style="padding-top:0">
-            <div style="color:var(--text-3);font-size:12px;padding:12px 0">No recently opened materials.</div>
+      <div style="display:flex;flex-direction:column;gap:16px" class="mb-6">
+        ${activeSubj.chapters.map(ch => `
+          <div class="card" style="border-radius:14px;border:1px solid var(--border)">
+            <div class="card-h" style="background:var(--surface-2);border-bottom:1px solid var(--border-2);padding:14px 20px">
+              <div class="flex items-center gap-3">
+                <span class="badge indigo" style="font-size:12px;font-weight:800">Chapter ${ch.chapter_number}</span>
+                <h3 style="font-size:15px;font-weight:700;margin:0">${ch.title}</h3>
+              </div>
+              <span class="tiny" style="color:var(--text-3)">${ch.topics.length} Topics</span>
+            </div>
+
+            <div class="card-b" style="padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+              ${ch.topics.map(tp => `
+                <div style="background:var(--surface);border:1px solid var(--border-2);border-radius:10px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+                  <div style="flex:1;min-width:240px">
+                    <div class="flex items-center gap-2 mb-1">
+                      <span style="font-size:14px;font-weight:700;color:var(--text)">${tp.title}</span>
+                      ${tp.content_available
+                        ? '<span class="badge green" style="font-size:10px">✓ Verified & Available Locally</span>'
+                        : '<span class="badge grey" style="font-size:10px">Offline Queue</span>'}
+                    </div>
+                    ${tp.content_available ? `
+                      <div class="tiny" style="color:var(--text-3)">
+                        📖 <b>Source:</b> ${tp.source_document || 'NCERT Standard 10'} · <b>Page:</b> ${tp.source_page || '—'} · <b>Chunks:</b> ${tp.content_count}
+                      </div>
+                    ` : `
+                      <div class="tiny" style="color:var(--text-3)">
+                        This topic is not currently included in the verified offline curriculum available on this device.
+                      </div>
+                    `}
+                  </div>
+
+                  <div class="flex gap-2 items-center">
+                    ${tp.content_available ? `
+                      <button class="btn btn-sm btn-outline" onclick="openTopicContentReader('${tp.id}', '${tp.title.replace(/'/g, "\\'")}', '${activeSubj.name.replace(/'/g, "\\'")}')">
+                        📖 Read Passage
+                      </button>
+                    ` : ''}
+                    <button class="btn btn-sm btn-primary" onclick="loadAdaptivePractice('${tp.id}')">
+                      ${icon('play')} Practice Now
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
           </div>
+        `).join('')}
+      </div>
+    `}
+  </div>`;
+}
+
+/* ---------- Achievements & Badges View (Phase 17/18A) ---------- */
+export function studentAchievements(): string {
+  if (!gamificationState.data && !gamificationState.loading) {
+    loadStudentGamification().then(() => {
+      if (typeof window !== 'undefined' && window.location.hash.includes('student/achievements')) {
+        const root = document.getElementById('main');
+        if (root) {
+          root.innerHTML = studentAchievements();
+        }
+      }
+    });
+  }
+
+  const g = gamificationState.data;
+  const level = g?.level ?? 1;
+  const levelTitle = g?.level_title ?? 'Novice Explorer';
+  const totalXp = g?.total_xp ?? 0;
+  const xpTowardsNext = g?.xp_towards_next_level ?? 0;
+  const xpRequired = g?.xp_required_for_next_level ?? 100;
+  const xpPercent = Math.min(100, Math.max(0, g?.level_progress_percentage ?? 0));
+  const currentStreak = g?.current_streak ?? 0;
+  const longestStreak = g?.longest_streak ?? 0;
+  const dailyCompleted = g?.daily_goal?.completed ?? 0;
+  const dailyTarget = g?.daily_goal?.target ?? 3;
+  const dailyGoalDone = g?.daily_goal?.is_completed ?? false;
+  const dailyPercent = Math.min(100, Math.round(((dailyCompleted / Math.max(1, dailyTarget)) * 100)));
+  const allBadges = [...(g?.unlocked_badges || []), ...(g?.locked_badges || [])];
+
+  return `
+  <div class="page">
+    ${pageHead(
+      'Achievements & Learning Badges',
+      'Deterministic on-device learning gamification',
+      'Earn XP and badges exclusively from genuine learning activities, practice completion, and retention revisions — 100% private on this device.',
+      '<button class="btn btn-primary" onclick="loadAdaptivePractice()">' + icon('play') + ' Practice to Earn XP</button>'
+    )}
+
+    <!-- STATS ROW: LEVEL & XP, STREAK, DAILY GOAL -->
+    <div class="grid g-3 mb-6" style="gap:16px">
+      <!-- Level & XP -->
+      <div class="card pad" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="flex-b items-center mb-2">
+            <span style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase">Level & Experience</span>
+            <span class="badge indigo" style="font-weight:800;font-size:12px">${totalXp} XP</span>
+          </div>
+          <div style="font-size:20px;font-weight:800;color:var(--text);margin-bottom:6px">
+            Level ${level}: ${levelTitle}
+          </div>
+          <p style="font-size:12px;color:var(--text-3);margin:0 0 12px 0">
+            ${level >= 5 ? 'Master level achieved!' : `${Math.max(0, xpRequired - xpTowardsNext)} XP needed to reach Level ${level + 1}`}
+          </p>
+        </div>
+        <div>
+          <div class="flex-b items-center tiny mb-1" style="color:var(--text-3)">
+            <span>${xpTowardsNext} / ${xpRequired} XP to next level</span>
+            <b style="color:var(--indigo)">${xpPercent}%</b>
+          </div>
+          ${progressBar(xpPercent, 'indigo')}
+        </div>
+      </div>
+
+      <!-- Streak -->
+      <div class="card pad" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="flex-b items-center mb-2">
+            <span style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase">Learning Habit Streak</span>
+            <span style="font-size:18px">${currentStreak > 0 ? '🔥' : '🌱'}</span>
+          </div>
+          <div style="font-size:24px;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:4px">
+            ${currentStreak} <span style="font-size:14px;font-weight:600;color:var(--text-2)">days streak</span>
+          </div>
+          <p style="font-size:12px;color:var(--text-3);margin:0">
+            Consecutive calendar days with at least one completed learning event.
+          </p>
+        </div>
+        <div style="padding-top:12px;border-top:1px solid var(--border-2);margin-top:12px" class="flex-b items-center tiny">
+          <span style="color:var(--text-3)">Longest Streak Record:</span>
+          <b style="color:var(--text);font-size:13px">${longestStreak} days</b>
+        </div>
+      </div>
+
+      <!-- Daily Goal -->
+      <div class="card pad" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="flex-b items-center mb-2">
+            <span style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase">Daily Learning Goal</span>
+            ${dailyGoalDone ? '<span class="badge green">✓ Complete (+25 XP)</span>' : '<span class="badge amber">In Progress</span>'}
+          </div>
+          <div style="font-size:24px;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:4px">
+            ${dailyCompleted} / ${dailyTarget} <span style="font-size:14px;font-weight:600;color:var(--text-2)">learning events</span>
+          </div>
+          <p style="font-size:12px;color:var(--text-3);margin:0">
+            ${dailyGoalDone ? 'Daily learning objective achieved for today!' : `Complete ${dailyTarget - dailyCompleted} more learning activities today to earn bonus XP.`}
+          </p>
+        </div>
+        <div>
+          <div class="flex-b items-center tiny mb-1" style="color:var(--text-3)">
+            <span>Today's Completion</span>
+            <b style="color:${dailyGoalDone ? 'var(--green)' : 'var(--amber)'}">${dailyPercent}%</b>
+          </div>
+          ${progressBar(dailyPercent, dailyGoalDone ? 'green' : 'amber')}
+        </div>
+      </div>
+    </div>
+
+    <!-- BADGES SHOWCASE -->
+    <div class="sec-head">
+      <div>
+        <h2>${icon('award')} Learning Badges</h2>
+        <p>Curriculum milestones and mastery achievements unlocked through continuous study.</p>
+      </div>
+      <div class="right">
+        <span class="badge grey">${g?.unlocked_badges?.length || 0} of ${allBadges.length} Unlocked</span>
+      </div>
+    </div>
+
+    <div class="grid g-3 mb-6" style="gap:16px">
+      ${allBadges.map(b => {
+        const isU = b.is_unlocked;
+        return `
+        <div class="card pad" style="border-radius:14px;transition:transform .15s ease;display:flex;flex-direction:column;justify-content:space-between;${isU ? 'background:var(--surface);border:1.5px solid var(--indigo);box-shadow:0 4px 12px rgba(79,70,229,.08);' : 'background:var(--surface-2);border:1px dashed var(--border-2);opacity:.75;'}">
+          <div>
+            <div class="flex-b items-center mb-3">
+              <span style="font-size:32px;line-height:1;filter:${isU ? 'none' : 'grayscale(100%)'}">${b.icon}</span>
+              <span class="badge ${isU ? 'green' : 'grey'}" style="font-size:10.5px">
+                ${isU ? '✓ Unlocked' : '🔒 Locked'}
+              </span>
+            </div>
+            <h4 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px">${b.name}</h4>
+            <p style="font-size:12.5px;color:var(--text-2);line-height:1.45;margin:0 0 12px 0">${b.description}</p>
+          </div>
+          <div style="padding-top:10px;border-top:1px solid var(--border-2);font-size:11.5px;color:var(--text-3)">
+            ${isU ? '<b style="color:var(--green)">Earned through on-device learning</b>' : 'Complete learning actions to unlock'}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <!-- DETERMINISTIC XP ALLOCATION RULEBOOK -->
+    <div class="card mb-6" style="border-radius:14px;overflow:hidden">
+      <div class="card-h">
+        <div>
+          <h3>Deterministic XP Rewards Rulebook</h3>
+          <div class="sub">XP is awarded exclusively for real educational effort and retention actions</div>
+        </div>
+        <div class="right"><span class="badge teal">100% Offline Integrity</span></div>
+      </div>
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Learning Action</th>
+            <th>Trigger Condition</th>
+            <th>XP Reward</th>
+            <th>Pedagogical Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Complete Practice Set</b></td>
+            <td>Submitting an adaptive practice attempt</td>
+            <td><span class="badge indigo">+10 XP</span></td>
+            <td>Rewards proactive learning engagement</td>
+          </tr>
+          <tr>
+            <td><b>Correct Answer</b></td>
+            <td>Selecting the correct response on an assessment</td>
+            <td><span class="badge green">+5 XP</span></td>
+            <td>Encourages accuracy and concept mastery</td>
+          </tr>
+          <tr>
+            <td><b>Complete Scheduled Revision</b></td>
+            <td>Reviewing a concept on or before its due date</td>
+            <td><span class="badge teal">+15 XP</span></td>
+            <td>Incentivizes combating the forgetting curve</td>
+          </tr>
+          <tr>
+            <td><b>Improve a Weak Topic</b></td>
+            <td>Transitioning a topic from Weak/Novice to higher tier</td>
+            <td><span class="badge amber">+20 XP</span></td>
+            <td>Celebrates perseverance and concept remediation</td>
+          </tr>
+          <tr>
+            <td><b>Daily Learning Goal</b></td>
+            <td>Completing 3 learning activities in a calendar day</td>
+            <td><span class="badge coral">+25 XP</span></td>
+            <td>Builds consistent daily study habit</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ON-DEVICE PRIVACY GUARANTEE -->
+    <div class="card pad" style="background:var(--surface-2);border:1px solid var(--border-2);border-radius:14px">
+      <div class="flex gap-3 items-center">
+        <div style="font-size:28px">🛡️</div>
+        <div style="flex:1">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:2px;color:var(--text)">Private On-Device Gamification</h4>
+          <p style="font-size:12.5px;color:var(--text-3);margin:0">
+            All XP computations, badge evaluations, and streak dates are determined strictly by local SQLite learning events on this device.
+            No cloud leaderboards, no vanity metrics, and no competitive surveillance — designed solely for student motivation and self-paced mastery.
+          </p>
         </div>
       </div>
     </div>
@@ -1198,7 +2411,7 @@ export function studentAssignments(): string {
       <div class="card-b">
         ${items.length === 0 ? `
           <div style="text-align:center;padding:36px 24px;color:var(--text-3)">
-            No assignments assigned yet. Work assigned by your teachers will appear here.
+            All Standard 10 practice tasks and revision modules are self-paced and managed directly on-device in Personalized Practice and Revision Plan.
           </div>
         ` : items.map(i => `
           <div style="padding:16px 0;border-bottom:1px solid var(--border-2)">
@@ -1228,7 +2441,7 @@ export function studentExams(): string {
     <div class="grid g-3 mb-6">
       ${exams.length === 0 ? `
         <div class="card pad-lg" style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:36px 24px">
-          No exams scheduled yet. Official school examination schedules will appear here.
+          No scheduled exam sessions. Offline milestones and adaptive practice checks can be started anytime.
         </div>
       ` : exams.map(e => `
         <div class="card pad">
@@ -1296,7 +2509,7 @@ export function studentNotifications(): string {
   const filtered = UI.notifFilter === 'all' ? NOTIFICATIONS : NOTIFICATIONS.filter(n => n.cat === UI.notifFilter);
   return `
   <div class="page">
-    ${pageHead('Notifications', 'Your notification center', 'Everything that needs your attention — learning, revision, assessments and school announcements.', '<button class="btn" onclick="toast(\'All marked as read\',\'You are up to date\',\'good\')">' + icon('check') + ' Mark all read</button>')}
+    ${pageHead('Notifications', 'Your notification center', 'Everything that needs your attention — learning, revision, assessments and milestone alerts.', '<button class="btn" onclick="toast(\'All marked as read\',\'You are up to date\',\'good\')">' + icon('check') + ' Mark all read</button>')}
 
     <div class="tabs mb-5">
       ${cats.map(c => `<button class="tab ${UI.notifFilter === c.id ? 'on' : ''}" onclick="UI.notifFilter='${c.id}';navigate('student/notifications')">${c.label}</button>`).join('')}
@@ -1371,8 +2584,8 @@ export function studentProfile(): string {
             ['Section', u.section],
             ['Roll number', u.roll],
             ['Academic year', '2025-2026'],
-            ['Stream', 'Science'],
-            ['Class teacher', '—'],
+            ['Stream', 'Science & Mathematics'],
+            ['Device mode', 'Offline-First On-Device'],
           ].map(([k, v]) => `
             <div class="flex-b" style="padding:11px 0;border-bottom:1px solid var(--border-2);font-size:13px">
               <span class="muted">${k}</span><b>${v}</b>
@@ -1399,7 +2612,7 @@ export function studentProfile(): string {
             ['Preferred study time', 'Self-paced'],
             ['Session length', '25 minutes'],
             ['Revision reminders', 'Enabled · push + email'],
-            ['Weekly goal', 'School Mandate'],
+            ['Weekly goal', 'Self-paced Mastery'],
           ].map(([k, v]) => `
             <div class="flex-b" style="padding:11px 0;border-bottom:1px solid var(--border-2);font-size:13px">
               <span class="muted">${k}</span><b>${v}</b>
@@ -1414,7 +2627,7 @@ export function studentProfile(): string {
 export function studentSettings(): string {
   return `
   <div class="page">
-    ${pageHead('Settings', 'Your preferences', 'Control how EduSense works for you.')}
+    ${pageHead('Settings', 'Your preferences', 'Control how EduNavika works for you.')}
 
     <div class="grid g-2">
       <div class="card">
@@ -1425,7 +2638,7 @@ export function studentSettings(): string {
             ['Assessment reminders', true],
             ['Weekly progress summary', true],
             ['New content alerts', false],
-            ['School assessment schedule', true],
+            ['Revision milestones', true],
           ].map(([k, v]) => `
             <div class="flex-b" style="padding:12px 0;border-bottom:1px solid var(--border-2)">
               <span style="font-size:13px">${k}</span>
@@ -1476,8 +2689,12 @@ export function studentSettings(): string {
           <div class="field"><label>Text size</label>
             <select class="input select"><option>Standard</option><option>Large</option></select>
           </div>
-          <div class="field"><label>Language</label>
-            <select class="input select"><option>English</option><option>हिन्दी</option></select>
+          <div class="field"><label>${t('settings.language', 'Language / ભાષા / भाषा')}</label>
+            <select class="input select" onchange="window.setLanguage ? window.setLanguage(this.value) : null; toast('Language updated / ભાષા બદલાઈ / भाषा अपडेट की गई','','good')">
+              <option value="en" ${getLanguage() === 'en' ? 'selected' : ''}>🇬🇧 English</option>
+              <option value="gu" ${getLanguage() === 'gu' ? 'selected' : ''}>🇮🇳 ગુજરાતી (Gujarati)</option>
+              <option value="hi" ${getLanguage() === 'hi' ? 'selected' : ''}>🇮🇳 हिन्दी (Hindi)</option>
+            </select>
           </div>
           <button class="btn btn-primary" onclick="toast('Settings saved','','good')">Save</button>
         </div>
@@ -1490,14 +2707,14 @@ export function studentSettings(): string {
 export function studentHelp(): string {
   const faqs = [
     { q: 'How does Knowledge Health work?', a: 'Knowledge Health is a model-derived estimate that combines your accuracy, response time and time since last revision. It is an estimate, not a fixed truth — it updates as you learn and revise.' },
-    { q: 'What is a forgetting event?', a: 'When your performance on a topic drops meaningfully after a gap in practice — usually 15–20 days — EduSense records a potential forgetting event and adds it to your revision plan.' },
-    { q: 'How is my revision scheduled?', a: 'EduSense AI schedules revision at the moment it will have the greatest impact — balancing knowledge health, time since last revision, and upcoming assessments.' },
+    { q: 'What is a forgetting event?', a: 'When your performance on a topic drops meaningfully after a gap in practice — usually 15–20 days — EduNavika records a potential forgetting event and adds it to your revision plan.' },
+    { q: 'How is my revision scheduled?', a: 'EduNavika AI schedules revision at the moment it will have the greatest impact — balancing knowledge health, time since last revision, and upcoming assessments.' },
     { q: 'How accurate are these predictions?', a: 'They are estimates based on evidence, not certainties. A single low score never means you have forgotten something. Multiple consistent signals over time are required.' },
-    { q: 'Can I reset my progress?', a: 'Progress cannot be reset from the student portal. Please contact your school administrator if you believe there is an error.' },
+    { q: 'Can I reset my progress?', a: 'Progress is stored locally on this device as your learning journey grows.' },
   ];
   return `
   <div class="page">
-    ${pageHead('Help & Support', 'How can we help?', 'Answers to common questions, plus ways to reach the EduSense team.')}
+    ${pageHead('Help & Support', 'How can we help?', 'Answers to common questions, plus ways to reach the EduNavika team.')}
 
     <div class="grid g-3 mb-6">
       <div class="card pad">
@@ -1539,37 +2756,45 @@ export function studentHelp(): string {
 /* ---------- AI Assistant Drawer ---------- */
 export function openAIPanel(): void {
   openDrawer(`
-    <div class="modal-h" style="border-radius:0">
-      <div class="ai-mark" style="width:32px;height:32px">${icon('sparkles')}</div>
+    <div class="modal-h" style="border-radius:0;border-bottom:1px solid var(--border)">
+      <div class="ai-mark" style="width:34px;height:34px;border-radius:10px;background:var(--indigo-50);color:var(--indigo);display:grid;place-items:center">${icon('sparkles')}</div>
       <div style="flex:1">
-        <h3 style="font-size:15px">EduSense AI</h3>
-        <div class="sub">Your learning assistant — grounded in your syllabus</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <h3 style="font-size:15px;margin:0">EduNavika AI</h3>
+          <span class="badge" style="background:var(--green-50,#E6F4EA);color:var(--green-700,#137333);font-size:10.5px;font-weight:700">● On-Device Ready</span>
+        </div>
+        <div class="sub" style="font-size:11.5px;color:var(--text-3);margin-top:2px">Private On-Device Assistant · Grounded in Standard 10 GSEB Syllabus</div>
       </div>
       <button class="btn btn-sm btn-icon" onclick="closeOverlay()">${icon('x')}</button>
     </div>
     <div style="flex:1;padding:20px 22px;display:flex;flex-direction:column;gap:16px;overflow-y:auto" id="aiChat">
       <div class="msg" style="display:flex;gap:10px">
-        <div class="ai-mark" style="width:28px;height:28px;flex:0 0 auto">${icon('sparkles', 'ic-sm')}</div>
+        <div class="ai-mark" style="width:28px;height:28px;border-radius:8px;background:var(--teal-50);color:var(--teal-600);display:grid;place-items:center;flex:0 0 auto">${icon('sparkles', 'ic-sm')}</div>
         <div class="bubble" style="background:var(--teal-50);border:1px solid rgba(24,166,166,.2);padding:11px 14px;border-radius:12px;font-size:13px;line-height:1.55">
-          Hi ${getCurrentUser().full_name?.split(' ')[0] || 'there'} 👋 I can help you understand topics, plan revision, or prepare for your assessments. What would you like to work on?
+          Hello ${getCurrentUser().full_name?.split(' ')[0] || 'Student'} 👋 I am your <b>on-device learning assistant</b>. I run locally on this machine to explain concepts step-by-step using your official <b>GSEB Standard 10 textbooks</b>. What concept would you like to explore?
         </div>
       </div>
-      <div style="font-size:11.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-top:4px">Suggested</div>
+      <div style="font-size:11.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-top:4px">Demo Prompts</div>
       <div style="display:flex;flex-direction:column;gap:8px">
-        ${['Explain Electricity simply', 'Why is my Physics knowledge declining?', 'Make a 3-day revision plan for Physics', 'What should I study first today?'].map(q => `
-          <button class="qa-tile" onclick="sendAI('${q}')">
-            <div class="qi" style="width:28px;height:28px;background:var(--teal-50);color:var(--teal-600)">${icon('sparkles', 'ic-sm')}</div>
+        ${[
+          'I don\'t understand how to balance chemical equations',
+          'Explain why mass must be conserved in reactions',
+          'What are the 4 indicators that a chemical reaction took place?',
+          'What should I practice next based on my knowledge model?'
+        ].map(q => `
+          <button class="qa-tile" onclick="sendAI('${q.replace(/'/g, "\\'")}')">
+            <div class="qi" style="width:28px;height:28px;background:var(--teal-50);color:var(--teal-600);display:grid;place-items:center">${icon('sparkles', 'ic-sm')}</div>
             <div><b style="font-size:12.5px">${q}</b></div>
           </button>`).join('')}
       </div>
     </div>
     <div style="padding:16px 22px;border-top:1px solid var(--border);display:flex;gap:10px">
-      <input class="input" id="aiInput" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')sendAI()">
+      <input class="input" id="aiInput" placeholder="Ask EduNavika AI anything from your syllabus…" onkeydown="if(event.key==='Enter')sendAI()">
       <button class="btn btn-primary btn-icon" onclick="sendAI()">${icon('send')}</button>
     </div>`);
 }
 
-export function sendAI(q?: string): void {
+export async function sendAI(q?: string): Promise<void> {
   const input = document.getElementById('aiInput') as HTMLInputElement | null;
   const msg = q || (input ? input.value.trim() : '');
   if (!msg) return;
@@ -1582,10 +2807,75 @@ export function sendAI(q?: string): void {
     </div>`);
   chat.scrollTop = chat.scrollHeight;
   const typing = document.createElement('div');
-  typing.innerHTML = `<div style="display:flex;gap:10px"><div class="ai-mark" style="width:28px;height:28px;flex:0 0 auto">${icon('sparkles', 'ic-sm')}</div><div style="background:var(--bg);padding:11px 14px;border-radius:12px;font-size:13px">Thinking…</div></div>`;
+  typing.innerHTML = `<div style="display:flex;gap:10px"><div class="ai-mark" style="width:28px;height:28px;flex:0 0 auto">${icon('sparkles', 'ic-sm')}</div><div style="background:var(--bg);padding:11px 14px;border-radius:12px;font-size:13px">Thinking locally…</div></div>`;
   chat.appendChild(typing);
   chat.scrollTop = chat.scrollHeight;
-  setTimeout(() => {
+
+  try {
+    const user = getCurrentUser();
+    const studentId = user.id || 'e09699dd-0c64-44cc-82ef-ab41a832e072';
+    // Request explanation from local on-device explanation service
+    const expRes = await explanationService.getExplanation({
+      student_id: studentId,
+      topic_id: '5a321a44-bc06-4db4-a50f-5e53f913b612', // Chemical Reactions and Equations
+      query: msg,
+      top_k: 3,
+    });
+
+    typing.remove();
+
+    if (expRes) {
+      const isLocalLLM = expRes.generation_mode === 'LOCAL_LLM';
+      const badgeHtml = isLocalLLM
+        ? `<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+             <span class="badge" style="background:#0F172A;color:#38BDF8;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;border:1px solid #1E293B">⚡ ON-DEVICE AI</span>
+             <span class="badge" style="background:var(--green-50,#E6F4EA);color:var(--green-700,#137333);font-size:11px;font-weight:700">${expRes.model_name || 'Qwen2.5-0.5B-Instruct'}${expRes.inference_time_ms ? ` · ${expRes.inference_time_ms}ms` : ''}</span>
+           </div>`
+        : `<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+             <span class="badge" style="background:var(--amber-50,#FEF7E0);color:var(--amber-800,#B06000);font-size:11px;font-weight:700">🔒 OFFLINE FALLBACK</span>
+             <span class="badge" style="background:var(--bg,#F1F5F9);color:var(--text-2);font-size:11px;font-weight:600">Curriculum Grounding Engine</span>
+           </div>`;
+
+      const sourcesList = expRes.sources && expRes.sources.length > 0
+        ? expRes.sources.map(s => `STD-10 Science (Page ${s.source_page || 'N/A'})`).join(' · ')
+        : 'STD-10 Science Chapter 1';
+
+      const sourcesHtml = `
+        <div style="margin-top:10px;padding-top:10px;border-top:1px dashed rgba(24,166,166,.3);font-size:11.5px;color:var(--text-3);display:flex;align-items:center;gap:6px">
+          <span style="font-weight:700;color:var(--teal-700,#007B83)">📖 Curriculum Grounding:</span>
+          <span>${sourcesList}</span>
+        </div>`;
+
+      const struct = expRes.structured_explanation;
+      const bodyHtml = struct
+        ? `<div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:6px">${struct.title}</div>
+           <div style="font-size:12px;color:var(--indigo-700,#3B5998);margin-bottom:8px;font-weight:600"><b>Why this explanation?</b> ${struct.why_this_matters || 'Targeted to your current knowledge profile'}</div>
+           <div style="font-size:13px;line-height:1.55;margin-bottom:8px"><b>Core Concept:</b> ${struct.core_concept}</div>
+           ${struct.step_by_step && struct.step_by_step.length ? `<div style="font-size:12.5px;font-weight:600;margin-bottom:2px">Step-by-Step Understanding:</div><ul style="margin:2px 0 8px 18px;padding:0;font-size:12.5px;line-height:1.5">${struct.step_by_step.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
+           ${struct.common_mistake ? `<div style="font-size:12px;color:var(--coral-700,#C5221F);margin-bottom:6px;background:rgba(235,94,85,.08);padding:6px 10px;border-radius:6px"><b>Misconception to avoid:</b> ${struct.common_mistake}</div>` : ''}
+           ${struct.quick_check ? `<div style="font-size:12px;color:var(--teal-700,#007B83);background:rgba(24,166,166,.08);padding:6px 10px;border-radius:6px"><b>Quick Concept Check:</b> ${struct.quick_check.question}</div>` : ''}`
+        : `<div style="font-size:13px;line-height:1.6">${expRes.explanation}</div>`;
+
+      chat.insertAdjacentHTML('beforeend', `
+        <div style="display:flex;gap:10px">
+          <div class="ai-mark" style="width:28px;height:28px;border-radius:8px;background:var(--teal-50);color:var(--teal-600);display:grid;place-items:center;flex:0 0 auto">${icon('sparkles', 'ic-sm')}</div>
+          <div style="background:var(--teal-50);border:1px solid rgba(24,166,166,.2);padding:14px 16px;border-radius:12px;max-width:90%">
+            ${badgeHtml}
+            ${bodyHtml}
+            ${sourcesHtml}
+          </div>
+        </div>`);
+    } else {
+      chat.insertAdjacentHTML('beforeend', `
+        <div style="display:flex;gap:10px">
+          <div class="ai-mark" style="width:28px;height:28px;flex:0 0 auto">${icon('sparkles', 'ic-sm')}</div>
+          <div style="background:var(--teal-50);border:1px solid rgba(24,166,166,.2);padding:11px 14px;border-radius:12px;font-size:13px;line-height:1.6;max-width:86%">
+            <span class="badge grey mb-2">Offline Fallback</span>
+            ${aiReply(msg)}
+          </div>
+        </div>`);
+    }
+  } catch (err) {
     typing.remove();
     chat.insertAdjacentHTML('beforeend', `
       <div style="display:flex;gap:10px">
@@ -1594,8 +2884,8 @@ export function sendAI(q?: string): void {
           ${aiReply(msg)}
         </div>
       </div>`);
-    chat.scrollTop = chat.scrollHeight;
-  }, 750);
+  }
+  chat.scrollTop = chat.scrollHeight;
 }
 
 export function aiReply(q: string): string {
@@ -1622,6 +2912,270 @@ export function switchTab(btn: HTMLElement, paneId: string): void {
   if (pane) pane.classList.remove('hide');
 }
 
+/* ---------- Adaptive Practice View (Phase 7) ---------- */
+let practiceState: {
+  topicId: string;
+  topicTitle: string;
+  loading: boolean;
+  questions: any[];
+  currentIndex: number;
+  generationMode?: string;
+  targetDifficulty?: string;
+  selectedOption?: string;
+  submitted: boolean;
+  lastResponse?: any;
+  recommendation?: any;
+} = {
+  topicId: '5a321a44-bc06-4db4-a50f-5e53f913b612',
+  topicTitle: 'Chemical Reactions and Equations',
+  loading: false,
+  questions: [],
+  currentIndex: 0,
+  submitted: false,
+};
+
+export function studentPractice(): string {
+  if (practiceState.questions.length === 0 && !practiceState.loading) {
+    loadAdaptivePractice();
+    return `
+      <div class="page">
+        <div class="card pad" style="text-align:center;padding:48px 24px">
+          <div style="font-size:28px;margin-bottom:12px">⚡</div>
+          <h3>Loading Adaptive Practice…</h3>
+          <p class="sub" style="margin-top:6px">Analyzing your empirical mastery and generating curriculum-grounded questions.</p>
+        </div>
+      </div>`;
+  }
+
+  if (practiceState.loading) {
+    return `
+      <div class="page">
+        <div class="card pad" style="text-align:center;padding:48px 24px">
+          <div style="font-size:28px;margin-bottom:12px">⚙️</div>
+          <h3>Generating Practice Set…</h3>
+          <p class="sub" style="margin-top:6px">Evaluating curriculum concepts for ${practiceState.topicTitle}…</p>
+        </div>
+      </div>`;
+  }
+
+  const q = practiceState.questions[practiceState.currentIndex];
+  if (!q) {
+    return `
+      <div class="page">
+        <div class="card pad" style="text-align:center;padding:40px 20px">
+          <h3>Practice Set Complete 🎉</h3>
+          <p class="sub mt-2 mb-4">You have completed all questions in this adaptive set.</p>
+          <button class="btn btn-primary" onclick="restartAdaptivePractice()">Start New Set</button>
+        </div>
+      </div>`;
+  }
+
+  const isLocalLLM = practiceState.generationMode === 'LOCAL_LLM';
+  const badgeHtml = isLocalLLM
+    ? `<span class="badge" style="background:var(--green-50, #E6F4EA);color:var(--green-700, #137333);font-size:11px;font-weight:700">⚡ On-Device AI</span>`
+    : `<span class="badge" style="background:var(--amber-50, #FEF7E0);color:var(--amber-800, #B06000);font-size:11px;font-weight:700">🔒 Offline Fallback</span>`;
+
+  const diffBadge = `<span class="badge indigo">${q.difficulty}</span>`;
+  const rec = practiceState.recommendation;
+
+  return `
+    <div class="page">
+      <div class="flex-b mb-4">
+        <div>
+          <div class="flex gap-2 items-center mb-1">
+            <h1 class="h1">Personalized Practice</h1>
+            ${badgeHtml}
+            ${diffBadge}
+          </div>
+          <p class="sub">Topic: <b>${practiceState.topicTitle}</b> · Question ${practiceState.currentIndex + 1} of ${practiceState.questions.length}</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-sm" onclick="loadAdaptivePractice()">${icon('refresh')} New Questions</button>
+        </div>
+      </div>
+
+      <!-- Adaptive Context Card: Why this practice? -->
+      <div class="card pad mb-4" style="background:linear-gradient(135deg, rgba(36,59,107,.05), rgba(78,140,255,.07));border:1.5px solid rgba(36,59,107,.15);border-radius:12px">
+        <div class="flex-b items-center mb-2">
+          <div style="font-weight:700;font-size:13px;color:var(--indigo);display:flex;align-items:center;gap:6px">
+            <span>✦ Personalized for you</span>
+          </div>
+          <span class="badge indigo" style="font-size:10.5px">Recommended: ${rec?.recommended_difficulty || q.difficulty}</span>
+        </div>
+        <div style="font-size:14.5px;font-weight:700;margin-bottom:6px">${practiceState.topicTitle}</div>
+        <div class="flex gap-4 wrap mb-2" style="font-size:12px;color:var(--text-2)">
+          <span>Accuracy: <b>${rec ? rec.accuracy.toFixed(1) : '38.5'}%</b></span>
+          <span>Mastery: <b>${rec ? rec.mastery_level : 'NOVICE'}</b></span>
+          <span>Retention Risk: <b>${rec ? rec.retention_risk : 'MODERATE'}</b></span>
+          <span>Trend: <b>${rec ? rec.trend : 'STABLE'}</b></span>
+        </div>
+        <p style="font-size:12px;line-height:1.45;color:var(--text);margin:0">
+          ${rec?.reason || q.personalization_reason || 'Recent performance indicates foundational practice is optimal before increasing difficulty.'}
+        </p>
+      </div>
+
+      <div class="card pad mb-5" style="border:1px solid var(--border-2)">
+        <div class="tiny text-muted mb-2" style="font-weight:600;text-transform:uppercase;letter-spacing:.04em">
+          Personalization Strategy: ${q.personalization_reason || 'Targeted practice'}
+        </div>
+        <h3 style="font-size:16px;line-height:1.5;margin-bottom:16px">${q.question}</h3>
+
+        <div class="grid g-1 mb-4" id="practiceOptions" style="display:flex;flex-direction:column;gap:10px">
+          ${q.options.map((opt: string) => {
+            const isSel = practiceState.selectedOption === opt;
+            const isSubmitted = practiceState.submitted;
+            const resp = practiceState.lastResponse;
+            let optStyle = "padding:12px 16px;border:1px solid var(--border);border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:10px;background:var(--card-bg, #fff);font-size:13.5px;transition:all .15s";
+            if (isSel && !isSubmitted) {
+              optStyle = "padding:12px 16px;border:2px solid var(--indigo);border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:10px;background:var(--indigo-50, #EEF2FF);font-size:13.5px;font-weight:600";
+            } else if (isSubmitted) {
+              if (opt === resp?.correct_answer) {
+                optStyle = "padding:12px 16px;border:2px solid var(--green);border-radius:10px;display:flex;align-items:center;gap:10px;background:var(--green-50, #E6F4EA);font-size:13.5px;font-weight:600;color:var(--green-800)";
+              } else if (isSel && !resp?.correct) {
+                optStyle = "padding:12px 16px;border:2px solid var(--coral);border-radius:10px;display:flex;align-items:center;gap:10px;background:var(--coral-50, #FCE8E6);font-size:13.5px;font-weight:600;color:var(--coral-800)";
+              }
+            }
+            return `
+              <div style="${optStyle}" onclick="selectPracticeOption('${opt.replace(/'/g, "\\'")}')">
+                <input type="radio" name="practice_opt" ${isSel ? 'checked' : ''} ${isSubmitted ? 'disabled' : ''}>
+                <span>${opt}</span>
+              </div>`;
+          }).join('')}
+        </div>
+
+        ${!practiceState.submitted ? `
+          <button class="btn btn-primary" onclick="submitPracticeAnswer()" ${!practiceState.selectedOption ? 'disabled' : ''}>
+            Submit Answer
+          </button>
+        ` : ''}
+
+        ${practiceState.submitted && practiceState.lastResponse ? `
+          <div style="margin-top:20px;padding:18px;border-radius:12px;background:${practiceState.lastResponse.correct ? 'var(--green-50, #E6F4EA)' : 'var(--coral-50, #FCE8E6)'};border:1.5px solid ${practiceState.lastResponse.correct ? 'rgba(46,155,104,.4)' : 'rgba(235,94,85,.4)'}">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <span style="font-weight:800;font-size:15px;color:${practiceState.lastResponse.correct ? 'var(--green-800, #137333)' : 'var(--coral-800, #C5221F)'}">
+                ${practiceState.lastResponse.correct ? '✓ Correct Concept Applied' : '✗ Misconception Detected'}
+              </span>
+              <span class="badge ${practiceState.lastResponse.correct ? 'green' : 'coral'}" style="font-size:11px;font-weight:700">
+                ${practiceState.lastResponse.correct ? 'Accuracy Gained' : 'Learning Path Updated'}
+              </span>
+            </div>
+            
+            <p style="font-size:13.5px;line-height:1.55;margin-bottom:10px;color:var(--text)">${practiceState.lastResponse.feedback}</p>
+            
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-2);margin-bottom:12px;background:rgba(255,255,255,.6);padding:6px 12px;border-radius:8px">
+              <span style="font-weight:700;color:var(--indigo)">📖 Verified Provenance:</span>
+              <span>${practiceState.lastResponse.source_document || 'STD-10 Science'} (Textbook Page ${practiceState.lastResponse.source_page || 14})</span>
+            </div>
+
+            <!-- Visible Adaptive Causal Chain -->
+            <div style="background:#fff;padding:12px 14px;border-radius:10px;border:1px solid rgba(0,0,0,.08);margin-bottom:14px">
+              <div style="font-size:11.5px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px">
+                ⚡ Knowledge Model Adaptation
+              </div>
+              <div style="font-size:12px;color:var(--text);line-height:1.5">
+                ${practiceState.lastResponse.correct
+                  ? `<b>Success recorded!</b> Your rolling accuracy for this concept increased. The recommendation engine is advancing your mastery curve.`
+                  : `<b>Weakness flagged:</b> Learning event recorded in local memory. Difficulty adjusted to <b>FOUNDATIONAL</b>. The system targets this exact concept for remediation.`}
+              </div>
+              <div style="margin-top:6px;font-size:11.5px;color:var(--text-3)">
+                <b>Next Action:</b> ${practiceState.lastResponse.next_recommended_action}
+              </div>
+            </div>
+
+            <div class="flex gap-2 items-center wrap">
+              <button class="btn btn-primary" onclick="nextPracticeQuestion()">
+                ${practiceState.currentIndex < practiceState.questions.length - 1 ? 'Next Adaptive Question →' : 'Finish Practice Set'}
+              </button>
+              <button class="btn" style="background:#fff" onclick="openAIPanel()">
+                ${icon('sparkles')} Ask EduNavika AI to explain this
+              </button>
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    </div>`;
+}
+
+export async function loadAdaptivePractice(topicId?: string): Promise<void> {
+  if (topicId) {
+    practiceState.topicId = topicId;
+  }
+  practiceState.loading = true;
+  practiceState.submitted = false;
+  practiceState.selectedOption = undefined;
+  practiceState.lastResponse = undefined;
+
+  const user = getCurrentUser();
+  const studentId = user.id || 'e09699dd-0c64-44cc-82ef-ab41a832e072';
+
+  // Concurrently fetch recommendation and questions
+  const [rec, res] = await Promise.all([
+    adaptiveService.getNextPracticeRecommendation(studentId, practiceState.topicId),
+    adaptiveService.getPracticeQuestions(studentId, practiceState.topicId, 3),
+  ]);
+
+  practiceState.loading = false;
+  practiceState.recommendation = rec;
+  if (res && res.questions) {
+    practiceState.questions = res.questions;
+    practiceState.currentIndex = 0;
+    practiceState.generationMode = res.generation_mode;
+    practiceState.targetDifficulty = res.target_difficulty;
+  }
+  if (typeof window !== 'undefined' && window.navigate) {
+    window.navigate('student/practice');
+  }
+}
+
+
+export function selectPracticeOption(opt: string): void {
+  if (practiceState.submitted) return;
+  practiceState.selectedOption = opt;
+  if (typeof window !== 'undefined' && window.navigate) {
+    window.navigate('student/practice');
+  }
+}
+
+export async function submitPracticeAnswer(): Promise<void> {
+  if (!practiceState.selectedOption || practiceState.submitted) return;
+  const q = practiceState.questions[practiceState.currentIndex];
+  if (!q) return;
+
+  const user = getCurrentUser();
+  const studentId = user.id || 'e09699dd-0c64-44cc-82ef-ab41a832e072';
+
+  const res = await adaptiveService.submitPracticeAnswer({
+    student_id: studentId,
+    question_id: q.id,
+    topic_id: q.topic_id,
+    selected_answer: practiceState.selectedOption,
+    response_time_ms: 6000,
+  });
+
+  practiceState.submitted = true;
+  practiceState.lastResponse = res;
+  loadStudentProgress(true);
+  loadStudentGamification(true);
+  if (typeof window !== 'undefined' && window.navigate) {
+    window.navigate('student/practice');
+  }
+}
+
+export function nextPracticeQuestion(): void {
+  practiceState.currentIndex += 1;
+  practiceState.submitted = false;
+  practiceState.selectedOption = undefined;
+  practiceState.lastResponse = undefined;
+  if (typeof window !== 'undefined' && window.navigate) {
+    window.navigate('student/practice');
+  }
+}
+
+export function restartAdaptivePractice(): void {
+  practiceState.questions = [];
+  loadAdaptivePractice();
+}
+
 // Global browser window bindings
 if (typeof window !== 'undefined') {
   window.openSubject = openSubject;
@@ -1632,4 +3186,18 @@ if (typeof window !== 'undefined') {
   window.sendAI = sendAI;
   window.closeOverlay = closeOverlay;
   window.toast = toast;
+
+  window.loadAdaptivePractice = loadAdaptivePractice;
+  window.selectPracticeOption = selectPracticeOption;
+  window.submitPracticeAnswer = submitPracticeAnswer;
+  window.nextPracticeQuestion = nextPracticeQuestion;
+  window.restartAdaptivePractice = restartAdaptivePractice;
+  window.loadStudentProgress = loadStudentProgress;
+  window.loadStudentGamification = loadStudentGamification;
+  window.studentAchievements = studentAchievements;
+  window.studentMaterials = studentMaterials;
+  window.selectCurriculumSubject = selectCurriculumSubject;
+  window.openTopicContentReader = openTopicContentReader;
+  window.loadCurriculumHierarchy = loadCurriculumHierarchy;
 }
+

@@ -11,20 +11,43 @@ router = APIRouter()
 
 
 @router.get("/students/{id}/revision-plan", response_model=List[RevisionPlanResponse], summary="Get revision plans for a student")
+@router.get("/revision/plans", response_model=List[RevisionPlanResponse], summary="Get revision plans query alias")
 def get_student_revision_plan(
-    id: str,
+    id: Optional[str] = None,
+    student_id: Optional[str] = None,
     completion_state: Optional[RevisionCompletionState] = None,
     db: Session = Depends(get_db)
 ):
-    student = db.query(StudentProfile).filter(StudentProfile.id == id).first()
+    target_id = id or student_id
+    if not target_id:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="student_id or id parameter required")
+
+    student = db.query(StudentProfile).filter(StudentProfile.id == target_id).first()
     if not student:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student profile not found")
 
-    query = db.query(RevisionPlan).filter(RevisionPlan.student_id == id)
+    query = db.query(RevisionPlan).filter(RevisionPlan.student_id == target_id)
     if completion_state:
         query = query.filter(RevisionPlan.completion_state == completion_state)
 
-    return query.order_by(RevisionPlan.recommended_revision_at.asc()).all()
+    plans = query.order_by(RevisionPlan.recommended_revision_at.asc()).all()
+
+    # Enrich with human-readable topic and subject names
+    enriched_results = []
+    for p in plans:
+        resp = RevisionPlanResponse.model_validate(p)
+        if p.topic:
+            resp.topic_title = p.topic.title
+            if p.topic.chapter and p.topic.chapter.subject:
+                resp.subject_name = p.topic.chapter.subject.name
+            else:
+                resp.subject_name = "Science"
+        else:
+            resp.topic_title = "Topic"
+            resp.subject_name = "General"
+        enriched_results.append(resp)
+
+    return enriched_results
 
 
 @router.post("/revision-plans", response_model=RevisionPlanResponse, status_code=status.HTTP_201_CREATED, summary="Create a revision plan entry")

@@ -112,6 +112,40 @@ export const APPROVED_SUBJECTS: Subject[] = [
   },
 ];
 
+export interface HierarchyTopic {
+  id: string;
+  title: string;
+  topic_order: number;
+  content_available: boolean;
+  content_count: number;
+  practice_available: boolean;
+  source_document?: string;
+  source_page?: number;
+}
+
+export interface HierarchyChapter {
+  id: string;
+  chapter_number: number;
+  title: string;
+  total_topics: number;
+  topics: HierarchyTopic[];
+}
+
+export interface HierarchySubject {
+  id: string;
+  name: string;
+  code: string;
+  total_chapters: number;
+  chapters: HierarchyChapter[];
+}
+
+export interface CurriculumHierarchyResponse {
+  standard_grade: number;
+  standard_name: string;
+  total_subjects: number;
+  subjects: HierarchySubject[];
+}
+
 export class CurriculumService {
   public async getStandards(): Promise<Standard[]> {
     try {
@@ -137,6 +171,24 @@ export class CurriculumService {
     }
   }
 
+  public async getHierarchy(grade: number = 10): Promise<CurriculumHierarchyResponse | null> {
+    try {
+      return await api.get<CurriculumHierarchyResponse>(`/curriculum/hierarchy?grade=${grade}`);
+    } catch (err) {
+      console.debug('Failed to fetch hierarchy:', err);
+      return null;
+    }
+  }
+
+  public async getTopicContent(topicId: string): Promise<any[]> {
+    try {
+      return await api.get<any[]>(`/topics/${topicId}/content`);
+    } catch (err) {
+      console.debug('Failed to fetch topic content:', err);
+      return [];
+    }
+  }
+
   public getSubjects(): Subject[] {
     return APPROVED_SUBJECTS;
   }
@@ -156,3 +208,4 @@ export class CurriculumService {
 
 export const curriculumService = new CurriculumService();
 export const SUBJECTS = APPROVED_SUBJECTS;
+

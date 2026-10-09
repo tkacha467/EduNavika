@@ -4,45 +4,33 @@ import { api } from './api';
 import { MCQQuestion, StudentAttempt } from '../types';
 
 export const SAMPLE_QUESTIONS: Record<string, MCQQuestion[]> = {
-  default: [
+  // Curriculum-grounded questions for Standard 10 GSEB
+  '5a321a44-bc06-4db4-a50f-5e53f913b612': [
     {
-      id: 'q1',
-      topic_id: 'm1',
-      question_text: 'What are the roots of the quadratic equation 2x² - 7x + 3 = 0?',
+      id: 'chem-ch1-f01',
+      topic_id: '5a321a44-bc06-4db4-a50f-5e53f913b612',
+      question_text: 'Why must chemical equations be balanced in accordance with the Law of Conservation of Mass?',
       options: {
-        A: 'x = 3 and x = 1/2',
-        B: 'x = -3 and x = -1/2',
-        C: 'x = 7 and x = 2',
-        D: 'x = 1/3 and x = 2',
+        A: 'Total mass of elements in products must equal total mass in reactants',
+        B: 'To accelerate the reaction speed without altering mass',
+        C: 'To change the chemical formulae of reactants into simpler states',
+        D: 'To equalize the volume of gases participating in the reaction',
       },
       correct_option: 'A',
-      explanation: 'Using the quadratic formula x = (-b ± √(b² - 4ac)) / (2a): b² - 4ac = 49 - 24 = 25. Thus x = (7 ± 5)/4 => x = 3 or x = 1/2.',
+      explanation: 'Mass can neither be created nor destroyed in a chemical reaction. Total mass in products must equal reactants (Textbook Page 16).',
     },
     {
-      id: 'q2',
-      topic_id: 'p1',
-      question_text: 'According to Ohm\'s law, if the resistance in a circuit is doubled while the voltage remains constant, the current will:',
+      id: 'chem-ch1-g01',
+      topic_id: '5a321a44-bc06-4db4-a50f-5e53f913b612',
+      question_text: 'In the reaction 2Mg(s) + O2(g) -> 2MgO(s), what type of chemical reaction is taking place?',
       options: {
-        A: 'Double',
-        B: 'Be halved',
-        C: 'Remain unchanged',
-        D: 'Quadruple',
+        A: 'Combination reaction',
+        B: 'Decomposition reaction',
+        C: 'Double displacement reaction',
+        D: 'Neutralisation reaction',
       },
-      correct_option: 'B',
-      explanation: 'From I = V / R, current I is inversely proportional to resistance R when voltage V is constant.',
-    },
-    {
-      id: 'q3',
-      topic_id: 'c1',
-      question_text: 'Which of the following is an example of an exothermic combination reaction?',
-      options: {
-        A: 'Decomposition of calcium carbonate',
-        B: 'Reaction of quicklime with water (CaO + H₂O → Ca(OH)₂)',
-        C: 'Photosynthesis in plants',
-        D: 'Electrolysis of water',
-      },
-      correct_option: 'B',
-      explanation: 'When quicklime (CaO) reacts vigorously with water, it produces slaked lime along with a large release of heat, making it exothermic.',
+      correct_option: 'A',
+      explanation: 'When two or more substances combine to form a single product, it is called a combination reaction (Textbook Page 19).',
     },
   ],
 };
@@ -53,9 +41,9 @@ export class AssessmentService {
       const questions = await api.get<MCQQuestion[]>(`/mcqs/by-topic/${encodeURIComponent(topicId)}`);
       if (questions && questions.length > 0) return questions;
     } catch {
-      // Graceful fallback to sample questions
+      // Endpoint fallback
     }
-    return SAMPLE_QUESTIONS[topicId] || SAMPLE_QUESTIONS.default;
+    return SAMPLE_QUESTIONS[topicId] || [];
   }
 
   public async recordAttempt(payload: {

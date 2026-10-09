@@ -24,6 +24,20 @@ class Settings(BaseSettings):
     # CORS
     BACKEND_CORS_ORIGINS: List[str] = ["*"]
     
+    # On-Device SLM (Small Language Model) Inference
+    EDUNAVIKA_LOCAL_MODEL_PATH: str = Field(
+        default=os.getenv("EDUNAVIKA_LOCAL_MODEL_PATH", ""),
+        description="Filesystem path to local GGUF model weights (e.g. D:/EduNavika/models/qwen2.5-0.5b-instruct-q4_k_m.gguf). If empty or invalid, system falls back to deterministic explanation engine."
+    )
+    LOCAL_LLM_N_THREADS: int = Field(
+        default=4,
+        description="Conservative CPU thread count for local GGUF inference on low-resource hardware"
+    )
+    LOCAL_LLM_N_CTX: int = Field(
+        default=2048,
+        description="Maximum context window for local on-device SLM inference"
+    )
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         case_sensitive=True,

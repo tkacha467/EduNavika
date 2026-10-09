@@ -214,3 +214,58 @@ class AdaptiveLearningService:
         )
         db.commit()
         return result
+
+    @staticmethod
+    def evaluate_assessment_performance(
+        db: Session,
+        student_id: str,
+        topic_id: str,
+        score: float,
+        total_questions: int = 5,
+        correct_answers: int = 1,
+    ) -> Optional[RevisionPlan]:
+        """
+        Policy A: Formative / Low-Performance Revision.
+        Evaluated once upon assessment completion.
+        If score < 60% (e.g. 20%), idempotently creates or updates a high-priority
+        RevisionPlan due today. Preserves longitudinal decay engine separately.
+        """
+        if score >= 60.0:
+            return None
+
+        now = datetime.now(timezone.utc)
+        priority = RevisionPriority.URGENT if score <= 30.0 else RevisionPriority.HIGH
+        reason = f"Assessment accuracy {score:.1f}% ({correct_answers}/{total_questions} correct). Immediate review recommended."
+
+        # Idempotency check: see if a pending revision plan already exists for student + topic
+        existing_plan = (
+            db.query(RevisionPlan)
+            .filter(
+                RevisionPlan.student_id == student_id,
+                RevisionPlan.topic_id == topic_id,
+                RevisionPlan.completion_state == RevisionCompletionState.PENDING,
+            )
+            .first()
+        )
+
+        if existing_plan:
+            existing_plan.recommended_revision_at = now
+            existing_plan.priority = priority
+            existing_plan.reason = reason
+            db.commit()
+            db.refresh(existing_plan)
+            return existing_plan
+
+        # Create new revision plan
+        new_plan = RevisionPlan(
+            student_id=student_id,
+            topic_id=topic_id,
+            recommended_revision_at=now,
+            priority=priority,
+            reason=reason,
+            completion_state=RevisionCompletionState.PENDING,
+        )
+        db.add(new_plan)
+        db.commit()
+        db.refresh(new_plan)
+        return new_plan

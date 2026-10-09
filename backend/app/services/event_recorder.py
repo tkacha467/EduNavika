@@ -138,6 +138,16 @@ class EventRecorderService:
         )
 
         if not perf:
+            for obj in db.new:
+                if (
+                    isinstance(obj, TopicPerformance)
+                    and obj.student_id == student_id
+                    and obj.topic_id == topic_id
+                ):
+                    perf = obj
+                    break
+
+        if not perf:
             perf = TopicPerformance(
                 student_id=student_id,
                 topic_id=topic_id,

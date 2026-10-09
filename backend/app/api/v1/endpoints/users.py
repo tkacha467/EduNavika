@@ -9,6 +9,7 @@ from backend.app.schemas.user import (
     UserResponse,
     StudentProfileCreate,
     StudentProfileResponse,
+    StudentLanguageUpdate,
     TeacherProfileCreate,
     TeacherProfileResponse,
 )
@@ -68,6 +69,41 @@ def get_student_profile(id: str, db: Session = Depends(get_db)):
     if not profile:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student profile not found")
     return profile
+
+
+@router.get("/students/{id}/language", summary="Get student preferred language")
+def get_student_language(id: str, db: Session = Depends(get_db)):
+    profile = db.query(StudentProfile).filter(StudentProfile.id == id).first()
+    if not profile:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student profile not found")
+    return {
+        "student_id": profile.id,
+        "preferred_language": profile.preferred_language or "en",
+        "supported_languages": ["en", "hi", "gu"],
+    }
+
+
+@router.put("/students/{id}/language", summary="Update student preferred language")
+def update_student_language(id: str, payload: StudentLanguageUpdate, db: Session = Depends(get_db)):
+    profile = db.query(StudentProfile).filter(StudentProfile.id == id).first()
+    if not profile:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student profile not found")
+    
+    lang = payload.preferred_language.strip().lower()
+    if lang not in ("en", "hi", "gu"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Unsupported language '{payload.preferred_language}'. Must be one of: en, hi, gu"
+        )
+    
+    profile.preferred_language = lang
+    db.commit()
+    db.refresh(profile)
+    return {
+        "student_id": profile.id,
+        "preferred_language": profile.preferred_language,
+        "message": f"Language preference updated to '{lang}' successfully"
+    }
 
 
 @router.post("/teachers", response_model=TeacherProfileResponse, status_code=status.HTTP_201_CREATED, summary="Create a teacher profile")

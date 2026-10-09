@@ -70,6 +70,27 @@ from backend.app.schemas.teacher_action import (
     TeacherActionCreate,
     TeacherActionResponse,
 )
+from backend.app.schemas.knowledge_profile import (
+    TopicKnowledgeProfile,
+    StudentKnowledgeProfileResponse,
+)
+from backend.app.schemas.recommendation import (
+    TopicRecommendation,
+    RecommendationResponse,
+)
+from backend.app.schemas.retrieval import (
+    RetrievalSearchRequest,
+    RetrievedContentItem,
+    RetrievalSearchResponse,
+)
+from backend.app.schemas.explanation import (
+    ExplanationRequest,
+    ExplanationSource,
+    QuickCheckItem,
+    StructuredExplanation,
+    PersonalizationContext,
+    ExplanationResponse,
+)
 
 __all__ = [
     "PaginatedResponse",
@@ -120,4 +141,36 @@ __all__ = [
     "ForgettingSignalResponse",
     "TeacherActionCreate",
     "TeacherActionResponse",
+    "TopicKnowledgeProfile",
+    "StudentKnowledgeProfileResponse",
+    "TopicRecommendation",
+    "RecommendationResponse",
+    "RetrievalSearchRequest",
+    "RetrievedContentItem",
+    "RetrievalSearchResponse",
+    "ExplanationRequest",
+    "ExplanationSource",
+    "QuickCheckItem",
+    "StructuredExplanation",
+    "PersonalizationContext",
+    "ExplanationResponse",
+    "AdaptivePracticeQuestion",
+    "AdaptivePracticeResponse",
+    "PracticeSubmissionRequest",
+    "PracticeSubmissionResponse",
+    "PracticeRecommendation",
 ]
+from backend.app.schemas.practice import (
+    AdaptivePracticeQuestion,
+    AdaptivePracticeResponse,
+    PracticeSubmissionRequest,
+    PracticeSubmissionResponse,
+    PracticeRecommendation,
+)
+from backend.app.schemas.gamification import (
+    DailyGoalSummary,
+    BadgeItem,
+    GamificationResponse,
+)
+
+

@@ -3,48 +3,39 @@
 import { icon } from '../utils/icons';
 import { NavGroup, User } from '../types';
 import { REVISION_QUEUE, CLASS_WEAK_TOPICS, NOTIFICATIONS } from '../features/student/studentData';
+import { t, getLanguage } from '../utils/i18n';
 
 export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
   student: [
     {
-      group: 'Main',
+      group: 'Personalized Learning',
       items: [
         { id: 'student/dashboard', label: 'Dashboard', icon: 'home' },
-        { id: 'student/learning', label: 'My Learning', icon: 'book' },
-        { id: 'student/subjects', label: 'Subjects', icon: 'grid' },
+        { id: 'student/practice', label: 'Practice', icon: 'target' },
+        { id: 'student/learning', label: 'Curriculum & Learning', icon: 'book' },
+        { id: 'student/analytics', label: 'Progress', icon: 'chart' },
         { id: 'student/revision', label: 'Revision Plan', icon: 'refresh' },
-        { id: 'student/assessments', label: 'Assessments', icon: 'clipboard' },
+        { id: 'student/achievements', label: 'Achievements', icon: 'award' },
       ],
     },
     {
-      group: 'Insights',
+      group: 'Knowledge & Resources',
       items: [
+        { id: 'student/materials', label: 'Learning Resources', icon: 'folder' },
         { id: 'student/knowledge', label: 'Knowledge Health', icon: 'brain' },
-        { id: 'student/skills', label: 'Skill Mastery', icon: 'target' },
-        { id: 'student/analytics', label: 'Learning Analytics', icon: 'chart' },
         { id: 'student/weak', label: 'Weak Areas', icon: 'alert' },
+        { id: 'student/subjects', label: 'Syllabus Subjects', icon: 'grid' },
       ],
     },
     {
-      group: 'Academic',
+      group: 'Account',
       items: [
-        { id: 'student/materials', label: 'Study Materials', icon: 'folder' },
-        { id: 'student/notes', label: 'Notes', icon: 'file' },
-        { id: 'student/assignments', label: 'Assignments', icon: 'edit' },
-        { id: 'student/exams', label: 'Exams', icon: 'award' },
-        { id: 'student/timetable', label: 'Timetable', icon: 'clock' },
-      ],
-    },
-    {
-      group: 'Support',
-      items: [
-        { id: 'student/notifications', label: 'Notifications', icon: 'bell' },
-        { id: 'student/help', label: 'Help & Support', icon: 'help' },
         { id: 'student/profile', label: 'Profile', icon: 'users' },
         { id: 'student/settings', label: 'Settings', icon: 'cog' },
       ],
     },
   ],
+
   teacher: [
     {
       group: 'Main',
@@ -103,6 +94,7 @@ export const CRUMBS: Record<string, string[]> = {
   'student/learning': ['My Learning'],
   'student/subjects': ['Subjects'],
   'student/revision': ['Insights', 'Revision Plan'],
+  'student/achievements': ['Achievements'],
   'student/assessments': ['Assessments'],
   'student/knowledge': ['Insights', 'Knowledge Health'],
   'student/skills': ['Insights', 'Skill Mastery'],
@@ -146,23 +138,31 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
         .join('')
     : '<b>Dashboard</b>';
 
+  const currentLang = getLanguage();
+
   const navHtml = groups
     .map(
-      g => `
+      g => {
+        const groupKey = `nav.group.${g.group.toLowerCase().replace(/[^a-z]/g, '')}`;
+        const groupTitle = t(groupKey, g.group);
+        return `
     <div class="nav-group">
-      <div class="nav-title">${g.group}</div>
+      <div class="nav-title">${groupTitle}</div>
       ${g.items
         .map(it => {
           const badge = getDynamicBadge(it.id, role);
+          const itemKey = `nav.${it.id.split('/')[1]}`;
+          const itemLabel = t(itemKey, it.label);
           return `
         <div class="nav-item ${currentRoute === it.id ? 'on' : ''}" data-go="${it.id}">
-          ${icon(it.icon)}<span class="lbl">${it.label}</span>
+          ${icon(it.icon)}<span class="lbl">${itemLabel}</span>
           ${badge ? `<span class="bdg">${badge}</span>` : ''}
-          <span class="tip">${it.label}</span>
+          <span class="tip">${itemLabel}</span>
         </div>`;
         })
         .join('')}
-    </div>`
+    </div>`;
+      }
     )
     .join('');
 
@@ -173,7 +173,10 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
   <aside class="sidebar" id="sidebar">
     <div class="side-head">
       <div class="side-mark">E</div>
-      <div class="side-brand"><b>EduNavika</b><span id="sideRoleLabel">${role === 'student' ? 'STUDENT PORTAL' : 'TEACHER PORTAL'}</span></div>
+      <div class="side-brand">
+        <b>EduNavika</b>
+        <span style="font-size:10px;color:var(--text-3);font-weight:600;letter-spacing:.02em">Built by Team Varja</span>
+      </div>
       <button class="side-toggle" id="btnToggleSidebar" title="Collapse">
         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
       </button>
@@ -195,14 +198,29 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
       </div>
       <div class="tb-search">
         <svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input placeholder="Search topics, subjects, assessments…" id="globalSearch">
+        <input placeholder="${t('shell.search')}" id="globalSearch">
         <span class="kbd">⌘K</span>
       </div>
       <div class="tb-right">
-        <button class="tb-ai" id="btnAIPulse">
+        <!-- Language Selector Pill -->
+        <div class="tb-lang-wrap" style="display:inline-flex;align-items:center;margin-right:4px">
+          <select id="topbarLangSelect" class="input select" style="padding:4px 8px;font-size:11.5px;font-weight:700;border-radius:12px;background:var(--bg-2);border:1px solid var(--border-2);cursor:pointer;color:var(--text)" onchange="window.setLanguage ? window.setLanguage(this.value) : null" title="Change Language / भाषा बदलें / ભાષા બદલો">
+            <option value="en" ${currentLang === 'en' ? 'selected' : ''}>🇬🇧 English</option>
+            <option value="gu" ${currentLang === 'gu' ? 'selected' : ''}>🇮🇳 ગુજરાતી</option>
+            <option value="hi" ${currentLang === 'hi' ? 'selected' : ''}>🇮🇳 हिन्दी</option>
+          </select>
+        </div>
+
+        <!-- On-Device Offline Status Indicator -->
+        <div class="tb-offline-pill" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;background:rgba(46,155,104,.1);border:1px solid rgba(46,155,104,.25);font-size:11.5px;font-weight:600;color:var(--green-700,#137333)" title="Core learning works offline: syllabus, practice, knowledge model, explanations, and revisions run locally on this device">
+          <span style="width:7px;height:7px;border-radius:50%;background:var(--green,#2E9B68);box-shadow:0 0 6px var(--green,#2E9B68);display:inline-block"></span>
+          <span>${t('shell.onDevice')}</span>
+        </div>
+
+        <button class="tb-ai" id="btnAIPulse" onclick="window.openAIPanel ? window.openAIPanel() : null">
           <span class="pulse"></span>
           <svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7L18.5 9.5 13.8 11.3 12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/></svg>
-          <span>EduNavika AI</span>
+          <span>${t('shell.askAi')}</span>
         </button>
         <button class="tb-icon" data-go="${role}/notifications" title="Notifications">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>

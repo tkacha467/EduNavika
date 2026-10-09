@@ -1,10 +1,10 @@
 # GSEB Curriculum Lineage & Provenance Audit Report
 
 - **Quality Gate Verdict**: **`PASS`**
-- **Timestamp**: `2026-09-18T14:58:46Z`
+- **Timestamp**: `2026-10-08T12:05:40Z`
 - **Provenance Integrity Score**: **100.0%**
-- **Total LearningContent Records**: 545
-- **Valid Full Relational Lineage**: 545 / 545 (100%)
+- **Total LearningContent Records**: 855
+- **Valid Full Relational Lineage**: 855 / 855 (100%)
 - **Orphaned Content Records**: 0
 - **Orphaned Topics**: 0
 - **Orphaned Chapters**: 0
@@ -17,15 +17,15 @@
 
 | Chunk ID | Curriculum Lineage | Source File & Page | Status | Verification Details |
 |----------|--------------------|--------------------|--------|----------------------|
-| `chk_8d26e3cb5e74c5c8` | Standard 10 > Science & Technology > Ch.3 'Metals and Non-metals' > 'Metals and Non-metals' | `STD-10/Std-10_Science_English Medium.pdf` (p.56) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_f133c81a544d7623` | Standard 10 > Science & Technology > Ch.12 'Magnetic Effects of Electric Current' > 'Magnetic Effects of Electric Current' | `STD-10/Std-10_Science_English Medium.pdf` (p.211) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_2eef261a8da751e4` | Standard 10 > English Literature & Language > Ch.8 'The Sermon at Benares' > 'The Sermon at Benares' | `STD-10/Std-10_First Flight_EnglishMedium.pdf` (p.122) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_1bb6c68f07f78873` | Standard 10 > Mathematics > Ch.12 'Surface Areas and Volumes' > '11.1 Areas of Sector and Segment of a Circle' | `STD-10/Std-10_Maths_EnglishMedium.pdf` (p.174) | ✅ PASS | Page bounds validated (p.174 of 278) |
-| `chk_1264e1f531de2a74` | Standard 10 > 10 Word and Expressions-2 Eng > Ch.4 '– From the Diary oF anne Frank 47' > '– From the Diary oF anne Frank 47' | `STD-10/Std-10_Word and Expressions-2_Eng.pdf` (p.67) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_cb9ae8fc11c29f04` | Standard 10 > English Literature & Language > Ch.2 'Nelson Mandela: Long W alk to Fr eedom' > 'Nelson Mandela: Long W alk to Fr eedom' | `STD-10/Std-10_First Flight_EnglishMedium.pdf` (p.39) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_2e73bbb3c8835870` | Standard 10 > Science & Technology > Ch.6 'Control and Coordination' > 'Control and Coordination' | `STD-10/Std-10_Science_English Medium.pdf` (p.121) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_00c5f48db76b20da` | Standard 10 > English Literature & Language > Ch.9 'The Proposal' > 'The Proposal' | `STD-10/Std-10_First Flight_EnglishMedium.pdf` (p.135) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_40f65edf93d24641` | Standard 10 > English Literature & Language > Ch.8 'The Sermon at Benares' > 'The Sermon at Benares' | `STD-10/Std-10_Footprints Without Feet_EM.pdf` (p.64) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_24126e7c4e9eed95` | Standard 10 > Science & Technology > Ch.3 'Metals and Non-metals' > 'Metals and Non-metals' | `STD-10/Std-10_Science_English Medium.pdf` (p.58) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `N/A` | Standard 10 > Science Exp 999303 > Ch.1 'Chemical Reactions 999303' > 'Chemical Reactions and Equations 999303' | `STD-10/Std-10_Science_English Medium.pdf` (p.17) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_82a4dc733bfa8e93` | Standard 10 > English Literature & Language > Ch.7 'Madam Rides the Bus' > 'Madam Rides the Bus' | `STD-10/Std-10_First Flight_EnglishMedium.pdf` (p.110) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_802dc63d93b9c3e8` | Standard 10 > English Literature & Language > Ch.9 'The Proposal' > 'The Proposal' | `STD-10/Std-10_First Flight_EnglishMedium.pdf` (p.134) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_5157684dea568d6d` | Standard 10 > Mathematics > Ch.5 'Arithmetic Progressions' > '4.3 Solution of a Quadratic Equation by Factorisation' | `STD-10/Std-10_Maths_EnglishMedium.pdf` (p.57) | ✅ PASS | Page bounds validated (p.57 of 278) |
+| `chk_24f0ca477544898c` | Standard 10 > Science & Technology > Ch.5 'Life Processes' > 'Life Processes' | `STD-10/Std-10_Science_English Medium.pdf` (p.90) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `N/A` | Standard 10 > Science Exp 610854 > Ch.1 'Chemical Reactions 610854' > 'Chemical Reactions and Equations 610854' | `STD-10/Std-10_Science_English Medium.pdf` (p.17) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_0ca238117af5a8db` | Standard 10 > Mathematics > Ch.6 'Triangles' > '6.1 Introduction' | `STD-10/Std-10_Maths_EnglishMedium.pdf` (p.88) | ✅ PASS | Page bounds validated (p.88 of 278) |
+| `chk_f00471431aca4e07` | Standard 10 > English Literature & Language > Ch.9 'The Proposal' > 'The Proposal' | `STD-10/Std-10_Footprints Without Feet_EM.pdf` (p.73) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_0cd824449b5b72f9` | Standard 10 > Mathematics > Ch.12 'Surface Areas and Volumes' > '12.2 Surface Area of a Combination of Solids' | `STD-10/Std-10_Maths_EnglishMedium.pdf` (p.177) | ✅ PASS | Page bounds validated (p.177 of 278) |
+| `chk_8cf96f0e835922ed` | Standard 10 > 10 Word and Expressions-2 Eng > Ch.6 '– Mijbil the Otter 75' > '– Mijbil the Otter 75' | `STD-10/Std-10_Word and Expressions-2_Eng.pdf` (p.93) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
 
 ---

@@ -13,9 +13,13 @@ from backend.app.api.v1.endpoints import (
     users,
     adaptive,
     auth,
+    retrieval,
 )
 
 api_router = APIRouter()
+
+# Curriculum Retrieval
+api_router.include_router(retrieval.router, tags=["Curriculum Retrieval"])
 
 # Authentication & Password Recovery
 api_router.include_router(auth.router, prefix="/auth", tags=["Authentication"])

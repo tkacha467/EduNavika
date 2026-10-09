@@ -19,6 +19,8 @@ class RevisionPlanCreate(RevisionPlanBase):
 
 class RevisionPlanResponse(RevisionPlanBase):
     id: str
+    topic_title: Optional[str] = None
+    subject_name: Optional[str] = None
     created_at: datetime
     updated_at: datetime
 

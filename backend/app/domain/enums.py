@@ -85,3 +85,31 @@ class TeacherActionType(str, enum.Enum):
     ASSIGN_PRACTICE = "ASSIGN_PRACTICE"
     FLAG_TOPIC = "FLAG_TOPIC"
     REVIEW_PERFORMANCE = "REVIEW_PERFORMANCE"
+
+
+class MasteryLevel(str, enum.Enum):
+    UNASSESSED = "UNASSESSED"
+    NOVICE = "NOVICE"
+    DEVELOPING = "DEVELOPING"
+    PROFICIENT = "PROFICIENT"
+    MASTERED = "MASTERED"
+
+
+class PerformanceTrend(str, enum.Enum):
+    IMPROVING = "IMPROVING"
+    STABLE = "STABLE"
+    DECLINING = "DECLINING"
+    INSUFFICIENT_DATA = "INSUFFICIENT_DATA"
+
+
+class RetentionRiskLevel(str, enum.Enum):
+    LOW = "LOW"
+    MODERATE = "MODERATE"
+    HIGH = "HIGH"
+    UNASSESSED = "UNASSESSED"
+
+
+class RecommendationAction(str, enum.Enum):
+    REVISION = "REVISION"
+    PRACTICE = "PRACTICE"
+    REVIEW = "REVIEW"

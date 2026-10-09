@@ -33,6 +33,11 @@ class StudentProfileBase(BaseModel):
     standard_id: Optional[str] = None
     division: Optional[str] = None
     enrollment_number: Optional[str] = None
+    preferred_language: str = "en"
+
+
+class StudentLanguageUpdate(BaseModel):
+    preferred_language: str = "en"
 
 
 class StudentProfileCreate(StudentProfileBase):

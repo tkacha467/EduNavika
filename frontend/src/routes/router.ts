@@ -15,6 +15,7 @@ import {
   studentRevision,
   studentKnowledge,
   studentSkills,
+  studentPractice,
   studentAnalytics,
   studentWeak,
   studentAssessments,
@@ -27,7 +28,9 @@ import {
   studentProfile,
   studentSettings,
   studentHelp,
+  studentAchievements,
   openAIPanel,
+  loadRevisionPlansFromBackend,
 } from '../features/student/StudentViews';
 import {
   teacherDashboard,
@@ -45,6 +48,7 @@ import {
 } from '../features/teacher/TeacherViews';
 import { startQuiz } from '../features/interactive/QuizRunner';
 import { openBuilder } from '../features/interactive/AssessmentBuilder';
+import { setLanguage, getLanguage } from '../utils/i18n';
 
 declare const window: any;
 
@@ -57,6 +61,7 @@ export const ROUTES: Record<string, ViewRenderer> = {
   'student/revision': studentRevision,
   'student/knowledge': studentKnowledge,
   'student/skills': studentSkills,
+  'student/practice': studentPractice,
   'student/analytics': studentAnalytics,
   'student/weak': studentWeak,
   'student/assessments': studentAssessments,
@@ -69,6 +74,7 @@ export const ROUTES: Record<string, ViewRenderer> = {
   'student/profile': studentProfile,
   'student/settings': studentSettings,
   'student/help': studentHelp,
+  'student/achievements': studentAchievements,
   'teacher/dashboard': teacherDashboard,
   'teacher/classes': teacherClasses,
   'teacher/students': teacherStudents,
@@ -164,6 +170,21 @@ export function renderCurrentRoute(): void {
 
   const user = getCurrentUser();
   const cleanRoute = currentRoute.split('?')[0];
+
+  // If navigating to student revision or student dashboard, sync backend revision plans
+  if (user && user.role === 'student' && (cleanRoute === 'student/revision' || cleanRoute === 'student/dashboard')) {
+    loadRevisionPlansFromBackend().then(() => {
+      // Re-render if route still matches to update counters and dynamic queue
+      const currentClean = currentRoute.split('?')[0];
+      if (currentClean === cleanRoute) {
+        const freshRenderer = ROUTES[currentClean] || studentDashboard;
+        const freshHtml = freshRenderer();
+        root.innerHTML = renderAppShell(user, currentClean, freshHtml);
+        bindShellInteractions();
+      }
+    }).catch(() => {});
+  }
+
   const renderer = ROUTES[cleanRoute] || (user.role === 'teacher' ? teacherDashboard : studentDashboard);
   const pageHtml = renderer();
   root.innerHTML = renderAppShell(user, cleanRoute, pageHtml);
@@ -232,10 +253,19 @@ if (typeof window !== 'undefined') {
   });
 }
 
+// Reactive language change listener
+if (typeof window !== 'undefined') {
+  window.addEventListener('edunavika:languageChange', () => {
+    renderCurrentRoute();
+  });
+}
+
 // Expose navigation globals for HTML templates
 if (typeof window !== 'undefined') {
   window.navigate = navigate;
   window.startQuiz = startQuiz;
   window.openBuilder = openBuilder;
   window.openAIPanel = openAIPanel;
+  window.setLanguage = setLanguage;
+  window.getLanguage = getLanguage;
 }
