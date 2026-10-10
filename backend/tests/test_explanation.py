@@ -321,3 +321,54 @@ def test_explanation_api_endpoint(explanation_fixture):
     assert "personalization" in res_data
     assert "sources" in res_data
     assert "next_action" in res_data
+
+
+def test_parse_llm_response_sanitizes_repetition_and_markdown():
+    """
+    Test 11: Local LLM response parser deduplicates loop items and strips malformed markdown syntax.
+    """
+    from backend.app.services.explanation_engine import OnDeviceLLMExplanationEngine
+    from backend.app.schemas.knowledge_profile import TopicKnowledgeProfile
+    from backend.app.domain.enums import MasteryLevel, PerformanceTrend, RetentionRiskLevel
+
+    engine = OnDeviceLLMExplanationEngine()
+    profile = TopicKnowledgeProfile(
+        topic_id="dummy",
+        topic_title="Chemical Reactions",
+        subject_name="Science",
+        total_attempts=10,
+        correct_attempts=6,
+        mastery_level=MasteryLevel.DEVELOPING,
+        accuracy=60.0,
+        trend=PerformanceTrend.STABLE,
+        retention_risk=RetentionRiskLevel.MODERATE,
+    )
+
+    malformed_output = """
+Core Concept: ** The key idea is that chemical reactions conserve mass.
+Step by Step:
+• Identify the reactants:** The 4 indicators are:
+• Identify the reactants:** The 4 indicators are:
+• Identify the reactants:** The 4 indicators are:
+• Identify the reactants:** The 4 indicators are:
+• Count each type of atom on both sides.
+• Balance elements using integer coefficients.
+•
+Common Misconception: ** Do not alter chemical formulas or subscripts!
+Quick Check: What must be balanced? (Expected: Total mass and atom counts)
+"""
+    structured = engine._parse_llm_response(malformed_output, "Chemical Reactions", profile)
+
+    assert not structured.core_concept.startswith("**")
+    assert "The key idea is that chemical reactions conserve mass." in structured.core_concept
+    assert not structured.common_mistake.startswith("**")
+    # Must deduplicate repetition
+    assert len(structured.step_by_step) <= 4
+    # The repeated item must only appear once
+    reactants_count = sum(1 for s in structured.step_by_step if "Identify the reactants" in s)
+    assert reactants_count == 1
+    # No empty bullet
+    assert all(len(s) >= 5 for s in structured.step_by_step)
+    # No stray double asterisks
+    assert not any("**" in s for s in structured.step_by_step)
+

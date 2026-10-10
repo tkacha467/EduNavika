@@ -19,13 +19,16 @@ STRICT INSTRUCTIONS:
 2. Ground your facts strictly on the provided CURRICULUM CONTEXT. Do NOT invent curriculum facts or hallucinate outside the syllabus.
 3. If the context does not contain sufficient information, state that clearly.
 4. Keep the explanation concise, pedagogical, and clear.
-5. Provide:
+5. Do NOT repeat sentences or list items. Every step must be distinct, non-repeating, and under 25 words.
+6. Do NOT output stray markdown asterisks (**) or bullet repetition loops.
+7. Provide:
    - CORE CONCEPT: Explain the key idea in plain language.
    - STEP BY STEP: 2-3 structured learning steps.
    - COMMON MISCONCEPTION: One frequent mistake students make.
    - QUICK CHECK: One question with expected key concept.
    - NEXT ACTION: One immediate practical exercise to practice.
 """
+
 
     @classmethod
     def build_prompt(

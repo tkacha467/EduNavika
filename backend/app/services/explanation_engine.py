@@ -692,6 +692,8 @@ class OnDeviceLLMExplanationEngine(ExplanationEngineInterface):
                 max_tokens=380,
                 temperature=0.3,
                 top_p=0.85,
+                repeat_penalty=1.18,
+                frequency_penalty=0.4,
             )
             elapsed_ms = int((time.perf_counter() - start_time) * 1000)
 
@@ -773,14 +775,27 @@ class OnDeviceLLMExplanationEngine(ExplanationEngineInterface):
         """
         Safely parses the LLM generated response into StructuredExplanation.
         Uses regex heuristics for sections; falls back cleanly to robust defaults if sections are not delineated.
+        Sanitizes formatting, strips duplicate list items, and removes stray markdown asterisks.
         """
+        def _clean_str(text: str) -> str:
+            if not text:
+                return ""
+            # Strip markdown stars, hashes, colons, dashes, bullets, numbers, and whitespace from start
+            cleaned = re.sub(r"^[\s*#:\-•·—\d.]+", "", text).strip()
+            # Strip trailing markers
+            cleaned = re.sub(r"[\s*#:\-]+$", "", cleaned).strip()
+            # Remove any stray double asterisks left within the text
+            cleaned = cleaned.replace("**", "").replace("__", "").strip()
+            return cleaned
+
         lines = [line.strip() for line in raw_text.split("\n") if line.strip()]
 
         title = f"AI Explanation: {topic_title}"
         why_this_matters = f"Tailored for your current {knowledge_profile.mastery_level.value} level."
-        core_concept = ""
+        core_concept_parts = []
         step_by_step = []
-        common_mistake = ""
+        seen_step_norms = set()
+        common_mistake_parts = []
         quick_check_q = f"What is the main principle of {topic_title}?"
         quick_check_ans = "Refer to the core concept."
 
@@ -789,48 +804,64 @@ class OnDeviceLLMExplanationEngine(ExplanationEngineInterface):
             lower = line.lower()
             if "core concept" in lower:
                 current_sec = "core"
-                cleaned = re.sub(r"(?i)\**\s*core concept\s*\**[:\-]*", "", line).strip()
-                if cleaned:
-                    core_concept = cleaned
-            elif "step by step" in lower or "steps" in lower:
+                cleaned = re.sub(r"(?i)^[\s*#\-•·—]*core concept\s*[:\-]*", "", line).strip()
+                cleaned = _clean_str(cleaned)
+                if cleaned and cleaned not in core_concept_parts:
+                    core_concept_parts.append(cleaned)
+            elif "step by step" in lower or "steps" in lower or "step-by-step" in lower:
                 current_sec = "steps"
             elif "common misconception" in lower or "common mistake" in lower:
                 current_sec = "mistake"
-                cleaned = re.sub(r"(?i)\**\s*(common misconception|common mistake)\s*\**[:\-]*", "", line).strip()
-                if cleaned:
-                    common_mistake = cleaned
+                cleaned = re.sub(r"(?i)^[\s*#\-•·—]*(common misconception|common mistake)\s*[:\-]*", "", line).strip()
+                cleaned = _clean_str(cleaned)
+                if cleaned and cleaned not in common_mistake_parts:
+                    common_mistake_parts.append(cleaned)
             elif "quick check" in lower:
                 current_sec = "check"
-                cleaned = re.sub(r"(?i)\**\s*quick check\s*\**[:\-]*", "", line).strip()
+                cleaned = re.sub(r"(?i)^[\s*#\-•·—]*quick check\s*[:\-]*", "", line).strip()
+                cleaned = _clean_str(cleaned)
                 if cleaned:
-                    # Check if answer key is embedded in parentheses or dash, e.g. (Key: Conservation of mass)
                     ans_match = re.search(r"\((?:Key|Answer|Expected):\s*(.+?)\)", cleaned, re.IGNORECASE)
                     if ans_match:
-                        quick_check_ans = ans_match.group(1).strip()
-                        quick_check_q = re.sub(r"\((?:Key|Answer|Expected):\s*.+?\)", "", cleaned, flags=re.IGNORECASE).strip()
+                        quick_check_ans = _clean_str(ans_match.group(1).strip())
+                        quick_check_q = _clean_str(re.sub(r"\((?:Key|Answer|Expected):\s*.+?\)", "", cleaned, flags=re.IGNORECASE).strip())
                     else:
                         quick_check_q = cleaned
+            elif "next action" in lower or "next step" in lower:
+                current_sec = "next"
             elif current_sec == "core":
-                if not core_concept:
-                    core_concept = line
-                else:
-                    core_concept += " " + line
+                cleaned = _clean_str(line)
+                if cleaned and cleaned not in core_concept_parts:
+                    core_concept_parts.append(cleaned)
             elif current_sec == "steps":
-                if line.startswith(("-", "*", "1.", "2.", "3.", "4.")):
-                    step_by_step.append(line.lstrip("-*1234. "))
+                cleaned = _clean_str(line)
+                norm = re.sub(r"[^a-z0-9]", "", cleaned.lower())
+                if len(cleaned) >= 5 and len(norm) >= 4:
+                    # Check if already seen or duplicate repetition loop
+                    is_dup = norm in seen_step_norms or any(
+                        (len(k) >= 12 and (norm.startswith(k[:12]) or k.startswith(norm[:12])))
+                        for k in seen_step_norms
+                    )
+                    if not is_dup:
+                        seen_step_norms.add(norm)
+                        step_by_step.append(cleaned)
+                        if len(step_by_step) >= 4:
+                            current_sec = None
             elif current_sec == "mistake":
-                if not common_mistake:
-                    common_mistake = line
-                else:
-                    common_mistake += " " + line
+                cleaned = _clean_str(line)
+                if cleaned and cleaned not in common_mistake_parts:
+                    common_mistake_parts.append(cleaned)
             elif current_sec == "check":
                 if "answer" in lower or "key" in lower or "expected" in lower:
-                    quick_check_ans = line
+                    quick_check_ans = _clean_str(line)
                 elif quick_check_q == f"What is the main principle of {topic_title}?":
-                    quick_check_q = line
+                    quick_check_q = _clean_str(line)
+
+        core_concept = " ".join(core_concept_parts).strip()
+        common_mistake = " ".join(common_mistake_parts).strip()
 
         if not core_concept:
-            core_concept = raw_text[:200] + "..." if len(raw_text) > 200 else raw_text
+            core_concept = _clean_str(raw_text[:200] + "..." if len(raw_text) > 200 else raw_text)
         if not step_by_step:
             step_by_step = [
                 f"Review key definitions of {topic_title}.",

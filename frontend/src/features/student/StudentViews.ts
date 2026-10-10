@@ -2932,15 +2932,42 @@ export async function sendAI(q?: string): Promise<void> {
           <span>${sourcesList}</span>
         </div>`;
 
+      const cleanText = (t: string) => (t || '').replace(/^[\s*#:\-•·—_]+/, '').replace(/[\s*#:\-_]+$/, '').replace(/\*\*/g, '').trim();
+
       const struct = expRes.structured_explanation;
-      const bodyHtml = struct
-        ? `<div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:6px">${struct.title}</div>
-           <div style="font-size:12px;color:var(--indigo-700,#3B5998);margin-bottom:8px;font-weight:600"><b>Why this explanation?</b> ${struct.why_this_matters || 'Targeted to your current knowledge profile'}</div>
-           <div style="font-size:13px;line-height:1.55;margin-bottom:8px"><b>Core Concept:</b> ${struct.core_concept}</div>
-           ${struct.step_by_step && struct.step_by_step.length ? `<div style="font-size:12.5px;font-weight:600;margin-bottom:2px">Step-by-Step Understanding:</div><ul style="margin:2px 0 8px 18px;padding:0;font-size:12.5px;line-height:1.5">${struct.step_by_step.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
-           ${struct.common_mistake ? `<div style="font-size:12px;color:var(--coral-700,#C5221F);margin-bottom:6px;background:rgba(235,94,85,.08);padding:6px 10px;border-radius:6px"><b>Misconception to avoid:</b> ${struct.common_mistake}</div>` : ''}
-           ${struct.quick_check ? `<div style="font-size:12px;color:var(--teal-700,#007B83);background:rgba(24,166,166,.08);padding:6px 10px;border-radius:6px"><b>Quick Concept Check:</b> ${struct.quick_check.question}</div>` : ''}`
-        : `<div style="font-size:13px;line-height:1.6">${expRes.explanation}</div>`;
+      let bodyHtml = `<div style="font-size:13px;line-height:1.6">${expRes.explanation}</div>`;
+
+      if (struct) {
+        const cleanedSteps: string[] = [];
+        const seenStepNorms = new Set<string>();
+        if (Array.isArray(struct.step_by_step)) {
+          for (const step of struct.step_by_step) {
+            const cleaned = cleanText(step);
+            const norm = cleaned.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (cleaned.length >= 5 && norm.length >= 4) {
+              const isDup = seenStepNorms.has(norm) || Array.from(seenStepNorms).some(k => (k.length >= 12 && (norm.startsWith(k.slice(0, 12)) || k.startsWith(norm.slice(0, 12)))));
+              if (!isDup) {
+                seenStepNorms.add(norm);
+                cleanedSteps.push(cleaned);
+                if (cleanedSteps.length >= 4) break;
+              }
+            }
+          }
+        }
+
+        const cleanCore = cleanText(struct.core_concept);
+        const cleanMistake = cleanText(struct.common_mistake);
+        const cleanQuickQ = struct.quick_check ? cleanText(struct.quick_check.question) : '';
+
+        bodyHtml = `
+          <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:6px">${cleanText(struct.title)}</div>
+          <div style="font-size:12px;color:var(--indigo-700,#3B5998);margin-bottom:8px;font-weight:600"><b>Why this explanation?</b> ${cleanText(struct.why_this_matters) || 'Targeted to your current knowledge profile'}</div>
+          ${cleanCore ? `<div style="font-size:13px;line-height:1.55;margin-bottom:8px"><b>Core Concept:</b> ${cleanCore}</div>` : ''}
+          ${cleanedSteps.length ? `<div style="font-size:12.5px;font-weight:600;margin-bottom:2px">Step-by-Step Understanding:</div><ul style="margin:2px 0 8px 18px;padding:0;font-size:12.5px;line-height:1.5">${cleanedSteps.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
+          ${cleanMistake ? `<div style="font-size:12px;color:var(--coral-700,#C5221F);margin-bottom:6px;background:rgba(235,94,85,.08);padding:6px 10px;border-radius:6px"><b>Misconception to avoid:</b> ${cleanMistake}</div>` : ''}
+          ${cleanQuickQ ? `<div style="font-size:12px;color:var(--teal-700,#007B83);background:rgba(24,166,166,.08);padding:6px 10px;border-radius:6px"><b>Quick Concept Check:</b> ${cleanQuickQ}</div>` : ''}
+        `;
+      }
 
       chat.insertAdjacentHTML('beforeend', `
         <div style="display:flex;gap:10px">
