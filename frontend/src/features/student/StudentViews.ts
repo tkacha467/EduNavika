@@ -400,25 +400,6 @@ export function studentDashboard(): string {
 
   return `
   <div class="page with-rail">
-    <!-- Welcome Header with Team Varja Attribution -->
-    <div class="welcome" style="margin-bottom:24px">
-      <div class="welcome-c">
-        <div class="welcome-l">
-          <div class="hi" style="display:flex;align-items:center;gap:8px">
-            <span>Welcome, ${firstName} 👋</span>
-            <span class="badge" style="background:rgba(255,255,255,.18);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px">Std 10 · GSEB Science & Mathematics</span>
-          </div>
-          <h1 style="margin-top:6px">On-Device Personalized Learning Assistant</h1>
-          <p>Continuous adaptive practice, verified curriculum grounding, and retention-aware study paths — completely private on this device.</p>
-        </div>
-        <div class="welcome-r">
-          <div class="wstat"><div class="l">Engine</div><div class="v">Local SLM</div><div class="d">Qwen2.5-0.5B</div></div>
-          <div class="wstat"><div class="l">Inference</div><div class="v">CPU</div><div class="d">100% Offline</div></div>
-          <div class="wstat"><div class="l">Curriculum</div><div class="v">GSEB 10</div><div class="d">NCERT-aligned</div></div>
-          <div class="wstat"><div class="l">Status</div><div class="v">Active</div><div class="d">Private on-device</div></div>
-        </div>
-      </div>
-    </div>
 
     <!-- 1. YOUR LEARNING TODAY (LIVE GAMIFICATION DATA) -->
     ${renderGamificationSection(gamificationState.data)}

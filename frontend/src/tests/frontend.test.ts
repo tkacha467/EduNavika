@@ -87,7 +87,7 @@ describe('Role-Aware Router & Application Shell', () => {
 
   it('should render student dashboard view markup cleanly', () => {
     const html = ROUTES['student/dashboard']();
-    expect(html).toContain("Welcome, Tushar");
+    expect(html).toContain("Recommended for You");
     expect(html).toContain("Today's Focus");
     expect(html).toContain("Knowledge Health");
   });
