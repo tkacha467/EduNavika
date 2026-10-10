@@ -54,6 +54,7 @@ import {
 import { startQuiz } from '../features/interactive/QuizRunner';
 import { openBuilder } from '../features/interactive/AssessmentBuilder';
 import { setLanguage, getLanguage } from '../utils/i18n';
+import { initGlobalSearch } from '../features/search/GlobalSearch';
 
 declare const window: any;
 
@@ -237,6 +238,9 @@ function bindShellInteractions(): void {
       openAIPanel();
     };
   }
+
+  // Global search initialization
+  initGlobalSearch();
 }
 
 // Global click event delegation for [data-go] links

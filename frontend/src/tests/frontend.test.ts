@@ -151,3 +151,54 @@ describe('Adaptive Practice Responsiveness & Error Recovery', () => {
   });
 });
 
+describe('Global Search & Navigation', () => {
+  it('should return quick jump shortcuts when search query is empty', async () => {
+    const { getSearchResults } = await import('../features/search/GlobalSearch');
+    const results = getSearchResults('');
+    expect(results.length).toBeGreaterThanOrEqual(4);
+    const titles = results.map(r => r.title);
+    expect(titles).toContain('Adaptive Practice');
+    expect(titles).toContain('My Learning & Syllabus');
+    expect(titles).toContain('Ask EduNavika AI Tutor');
+  });
+
+  it('should match Mathematics subject, related topics, and AI Tutor option when searching "maths"', async () => {
+    const { getSearchResults } = await import('../features/search/GlobalSearch');
+    const results = getSearchResults('maths');
+    expect(results.length).toBeGreaterThanOrEqual(3);
+
+    // Subject match
+    const subjMatch = results.find(r => r.type === 'subject');
+    expect(subjMatch).toBeDefined();
+    expect(subjMatch?.title).toBe('Mathematics');
+    expect(subjMatch?.actionText).toBe('View Syllabus');
+
+    // Topic match
+    const topicMatch = results.find(r => r.type === 'topic');
+    expect(topicMatch).toBeDefined();
+    expect(topicMatch?.subtitle).toContain('Mathematics');
+    expect(topicMatch?.actionText).toBe('Practice Now');
+
+    // AI prompt match
+    const aiMatch = results.find(r => r.type === 'ai');
+    expect(aiMatch).toBeDefined();
+    expect(aiMatch?.title).toContain('Ask EduNavika AI: "maths"');
+  });
+
+  it('should match specific topics like "quadratic" with practice action', async () => {
+    const { getSearchResults } = await import('../features/search/GlobalSearch');
+    const results = getSearchResults('quadratic');
+    const topic = results.find(r => r.title.toLowerCase().includes('quadratic'));
+    expect(topic).toBeDefined();
+    expect(topic?.actionText).toBe('Practice Now');
+  });
+
+  it('should match core learning sections when searching features like "practice"', async () => {
+    const { getSearchResults } = await import('../features/search/GlobalSearch');
+    const results = getSearchResults('practice');
+    const section = results.find(r => r.type === 'section' && r.title === 'Adaptive Practice');
+    expect(section).toBeDefined();
+  });
+});
+
+

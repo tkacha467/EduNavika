@@ -205,10 +205,14 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
         </button>
         <div class="crumb" id="crumb">${crumbHtml}</div>
       </div>
-      <div class="tb-search">
+      <div class="tb-search" id="tbSearchWrap">
         <svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input placeholder="${t('shell.search')}" id="globalSearch">
-        <span class="kbd">⌘K</span>
+        <input placeholder="${t('shell.search')}" id="globalSearch" autocomplete="off" spellcheck="false">
+        <button id="globalSearchClear" class="search-clear-btn" style="display:none;background:none;border:none;cursor:pointer;padding:0 4px;color:var(--text-3);align-items:center;" title="Clear search">
+          <svg class="ic ic-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <span class="kbd" id="globalSearchKbd">⌘K</span>
+        <div id="searchResultsDropdown" class="search-dropdown hide" role="listbox"></div>
       </div>
       <div class="tb-right">
         <!-- Language Selector Pill -->
