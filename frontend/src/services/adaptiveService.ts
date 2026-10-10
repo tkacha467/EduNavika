@@ -133,6 +133,7 @@ export class AdaptiveService {
     response_time_ms?: number;
     hint_used?: boolean;
     language?: string;
+    confidence_level?: string;
   }): Promise<any> {
     try {
       const submission = {

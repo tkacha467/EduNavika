@@ -1,10 +1,10 @@
 # GSEB Chunk Quality & Lexical Retrieval Audit Report
 
 - **Quality Gate Verdict**: **`PASS`**
-- **Total Chunks Evaluated**: 469
-- **Average Chunk Size**: 533.5 tokens (Median: 554.0)
-- **Token Distribution**: Min: 29, P25: 461.0, P75: 675.0, P95: 797.0, Max: 1580
-- **Detected Anomalies**: 4 (0.85%)
+- **Total Chunks Evaluated**: 865
+- **Average Chunk Size**: 369.4 tokens (Median: 453.0)
+- **Token Distribution**: Min: 8, P25: 33.0, P75: 600.0, P95: 783.0, Max: 1580
+- **Detected Anomalies**: 7 (0.81%)
 
 ---
 
@@ -30,7 +30,10 @@
 
 | Chunk ID | Issue Type | Tokens | Details | Source |
 |----------|------------|--------|---------|--------|
-| `chk_7ba6bdee7618c98d` | `TOO_LONG` | 1580 | Chunk is excessively long (1580 tokens) | `STD-10th/Std-10_Science_English Medium.pdf` p.193 |
-| `chk_5d15faf7ea42af7b` | `BROKEN_UNICODE` | 552 | Contains unresolved raw font glyph markers (/G<n>) | `STD-10th/Std-10_Maths_EnglishMedium.pdf` p.194 |
-| `chk_1e2bf818a4e89f9c` | `BROKEN_UNICODE` | 470 | Contains unresolved raw font glyph markers (/G<n>) | `STD-10th/Std-10_Maths_EnglishMedium.pdf` p.237 |
-| `659c2847-5c1f-4b48-96b0-cfc8f1298c5c` | `TOO_SHORT` | 29 | Chunk has only 29 tokens | `STD-10/Std-10_Science_English Medium.pdf` p.16 |
+| `chk_cb5ba5feed912b30` | `TOO_SHORT` | 11 | Chunk has only 11 tokens | `STD-10/Std-10_Black-Buck_Supplementry_Reader.pdf` p.2 |
+| `chk_2086f1b64d7dd501` | `TOO_SHORT` | 20 | Chunk has only 20 tokens | `STD-10/Std-10_English Second Language.pdf` p.3 |
+| `chk_08df27906aaf7de7` | `BROKEN_UNICODE` | 552 | Contains unresolved raw font glyph markers (/G<n>) | `STD-10/Std-10_Maths_EnglishMedium.pdf` p.194 |
+| `chk_7e962356ac57d3fd` | `BROKEN_UNICODE` | 470 | Contains unresolved raw font glyph markers (/G<n>) | `STD-10/Std-10_Maths_EnglishMedium.pdf` p.237 |
+| `chk_7ba6bdee7618c98d` | `TOO_LONG` | 1580 | Chunk is excessively long (1580 tokens) | `STD-10/Std-10_Science_English Medium.pdf` p.193 |
+| `chk_585ed616fd95f394` | `TOO_SHORT` | 12 | Chunk has only 12 tokens | `STD-10/Std-10_Social_Science_EnglishMedium.pdf` p.3 |
+| `chk_cc5d72e1988183c5` | `TOO_SHORT` | 8 | Chunk has only 8 tokens | `STD-10/Std_10_Yoga, Health and Physical Education_Eng_M.pdf` p.3 |

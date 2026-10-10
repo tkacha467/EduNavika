@@ -55,6 +55,7 @@ class PracticeSubmissionRequest(BaseModel):
     response_time_ms: Optional[int] = Field(None, ge=0)
     hint_used: bool = False
     language: Optional[str] = "en"
+    confidence_level: Optional[str] = None  # GUESSING | SOMEWHAT_CONFIDENT | VERY_CONFIDENT
 
 
 class PracticeSubmissionResponse(BaseModel):

@@ -29,6 +29,7 @@ export interface ActiveQuiz {
   questions: QuizQuestion[];
   index: number;
   answers: (number | null)[];
+  confidences?: (string | null)[]; // 'guessing' | 'somewhat' | 'confident'
   startTime: number;
   recommendation?: any;
   emptyMessage?: string;
@@ -450,6 +451,7 @@ export async function startQuiz(topic: string, topicId?: string, onFinishNavigat
       if (CURRENT_QUIZ && CURRENT_QUIZ.topicId === effectiveTopicId) {
         CURRENT_QUIZ.questions = qs;
         CURRENT_QUIZ.answers = new Array(qs.length).fill(null);
+        CURRENT_QUIZ.confidences = new Array(qs.length).fill(null);
       }
     } else {
       // Check default verified bank or trigger safe unassessed state
@@ -458,6 +460,7 @@ export async function startQuiz(topic: string, topicId?: string, onFinishNavigat
         if (CURRENT_QUIZ && CURRENT_QUIZ.topicId === effectiveTopicId) {
           CURRENT_QUIZ.questions = fallback;
           CURRENT_QUIZ.answers = new Array(fallback.length).fill(null);
+          CURRENT_QUIZ.confidences = new Array(fallback.length).fill(null);
         }
       } else {
         // Safe curriculum boundary: Never generate generic questions
@@ -473,6 +476,7 @@ export async function startQuiz(topic: string, topicId?: string, onFinishNavigat
       if (CURRENT_QUIZ && CURRENT_QUIZ.topicId === effectiveTopicId) {
         CURRENT_QUIZ.questions = fallback;
         CURRENT_QUIZ.answers = new Array(fallback.length).fill(null);
+        CURRENT_QUIZ.confidences = new Array(fallback.length).fill(null);
       }
     } else {
       if (CURRENT_QUIZ && CURRENT_QUIZ.topicId === effectiveTopicId) {
@@ -593,6 +597,29 @@ export function renderQuizModal(onFinishNavigate?: (route: string) => void) {
         </div>`
         )
         .join('')}
+
+      <!-- Confidence Level Selector -->
+      <div style="margin-top:16px;padding:12px 14px;background:var(--bg);border-radius:var(--r-md);border:1px solid var(--border)">
+        <div style="font-size:11.5px;font-weight:600;color:var(--text-2);margin-bottom:8px;display:flex;align-items:center;gap:6px">
+          <span>🧠 How confident are you in this answer?</span>
+          <span style="font-size:10px;color:var(--text-3)">(Helps personalize future recommendations)</span>
+        </div>
+        <div class="flex gap-2 wrap" style="align-items:center">
+          ${[
+            { id: 'guessing', label: '🌱 Guessing', desc: 'Unsure' },
+            { id: 'somewhat', label: '⚖️ Somewhat Confident', desc: 'Reasonably sure' },
+            { id: 'confident', label: '🎯 Very Confident', desc: 'Fully confident' },
+          ].map(c => {
+            const isConfActive = CURRENT_QUIZ!.confidences?.[CURRENT_QUIZ!.index] === c.id;
+            return `
+              <button type="button" class="btn btn-sm quiz-confidence-btn" data-conf="${c.id}" style="font-size:11.5px;padding:6px 12px;border-radius:20px;border:1.5px solid ${isConfActive ? 'var(--indigo)' : 'var(--border)'};background:${isConfActive ? 'var(--indigo-25)' : 'var(--surface)'};color:${isConfActive ? 'var(--indigo)' : 'var(--text)'};font-weight:${isConfActive ? '700' : '500'};transition:all .15s">
+                ${c.label}
+              </button>
+            `;
+          }).join('')}
+        </div>
+      </div>
+
       <div class="flex wrap gap-2 mt-5" style="padding-top:18px;border-top:1px solid var(--border-2)">
         ${CURRENT_QUIZ.questions
           .map(
@@ -617,6 +644,17 @@ export function renderQuizModal(onFinishNavigate?: (route: string) => void) {
   modalEl.querySelector('#btnQuizClose')?.addEventListener('click', () => {
     closeOverlay();
     CURRENT_QUIZ = null;
+  });
+
+  modalEl.querySelectorAll('.quiz-confidence-btn').forEach(el => {
+    el.addEventListener('click', () => {
+      const conf = (el as HTMLElement).dataset.conf;
+      if (CURRENT_QUIZ && conf) {
+        if (!CURRENT_QUIZ.confidences) CURRENT_QUIZ.confidences = new Array(CURRENT_QUIZ.questions.length).fill(null);
+        CURRENT_QUIZ.confidences[CURRENT_QUIZ.index] = conf;
+        renderQuizModal(onFinishNavigate);
+      }
+    });
   });
 
   modalEl.querySelectorAll('.quiz-option').forEach(el => {
@@ -694,6 +732,8 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
     if (chosen !== null) {
       const selectedOptionLetter = 'ABCD'[chosen];
 
+      const confLevel = CURRENT_QUIZ.confidences?.[i] || undefined;
+
       // Try server-side validation first
       try {
         const subResp = await adaptiveService.submitPracticeAnswer({
@@ -703,6 +743,7 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
           selected_answer: selectedOptionLetter,
           response_time_ms: Math.round(durationMs / total),
           hint_used: false,
+          confidence_level: confLevel,
         });
 
         if (subResp && typeof subResp.correct === 'boolean') {

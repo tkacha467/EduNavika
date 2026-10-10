@@ -1,10 +1,10 @@
 # GSEB Curriculum Lineage & Provenance Audit Report
 
 - **Quality Gate Verdict**: **`PASS`**
-- **Timestamp**: `2026-10-10T03:34:30Z`
+- **Timestamp**: `2026-10-10T05:29:12Z`
 - **Provenance Integrity Score**: **100.0%**
-- **Total LearningContent Records**: 479
-- **Valid Full Relational Lineage**: 479 / 479 (100%)
+- **Total LearningContent Records**: 865
+- **Valid Full Relational Lineage**: 865 / 865 (100%)
 - **Orphaned Content Records**: 0
 - **Orphaned Topics**: 0
 - **Orphaned Chapters**: 0
@@ -17,15 +17,15 @@
 
 | Chunk ID | Curriculum Lineage | Source File & Page | Status | Verification Details |
 |----------|--------------------|--------------------|--------|----------------------|
-| `chk_3009f8a932a567e8` | Standard 10 > English Literature & Language > Ch.4 'From the Diary of Anne Frank' > 'From the Diary of Anne Frank' | `STD-10th/Std-10_First Flight_EnglishMedium.pdf` (p.109) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_1e2bf818a4e89f9c` | Standard 10 > Mathematics > Ch.1 'General Curriculum Content' > 'General Content' | `STD-10th/Std-10_Maths_EnglishMedium.pdf` (p.237) | ✅ PASS | Page bounds validated (p.237 of 278) |
-| `chk_da19b10d1ca00ef2` | Standard 10 > Mathematics > Ch.1 'General Curriculum Content' > 'General Content' | `STD-10th/Std-10_Maths_EnglishMedium.pdf` (p.183) | ✅ PASS | Page bounds validated (p.183 of 278) |
-| `chk_9403aeb289d944f2` | Standard 10 > English Literature & Language > Ch.4 'From the Diary of Anne Frank' > 'From the Diary of Anne Frank' | `STD-10th/Std-10_First Flight_EnglishMedium.pdf` (p.75) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_87cde8a628669c6f` | Standard 10 > Mathematics > Ch.1 'General Curriculum Content' > 'General Content' | `STD-10th/Std-10_Maths_EnglishMedium.pdf` (p.179) | ✅ PASS | Page bounds validated (p.179 of 278) |
-| `chk_29ea223277f6cde3` | Standard 10 > Mathematics > Ch.1 'General Curriculum Content' > 'General Content' | `STD-10th/Std-10_Maths_EnglishMedium.pdf` (p.157) | ✅ PASS | Page bounds validated (p.157 of 278) |
-| `chk_e05f66f7c5f2df4c` | Standard 10 > Mathematics > Ch.1 'General Curriculum Content' > 'General Content' | `STD-10th/Std-10_Maths_EnglishMedium.pdf` (p.115) | ✅ PASS | Page bounds validated (p.115 of 278) |
-| `chk_9f529f6b09118542` | Standard 10 > English Literature & Language > Ch.1 'A Letter to God' > 'A Letter to God' | `STD-10th/Std-10_First Flight_EnglishMedium.pdf` (p.23) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
-| `chk_b1092af5e7106b94` | Standard 10 > Mathematics > Ch.1 'General Curriculum Content' > 'General Content' | `STD-10th/Std-10_Maths_EnglishMedium.pdf` (p.8) | ✅ PASS | Page bounds validated (p.8 of 278) |
-| `chk_37fb11e27ee82121` | Standard 10 > Mathematics > Ch.1 'General Curriculum Content' > 'General Content' | `STD-10th/Std-10_Maths_EnglishMedium.pdf` (p.101) | ✅ PASS | Page bounds validated (p.101 of 278) |
+| `N/A` | Standard 10 > Science Exp 610889 > Ch.1 'Chemical Reactions 610889' > 'Chemical Reactions and Equations 610889' | `STD-10/Std-10_Science_English Medium.pdf` (p.17) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `N/A` | Standard 10 > Science Exp 364302 > Ch.1 'Chemical Reactions 364302' > 'Chemical Reactions and Equations 364302' | `STD-10/Std-10_Science_English Medium.pdf` (p.17) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_6e2fcc82ee09025f` | Standard 10 > Science & Technology > Ch.2 'Acids, Bases and Salts' > '2.2 WHA' | `STD-10/Std-10_Science_English Medium.pdf` (p.37) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_09c682929b4337c7` | Standard 10 > Mathematics > Ch.2 'Polynomials' > '2.2 Geometrical Meaning of the Zeroes of a Polynomial' | `STD-10/Std-10_Maths_EnglishMedium.pdf` (p.26) | ✅ PASS | Page bounds validated (p.26 of 278) |
+| `chk_8a482754cf554b90` | Standard 10 > Science & Technology > Ch.11 'Electricity' > '10.6 SC ATTERING OF LIGHT' | `STD-10/Std-10_Science_English Medium.pdf` (p.186) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `N/A` | Standard 10 > Science Exp 269351 > Ch.1 'Chemical Reactions 269351' > 'Chemical Reactions and Equations 269351' | `STD-10/Std-10_Science_English Medium.pdf` (p.17) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `N/A` | Standard 10 > Science Exp 215484 > Ch.1 'Chemical Reactions 215484' > 'Chemical Reactions and Equations 215484' | `STD-10/Std-10_Science_English Medium.pdf` (p.17) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `N/A` | Standard 10 > Science Exp 784665 > Ch.1 'Chemical Reactions 784665' > 'Chemical Reactions and Equations 784665' | `STD-10/Std-10_Science_English Medium.pdf` (p.17) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_4838619ef8efa2d8` | Standard 10 > English Literature & Language > Ch.8 'The Sermon at Benares' > 'The Sermon at Benares' | `STD-10/Std-10_First Flight_EnglishMedium.pdf` (p.124) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
+| `chk_02fff44f302b3e04` | Standard 10 > Science & Technology > Ch.12 'Magnetic Effects of Electric Current' > 'Magnetic Effects of Electric Current' | `STD-10/Std-10_Science_English Medium.pdf` (p.216) | ✅ PASS | Verified: 8/8 distinctive terms match page text |
 
 ---

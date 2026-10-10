@@ -29,6 +29,11 @@ import {
   studentSettings,
   studentHelp,
   studentAchievements,
+  studentMissions,
+  studentConstellation,
+  studentBossBattle,
+  studentMemoryGuardian,
+  studentTimeline,
   openAIPanel,
   loadRevisionPlansFromBackend,
 } from '../features/student/StudentViews';
@@ -56,6 +61,11 @@ export type ViewRenderer = () => string;
 
 export const ROUTES: Record<string, ViewRenderer> = {
   'student/dashboard': studentDashboard,
+  'student/missions': studentMissions,
+  'student/constellation': studentConstellation,
+  'student/boss-battle': studentBossBattle,
+  'student/memory-guardian': studentMemoryGuardian,
+  'student/timeline': studentTimeline,
   'student/learning': studentLearning,
   'student/subjects': studentSubjects,
   'student/revision': studentRevision,

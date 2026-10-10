@@ -3258,8 +3258,516 @@ export function nextPracticeQuestion(): void {
 }
 
 export function restartAdaptivePractice(): void {
-  practiceState.questions = [];
-  loadAdaptivePractice();
+  loadAdaptivePractice(practiceState.topicId);
+}
+
+/* ==============================================================================
+   PHASE E: ADVANCED STUDENT INTERACTIVE EXPERIENCES
+   1. Daily Learning Missions (Personalized based on real signals)
+   2. Knowledge Constellation (Interactive Curriculum Mastery Graph)
+   3. Misconception Boss Battle (Remediation progressive challenge)
+   4. Memory Guardian (Spaced retrieval against forgetting curve)
+   5. Growth Timeline (Chronological mastery improvement milestone stream)
+   ============================================================================== */
+
+export function studentMissions(): string {
+  const g = gamificationState.data;
+  const p = progressState.data;
+  const r = revisionPlanState.data;
+  const firstName = getCurrentUser().full_name?.split(' ')[0] || 'Learner';
+
+  const dailyCompleted = g?.daily_goal?.completed ?? 0;
+  const dailyTarget = g?.daily_goal?.target ?? 3;
+  const streak = g?.current_streak ?? 0;
+  const totalXp = g?.total_xp ?? 0;
+
+  // Real signal missions
+  const urgentRevs = r?.revisions?.filter(rev => rev.is_due_today || rev.urgency_tier === 'TODAY') || [];
+  const weakTopics = p?.strengths_weaknesses?.weaknesses || [];
+  const hasDueRev = urgentRevs.length > 0;
+  const hasWeak = weakTopics.length > 0;
+
+  const targetRevTopic = hasDueRev ? urgentRevs[0].topic_title : 'Chemical Reactions & Equations';
+  const targetRevId = hasDueRev ? urgentRevs[0].topic_id : '5a321a44-bc06-4db4-a50f-5e53f913b612';
+
+  const targetWeakTopic = hasWeak ? weakTopics[0].topic_title : 'Acids, Bases & Salts';
+  const targetWeakId = hasWeak ? weakTopics[0].topic_id : 'efee2da2-bd20-42bb-ad01-df2516530b1f';
+
+  return `
+  <div class="page">
+    ${pageHead(
+      'Daily Learning Missions',
+      'Personalized objectives tailored to your learning pace',
+      'Earn bonus XP by completing daily objectives derived directly from your memory decay curve, weak areas, and curriculum syllabus.',
+      '<button class="btn btn-primary" onclick="loadAdaptivePractice()">' + icon('play') + ' Launch Quick Session</button>'
+    )}
+
+    <!-- MISSION SUMMARY HERO -->
+    <div class="card pad-lg mb-6" style="background:linear-gradient(135deg, #1E1B4B, #0F172A);color:#fff;border-radius:16px;border:1px solid rgba(255,255,255,.12);box-shadow:0 8px 24px rgba(15,23,42,.3)">
+      <div class="flex-b items-center mb-3">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#A5B4FC;text-transform:uppercase;display:flex;align-items:center;gap:6px">
+          <span>⚡</span> DAILY OBJECTIVE STATUS · ${new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' })}
+        </div>
+        <span class="badge" style="background:rgba(165,180,252,.2);color:#A5B4FC;font-size:11px;font-weight:700">
+          Streak: ${streak} Days 🔥
+        </span>
+      </div>
+      <div class="grid g-3-1 items-center" style="gap:24px">
+        <div>
+          <h2 style="font-size:22px;font-weight:800;color:#F8FAFC;margin-bottom:8px">
+            Keep Momentum, ${firstName}!
+          </h2>
+          <p style="font-size:13px;color:#CBD5E1;line-height:1.55;margin:0 0 16px 0">
+            Completing 3 meaningful learning tasks unlocks +25 bonus XP and extends your streak. Every mission below strengthens your retention where you need it most.
+          </p>
+          <div style="max-width:320px">
+            <div class="flex-b items-center tiny mb-1" style="color:#94A3B8">
+              <span>Goal Progress: ${dailyCompleted} of ${dailyTarget} Activities</span>
+              <b style="color:#A5B4FC">${Math.min(100, Math.round((dailyCompleted / Math.max(1, dailyTarget)) * 100))}%</b>
+            </div>
+            ${progressBar(Math.min(100, Math.round((dailyCompleted / Math.max(1, dailyTarget)) * 100)), 'indigo')}
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.1);text-align:center">
+          <div style="font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase">Accumulated XP</div>
+          <div style="font-size:32px;font-weight:900;color:#38BDF8;margin:4px 0">${totalXp}</div>
+          <div style="font-size:11px;color:#CBD5E1">Level ${g?.level || 1} · ${g?.level_title || 'Novice'}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MISSION CARDS GRID -->
+    <div class="sec-head">
+      <div><h2>${icon('target')} Today's Personalized Directives</h2><p>Synthesized from your knowledge profile and retention decay signals</p></div>
+    </div>
+
+    <div class="grid g-3 mb-6" style="gap:16px">
+      <!-- Mission 1: Retention Rescue -->
+      <div class="card pad" style="border-radius:14px;border:1.5px solid var(--border);display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="flex-b items-center mb-2">
+            <span class="badge ${hasDueRev ? 'coral' : 'teal'}" style="font-size:10px;font-weight:800">
+              ${hasDueRev ? '⏰ MEMORY RESCUE' : '✨ RETENTION CHECK'}
+            </span>
+            <span class="badge green" style="font-weight:800">+15 XP</span>
+          </div>
+          <h3 style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px">${targetRevTopic}</h3>
+          <p style="font-size:12.5px;color:var(--text-2);line-height:1.5;margin:0 0 12px 0">
+            ${hasDueRev ? 'This topic is scheduled on your forgetting curve today. Reviewing now prevents memory decay.' : 'Complete a quick retention check on this chapter to keep your knowledge health peaked.'}
+          </p>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-primary" style="width:100%" onclick="loadAdaptivePractice('${targetRevId}')">
+            ${icon('refresh')} Start Revision Check
+          </button>
+        </div>
+      </div>
+
+      <!-- Mission 2: Concept Remediation -->
+      <div class="card pad" style="border-radius:14px;border:1.5px solid var(--border);display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="flex-b items-center mb-2">
+            <span class="badge amber" style="font-size:10px;font-weight:800">🎯 CONCEPT FORTRESS</span>
+            <span class="badge green" style="font-weight:800">+20 XP</span>
+          </div>
+          <h3 style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px">${targetWeakTopic}</h3>
+          <p style="font-size:12.5px;color:var(--text-2);line-height:1.5;margin:0 0 12px 0">
+            Target foundational practice questions to improve accuracy and remediate any common misconceptions.
+          </p>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-outline" style="width:100%" onclick="loadAdaptivePractice('${targetWeakId}')">
+            ${icon('target')} Practice Targeted Tier
+          </button>
+        </div>
+      </div>
+
+      <!-- Mission 3: Habit Streak Defender -->
+      <div class="card pad" style="border-radius:14px;border:1.5px solid var(--border);display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="flex-b items-center mb-2">
+            <span class="badge indigo" style="font-size:10px;font-weight:800">🛡️ STREAK DEFENDER</span>
+            <span class="badge green" style="font-weight:800">+25 XP</span>
+          </div>
+          <h3 style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px">Complete 3 Activities</h3>
+          <p style="font-size:12.5px;color:var(--text-2);line-height:1.5;margin:0 0 12px 0">
+            Submit answers in adaptive practice or complete scheduled revision to defend your daily learning streak.
+          </p>
+        </div>
+        <div>
+          <button class="btn btn-sm" style="width:100%" data-go="student/practice">
+            ${icon('zap')} Jump into Practice
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+export function studentConstellation(): string {
+  const p = progressState.data;
+  const topics = p?.topics || [];
+
+  // Standard 10 Subjects and Chapters for graph grouping
+  const scienceTopics = [
+    { id: '5a321a44-bc06-4db4-a50f-5e53f913b612', name: 'Chemical Reactions & Equations', chap: 'Ch 1 Science', x: 20, y: 30 },
+    { id: 'efee2da2-bd20-42bb-ad01-df2516530b1f', name: 'Acids, Bases and Salts', chap: 'Ch 2 Science', x: 38, y: 22 },
+    { id: 'c3', name: 'Metals and Non-metals', chap: 'Ch 3 Science', x: 55, y: 32 },
+    { id: 'c4', name: 'Carbon and its Compounds', chap: 'Ch 4 Science', x: 72, y: 25 },
+    { id: 'b1', name: 'Life Processes', chap: 'Ch 5 Science', x: 85, y: 40 },
+    { id: 'ea3cb4fd-f34d-409b-b0f6-d69b70db05b0', name: 'Electricity & Circuits', chap: 'Ch 11 Science', x: 30, y: 65 },
+    { id: 'p2', name: 'Magnetic Effects of Electric Current', chap: 'Ch 12 Science', x: 48, y: 75 },
+    { id: 'p3', name: 'Light — Reflection & Refraction', chap: 'Ch 9 Science', x: 68, y: 62 },
+  ];
+
+  const mathTopics = [
+    { id: 'e84e1b11-f928-4b38-93ad-738af5c0b1e5', name: 'Real Numbers & Polynomials', chap: 'Ch 1 Maths', x: 15, y: 48 },
+    { id: 'c3dd6779-9b5b-411c-9ade-07e241713835', name: 'Quadratic Equations', chap: 'Ch 4 Maths', x: 35, y: 45 },
+    { id: 'm3', name: 'Arithmetic Progressions', chap: 'Ch 5 Maths', x: 52, y: 50 },
+    { id: 'm4', name: 'Triangles', chap: 'Ch 6 Maths', x: 65, y: 44 },
+    { id: 'm5', name: 'Introduction to Trigonometry', chap: 'Ch 8 Maths', x: 80, y: 52 },
+  ];
+
+  const allNodes = [...scienceTopics, ...mathTopics];
+
+  return `
+  <div class="page">
+    ${pageHead(
+      'Knowledge Constellation',
+      'Interactive visual graph of your Standard 10 curriculum',
+      'Explore syllabus chapters as interconnected star nodes. Node brightness and colour reflect real on-device mastery and retention health.',
+      '<button class="btn btn-primary" onclick="loadAdaptivePractice()">' + icon('play') + ' Adaptive Practice</button>'
+    )}
+
+    <!-- CONSTELLATION CANVAS CONTAINER -->
+    <div class="card pad-lg mb-6 constellation-canvas" style="color:#fff">
+      <div style="position:absolute;top:16px;left:20px;z-index:2;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <span class="badge" style="background:rgba(56,189,248,.2);color:#38BDF8;font-weight:700">✦ GSEB Std 10 Curriculum Grid</span>
+        <span style="font-size:12px;color:#94A3B8">Click any star node to inspect textbook source chunks or launch practice</span>
+      </div>
+
+      <!-- SVG Constellation Graph Lines and Nodes -->
+      <svg style="width:100%;height:460px;display:block" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <!-- Connecting Edges -->
+        <line x1="20" y1="30" x2="38" y2="22" stroke="rgba(56,189,248,.3)" stroke-width="0.4" stroke-dasharray="1 1"/>
+        <line x1="38" y1="22" x2="55" y2="32" stroke="rgba(56,189,248,.3)" stroke-width="0.4"/>
+        <line x1="55" y1="32" x2="72" y2="25" stroke="rgba(56,189,248,.3)" stroke-width="0.4"/>
+        <line x1="72" y1="25" x2="85" y2="40" stroke="rgba(56,189,248,.3)" stroke-width="0.4"/>
+        <line x1="30" y1="65" x2="48" y2="75" stroke="rgba(168,85,247,.3)" stroke-width="0.4"/>
+        <line x1="48" y1="75" x2="68" y2="62" stroke="rgba(168,85,247,.3)" stroke-width="0.4"/>
+        <line x1="15" y1="48" x2="35" y2="45" stroke="rgba(34,197,94,.3)" stroke-width="0.4"/>
+        <line x1="35" y1="45" x2="52" y2="50" stroke="rgba(34,197,94,.3)" stroke-width="0.4"/>
+        <line x1="52" y1="50" x2="65" y2="44" stroke="rgba(34,197,94,.3)" stroke-width="0.4"/>
+        <line x1="65" y1="44" x2="80" y2="52" stroke="rgba(34,197,94,.3)" stroke-width="0.4"/>
+
+        <!-- Interactive SVG Nodes -->
+        ${allNodes.map(node => {
+          const perf = topics.find(t => t.topic_id === node.id || t.topic_title.includes(node.name.split(' ')[0]));
+          const mastery = perf?.mastery_level || 'UNASSESSED';
+          const color = mastery === 'MASTERED' ? '#22C55E' : mastery === 'PROFICIENT' ? '#38BDF8' : mastery === 'DEVELOPING' ? '#818CF8' : mastery === 'NOVICE' ? '#FBBF24' : '#64748B';
+          const r = mastery === 'MASTERED' ? 2.5 : mastery === 'PROFICIENT' ? 2.2 : 1.8;
+          return `
+          <g class="constellation-node" onclick="window.inspectConstellationNode('${node.id}','${node.name.replace(/'/g, "\\'")}')">
+            <circle cx="${node.x}" cy="${node.y}" r="${r * 1.8}" fill="${color}" opacity="0.25"/>
+            <circle cx="${node.x}" cy="${node.y}" r="${r}" fill="${color}" stroke="#FFFFFF" stroke-width="0.3"/>
+            <text x="${node.x}" y="${node.y + 4.5}" fill="#E2E8F0" font-size="2.6" font-family="sans-serif" font-weight="600" text-anchor="middle">
+              ${node.name.split(' ')[0]}
+            </text>
+          </g>`;
+        }).join('')}
+      </svg>
+
+      <!-- Graph Legend Bar -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:18px;margin-top:12px;font-size:11.5px;color:#94A3B8;flex-wrap:wrap">
+        <span><b style="color:#22C55E">●</b> Mastered</span>
+        <span><b style="color:#38BDF8">●</b> Proficient</span>
+        <span><b style="color:#818CF8">●</b> Developing</span>
+        <span><b style="color:#FBBF24">●</b> Novice / Learning</span>
+        <span><b style="color:#64748B">●</b> Unassessed</span>
+      </div>
+    </div>
+
+    <!-- ACTIVE NODE DETAIL INSPECTOR -->
+    <div id="constellationInspector" class="card pad-lg" style="border-radius:14px;border:1px solid var(--border)">
+      <div class="flex-b items-center mb-3">
+        <h3 style="font-size:16px;font-weight:700;color:var(--text);margin:0">Select a Topic Node</h3>
+        <span class="badge grey">Click any star above</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-3);margin:0 0 16px 0">
+        Clicking on any curriculum star node displays its syllabus chapter details, current mastery status, retention curve score, and direct actions to launch practice or AI concept review.
+      </p>
+      <div class="flex gap-2 wrap">
+        <button class="btn btn-primary" onclick="loadAdaptivePractice('5a321a44-bc06-4db4-a50f-5e53f913b612')">
+          ${icon('play')} Practice Chemical Reactions
+        </button>
+        <button class="btn btn-outline" onclick="loadAdaptivePractice('ea3cb4fd-f34d-409b-b0f6-d69b70db05b0')">
+          ${icon('target')} Practice Electricity
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+export function inspectConstellationNode(topicId: string, topicName: string): void {
+  const inspector = document.getElementById('constellationInspector');
+  if (!inspector) return;
+  const p = progressState.data;
+  const perf = p?.topics.find(t => t.topic_id === topicId || t.topic_title.includes(topicName.split(' ')[0]));
+  const mastery = perf?.mastery_level || 'UNASSESSED';
+  const acc = perf ? `${perf.accuracy.toFixed(1)}%` : '0.0%';
+  const risk = perf?.retention_risk || 'LOW';
+
+  inspector.innerHTML = `
+    <div class="flex-b items-center mb-3 wrap" style="gap:10px">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--indigo);text-transform:uppercase">✦ Selected Curriculum Node</div>
+        <h3 style="font-size:18px;font-weight:800;color:var(--text);margin:2px 0 0 0">${topicName}</h3>
+      </div>
+      <span class="badge indigo" style="font-size:11px;padding:4px 10px;font-weight:700">${mastery}</span>
+    </div>
+    <div class="grid g-3 mb-4" style="gap:12px;background:var(--surface-2);padding:12px;border-radius:10px;border:1px solid var(--border-2)">
+      <div><span class="tiny muted">Accuracy</span><div style="font-weight:800;color:var(--text)">${acc}</div></div>
+      <div><span class="tiny muted">Retention Risk</span><div style="font-weight:800;color:var(--text)">${risk}</div></div>
+      <div><span class="tiny muted">Textbook Provenance</span><div style="font-weight:700;color:var(--text)">GSEB Std 10 Verified</div></div>
+    </div>
+    <div class="flex gap-2 wrap">
+      <button class="btn btn-primary" onclick="loadAdaptivePractice('${topicId}')">
+        ${icon('play')} Practice This Node
+      </button>
+      <button class="btn btn-outline" onclick="openAIPanel()">
+        ${icon('sparkles')} Explain with AI Tutor
+      </button>
+    </div>
+  `;
+}
+
+export function studentBossBattle(): string {
+  const p = progressState.data;
+  const weakTopics = p?.strengths_weaknesses?.weaknesses || [];
+  const targetTopic = weakTopics.length > 0 ? weakTopics[0].topic_title : 'Balancing Chemical Reactions';
+  const targetId = weakTopics.length > 0 ? weakTopics[0].topic_id : '5a321a44-bc06-4db4-a50f-5e53f913b612';
+
+  return `
+  <div class="page">
+    ${pageHead(
+      'Misconception Boss Battle',
+      'Progressive remediation challenge on stubborn error patterns',
+      'Overcome recurring concept hurdles through a 4-tier structured learning gauntlet: Concept Breakdown → Guided Scaffold → Independent Challenge → Final Boss Verification.',
+      '<button class="btn btn-primary" onclick="loadAdaptivePractice(\'' + targetId + '\')">' + icon('flame') + ' Enter Battle</button>'
+    )}
+
+    <!-- BOSS BATTLE ARENA HERO -->
+    <div class="card pad-lg mb-6" style="background:linear-gradient(135deg, #450A0A, #1C1917);color:#fff;border-radius:16px;border:1px solid rgba(239,68,68,.3);box-shadow:0 8px 30px rgba(69,10,10,.4)">
+      <div class="flex-b items-center mb-3">
+        <span class="badge" style="background:rgba(239,68,68,.25);color:#FCA5A5;border:1px solid rgba(239,68,68,.4);font-weight:800;font-size:10.5px">
+          ⚔️ MISCONCEPTION REMEDIATION CHALLENGE
+        </span>
+        <span class="badge" style="background:rgba(255,255,255,.1);color:#fff">+50 Bonus XP</span>
+      </div>
+      <div class="grid g-3-1 items-center" style="gap:24px">
+        <div>
+          <h2 style="font-size:24px;font-weight:800;color:#FEE2E2;margin-bottom:8px">
+            Current Target: ${targetTopic}
+          </h2>
+          <p style="font-size:13px;color:#E7E5E4;line-height:1.6;margin:0 0 18px 0">
+            Students commonly confuse conserving mass with simply changing subscripts rather than balancing coefficients. Master the Law of Conservation of Mass step-by-step to defeat this concept hurdle.
+          </p>
+          <div class="flex gap-3 wrap">
+            <button class="btn btn-lg" style="background:#EF4444;color:#fff;border-color:#EF4444;font-weight:700" onclick="loadAdaptivePractice('${targetId}')">
+              ${icon('flame')} Begin 4-Stage Gauntlet
+            </button>
+            <button class="btn btn-lg btn-outline" style="color:#fff;border-color:rgba(255,255,255,.3)" onclick="openAIPanel()">
+              ${icon('sparkles')} Review Concept Breakdown
+            </button>
+          </div>
+        </div>
+        <div style="background:rgba(0,0,0,.3);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,.1);text-align:center">
+          <div style="font-size:42px;margin-bottom:6px">🐉</div>
+          <div style="font-size:13px;font-weight:800;color:#FCA5A5">Stage 1 of 4</div>
+          <div style="font-size:11px;color:#A8A29E;margin-top:2px">Foundational Tier Gate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 PROGRESSIVE STAGES -->
+    <div class="sec-head">
+      <div><h2>Progressive Mastery Stages</h2><p>Deterministic advancement derived from valid learning attempts</p></div>
+    </div>
+
+    <div class="grid g-4 mb-6" style="gap:14px">
+      <div class="card pad" style="border-radius:12px;border:1.5px solid var(--border)">
+        <div style="font-size:18px;margin-bottom:8px">1️⃣</div>
+        <h4 style="font-size:14px;font-weight:700;margin-bottom:4px">Understand Concept</h4>
+        <p style="font-size:11.5px;color:var(--text-3);line-height:1.45;margin:0">
+          Review core definitions and physical textbook demonstrations from NCERT/GSEB Std 10.
+        </p>
+      </div>
+      <div class="card pad" style="border-radius:12px;border:1.5px solid var(--border)">
+        <div style="font-size:18px;margin-bottom:8px">2️⃣</div>
+        <h4 style="font-size:14px;font-weight:700;margin-bottom:4px">Guided Practice</h4>
+        <p style="font-size:11.5px;color:var(--text-3);line-height:1.45;margin:0">
+          Stepwise questions with immediate feedback explaining why distracting options are incorrect.
+        </p>
+      </div>
+      <div class="card pad" style="border-radius:12px;border:1.5px solid var(--border)">
+        <div style="font-size:18px;margin-bottom:8px">3️⃣</div>
+        <h4 style="font-size:14px;font-weight:700;margin-bottom:4px">Independent Drill</h4>
+        <p style="font-size:11.5px;color:var(--text-3);line-height:1.45;margin:0">
+          Solve real-world application questions without scaffolds or hints.
+        </p>
+      </div>
+      <div class="card pad" style="border-radius:12px;border:1.5px solid var(--border)">
+        <div style="font-size:18px;margin-bottom:8px">4️⃣</div>
+        <h4 style="font-size:14px;font-weight:700;margin-bottom:4px">Boss Verification</h4>
+        <p style="font-size:11.5px;color:var(--text-3);line-height:1.45;margin:0">
+          Timed challenge question certifying you have permanently remediated the error pattern.
+        </p>
+      </div>
+    </div>
+  </div>`;
+}
+
+export function studentMemoryGuardian(): string {
+  const r = revisionPlanState.data;
+  const revisions = r?.revisions || [];
+  const urgent = revisions.filter(rev => rev.is_due_today || rev.urgency_tier === 'TODAY');
+  const thisWeek = revisions.filter(rev => rev.urgency_tier === 'THIS_WEEK' && !rev.is_due_today);
+
+  return `
+  <div class="page">
+    ${pageHead(
+      'Memory Guardian',
+      'Spaced retrieval defense against the forgetting curve',
+      'EduNavika predicts memory retention decay and schedules timely retrieval drills right before concepts fade into memory loss.',
+      '<button class="btn btn-primary" onclick="loadAdaptivePractice()">' + icon('refresh') + ' Start Retrieval Drill</button>'
+    )}
+
+    <!-- FORGETTING CURVE STATUS HERO -->
+    <div class="card pad-lg mb-6" style="background:linear-gradient(135deg, #064E3B, #022C22);color:#fff;border-radius:16px;border:1px solid rgba(52,211,153,.25);box-shadow:0 8px 24px rgba(6,78,59,.3)">
+      <div class="flex-b items-center mb-3">
+        <span class="badge" style="background:rgba(52,211,153,.2);color:#6EE7B7;font-size:11px;font-weight:800">
+          🛡️ RETENTION STABILITY DEFENSE
+        </span>
+        <span class="badge" style="background:rgba(255,255,255,.1);color:#fff">100% On-Device Engine</span>
+      </div>
+      <div class="grid g-3-1 items-center" style="gap:24px">
+        <div>
+          <h2 style="font-size:22px;font-weight:800;color:#ECFDF5;margin-bottom:8px">
+            ${urgent.length} Topics Under Active Decay Threat
+          </h2>
+          <p style="font-size:13px;color:#A7F3D0;line-height:1.55;margin:0 0 16px 0">
+            Scientific spacing ensures you review at optimal intervals (1 day, 3 days, 7 days, 14 days, 30 days) to convert short-term practice into permanent long-term memory.
+          </p>
+          <div class="flex gap-3 wrap">
+            <button class="btn btn-primary btn-lg" style="background:#10B981;border-color:#10B981;font-weight:700" onclick="loadAdaptivePractice('${urgent[0]?.topic_id || '5a321a44-bc06-4db4-a50f-5e53f913b612'}')">
+              ${icon('refresh')} Review Highest Priority Item
+            </button>
+            <button class="btn btn-lg btn-outline" style="color:#fff;border-color:rgba(255,255,255,.3)" data-go="student/revision">
+              View Complete Schedule
+            </button>
+          </div>
+        </div>
+        <div style="background:rgba(0,0,0,.25);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.1);text-align:center">
+          <div style="font-size:36px;margin-bottom:4px">🧠</div>
+          <div style="font-size:14px;font-weight:800;color:#6EE7B7">Active Recall Mode</div>
+          <div style="font-size:11px;color:#A7F3D0;margin-top:2px">Long-Term Storage</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RETENTION QUEUE LIST -->
+    <div class="card mb-6">
+      <div class="card-h flex-b items-center">
+        <div><h3>Immediate Spaced Retrieval Queue</h3><p class="tiny muted">Topics where memory stability is currently declining</p></div>
+        <span class="badge teal">${urgent.length + thisWeek.length} Scheduled Drills</span>
+      </div>
+      <div class="card-b" style="padding:0">
+        ${revisions.length === 0 ? `
+          <div style="padding:36px;text-align:center;color:var(--text-3)">
+            ✨ All concepts are in stable retention! No topics are currently approaching decay thresholds.
+          </div>
+        ` : `
+          <table class="tbl" style="width:100%">
+            <thead><tr><th>Topic</th><th>Subject</th><th>Retention Risk</th><th>Optimal Review Date</th><th>Action</th></tr></thead>
+            <tbody>
+              ${revisions.slice(0, 6).map(rev => `
+                <tr>
+                  <td class="nm"><b>${rev.topic_title}</b></td>
+                  <td class="muted">${rev.subject_name || 'Science'}</td>
+                  <td><span class="badge ${rev.retention_risk === 'HIGH' ? 'coral' : rev.retention_risk === 'MODERATE' ? 'amber' : 'green'}">${rev.retention_risk}</span></td>
+                  <td>${rev.recommended_revision_at}</td>
+                  <td><button class="btn btn-xs btn-primary" onclick="loadAdaptivePractice('${rev.topic_id}')">Drill Now</button></td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        `}
+      </div>
+    </div>
+  </div>`;
+}
+
+export function studentTimeline(): string {
+  const p = progressState.data;
+  const journey = p?.learning_journey || [];
+
+  return `
+  <div class="page">
+    ${pageHead(
+      'Growth Timeline',
+      'Chronological history of your mastery milestones and achievements',
+      'A tamper-proof reverse-chronological log of all practice submissions, correct attempts, badge unlocks, and mastery promotions recorded on this device.',
+      '<button class="btn btn-primary" onclick="loadAdaptivePractice()">' + icon('play') + ' Add to Timeline</button>'
+    )}
+
+    <!-- TIMELINE CONTAINER -->
+    <div class="card pad-lg mb-6">
+      <div class="flex-b items-center mb-4">
+        <div>
+          <h3 style="font-size:16px;margin:0">Verified Learning Milestones</h3>
+          <p class="tiny muted" style="margin:2px 0 0 0">Driven strictly by empirical SQLite learning events</p>
+        </div>
+        <span class="badge indigo">${journey.length} Recorded Events</span>
+      </div>
+
+      ${journey.length === 0 ? `
+        <div style="padding:40px 16px;text-align:center;color:var(--text-3)">
+          <div style="font-size:36px;margin-bottom:8px">📜</div>
+          <h4 style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px">No Milestones Recorded Yet</h4>
+          <p style="font-size:13px;max-width:400px;margin:0 auto 16px auto;line-height:1.5">
+            Complete your first practice question or diagnostic quiz to start populating your personalized learning timeline.
+          </p>
+          <button class="btn btn-primary" onclick="loadAdaptivePractice()">${icon('play')} Start Practice</button>
+        </div>
+      ` : `
+        <div style="display:flex;flex-direction:column;gap:14px">
+          ${journey.map(e => {
+            const isCorrect = e.correctness === true;
+            const isWrong = e.correctness === false;
+            const iconBg = isCorrect ? 'rgba(46,155,104,.15)' : isWrong ? 'rgba(229,107,111,.15)' : 'rgba(36,59,107,.1)';
+            const iconColor = isCorrect ? 'var(--green)' : isWrong ? 'var(--coral)' : 'var(--indigo)';
+            const iconSymbol = isCorrect ? '✓' : isWrong ? '✗' : '✦';
+            const dateStr = new Date(e.timestamp).toLocaleString();
+            return `
+            <div style="display:flex;gap:14px;padding:12px 16px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border-2);align-items:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:${iconBg};color:${iconColor};display:grid;place-items:center;font-weight:800;font-size:14px;flex:0 0 auto">
+                ${iconSymbol}
+              </div>
+              <div style="flex:1;min-width:0">
+                <div class="flex-b items-center wrap" style="gap:8px">
+                  <b style="font-size:13.5px;color:var(--text)">${e.topic_title}</b>
+                  <span class="tiny muted">${dateStr}</span>
+                </div>
+                <div class="tiny muted" style="margin-top:2px">
+                  ${isCorrect ? '<span style="color:var(--green);font-weight:700">Correct Answer (+5 XP)</span>' : isWrong ? '<span style="color:var(--coral);font-weight:600">Practice Attempt Recorded</span>' : 'Learning Interaction'}
+                  ${e.response_time_ms ? ` · Response Time: ${(e.response_time_ms / 1000).toFixed(1)}s` : ''}
+                </div>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      `}
+    </div>
+  </div>`;
 }
 
 // Global browser window bindings
@@ -3286,5 +3794,11 @@ if (typeof window !== 'undefined') {
   window.openTopicContentReader = openTopicContentReader;
   window.loadCurriculumHierarchy = loadCurriculumHierarchy;
   window.toggleVoiceInput = toggleVoiceInput;
+  window.inspectConstellationNode = inspectConstellationNode;
+  window.studentMissions = studentMissions;
+  window.studentConstellation = studentConstellation;
+  window.studentBossBattle = studentBossBattle;
+  window.studentMemoryGuardian = studentMemoryGuardian;
+  window.studentTimeline = studentTimeline;
 }
 

@@ -11,7 +11,9 @@ export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
       group: 'Personalized Learning',
       items: [
         { id: 'student/dashboard', label: 'Dashboard', icon: 'home' },
-        { id: 'student/practice', label: 'Practice', icon: 'target' },
+        { id: 'student/missions', label: 'Daily Missions', icon: 'zap' },
+        { id: 'student/practice', label: 'Adaptive Practice', icon: 'target' },
+        { id: 'student/constellation', label: 'Knowledge Constellation', icon: 'star' },
         { id: 'student/learning', label: 'Curriculum & Learning', icon: 'book' },
         { id: 'student/analytics', label: 'Progress', icon: 'chart' },
         { id: 'student/revision', label: 'Revision Plan', icon: 'refresh' },
@@ -19,11 +21,14 @@ export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
       ],
     },
     {
-      group: 'Knowledge & Resources',
+      group: 'Learning Challenges',
       items: [
-        { id: 'student/materials', label: 'Learning Resources', icon: 'folder' },
+        { id: 'student/boss-battle', label: 'Misconception Battle', icon: 'flame' },
+        { id: 'student/memory-guardian', label: 'Memory Guardian', icon: 'refresh' },
+        { id: 'student/timeline', label: 'Growth Timeline', icon: 'clock' },
         { id: 'student/knowledge', label: 'Knowledge Health', icon: 'brain' },
         { id: 'student/weak', label: 'Weak Areas', icon: 'alert' },
+        { id: 'student/materials', label: 'Learning Resources', icon: 'folder' },
         { id: 'student/subjects', label: 'Syllabus Subjects', icon: 'grid' },
       ],
     },
@@ -91,6 +96,11 @@ function getDynamicBadge(id: string, role: string): string | null {
 
 export const CRUMBS: Record<string, string[]> = {
   'student/dashboard': ['Dashboard'],
+  'student/missions': ['Personalized Learning', 'Daily Missions'],
+  'student/constellation': ['Curriculum Graph', 'Knowledge Constellation'],
+  'student/boss-battle': ['Remediation Challenges', 'Misconception Battle'],
+  'student/memory-guardian': ['Spaced Retrieval', 'Memory Guardian'],
+  'student/timeline': ['Learning History', 'Growth Timeline'],
   'student/learning': ['My Learning'],
   'student/subjects': ['Subjects'],
   'student/revision': ['Insights', 'Revision Plan'],
@@ -238,6 +248,24 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
     </header>
 
     <div class="main" id="main">${pageHtml}</div>
+    ${role === 'student' ? `
+    <nav class="mobile-bottom-nav" aria-label="Quick mobile navigation">
+      <button type="button" class="mobile-nav-item ${currentRoute === 'student/dashboard' ? 'on' : ''}" data-go="student/dashboard">
+        ${icon('home')}<span>Dashboard</span>
+      </button>
+      <button type="button" class="mobile-nav-item ${currentRoute === 'student/missions' ? 'on' : ''}" data-go="student/missions">
+        ${icon('zap')}<span>Missions</span>
+      </button>
+      <button type="button" class="mobile-nav-item ${currentRoute === 'student/practice' ? 'on' : ''}" data-go="student/practice">
+        ${icon('target')}<span>Practice</span>
+      </button>
+      <button type="button" class="mobile-nav-item ${currentRoute === 'student/constellation' ? 'on' : ''}" data-go="student/constellation">
+        ${icon('star')}<span>Graph</span>
+      </button>
+      <button type="button" class="mobile-nav-item ${currentRoute === 'student/analytics' ? 'on' : ''}" data-go="student/analytics">
+        ${icon('chart')}<span>Progress</span>
+      </button>
+    </nav>` : ''}
   </div>
 </div>`;
 }
