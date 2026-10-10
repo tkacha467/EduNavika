@@ -1940,8 +1940,8 @@ export async function loadCurriculumHierarchy(force: boolean = false): Promise<v
     if (data) {
       hierarchyState.data = data;
       if (!hierarchyState.selectedSubjectId && data.subjects.length > 0) {
-        const sci = data.subjects.find(s => s.name.toLowerCase().includes('science'));
-        hierarchyState.selectedSubjectId = sci ? sci.id : data.subjects[0].id;
+        const preferred = data.subjects.find(s => s.name.toLowerCase().includes('mathematics')) || data.subjects[0];
+        hierarchyState.selectedSubjectId = preferred ? preferred.id : data.subjects[0].id;
       }
     }
   } catch (err) {
@@ -2040,6 +2040,27 @@ export async function openTopicContentReader(topicId: string, topicTitle: string
   }
 }
 
+function getCurriculumSubjectIcon(name: string): string {
+  const n = (name || '').toLowerCase();
+  if (n.includes('social')) return '🌍';
+  if (n.includes('science')) return '🔬';
+  if (n.includes('math')) return '📐';
+  if (n.includes('english')) return '📖';
+  if (n.includes('computer')) return '💻';
+  if (n.includes('yoga') || n.includes('physical') || n.includes('health')) return '🧘';
+  if (n.includes('black-buck') || n.includes('buck')) return '🦌';
+  if (n.includes('sanskrit') || n.includes('sanskrut')) return '📜';
+  if (n.includes('gita')) return '🕉️';
+  if (n.includes('commerce') || n.includes('economics')) return '📊';
+  return '📚';
+}
+
+function formatSubjectDisplayName(name: string): string {
+  if (name.includes('Yoga')) return 'Yoga & Physical Education';
+  if (name.includes('Black-Buck')) return 'Black-Buck Supplementary Reader';
+  return name;
+}
+
 /* ---------- Study Materials & Curriculum Explorer ---------- */
 export function studentMaterials(): string {
   if (!hierarchyState.data && !hierarchyState.loading) {
@@ -2054,9 +2075,7 @@ export function studentMaterials(): string {
   }
 
   const hier = hierarchyState.data;
-  const subjects = (hier?.subjects || []).filter(s =>
-    s.name.includes('Science') || s.name.includes('Mathematics')
-  );
+  const subjects = (hier?.subjects || []).filter(s => (s.total_chapters || 0) > 0);
 
   const activeSubjId = hierarchyState.selectedSubjectId || subjects[0]?.id;
   const activeSubj = subjects.find(s => s.id === activeSubjId) || subjects[0];
@@ -2087,7 +2106,7 @@ export function studentMaterials(): string {
     <div class="flex gap-3 mb-5 wrap">
       ${subjects.map(s => `
         <button class="btn ${s.id === activeSubj?.id ? 'btn-primary' : 'btn-outline'}" style="padding:10px 18px;font-size:13.5px;font-weight:700" onclick="selectCurriculumSubject('${s.id}')">
-          ${s.name.includes('Science') ? '🔬' : '📐'} ${s.name} (${s.total_chapters} Chapters)
+          ${getCurriculumSubjectIcon(s.name)} ${formatSubjectDisplayName(s.name)} (${s.total_chapters} Chapters)
         </button>
       `).join('')}
     </div>
@@ -2100,7 +2119,7 @@ export function studentMaterials(): string {
     ` : `
       <div class="sec-head">
         <div>
-          <h2>${activeSubj.name.includes('Science') ? '🔬' : '📐'} ${activeSubj.name} (${activeSubj.total_chapters} Chapters)</h2>
+          <h2>${getCurriculumSubjectIcon(activeSubj.name)} ${formatSubjectDisplayName(activeSubj.name)} (${activeSubj.total_chapters} Chapters)</h2>
           <p>Verified syllabus structure for GSEB Standard 10.</p>
         </div>
       </div>
