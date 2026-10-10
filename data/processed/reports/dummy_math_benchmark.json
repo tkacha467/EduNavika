@@ -1,0 +1,509 @@
+{
+  "extractor": "DummyExtractor",
+  "load_time_seconds": 0.010484695434570312,
+  "pages": [
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 127,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_dist_1": {
+          "semantic_accuracy": "HIGH",
+          "exact_match": "PASS",
+          "symbol_accuracy": "HIGH",
+          "structure_accuracy": "HIGH",
+          "subscript_superscript": "HIGH",
+          "fraction_accuracy": "N/A"
+        },
+        "eq_dist_origin": {
+          "semantic_accuracy": "REVIEW",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "HIGH",
+          "structure_accuracy": "REVIEW",
+          "subscript_superscript": "MEDIUM",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 35,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_poly_1": {
+          "semantic_accuracy": "REVIEW",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "MEDIUM",
+          "structure_accuracy": "REVIEW",
+          "subscript_superscript": "MEDIUM",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 16,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_1": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 38,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_2": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 209,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_3": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 128,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_4": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 258,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_5": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "FAIL"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 160,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_6": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 183,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_7": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "FAIL"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 219,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_8": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 126,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_9": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 147,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_10": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 40,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_11": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 79,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_12": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 76,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_13": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 28,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_14": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 183,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_7": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "FAIL"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 177,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_16": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 252,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_17": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 268,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_18": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "FAIL"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 15,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_19": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 96,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_20": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "FAIL"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 160,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_6": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 40,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_11": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 41,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_23": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 42,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_24": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 43,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_25": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 44,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_26": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 45,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_27": {
+          "semantic_accuracy": "REVIEW",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "MEDIUM",
+          "structure_accuracy": "REVIEW",
+          "subscript_superscript": "N/A",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 46,
+      "execution_time_seconds": 0.0,
+      "success": true,
+      "evaluation": {
+        "eq_28": {
+          "semantic_accuracy": "FAIL",
+          "exact_match": "FAIL",
+          "symbol_accuracy": "FAIL",
+          "structure_accuracy": "FAIL",
+          "subscript_superscript": "FAIL",
+          "fraction_accuracy": "N/A"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "extractor": "DummyExtractor",
+    "total_pages_evaluated": 30,
+    "total_formulas_evaluated": 31,
+    "exact_matches": 1,
+    "exact_match_rate": 0.0323,
+    "high_symbols": 2,
+    "high_symbol_rate": 0.0645,
+    "semantic_high": 1,
+    "semantic_high_rate": 0.0323,
+    "semantic_review": 3,
+    "semantic_fail": 27,
+    "total_execution_time_seconds": 0.0,
+    "average_time_per_page_seconds": 0.0
+  }
+}

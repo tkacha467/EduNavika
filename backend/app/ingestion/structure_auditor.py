@@ -71,7 +71,16 @@ class StructureAuditor:
         for book in test_books:
             full_path = self.dataset_dir / book["rel_path"]
             if not full_path.exists():
-                continue
+                alt_rel = (
+                    book["rel_path"].replace("STD-10/", "STD-10th/")
+                    if "STD-10/" in book["rel_path"]
+                    else book["rel_path"].replace("STD-10th/", "STD-10/")
+                )
+                alt_path = self.dataset_dir / alt_rel
+                if alt_path.exists():
+                    full_path = alt_path
+                else:
+                    continue
 
             cpages: List[CleanedPage] = []
             use_pypdf = False

@@ -203,3 +203,56 @@ def get_curriculum_hierarchy(
         "subjects": result_subjects,
     }
 
+
+# ==============================================================================
+# School LAN Offline-First Curriculum Distribution (Problem Statement 06, Section 4)
+# ==============================================================================
+from backend.app.services.curriculum_package_service import CurriculumPackageService
+from fastapi import Body
+
+
+@router.get(
+    "/curriculum/package/export",
+    summary="Export versioned, tamper-proof curriculum bundle with SHA-256 checksum for LAN distribution"
+)
+@router.get(
+    "/package/export",
+    include_in_schema=False
+)
+def export_curriculum_package(
+    grade: int = Query(10, description="Standard grade number"),
+    db: Session = Depends(get_db),
+):
+    try:
+        return CurriculumPackageService.export_package(db=db, grade=grade)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Package export failed: {str(e)}"
+        )
+
+
+@router.post(
+    "/curriculum/package/import",
+    summary="Verify cryptographic SHA-256 checksum and install curriculum bundle into local SQLite database"
+)
+@router.post(
+    "/package/import",
+    include_in_schema=False
+)
+def import_curriculum_package(
+    package: dict = Body(..., description="Curriculum package bundle containing manifest and payload"),
+    db: Session = Depends(get_db),
+):
+    try:
+        return CurriculumPackageService.import_package(db=db, package=package)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Package import failed: {str(e)}"
+        )
+

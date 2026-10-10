@@ -27,105 +27,10 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-def _get_or_create_student_profile(db: Session, student_id: str) -> Optional[StudentProfile]:
-    """Finds or auto-provisions a StudentProfile for the student."""
-    # 1. Direct match by StudentProfile.id
-    student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
-    if student:
-        return student
-
-    # 2. Match by StudentProfile.user_id
-    student = db.query(StudentProfile).filter(StudentProfile.user_id == student_id).first()
-    if student:
-        return student
-
-    # 3. Match User by ID or student role
-    user = db.query(User).filter(User.id == student_id).first()
-    if not user:
-        user = db.query(User).filter(User.role == UserRole.STUDENT).first()
-    if not user:
-        user = db.query(User).filter(User.email == "kachatushar108@gmail.com").first()
-
-    if user:
-        existing_profile = db.query(StudentProfile).filter(StudentProfile.user_id == user.id).first()
-        if existing_profile:
-            return existing_profile
-
-        try:
-            new_profile = StudentProfile(
-                id=student_id if (len(student_id) <= 36 and not student_id.startswith("http")) else None,
-                user_id=user.id,
-                enrollment_number=f"EN-{user.id[:8]}",
-                division="A",
-            )
-            db.add(new_profile)
-            db.commit()
-            db.refresh(new_profile)
-            return new_profile
-        except (IntegrityError, OperationalError):
-            db.rollback()
-            return db.query(StudentProfile).filter(StudentProfile.user_id == user.id).first()
-
-    return None
-
-
-def _resolve_topic(db: Session, topic_id: Optional[str]) -> Optional[Topic]:
-    """
-    Robustly resolves a topic by:
-    1. Exact UUID match on Topic.id
-    2. Exact title match on Topic.title (case-insensitive)
-    3. Normalized title match (e.g. '&' -> 'and', '—' -> '-')
-    4. Substring / partial match on Topic.title
-    5. Chapter title match -> returns primary topic under that chapter
-    Returns None if no matching topic is found. Never falls back to unrelated topics.
-    """
-    if not topic_id:
-        return None
-
-    # 1. Exact ID
-    topic = db.query(Topic).filter(Topic.id == topic_id).first()
-    if topic:
-        return topic
-
-    # 2. Exact Title
-    topic = db.query(Topic).filter(func.lower(Topic.title) == func.lower(topic_id)).first()
-    if topic:
-        return topic
-
-    # 3. Normalized Title
-    norm = topic_id.replace('&', 'and').replace('—', '-').strip()
-    topic = db.query(Topic).filter(func.lower(Topic.title) == func.lower(norm)).first()
-    if topic:
-        return topic
-
-    # 4. Partial Title Match
-    topic = db.query(Topic).filter(Topic.title.ilike(f"%{norm}%")).first()
-    if topic:
-        return topic
-
-    # 5. Reverse Substring Match (e.g. "Chemical Reactions" matching "Chemical Reactions and Equations")
-    all_topics = db.query(Topic).all()
-    norm_lower = norm.lower()
-    for t in all_topics:
-        t_clean = t.title.replace('&', 'and').replace('—', '-').lower().strip()
-        if (len(t_clean) >= 4 and t_clean in norm_lower) or (len(norm_lower) >= 4 and norm_lower in t_clean):
-            return t
-
-    # 6. Chapter match: check if a chapter matches the topic_id / name
-    all_chapters = db.query(Chapter).all()
-    for c in all_chapters:
-        c_clean = c.title.replace('&', 'and').replace('—', '-').lower().strip()
-        if (len(c_clean) >= 4 and c_clean in norm_lower) or (len(norm_lower) >= 4 and norm_lower in c_clean):
-            first_top = (
-                db.query(Topic)
-                .filter(Topic.chapter_id == c.id)
-                .order_by(Topic.topic_order.asc())
-                .first()
-            )
-            if first_top:
-                return first_top
-
-    return None
+from backend.app.services.topic_resolver import (
+    resolve_topic as _resolve_topic,
+    get_or_create_student_profile as _get_or_create_student_profile,
+)
 
 
 @router.post("/attempts", response_model=AttemptResponse, status_code=status.HTTP_201_CREATED, summary="Start an assessment attempt or record formative practice telemetry")
@@ -171,6 +76,29 @@ def create_attempt(payload: AttemptCreate, db: Session = Depends(get_db)):
     score = float(payload.score) if payload.score is not None else (100.0 if payload.is_correct else 0.0)
     is_correct = payload.is_correct if payload.is_correct is not None else (score > 0)
     response_time = max(0, payload.response_time_ms or 0)
+
+    # Server-side canonical answer verification when mcq_id & selected_option are supplied
+    if payload.mcq_id and payload.selected_option:
+        from backend.app.services.curriculum_question_bank import (
+            get_canonical_question_by_id,
+            canonical_question_matches_topic,
+        )
+        canonical_q = get_canonical_question_by_id(payload.mcq_id)
+        if canonical_q:
+            if not canonical_question_matches_topic(canonical_q, topic.id, topic.title):
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Question does not belong to the submitted curriculum topic.",
+                )
+            opts = canonical_q.get("options", [])
+            correct_ans = canonical_q.get("correct_answer", "")
+            sel = payload.selected_option.strip()
+            if sel.upper() in ("A", "B", "C", "D") and len(opts) >= 4:
+                chosen_opt = opts[ord(sel.upper()) - ord("A")]
+                is_correct = chosen_opt.strip().lower() == correct_ans.strip().lower()
+            else:
+                is_correct = sel.lower() == correct_ans.strip().lower()
+            score = 100.0 if is_correct else 0.0
 
     idempotency_key = f"practice_{student.id}_{payload.mcq_id}_{int(now.timestamp())}" if payload.mcq_id else None
     event = EventRecorderService.record_event(

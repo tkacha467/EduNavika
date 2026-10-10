@@ -1,0 +1,716 @@
+{
+  "summary": {
+    "total_pages_evaluated": 60,
+    "math_pages_evaluated": 30,
+    "prose_pages_evaluated": 30,
+    "confusion_matrix": {
+      "true_positives": 9,
+      "false_positives": 0,
+      "true_negatives": 30,
+      "false_negatives": 21
+    },
+    "metrics": {
+      "precision": 1.0,
+      "recall": 0.3,
+      "f1_score": 0.4615,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.7
+    },
+    "routing_distribution": {
+      "STANDARD": 52,
+      "SPECIALIZED": 8
+    },
+    "quality_gate_decisions": {
+      "SAFE": 59,
+      "NEEDS_REVIEW": 1,
+      "CORRUPTED": 0
+    },
+    "average_detection_overhead_ms": 0.302
+  },
+  "math_evaluations": [
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 127,
+      "expected_math": true,
+      "detected_as_math": true,
+      "classification": "MATH_PRESENT",
+      "score": 0.238,
+      "signals": [
+        "math_operators(3)"
+      ],
+      "validation_status": "SAFE",
+      "extraction_method": "SpecializedMathExtractor(Mock)"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 35,
+      "expected_math": true,
+      "detected_as_math": true,
+      "classification": "MATH_HEAVY",
+      "score": 0.938,
+      "signals": [
+        "math_operators(19)"
+      ],
+      "validation_status": "SAFE",
+      "extraction_method": "SpecializedMathExtractor(Mock)"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 16,
+      "expected_math": true,
+      "detected_as_math": true,
+      "classification": "MATH_HEAVY",
+      "score": 0.565,
+      "signals": [
+        "chemical_patterns(8)"
+      ],
+      "validation_status": "SAFE",
+      "extraction_method": "SpecializedMathExtractor(Mock)"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 38,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.071,
+      "signals": [
+        "chemical_patterns(1)"
+      ],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 209,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 128,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 258,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 160,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 183,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "SpecializedMathExtractor(Mock)"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 219,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 126,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 147,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 40,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "SpecializedMathExtractor(Mock)"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 79,
+      "expected_math": true,
+      "detected_as_math": true,
+      "classification": "MATH_PRESENT",
+      "score": 0.139,
+      "signals": [
+        "chemical_patterns(2)"
+      ],
+      "validation_status": "SAFE",
+      "extraction_method": "SpecializedMathExtractor(Mock)"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 76,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.07,
+      "signals": [
+        "chemical_patterns(1)"
+      ],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 28,
+      "expected_math": true,
+      "detected_as_math": true,
+      "classification": "MATH_PRESENT",
+      "score": 0.157,
+      "signals": [
+        "math_operators(2)"
+      ],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 183,
+      "expected_math": true,
+      "detected_as_math": true,
+      "classification": "MATH_PRESENT",
+      "score": 0.219,
+      "signals": [
+        "math_operators(3)"
+      ],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 177,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 252,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 268,
+      "expected_math": true,
+      "detected_as_math": true,
+      "classification": "MATH_PRESENT",
+      "score": 0.287,
+      "signals": [
+        "math_operators(4)"
+      ],
+      "validation_status": "SAFE",
+      "extraction_method": "SpecializedMathExtractor(Mock)"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 15,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 96,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Science_English Medium.pdf",
+      "page": 160,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 40,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 41,
+      "expected_math": true,
+      "detected_as_math": true,
+      "classification": "MATH_HEAVY",
+      "score": 0.776,
+      "signals": [
+        "math_operators(13)"
+      ],
+      "validation_status": "SAFE",
+      "extraction_method": "SpecializedMathExtractor(Mock)"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 42,
+      "expected_math": true,
+      "detected_as_math": true,
+      "classification": "MATH_PRESENT",
+      "score": 0.152,
+      "signals": [
+        "math_operators(2)"
+      ],
+      "validation_status": "NEEDS_REVIEW",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 43,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 44,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 45,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "page": 46,
+      "expected_math": true,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    }
+  ],
+  "prose_evaluations": [
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 10,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 11,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 12,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 13,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 14,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 15,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 16,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 17,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 18,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 19,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 20,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 21,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 22,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 23,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 24,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 25,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 26,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 27,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 28,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 29,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 30,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 31,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 32,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 33,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 34,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 35,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 36,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 37,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 38,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    },
+    {
+      "document": "GSEB-Dataset/STD-10th/Std-10_English_First Flight.pdf",
+      "page": 39,
+      "expected_math": false,
+      "detected_as_math": false,
+      "classification": "NORMAL",
+      "score": 0.0,
+      "signals": [],
+      "validation_status": "SAFE",
+      "extraction_method": "PyPDFium2Extractor"
+    }
+  ]
+}

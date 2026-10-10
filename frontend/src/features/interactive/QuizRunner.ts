@@ -56,12 +56,12 @@ const DEFAULT_QUIZ_BANK: Record<string, QuizQuestion[]> = {
     {
       q: 'In the reaction 2Mg(s) + O2(g) -> 2MgO(s), what type of chemical reaction is taking place?',
       o: [
-        'Combination reaction',
         'Decomposition reaction',
+        'Combination reaction',
         'Double displacement reaction',
         'Neutralisation reaction',
       ],
-      a: 0,
+      a: 1,
       e: 'When two or more substances combine to form a single product, it is called a combination reaction (Textbook Page 19).',
       source_document: 'STD-10/Std-10_Science_English Medium.pdf',
       source_page: 19,
@@ -70,23 +70,155 @@ const DEFAULT_QUIZ_BANK: Record<string, QuizQuestion[]> = {
     {
       q: 'When iron nails are placed in a copper sulphate solution, what causes the blue colour of the solution to fade to green?',
       o: [
-        'Iron displaces copper forming iron(II) sulphate solution',
         'Copper displaces iron producing basic copper carbonate',
         'Both metals undergo thermal decomposition simultaneously',
+        'Iron displaces copper forming iron(II) sulphate solution',
         'Precipitation of insoluble blue copper hydroxide',
       ],
-      a: 0,
+      a: 2,
       e: 'Iron is more reactive than copper and displaces it from CuSO4 to form green FeSO4 (Textbook Page 24).',
       source_document: 'STD-10/Std-10_Science_English Medium.pdf',
       source_page: 24,
       difficulty: 'APPLICATION',
     },
   ],
+  'Chemical Reactions and Equations': [
+    {
+      q: 'Why must chemical equations be balanced in accordance with the Law of Conservation of Mass?',
+      o: [
+        'Total mass of elements in products must equal total mass in reactants',
+        'To accelerate the reaction speed without altering mass',
+        'To change the chemical formulae of reactants into simpler states',
+        'To equalize the volume of gases participating in the reaction',
+      ],
+      a: 0,
+      e: 'Mass can neither be created nor destroyed in a chemical reaction (Textbook Page 16).',
+      source_document: 'STD-10/Std-10_Science_English Medium.pdf',
+      source_page: 16,
+      difficulty: 'FOUNDATIONAL',
+    },
+    {
+      q: 'In the reaction 2Mg(s) + O2(g) -> 2MgO(s), what type of chemical reaction is taking place?',
+      o: [
+        'Decomposition reaction',
+        'Combination reaction',
+        'Double displacement reaction',
+        'Neutralisation reaction',
+      ],
+      a: 1,
+      e: 'When two or more substances combine to form a single product, it is called a combination reaction (Textbook Page 19).',
+      source_document: 'STD-10/Std-10_Science_English Medium.pdf',
+      source_page: 19,
+      difficulty: 'GUIDED',
+    },
+    {
+      q: 'When iron nails are placed in a copper sulphate solution, what causes the blue colour of the solution to fade to green?',
+      o: [
+        'Copper displaces iron producing basic copper carbonate',
+        'Both metals undergo thermal decomposition simultaneously',
+        'Iron displaces copper forming iron(II) sulphate solution',
+        'Precipitation of insoluble blue copper hydroxide',
+      ],
+      a: 2,
+      e: 'Iron is more reactive than copper and displaces it from CuSO4 to form green FeSO4 (Textbook Page 24).',
+      source_document: 'STD-10/Std-10_Science_English Medium.pdf',
+      source_page: 24,
+      difficulty: 'APPLICATION',
+    },
+  ],
+  'Acids, Bases & Salts': [
+    {
+      q: 'Which ions do all acids and all bases generate respectively in an aqueous solution?',
+      o: [
+        'Acids generate OH-(aq) ions and bases generate H+(aq) ions',
+        'Acids generate H+(aq) ions and bases generate OH-(aq) ions',
+        'Both acids and bases generate chloride Cl-(aq) ions',
+        'Both acids and bases generate oxide O2-(aq) ions',
+      ],
+      a: 1,
+      e: 'All acids generate H+(aq) ions and all bases generate OH-(aq) ions in solution (Textbook Page 37).',
+      source_document: 'STD-10/Std-10_Science_English Medium.pdf',
+      source_page: 37,
+      difficulty: 'FOUNDATIONAL',
+    },
+    {
+      q: 'On the universal pH scale ranging from 0 to 14, what does a pH value of exactly 7 represent?',
+      o: [
+        'A strongly acidic solution',
+        'A strongly alkaline solution',
+        'A neutral solution such as pure water',
+        'A saturated salt solution only',
+      ],
+      a: 2,
+      e: 'A pH of 7 represents a neutral solution. Values below 7 are acidic, while 7 to 14 are alkaline (Textbook Page 38).',
+      source_document: 'STD-10/Std-10_Science_English Medium.pdf',
+      source_page: 38,
+      difficulty: 'GUIDED',
+    },
+    {
+      q: 'Why does an electric bulb glow in an aqueous solution of hydrochloric acid but not in aqueous glucose or alcohol solutions?',
+      o: [
+        'Hydrochloric acid dissociates into free conducting ions while glucose does not',
+        'Glucose absorbs the electric charge from the battery',
+        'Hydrochloric acid has higher viscosity allowing mechanical conduction',
+        'Alcohol completely neutralizes the electrode potential',
+      ],
+      a: 0,
+      e: 'Electric current is carried through acidic solution by free ions; glucose and alcohol do not dissociate into ions (Textbook Page 36).',
+      source_document: 'STD-10/Std-10_Science_English Medium.pdf',
+      source_page: 36,
+      difficulty: 'APPLICATION',
+    },
+  ],
+  'Acids, Bases and Salts': [
+    {
+      q: 'Which ions do all acids and all bases generate respectively in an aqueous solution?',
+      o: [
+        'Acids generate OH-(aq) ions and bases generate H+(aq) ions',
+        'Acids generate H+(aq) ions and bases generate OH-(aq) ions',
+        'Both acids and bases generate chloride Cl-(aq) ions',
+        'Both acids and bases generate oxide O2-(aq) ions',
+      ],
+      a: 1,
+      e: 'All acids generate H+(aq) ions and all bases generate OH-(aq) ions in solution (Textbook Page 37).',
+      source_document: 'STD-10/Std-10_Science_English Medium.pdf',
+      source_page: 37,
+      difficulty: 'FOUNDATIONAL',
+    },
+    {
+      q: 'On the universal pH scale ranging from 0 to 14, what does a pH value of exactly 7 represent?',
+      o: [
+        'A strongly acidic solution',
+        'A strongly alkaline solution',
+        'A neutral solution such as pure water',
+        'A saturated salt solution only',
+      ],
+      a: 2,
+      e: 'A pH of 7 represents a neutral solution. Values below 7 are acidic, while 7 to 14 are alkaline (Textbook Page 38).',
+      source_document: 'STD-10/Std-10_Science_English Medium.pdf',
+      source_page: 38,
+      difficulty: 'GUIDED',
+    },
+    {
+      q: 'Why does an electric bulb glow in an aqueous solution of hydrochloric acid but not in aqueous glucose or alcohol solutions?',
+      o: [
+        'Hydrochloric acid dissociates into free conducting ions while glucose does not',
+        'Glucose absorbs the electric charge from the battery',
+        'Hydrochloric acid has higher viscosity allowing mechanical conduction',
+        'Alcohol completely neutralizes the electrode potential',
+      ],
+      a: 0,
+      e: 'Electric current is carried through acidic solution by free ions; glucose and alcohol do not dissociate into ions (Textbook Page 36).',
+      source_document: 'STD-10/Std-10_Science_English Medium.pdf',
+      source_page: 36,
+      difficulty: 'APPLICATION',
+    },
+  ],
   'Electricity': [
     {
       q: "According to Joule's law of heating, how is heat generated in a conductor related to current (I), resistance (R), and time (t)?",
-      o: ['H = I²Rt', 'H = IRt', 'H = I²R / t', 'H = V / (IRt)'],
-      a: 0,
+      o: ['H = IRt', 'H = I²Rt', 'H = I²R / t', 'H = V / (IRt)'],
+      a: 1,
       e: "Joule's law states heat generated is H = I²Rt (Textbook Page 202).",
       source_document: 'STD-10/Std-10_Science_English Medium.pdf',
       source_page: 202,
@@ -94,8 +226,8 @@ const DEFAULT_QUIZ_BANK: Record<string, QuizQuestion[]> = {
     },
     {
       q: 'Which metal is used for filaments of electric lamps due to its exceptionally high melting point (3380 °C)?',
-      o: ['Tungsten', 'Copper', 'Aluminium', 'Lead'],
-      a: 0,
+      o: ['Copper', 'Aluminium', 'Tungsten', 'Lead'],
+      a: 2,
       e: 'Tungsten has an extremely high melting point of 3380 °C (Textbook Page 203).',
       source_document: 'STD-10/Std-10_Science_English Medium.pdf',
       source_page: 203,
@@ -114,8 +246,8 @@ const DEFAULT_QUIZ_BANK: Record<string, QuizQuestion[]> = {
   'Electricity & Circuits': [
     {
       q: "According to Joule's law of heating, how is heat generated in a conductor related to current (I), resistance (R), and time (t)?",
-      o: ['H = I²Rt', 'H = IRt', 'H = I²R / t', 'H = V / (IRt)'],
-      a: 0,
+      o: ['H = IRt', 'H = I²Rt', 'H = I²R / t', 'H = V / (IRt)'],
+      a: 1,
       e: "Joule's law states heat generated is H = I²Rt (Textbook Page 202).",
       source_document: 'STD-10/Std-10_Science_English Medium.pdf',
       source_page: 202,
@@ -123,8 +255,8 @@ const DEFAULT_QUIZ_BANK: Record<string, QuizQuestion[]> = {
     },
     {
       q: 'Which metal is used for filaments of electric lamps due to its exceptionally high melting point (3380 °C)?',
-      o: ['Tungsten', 'Copper', 'Aluminium', 'Lead'],
-      a: 0,
+      o: ['Copper', 'Aluminium', 'Tungsten', 'Lead'],
+      a: 2,
       e: 'Tungsten has an extremely high melting point of 3380 °C (Textbook Page 203).',
       source_document: 'STD-10/Std-10_Science_English Medium.pdf',
       source_page: 203,
@@ -137,6 +269,128 @@ const DEFAULT_QUIZ_BANK: Record<string, QuizQuestion[]> = {
       e: '1 kWh = 1000 W × 3600 s = 3.6 × 10⁶ J (Textbook Page 204).',
       source_document: 'STD-10/Std-10_Science_English Medium.pdf',
       source_page: 204,
+      difficulty: 'APPLICATION',
+    },
+  ],
+  'Quadratic Equations': [
+    {
+      q: 'What is the standard algebraic form of a quadratic equation in variable x?',
+      o: [
+        'ax + b = 0, where a ≠ 0',
+        'ax² + bx + c = 0, where a, b, c are real numbers and a ≠ 0',
+        'ax³ + bx² + cx + d = 0, where a ≠ 0',
+        'a/x² + b/x + c = 0, where a ≠ 0',
+      ],
+      a: 1,
+      e: 'A quadratic equation in variable x is of the form ax² + bx + c = 0, where a, b, c are real numbers and a ≠ 0 (Textbook Page 53).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 53,
+      difficulty: 'FOUNDATIONAL',
+    },
+    {
+      q: 'What is the quadratic formula derived by ancient mathematician Sridharacharya to find roots of ax² + bx + c = 0?',
+      o: [
+        'x = (-b ± √(b² - 4ac)) / (2a)',
+        'x = (-b ± √(b² + 4ac)) / (2a)',
+        'x = (b ± √(b² - 4ac)) / a',
+        'x = (-b ± 2√(ac)) / (4a)',
+      ],
+      a: 0,
+      e: 'The quadratic formula gives roots x = (-b ± √(b² - 4ac)) / (2a) provided b² - 4ac ≥ 0 (Textbook Page 53).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 53,
+      difficulty: 'GUIDED',
+    },
+    {
+      q: 'What condition on the discriminant (b² - 4ac) guarantees two distinct real roots for ax² + bx + c = 0?',
+      o: [
+        'b² - 4ac < 0',
+        'b² - 4ac = 0',
+        'b² - 4ac > 0',
+        'b² - 4ac is negative',
+      ],
+      a: 2,
+      e: 'Two distinct real roots exist if and only if the discriminant b² - 4ac > 0 (Textbook Page 54).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 54,
+      difficulty: 'APPLICATION',
+    },
+  ],
+  'Real Numbers & Polynomials': [
+    {
+      q: 'What does the Fundamental Theorem of Arithmetic assert regarding composite numbers?',
+      o: [
+        'Every natural number is a prime number',
+        'The product of two irrational numbers is always rational',
+        'Every composite number can be uniquely expressed as a product of primes, apart from the order of factors',
+        'Composite numbers cannot be factorised into prime components',
+      ],
+      a: 2,
+      e: 'Every composite number can be uniquely expressed as a product of primes up to the order of factors (Textbook Page 18).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 18,
+      difficulty: 'FOUNDATIONAL',
+    },
+    {
+      q: 'For any two positive integers a and b, what is the exact mathematical relationship between their HCF and LCM?',
+      o: [
+        'HCF(a, b) × LCM(a, b) = a × b',
+        'HCF(a, b) + LCM(a, b) = a + b',
+        'HCF(a, b) / LCM(a, b) = a / b',
+        'HCF(a, b) × LCM(a, b) = (a × b)²',
+      ],
+      a: 0,
+      e: 'For any two positive integers a and b, HCF(a, b) × LCM(a, b) = a × b (Textbook Page 20).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 20,
+      difficulty: 'GUIDED',
+    },
+    {
+      q: 'If prime factorisation of 96 is 2⁵ × 3 and 404 is 2² × 101, what is the HCF of 96 and 404?',
+      o: ['2', '4', '8', '12'],
+      a: 1,
+      e: 'HCF is the product of smallest power of each common prime factor: 2² = 4 (Textbook Page 20).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 20,
+      difficulty: 'APPLICATION',
+    },
+  ],
+  '1.2 The Fundamental Theorem of Arithmetic': [
+    {
+      q: 'What does the Fundamental Theorem of Arithmetic assert regarding composite numbers?',
+      o: [
+        'Every natural number is a prime number',
+        'The product of two irrational numbers is always rational',
+        'Every composite number can be uniquely expressed as a product of primes, apart from the order of factors',
+        'Composite numbers cannot be factorised into prime components',
+      ],
+      a: 2,
+      e: 'Every composite number can be uniquely expressed as a product of primes up to the order of factors (Textbook Page 18).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 18,
+      difficulty: 'FOUNDATIONAL',
+    },
+    {
+      q: 'For any two positive integers a and b, what is the exact mathematical relationship between their HCF and LCM?',
+      o: [
+        'HCF(a, b) × LCM(a, b) = a × b',
+        'HCF(a, b) + LCM(a, b) = a + b',
+        'HCF(a, b) / LCM(a, b) = a / b',
+        'HCF(a, b) × LCM(a, b) = (a × b)²',
+      ],
+      a: 0,
+      e: 'For any two positive integers a and b, HCF(a, b) × LCM(a, b) = a × b (Textbook Page 20).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 20,
+      difficulty: 'GUIDED',
+    },
+    {
+      q: 'If prime factorisation of 96 is 2⁵ × 3 and 404 is 2² × 101, what is the HCF of 96 and 404?',
+      o: ['2', '4', '8', '12'],
+      a: 1,
+      e: 'HCF is the product of smallest power of each common prime factor: 2² = 4 (Textbook Page 20).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 20,
       difficulty: 'APPLICATION',
     },
   ],
@@ -407,12 +661,12 @@ export function renderQuizModal(onFinishNavigate?: (route: string) => void) {
 async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
   if (!CURRENT_QUIZ) return;
   const user = authService.getUser();
-  const studentId = user?.id || 'stu-tushar-kacha-001';
+  const studentId = user?.id || 'e09699dd-0c64-44cc-82ef-ab41a832e072';
   let correct = 0;
   const total = CURRENT_QUIZ.questions.length;
   const durationMs = Date.now() - CURRENT_QUIZ.startTime;
 
-  // Record attempts to backend gracefully in sequence
+  // Submit each question to backend adaptive service for authoritative grading
   const attemptPayloads: Array<{
     student_id: string;
     mcq_id: string;
@@ -424,24 +678,60 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
     hint_requested: boolean;
   }> = [];
 
-  CURRENT_QUIZ.questions.forEach((q, i) => {
-    const chosen = CURRENT_QUIZ!.answers[i];
-    const isCorrect = chosen === q.a;
-    if (isCorrect) correct++;
+  const questionReviews: Array<{
+    question: QuizQuestion;
+    chosen: number | null;
+    isCorrect: boolean;
+    explanation: string;
+  }> = [];
+
+  for (let i = 0; i < total; i++) {
+    const q = CURRENT_QUIZ.questions[i];
+    const chosen = CURRENT_QUIZ.answers[i];
+    let isCorrect = false;
+    let explanation = q.e;
 
     if (chosen !== null) {
+      const selectedOptionLetter = 'ABCD'[chosen];
+
+      // Try server-side validation first
+      try {
+        const subResp = await adaptiveService.submitPracticeAnswer({
+          student_id: studentId,
+          question_id: q.id || `mcq-${CURRENT_QUIZ.topicId}-${i + 1}`,
+          topic_id: CURRENT_QUIZ.topicId,
+          selected_answer: selectedOptionLetter,
+          response_time_ms: Math.round(durationMs / total),
+          hint_used: false,
+        });
+
+        if (subResp && typeof subResp.correct === 'boolean') {
+          isCorrect = subResp.correct;
+          if (subResp.explanation) explanation = subResp.explanation;
+        } else if (q.a !== -1 && typeof q.a === 'number') {
+          isCorrect = chosen === q.a;
+        }
+      } catch (err) {
+        if (q.a !== -1 && typeof q.a === 'number') {
+          isCorrect = chosen === q.a;
+        }
+      }
+
       attemptPayloads.push({
         student_id: studentId,
-        mcq_id: q.id || `mcq-${CURRENT_QUIZ!.topicId}-${i + 1}`,
-        topic_id: CURRENT_QUIZ!.topicId,
-        selected_option: 'ABCD'[chosen],
+        mcq_id: q.id || `mcq-${CURRENT_QUIZ.topicId}-${i + 1}`,
+        topic_id: CURRENT_QUIZ.topicId,
+        selected_option: selectedOptionLetter,
         is_correct: isCorrect,
         score: isCorrect ? 100 : 0,
         response_time_ms: Math.round(durationMs / total),
         hint_requested: false,
       });
     }
-  });
+
+    if (isCorrect) correct++;
+    questionReviews.push({ question: q, chosen, isCorrect, explanation });
+  }
 
   const pct = Math.round((correct / total) * 100);
   const durationMin = Math.max(1, Math.round(durationMs / 60000));
@@ -530,9 +820,31 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
         <div class="card pad-sm center"><div class="tiny">Time</div><div style="font-size:20px;font-weight:800;font-family:Manrope">${Math.round(durationMs / 1000)}s</div></div>
         <div class="card pad-sm center"><div class="tiny">Knowledge impact</div><div style="font-size:20px;font-weight:800;font-family:Manrope;color:var(--green)">+5%</div></div>
       </div>
-      <div class="ai-card mt-5" style="text-align:left">
+      <div class="mt-4" style="text-align:left;max-height:200px;overflow-y:auto;border:1px solid var(--border-2);border-radius:var(--r-md);padding:12px;background:var(--surface)">
+        <div style="font-size:11.5px;font-weight:700;color:var(--text-2);margin-bottom:8px">QUESTION REVIEW & TEXTBOOK GROUNDING</div>
+        ${questionReviews
+          .map(
+            (qr, idx) => `
+          <div style="padding:8px 0;border-bottom:1px solid var(--border-2);font-size:12px">
+            <div style="display:flex;align-items:flex-start;gap:8px">
+              <span>${qr.isCorrect ? '✅' : '❌'}</span>
+              <div>
+                <b style="color:var(--text)">Q${idx + 1}: ${qr.question.q}</b>
+                <div style="color:var(--text-2);margin-top:2px">
+                  Your Answer: <b>${qr.chosen !== null ? qr.question.o[qr.chosen] : 'Unanswered'}</b>
+                </div>
+                <div style="color:var(--indigo);font-size:11px;margin-top:3px;line-height:1.4">
+                  📖 ${qr.explanation}
+                </div>
+              </div>
+            </div>
+          </div>`
+          )
+          .join('')}
+      </div>
+      <div class="ai-card mt-4" style="text-align:left">
         <div class="ai-head"><div class="ai-mark">${icon('sparkles')}</div><b>EduNavika Insight</b></div>
-        <div class="ai-body">${pct >= 75 ? 'Strong performance. Your learning events have been persisted to the backend.' : 'Your accuracy on applied questions indicates review is needed. Topic has been noted for spaced revision.'}</div>
+        <div class="ai-body">${pct >= 75 ? 'Strong performance. Verified learning events have been persisted to backend.' : 'Your accuracy indicates review is needed. Topic has been added to your automated spaced revision plan.'}</div>
       </div>
     </div>
     <div class="modal-f">

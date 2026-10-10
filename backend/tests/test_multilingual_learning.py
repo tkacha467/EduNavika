@@ -142,8 +142,8 @@ def test_language_switch_preserves_knowledge_profile_invariants(multilingual_fix
     sub1 = PracticeSubmissionRequest(
         student_id=student.id,
         topic_id=topic.id,
-        question_id="prac-init-01",
-        selected_answer="To satisfy the law of conservation of mass",
+        question_id="chem-ch1-f01",
+        selected_answer="Total mass of elements in products must equal total mass in reactants",
         language="en",
     )
     adaptive_practice_service.submit_practice_answer(db_session, sub1)
@@ -151,7 +151,7 @@ def test_language_switch_preserves_knowledge_profile_invariants(multilingual_fix
     sub2 = PracticeSubmissionRequest(
         student_id=student.id,
         topic_id=topic.id,
-        question_id="prac-init-02",
+        question_id="chem-ch1-f02",
         selected_answer="Wrong option",
         language="en",
     )

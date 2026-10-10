@@ -238,7 +238,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "Mass can neither be created nor destroyed in a chemical reaction. Therefore, the total mass and number of atoms in products must equal that in reactants (Textbook Page 16).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 16,
-            "source_chunk_id": "06f69c9e-137a-4d30-91af-93fd17e032b1",
+            "source_chunk_id": "17b99fdc-d74c-49a0-9e48-9af8388849d0",
             "source_text": "Recall the law of conservation of mass that you studied in Class IX; mass can neither be created nor destroyed in a chemical reaction. That is, the total mass of the elements present in the products of a chemical reaction has to be equal to the total mass of the elements present in the reactants.",
             "skill_target": "Chemical Reactions and Equations Conservation Principles"
         },
@@ -260,7 +260,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "Observations that help determine a chemical reaction: change in state, change in colour, evolution of a gas, change in temperature (Textbook Page 15).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 15,
-            "source_chunk_id": "bc1c309a-28c5-4b54-a055-8f4b174ba4e5",
+            "source_chunk_id": "fe6d06de-d4e7-4214-80e6-41996bfcf837",
             "source_text": "From the above three activities, we can say that any of the following observations helps us to determine whether a chemical reaction has taken place: change in state, change in colour, evolution of a gas, change in temperature.",
             "skill_target": "Chemical Reactions and Equations Observable Indicators"
         },
@@ -283,7 +283,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "When two or more substances combine to form a single product, the reaction is defined as a combination reaction (Textbook Page 19).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 19,
-            "source_chunk_id": "81ecf924-d41e-48fc-93b5-a5b816a4adb8",
+            "source_chunk_id": "16365587-1b56-4f7b-bb1c-6345f90255e7",
             "source_text": "Such a reaction in which a single product is formed from two or more reactants is known as a combination reaction. Calcium oxide reacts vigorously with water to produce slaked lime releasing a large amount of heat.",
             "skill_target": "Chemical Reactions and Equations Reaction Classification"
         },
@@ -305,7 +305,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "Fe3O4 contains 4 oxygen atoms on the product side; hence 4 molecules of H2O are required on the reactant side (Textbook Page 17).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 17,
-            "source_chunk_id": "2f062e2b-90dc-4833-80b9-e92bcc2102fc",
+            "source_chunk_id": "4b5794b0-4c02-4bb6-8f7c-cd5f62b6357b",
             "source_text": "To equalise the number of oxygen atoms we can put coefficient 4 as 4 H2O and not H2O4 or (H2O)4. Now the partly balanced equation becomes: Fe + 4 H2O -> Fe3O4 + H2.",
             "skill_target": "Chemical Reactions and Equations Stepwise Balancing"
         },
@@ -328,7 +328,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "Iron is more reactive than copper and displaces it from CuSO4 to form green FeSO4 while copper deposits on the nail (Textbook Page 24).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 24,
-            "source_chunk_id": "b7de9785-ba20-4994-af18-f6062c0ff3b5",
+            "source_chunk_id": "06032f51-2201-4f6e-8205-2682f87e1d3a",
             "source_text": "Why does the iron nail become brownish in colour and the blue colour of copper sulphate solution fades? Fe(s) + CuSO4(aq) -> FeSO4(aq) + Cu(s). In this reaction, iron has displaced or removed another element, copper, from copper sulphate solution. This reaction is known as displacement reaction.",
             "skill_target": "Chemical Reactions and Equations Displacement Reactions"
         },
@@ -350,7 +350,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "H2 gains oxygen and is oxidised; CuO loses oxygen and is reduced, making it a redox reaction (Textbook Page 25).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 25,
-            "source_chunk_id": "b9a82f08-83c4-4883-93cc-2c77676a61eb",
+            "source_chunk_id": "4ed6649a-0565-4fd4-b95e-7745716cf5d1",
             "source_text": "If a substance gains oxygen during a reaction, it is said to be oxidised. If a substance loses oxygen during a reaction, it is said to be reduced. In this reaction, copper(II) oxide is losing oxygen and is being reduced. The hydrogen is gaining oxygen and is being oxidised.",
             "skill_target": "Chemical Reactions and Equations Redox Dynamics"
         },
@@ -373,7 +373,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "Flushing chip bags with nitrogen gas provides an inert atmosphere that protects fats and oils from aerial oxidation and prevents rancidity (Textbook Page 26).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 26,
-            "source_chunk_id": "6a288187-4b18-492f-b130-d9e8b10c329c",
+            "source_chunk_id": "0e628449-d3d7-4d39-b315-e0696373496b",
             "source_text": "When fats and oils are oxidised, they become rancid and their smell and taste change. Usually substances which prevent oxidation (antioxidants) are added to foods containing fats and oil. Keeping food in air tight containers helps to slow down oxidation. Manufacturers of chips usually flush bags of chips with gas such as nitrogen to prevent the chips from getting oxidised.",
             "skill_target": "Chemical Reactions and Equations Rancidity Prevention"
         },
@@ -395,7 +395,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "Ba2+ ions react with SO4(2-) ions to form an insoluble white precipitate of barium sulphate (BaSO4) in a double displacement reaction (Textbook Page 24).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 24,
-            "source_chunk_id": "b7de9785-ba20-4994-af18-f6062c0ff3b5",
+            "source_chunk_id": "06032f51-2201-4f6e-8205-2682f87e1d3a",
             "source_text": "Na2SO4(aq) + BaCl2(aq) -> BaSO4(s) + 2NaCl(aq). You will observe that a white substance, which is insoluble in water, is formed. This insoluble substance formed is known as a precipitate. The white precipitate of BaSO4 is formed by the reaction of SO4(2-) and Ba(2+).",
             "skill_target": "Chemical Reactions and Equations Precipitation Mechanisms"
         }
@@ -425,7 +425,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "All acids generate H+(aq) ions and all bases generate OH-(aq) ions in solution, leading to neutralization: H+(aq) + OH-(aq) -> H2O(l) (Textbook Page 37).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 37,
-            "source_chunk_id": "7b832566-36d8-4995-94ab-8edf8dca490c",
+            "source_chunk_id": "9d024491-83c8-440e-af1a-6fe856fde0b7",
             "source_text": "Bases generate hydroxide (OH–) ions in water. Now as we have identified that all acids generate H +(aq) and all bases generate OH – (aq), we can view the neutralisation reaction as follows – Acid + Base -> Salt + Water, H+(aq) + OH–(aq) -> H2O(l).",
             "skill_target": "Acids Bases and Salts Ionic Dissociation"
         },
@@ -448,7 +448,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "A pH of 7 represents a neutral solution. Values below 7 represent an acidic solution, while values from 7 to 14 represent an alkaline solution (Textbook Page 38).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 38,
-            "source_chunk_id": "410eac1a-800a-485a-a4e3-853b2ce717b5",
+            "source_chunk_id": "1adeee51-9cc0-4a4b-993d-6aaeb25997a1",
             "source_text": "The p in pH stands for 'potenz' in German, meaning power. On the pH scale we can measure pH generally from 0 (very acidic) to 14 (very alkaline). Neutral solution has a pH of 7. Values less than 7 represent an acidic solution.",
             "skill_target": "Acids Bases and Salts pH Metric Scale"
         },
@@ -471,7 +471,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "The glowing of the bulb indicates an electric current carries through the solution by free ions. Acids produce H+ ions in solution, whereas glucose and alcohol do not ionize (Textbook Page 36).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 36,
-            "source_chunk_id": "67a63929-ba58-44d6-97b9-10fe4bc3efaf",
+            "source_chunk_id": "a0005cbd-c43b-466a-bb7c-304ab5a96401",
             "source_text": "The bulb will start glowing in the case of acids, as shown in Fig. 2.3. But you will observe that glucose and alcohol solutions do not conduct electricity. Glowing of the bulb indicates that there is a flow of electric current through the solution. The electric current is carried through the acidic solution by ions.",
             "skill_target": "Acids Bases and Salts Electrolytic Conduction"
         },
@@ -494,7 +494,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "Plaster of Paris is calcium sulphate hemihydrate (CaSO4·1/2H2O). On mixing with water, it sets into a hard solid mass by forming gypsum (Textbook Page 46).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 46,
-            "source_chunk_id": "38a0412c-46d8-4777-8a7c-1f9f3495fc68",
+            "source_chunk_id": "a11aa2ec-aa0e-4884-a5e9-31ee708869d3",
             "source_text": "On heating gypsum at 373 K, it loses water molecules and becomes calcium sulphate hemihydrate (CaSO4. 1/2 H2O). This is called Plaster of Paris, the substance which doctors use as plaster for supporting fractured bones in the right position. Plaster of Paris is a white powder and on mixing with water, it changes to gypsum once again giving a hard solid mass.",
             "skill_target": "Acids Bases and Salts Crystallisation Hydration"
         }
@@ -524,7 +524,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "Joule's law of heating explicitly states H = I²Rt, implying heat produced is directly proportional to the square of current, resistance, and time (Textbook Page 202).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 202,
-            "source_chunk_id": "3175171d-1f98-449e-a9c6-1a9c1b41098a",
+            "source_chunk_id": "7003bfd0-7681-4366-b52f-e743ba2c51ae",
             "source_text": "Applying Ohm’s law [Eq. (11.5)], we get H = I2 Rt (11.21). This is known as Joule’s law of heating. The law implies that heat produced in a resistor is (i) directly proportional to the square of current for a given resistance, (ii) directly proportional to resistance for a given current, and (iii) directly proportional to the time for which the current flows through the resistor.",
             "skill_target": "Electricity Joule Heating Principles"
         },
@@ -547,7 +547,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "Tungsten has an extremely high melting point of 3380 °C, retaining thermal energy and glowing incandescently without melting (Textbook Page 203).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 203,
-            "source_chunk_id": "e0826cda-0685-42b0-a552-ed8d0d84b628",
+            "source_chunk_id": "c2533663-9e08-4f56-be4b-bd0f40598e5f",
             "source_text": "The electric heating is also used to produce light, as in an electric bulb. Here, the filament must retain as much of the heat generated as is possible, so that it gets very hot and emits light. It must not melt at such high temperatures. A strong metal with high melting point such as tungsten (melting point 3380 C) is used for making bulb filaments.",
             "skill_target": "Electricity Filament Material Properties"
         },
@@ -570,7 +570,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "A fuse is placed in series with appliances; when excessive current flows, Joule heating melts the fuse wire and breaks the circuit safely (Textbook Page 203).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 203,
-            "source_chunk_id": "e0826cda-0685-42b0-a552-ed8d0d84b628",
+            "source_chunk_id": "c2533663-9e08-4f56-be4b-bd0f40598e5f",
             "source_text": "Another common application of Joule’s heating is the fuse used in electric circuits. It protects circuits and appliances by stopping the flow of any unduly high electric current. The fuse is placed in series with the device. If a current larger than the specified value flows through the circuit, the temperature of the fuse wire increases. This melts the fuse wire and breaks the circuit.",
             "skill_target": "Electricity Circuit Safety Mechanisms"
         },
@@ -593,7 +593,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "1 kWh = 1000 W × 3600 s = 3.6 × 10⁶ W·s = 3.6 × 10⁶ J (Textbook Page 204).",
             "source_document": "STD-10/Std-10_Science_English Medium.pdf",
             "source_page": 204,
-            "source_chunk_id": "8df6c3d2-cdce-4407-b0c9-2931e39c629f",
+            "source_chunk_id": "24169a26-16a2-4010-8f53-83cf7fdb8b15",
             "source_text": "The commercial unit of electric energy is kilowatt hour (kW h), commonly known as 'unit'. 1 kW h = 1000 watt x 3600 second = 3.6 x 10^6 watt second = 3.6 x 10^6 joule (J).",
             "skill_target": "Electricity Electrical Energy Quantification"
         }
@@ -623,7 +623,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "The Fundamental Theorem of Arithmetic states that every composite number can be expressed (factorised) as a product of primes uniquely, up to the order in which prime factors occur (Textbook Page 18).",
             "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
             "source_page": 18,
-            "source_chunk_id": "042ae613-1a09-4660-87c7-4383df7031fa",
+            "source_chunk_id": "ff25fec3-625b-4592-a890-4aa96551392d",
             "source_text": "Theorem 1.1 (Fundamental Theorem of Arithmetic) : Every composite number can be expressed (factorised) as a product of primes, and this factorisation is unique, apart from the order in which the prime factors occur.",
             "skill_target": "Fundamental Theorem of Arithmetic Prime Factorisation"
         },
@@ -646,7 +646,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "For any two positive integers a and b, HCF(a, b) × LCM(a, b) = a × b (Textbook Page 20).",
             "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
             "source_page": 20,
-            "source_chunk_id": "475ed206-658d-4adc-952c-8a6f39d5c138",
+            "source_chunk_id": "e05b516b-c241-4d3d-a7db-5f56d86b6820",
             "source_text": "Notice that 96 x 404 = 38784. Also, HCF x LCM = 4 x 9696 = 38784. Hence, HCF x LCM = product of the two numbers. This is a very useful result: For any two positive integers a and b, HCF (a, b) x LCM (a, b) = a x b.",
             "skill_target": "Fundamental Theorem of Arithmetic HCF-LCM Relationship"
         },
@@ -669,7 +669,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "HCF is the product of the smallest power of each common prime factor: 2² = 4 (Textbook Page 20).",
             "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
             "source_page": 20,
-            "source_chunk_id": "475ed206-658d-4adc-952c-8a6f39d5c138",
+            "source_chunk_id": "e05b516b-c241-4d3d-a7db-5f56d86b6820",
             "source_text": "Solution : The prime factorisation of 96 and 404 gives : 96 = 2^5 x 3, 404 = 2^2 x 101. Therefore, the HCF of these two integers is 4.",
             "skill_target": "Fundamental Theorem of Arithmetic Factor Calculation"
         },
@@ -692,7 +692,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "A number ending in 0 must have 2 and 5 in its prime factorisation. Since 4ⁿ = (2²)ⁿ = 2²ⁿ, 5 is not a prime factor, so 4ⁿ cannot end in 0 (Textbook Page 19).",
             "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
             "source_page": 19,
-            "source_chunk_id": "dd392af0-22b0-46af-9c31-376ca41e5b4f",
+            "source_chunk_id": "ddd921db-0dd1-4ff9-a93b-6e7183ea0d3e",
             "source_text": "Consider the numbers 4^n, where n is a natural number. Check whether there is any value of n for which 4^n ends with the digit zero. If the number 4^n, for any n, were to end with the digit zero, then it would be divisible by 5. That is, the prime factorisation of 4^n would contain the prime 5. This is not possible because 4^n = (2)^2n; so the only prime in the factorisation of 4^n is 2.",
             "skill_target": "Fundamental Theorem of Arithmetic Divisibility Analysis"
         }
@@ -721,8 +721,8 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "correct_answer": "ax² + bx + c = 0, where a, b, c are real numbers and a ≠ 0",
             "explanation": "A quadratic equation in the variable x is an equation of the form ax² + bx + c = 0, where a, b, c are real numbers and a ≠ 0 (Textbook Page 54).",
             "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
-            "source_page": 54,
-            "source_chunk_id": "6f64b243-a2d9-485c-a106-1406a3e13cd5",
+            "source_page": 53,
+            "source_chunk_id": "672fcef8-da86-4c63-9f18-72efcbf475ec",
             "source_text": "A quadratic equation in the variable x is an equation of the form ax2 + bx + c = 0, where a, b, c are real numbers and a != 0. In fact, any equation of the form p(x) = 0, where p(x) is a polynomial of degree 2, is a quadratic equation.",
             "skill_target": "Quadratic Equations Standard Form"
         },
@@ -744,8 +744,8 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "correct_answer": "x = (-b ± √(b² - 4ac)) / (2a)",
             "explanation": "The quadratic formula gives roots x = (-b ± √(b² - 4ac)) / (2a) provided b² - 4ac ≥ 0 (Textbook Page 54).",
             "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
-            "source_page": 54,
-            "source_chunk_id": "6f64b243-a2d9-485c-a106-1406a3e13cd5",
+            "source_page": 53,
+            "source_chunk_id": "672fcef8-da86-4c63-9f18-72efcbf475ec",
             "source_text": "Sridharacharya (C.E. 1025) derived a formula, now known as the quadratic formula, (as quoted by Bhaskara II) for solving a quadratic equation by the method of completing the square: x = (-b +- sqrt(b^2 - 4ac)) / (2a).",
             "skill_target": "Quadratic Equations Sridharacharya Formula"
         },
@@ -768,7 +768,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "Let John have x marbles. Then (x - 5)(40 - x) = 124, which simplifies directly to x² - 45x + 324 = 0 (Textbook Page 55).",
             "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
             "source_page": 55,
-            "source_chunk_id": "d15466c7-6b82-4215-985a-673253b83c8d",
+            "source_chunk_id": "1f5a3404-1459-40b5-b9d2-9907f137bae1",
             "source_text": "So, – x2 + 45x – 200 = 124 (Given that product = 124)\ni.e., – x2 + 45x – 324 = 0\ni.e.,x2 – 45x + 324 = 0\nTherefore, the number of marbles John had, satisfies the quadratic equation x2 – 45x + 324 = 0.",
             "skill_target": "Quadratic Equations Mathematical Modeling"
         },
@@ -791,7 +791,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "explanation": "When b² - 4ac < 0, there is no real number whose square is b² - 4ac; hence no real roots exist for the quadratic equation (Textbook Page 59).",
             "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
             "source_page": 59,
-            "source_chunk_id": "e3ea0fc7-718a-4210-992c-6bcd8f6b7a4d",
+            "source_chunk_id": "ac274551-0f6d-472a-a5e9-f4822efdbfe3",
             "source_text": "If b2 – 4ac < 0, then there is no real number whose square is b2 – 4ac. Therefore, there are no real roots for the given quadratic equation in this case. Since b2 – 4ac determines whether the quadratic equation ax2 + bx + c = 0 has real roots or not, b2 – 4ac is called the discriminant.",
             "skill_target": "Quadratic Equations Discriminant Analysis"
         }
@@ -799,14 +799,74 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
 }
 
 
-def get_canonical_questions_for_topic(topic_id: str, difficulty: Optional[str] = None) -> List[Dict[str, Any]]:
+def get_canonical_question_by_id(question_id: str) -> Optional[Dict[str, Any]]:
+    """
+    Looks up a question across all topics in CANONICAL_CURRICULUM_BANK by question id.
+    Handles exact id match (e.g. 'chem-ch1-f01') or substring/session id matches.
+    """
+    if not question_id:
+        return None
+    for tid, qlist in CANONICAL_CURRICULUM_BANK.items():
+        for q in qlist:
+            if q.get("id") == question_id:
+                return q
+            if q.get("id") and q.get("id") in question_id:
+                return q
+    return None
+
+
+def get_canonical_questions_for_topic(topic_id: str, difficulty: Optional[str] = None, topic_title: Optional[str] = None) -> List[Dict[str, Any]]:
     """
     Retrieves verified curriculum questions for a topic ID, optionally filtered by difficulty tier.
     """
-    questions = CANONICAL_CURRICULUM_BANK.get(topic_id, [])
+    questions = CANONICAL_CURRICULUM_BANK.get(topic_id)
+    search_keys = []
+    if topic_title:
+        search_keys.append(topic_title)
+    if topic_id:
+        search_keys.append(topic_id)
+
+    if not questions:
+        for sk in search_keys:
+            clean_k = sk.lower().replace('&', 'and').replace('—', '-').replace('–', '-').replace('?', '-').strip()
+            for k, qlist in CANONICAL_CURRICULUM_BANK.items():
+                if qlist:
+                    t_title = qlist[0].get("topic_title", "").lower().replace('&', 'and').replace('—', '-').replace('–', '-').strip()
+                    c_title = qlist[0].get("chapter", "").lower().replace('&', 'and').replace('—', '-').replace('–', '-').strip()
+                    if (len(clean_k) >= 4 and (clean_k in t_title or clean_k in c_title)) or (len(t_title) >= 4 and t_title in clean_k):
+                        questions = qlist
+                        break
+            if questions:
+                break
+
+    questions = questions or []
     if difficulty:
         diff_upper = difficulty.upper()
-        matching = [q for q in questions if q["difficulty"] == diff_upper]
+        matching = [q for q in questions if q.get("difficulty") == diff_upper]
         if matching:
             return matching
     return questions
+
+
+def canonical_question_matches_topic(
+    question: Dict[str, Any], topic_id: str, topic_title: Optional[str] = None,
+) -> bool:
+    """Return true only when a canonical question is in the resolved topic's bank.
+
+    A question id alone is not sufficient evidence of scope: clients also submit a
+    topic id, and recording a valid question against a different topic corrupts the
+    learner model.  Compare against the resolved topic list so database UUID aliases
+    and human-readable topic names continue to work without cross-topic fallback.
+    """
+    question_id = question.get("id")
+    return any(
+        candidate.get("id") == question_id
+        for candidate in get_canonical_questions_for_topic(topic_id, topic_title=topic_title)
+    )
+
+
+# Alias real SQLite database topic IDs to ensure seamless retrieval
+CANONICAL_CURRICULUM_BANK["f35b0ee4-25e9-428e-b90b-391767cc35c7"] = CANONICAL_CURRICULUM_BANK["5a321a44-bc06-4db4-a50f-5e53f913b612"]
+CANONICAL_CURRICULUM_BANK["d11470ef-41a7-432f-abc1-5d95a62aca38"] = CANONICAL_CURRICULUM_BANK["efee2da2-bd20-42bb-ad01-df2516530b1f"]
+CANONICAL_CURRICULUM_BANK["aae5ca86-d399-41ad-a26c-09070df208ea"] = CANONICAL_CURRICULUM_BANK["ea3cb4fd-f34d-409b-b0f6-d69b70db05b0"]
+CANONICAL_CURRICULUM_BANK["7edd3f20-4360-49be-9d5a-b521225013c9"] = CANONICAL_CURRICULUM_BANK["e84e1b11-f928-4b38-93ad-738af5c0b1e5"]

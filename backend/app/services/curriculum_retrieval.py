@@ -11,7 +11,7 @@ from backend.app.schemas.retrieval import (
     RetrievalSearchResponse,
 )
 from backend.app.services.recommendation_engine import RecommendationEngineService
-from backend.app.api.v1.endpoints.attempts import _resolve_topic
+from backend.app.services.topic_resolver import resolve_topic as _resolve_topic
 
 
 class CurriculumRetrievalService:

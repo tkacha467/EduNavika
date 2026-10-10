@@ -317,8 +317,8 @@ function renderProgressSection(p?: StudentProgressResponse, firstName: string = 
   <div class="card pad-lg mb-6" style="border-radius:14px;border:1px solid var(--border);background:var(--surface)">
     <div class="flex-b items-center mb-4" style="flex-wrap:wrap;gap:8px">
       <div>
-        <div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--indigo);text-transform:uppercase;display:flex;align-items:center;gap:6px">
-          <span>📊</span> YOUR PROGRESS & KNOWLEDGE HEALTH
+        <div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--indigo);display:flex;align-items:center;gap:6px">
+          <span>📊</span> Your Progress & Knowledge Health
         </div>
         <p style="font-size:12px;color:var(--text-3);margin:2px 0 0 0">Standard 10 syllabus mastery computed locally from verified learning events</p>
       </div>
@@ -387,10 +387,6 @@ export function studentDashboard(): string {
     loadStudentProgress().then(refreshDashboard);
   }
 
-  // Time-aware greeting
-  const hour = new Date().getHours();
-  const timeGreeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-
   const topicTitle = rec ? rec.topic_title : 'Chemical Reactions and Equations';
   const topicId = rec ? rec.topic_id : '5a321a44-bc06-4db4-a50f-5e53f913b612';
   const mastery = rec ? rec.mastery_level : (isNew ? 'UNASSESSED' : 'NOVICE');
@@ -409,7 +405,7 @@ export function studentDashboard(): string {
       <div class="welcome-c">
         <div class="welcome-l">
           <div class="hi" style="display:flex;align-items:center;gap:8px">
-            <span>${timeGreeting}, ${firstName} 👋</span>
+            <span>Welcome, ${firstName} 👋</span>
             <span class="badge" style="background:rgba(255,255,255,.18);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px">Std 10 · GSEB Science & Mathematics</span>
           </div>
           <h1 style="margin-top:6px">On-Device Personalized Learning Assistant</h1>
@@ -430,9 +426,9 @@ export function studentDashboard(): string {
     <!-- 2. RECOMMENDED FOR YOU (PERSONALIZED LEARNING PATH) -->
     <div class="card pad-lg mb-6" style="background:linear-gradient(135deg, #1E293B, #0F172A);color:#fff;border-radius:16px;border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 30px rgba(15,23,42,.35)">
       <div class="flex-b items-center mb-3">
-        <div style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#38BDF8;text-transform:uppercase;display:flex;align-items:center;gap:6px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#38BDF8;display:flex;align-items:center;gap:6px">
           <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#38BDF8;box-shadow:0 0 8px #38BDF8"></span>
-          RECOMMENDED FOR YOU
+          Recommended for You · Today's Focus
         </div>
         <span class="badge" style="background:rgba(56,189,248,.15);color:#38BDF8;border:1px solid rgba(56,189,248,.3);font-size:11px;font-weight:700">
           ${actionLabel}
@@ -2788,10 +2784,100 @@ export function openAIPanel(): void {
           </button>`).join('')}
       </div>
     </div>
-    <div style="padding:16px 22px;border-top:1px solid var(--border);display:flex;gap:10px">
-      <input class="input" id="aiInput" placeholder="Ask EduNavika AI anything from your syllabus…" onkeydown="if(event.key==='Enter')sendAI()">
-      <button class="btn btn-primary btn-icon" onclick="sendAI()">${icon('send')}</button>
+    <div style="padding:12px 22px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:6px">
+      <div id="voiceStatus" style="font-size:11px;color:var(--teal-700,#007B83);font-weight:600;min-height:14px"></div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <input class="input" id="aiInput" placeholder="Ask EduNavika AI anything from your syllabus…" onkeydown="if(event.key==='Enter')sendAI()" style="flex:1">
+        <button class="btn btn-icon btn-outline" id="btnVoiceInput" onclick="toggleVoiceInput('aiInput', 'btnVoiceInput')" title="Voice Input (Speech-to-Text)" aria-label="Voice input">
+          ${icon('mic', 'ic-sm')}
+        </button>
+        <button class="btn btn-primary btn-icon" onclick="sendAI()" aria-label="Send message">${icon('send')}</button>
+      </div>
     </div>`);
+}
+
+export function toggleVoiceInput(inputId: string = 'aiInput', btnId: string = 'btnVoiceInput'): void {
+  const SpeechRec = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+  const btn = document.getElementById(btnId);
+  const input = document.getElementById(inputId) as HTMLInputElement | null;
+  const statusEl = document.getElementById('voiceStatus');
+
+  if (!SpeechRec) {
+    toast('Voice Input Notice', 'Web Speech API is not supported in this browser. Keyboard fallback is active.', 'warn');
+    if (statusEl) statusEl.textContent = 'Voice recognition unavailable on this device/browser. Keyboard mode active.';
+    return;
+  }
+
+  if ((window as any)._activeRecognition) {
+    try {
+      (window as any)._activeRecognition.stop();
+    } catch {}
+    (window as any)._activeRecognition = null;
+    if (btn) {
+      btn.style.background = '';
+      btn.style.color = '';
+    }
+    if (statusEl) statusEl.textContent = '';
+    return;
+  }
+
+  try {
+    const recognition = new SpeechRec();
+    const currentLang = getLanguage();
+    recognition.lang = currentLang === 'gu' ? 'gu-IN' : currentLang === 'hi' ? 'hi-IN' : 'en-IN';
+    recognition.continuous = false;
+    recognition.interimResults = true;
+
+    recognition.onstart = () => {
+      (window as any)._activeRecognition = recognition;
+      if (btn) {
+        btn.style.background = 'var(--coral, #E56B6F)';
+        btn.style.color = '#fff';
+      }
+      if (statusEl) statusEl.textContent = '🎙️ Listening... Speak your syllabus question.';
+    };
+
+    recognition.onresult = (event: any) => {
+      let transcript = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        transcript += event.results[i][0].transcript;
+      }
+      if (input && transcript) {
+        input.value = transcript;
+      }
+      if (statusEl && transcript) {
+        statusEl.textContent = `🎙️ Heard: "${transcript}"`;
+      }
+    };
+
+    recognition.onerror = (event: any) => {
+      if (btn) {
+        btn.style.background = '';
+        btn.style.color = '';
+      }
+      (window as any)._activeRecognition = null;
+      if (statusEl) {
+        statusEl.textContent = event.error === 'network'
+          ? 'Voice recognition offline. Keyboard mode active.'
+          : `Microphone status: ${event.error}. You can type using the keyboard.`;
+      }
+    };
+
+    recognition.onend = () => {
+      if (btn) {
+        btn.style.background = '';
+        btn.style.color = '';
+      }
+      (window as any)._activeRecognition = null;
+      if (statusEl) {
+        setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 3500);
+      }
+    };
+
+    recognition.start();
+  } catch (err) {
+    toast('Voice Input', 'Microphone initialization failed. Please use keyboard.', 'warn');
+  }
 }
 
 export async function sendAI(q?: string): Promise<void> {
@@ -3199,5 +3285,6 @@ if (typeof window !== 'undefined') {
   window.selectCurriculumSubject = selectCurriculumSubject;
   window.openTopicContentReader = openTopicContentReader;
   window.loadCurriculumHierarchy = loadCurriculumHierarchy;
+  window.toggleVoiceInput = toggleVoiceInput;
 }
 

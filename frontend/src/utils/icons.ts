@@ -49,6 +49,7 @@ export const I: Record<string, string> = {
   graduation: '<path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
   star: '<path d="M12 2l3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/>',
   brain: '<path d="M9.5 2a3 3 0 0 0-3 3v.5a3 3 0 0 0-2 5.7V14a3 3 0 0 0 3 3h1v3a2 2 0 0 0 4 0v-3"/><path d="M14.5 2a3 3 0 0 1 3 3v.5a3 3 0 0 1 2 5.7V14a3 3 0 0 1-3 3h-1v3a2 2 0 0 1-4 0v-3"/>',
+  mic: '<path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/>',
 };
 
 export function icon(name: string, cls = ''): string {

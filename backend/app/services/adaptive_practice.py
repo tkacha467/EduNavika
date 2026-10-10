@@ -29,6 +29,8 @@ from backend.app.services.curriculum_question_bank import (
     CurriculumQuestionValidator,
     CANONICAL_CURRICULUM_BANK,
     get_canonical_questions_for_topic,
+    get_canonical_question_by_id,
+    canonical_question_matches_topic,
 )
 from backend.app.services.curriculum_translations import (
     localize_question,
@@ -326,6 +328,7 @@ class AdaptivePracticeService:
                 "student_id": q.student_id,
                 "topic_id": q.topic_id,
                 "difficulty": q.difficulty,
+                "options": q.options,
                 "correct_answer": q.correct_answer,
                 "canonical_correct_answer": getattr(q, "canonical_correct_answer", q.correct_answer),
                 "explanation": q.explanation,
@@ -595,6 +598,7 @@ class AdaptivePracticeService:
                 "student_id": q.student_id,
                 "topic_id": q.topic_id,
                 "difficulty": q.difficulty,
+                "options": q.options,
                 "correct_answer": q.correct_answer,
                 "canonical_correct_answer": item.get("correct_answer"),
                 "explanation": q.explanation,
@@ -623,29 +627,69 @@ class AdaptivePracticeService:
 
         target_lang = submission.language or (student.preferred_language if student else "en") or "en"
 
-        # 1. Retrieve Question Metadata from Active Registry or fallback
+        # 1. Retrieve Question Metadata from Active Registry, Canonical Bank, or DB
         q_meta = self._ACTIVE_QUESTIONS.get(submission.question_id)
-        if q_meta:
+        canonical_q = get_canonical_question_by_id(submission.question_id)
+        options = []
+        if q_meta and q_meta.get("topic_id") == topic.id:
             correct_answer = q_meta["correct_answer"]
             base_explanation = q_meta["explanation"]
             difficulty = q_meta.get("difficulty", "FOUNDATIONAL")
             src_doc = q_meta.get("source_document")
             src_page = q_meta.get("source_page")
             canonical_answer = q_meta.get("canonical_correct_answer", correct_answer)
-        else:
-            # Fallback evaluation if session question expired
-            correct_answer = "To satisfy the law of conservation of mass"
-            base_explanation = "Mass can neither be created nor destroyed in a chemical reaction (Textbook Page 14)."
-            difficulty = "FOUNDATIONAL"
-            src_doc = "STD-10/Std-10_Science_English Medium.pdf"
-            src_page = 14
+            options = q_meta.get("options", [])
+        elif canonical_q:
+            if not canonical_question_matches_topic(canonical_q, topic.id, topic.title):
+                raise ValueError("Practice question does not belong to the submitted curriculum topic.")
+            correct_answer = canonical_q["correct_answer"]
+            base_explanation = canonical_q.get("explanation", f"Grounded in curriculum page {canonical_q.get('source_page', 1)}.")
+            difficulty = canonical_q.get("difficulty", "FOUNDATIONAL")
+            src_doc = canonical_q.get("source_document")
+            src_page = canonical_q.get("source_page")
             canonical_answer = correct_answer
+            options = canonical_q.get("options", [])
+        elif q_meta:
+            # A session-only id from another topic must never be credited here.
+            raise ValueError("Practice question does not belong to the submitted curriculum topic.")
+        else:
+            # Check MCQQuestion table in DB
+            from backend.app.models import MCQQuestion
+            mcq_record = db.query(MCQQuestion).filter(MCQQuestion.id == submission.question_id).first()
+            if mcq_record:
+                if mcq_record.topic_id != topic.id:
+                    raise ValueError("Practice question does not belong to the submitted curriculum topic.")
+                correct_answer = mcq_record.correct_option
+                base_explanation = mcq_record.explanation or "No verified explanation is available for this question."
+                difficulty = mcq_record.difficulty.value if hasattr(mcq_record.difficulty, "value") else "FOUNDATIONAL"
+                src_doc = mcq_record.source_content.source_document if mcq_record.source_content else None
+                src_page = mcq_record.source_content.source_page if mcq_record.source_content else None
+                canonical_answer = correct_answer
+                options = [mcq_record.option_a, mcq_record.option_b, mcq_record.option_c, mcq_record.option_d]
+            else:
+                raise ValueError("Question is not in the verified curriculum question bank.")
 
-        # Compare answers (case-insensitive strip; checks localized or canonical answer match)
+        # Compare answers (handles: exact text, stripped text, option letters 'A'/'B'/'C'/'D', option indices 0/1/2/3)
         selected_clean = submission.selected_answer.strip().lower()
+        candidate_answers = set()
+        if correct_answer:
+            candidate_answers.add(correct_answer.strip().lower())
+        if canonical_answer:
+            candidate_answers.add(canonical_answer.strip().lower())
+        # If student sent an option letter ('A', 'B', 'C', 'D') or index
+        if selected_clean in ("a", "b", "c", "d") and options and len(options) >= 4:
+            opt_idx = ord(selected_clean.upper()) - ord("A")
+            if 0 <= opt_idx < len(options):
+                candidate_answers.add(str(options[opt_idx]).strip().lower())
+        elif selected_clean in ("0", "1", "2", "3") and options and len(options) >= 4:
+            opt_idx = int(selected_clean)
+            if 0 <= opt_idx < len(options):
+                candidate_answers.add(str(options[opt_idx]).strip().lower())
+
         is_correct = (
-            selected_clean == correct_answer.strip().lower()
-            or selected_clean == canonical_answer.strip().lower()
+            selected_clean in candidate_answers
+            or (bool(correct_answer) and selected_clean == correct_answer.strip().lower())
+            or (bool(canonical_answer) and selected_clean == canonical_answer.strip().lower())
         )
 
         # 2. Record atomic LearningEvent via EventRecorderService (100% language-invariant)

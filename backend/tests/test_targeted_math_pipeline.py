@@ -56,9 +56,16 @@ def test_normalizer_mathematical_transformations():
     assert r"\pm" in normalizer.normalize("x = -b ± d")
 
 
+def _get_math_pdf_path() -> str:
+    p = Path("GSEB-Dataset/STD-10/Std-10_Maths_EnglishMedium.pdf")
+    if p.exists():
+        return str(p)
+    return "GSEB-Dataset/STD-10th/Std-10_Maths_EnglishMedium.pdf"
+
+
 def test_region_detector_detection_and_crop():
     detector = MathRegionDetector(min_confidence=0.25)
-    pdf_path = "GSEB-Dataset/STD-10/Std-10_Maths_EnglishMedium.pdf"
+    pdf_path = _get_math_pdf_path()
 
     # Page 127 is known to have coordinate geometry formulas
     regions = detector.detect_regions(pdf_path, 127)
@@ -78,7 +85,7 @@ def test_region_detector_detection_and_crop():
 
 def test_targeted_math_extractor_integration():
     extractor = TargetedMathExtractor(enable_ocr=False) # Test fast routing without heavy model
-    pdf_path = "GSEB-Dataset/STD-10/Std-10_Maths_EnglishMedium.pdf"
+    pdf_path = _get_math_pdf_path()
 
     # Page 15 is Social Science Constitution page (prose)
     prose_res = extractor.extract_page(pdf_path, 15)

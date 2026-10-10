@@ -320,6 +320,30 @@ def test_12_submission_creates_learning_event(db_session, practice_fixture):
     assert new_event_count == initial_event_count + 1
 
 
+def test_submission_rejects_a_question_from_another_curriculum_topic(db_session, practice_fixture):
+    """A valid question id must not be credited to an unrelated selected topic."""
+    student = practice_fixture["student"]
+    chemistry_topic = practice_fixture["topic"]
+
+    # math-ch1-f01 is a verified question, but it is not part of this chemistry topic.
+    with pytest.raises(ValueError, match="does not belong"):
+        adaptive_practice_service.submit_practice_answer(
+            db=db_session,
+            submission=PracticeSubmissionRequest(
+                student_id=student.id,
+                question_id="math-ch1-f01",
+                topic_id=chemistry_topic.id,
+                selected_answer="Every composite number has a unique prime factorisation",
+                response_time_ms=1000,
+            ),
+        )
+
+    assert db_session.query(LearningEvent).filter(
+        LearningEvent.student_id == student.id,
+        LearningEvent.topic_id == chemistry_topic.id,
+    ).count() == 0
+
+
 def test_13_mock_local_llm_mcq_generation(db_session, practice_fixture):
     """Mocking local LLM creates valid MCQ and labels generation_mode as LOCAL_LLM."""
     student = practice_fixture["student"]

@@ -1,0 +1,93 @@
+{
+  "engine_name": "RapidOCR (ONNXRuntime-CPU) + pypdfium2",
+  "timestamp": "2026-09-13T10:21:39Z",
+  "total_books_tested": 4,
+  "total_pages_tested": 4,
+  "overall_sec_per_page": 18.0,
+  "overall_avg_confidence": 0.9428,
+  "overall_cer": 0.425,
+  "overall_wer": 0.6028,
+  "quality_gate_status": "PASS",
+  "results": [
+    {
+      "filename": "Std-10_Social_Science_EnglishMedium.pdf",
+      "relative_path": "STD-10th/Std-10_Social_Science_EnglishMedium.pdf",
+      "standard": 10,
+      "subject": "Social Science",
+      "pages_tested": [
+        15
+      ],
+      "total_lines": 39,
+      "total_words": 461,
+      "total_chars": 3113,
+      "avg_confidence": 0.9741,
+      "total_elapsed_sec": 29.78,
+      "sec_per_page": 29.78,
+      "pages_per_minute": 2.0,
+      "sample_text": "Saurashtra regions ofGujarat.The traditional art ofembroidery, sakh torans, chakda, pillow cover, bed sheets.todaliya,clothes like kediya is well-known even today,Embroidery work is also carried out on quilt and shawls with different designs, Embroidery work of*Jat'community of Banni area ofKutch is",
+      "cer": 0.0595,
+      "wer": 0.6364,
+      "quality_gate_passed": true
+    },
+    {
+      "filename": "Std-10_ComputerStudies_EnglishMedium.pdf",
+      "relative_path": "STD-10th/Std-10_ComputerStudies_EnglishMedium.pdf",
+      "standard": 10,
+      "subject": "Computer Studies",
+      "pages_tested": [
+        15
+      ],
+      "total_lines": 49,
+      "total_words": 246,
+      "total_chars": 1572,
+      "avg_confidence": 0.9764,
+      "total_elapsed_sec": 15.97,
+      "sec_per_page": 15.97,
+      "pages_per_minute": 3.8,
+      "sample_text": "Elements Description <small> and </small> The content is displayed one font size smaller than the rest of the text surrounding it. <big> and</big> The content is displayed one font sizebigger than the rest of the text surrounding it. <dns/> pue <dns> The content is displayed in superscript. <sub> an",
+      "cer": 0.3134,
+      "wer": 0.4,
+      "quality_gate_passed": true
+    },
+    {
+      "filename": "Std-9 Sanskrit E.M.pdf",
+      "relative_path": "STD-9th/Std-9 Sanskrit E.M.pdf",
+      "standard": 9,
+      "subject": "Sanskrit",
+      "pages_tested": [
+        10
+      ],
+      "total_lines": 23,
+      "total_words": 213,
+      "total_chars": 1213,
+      "avg_confidence": 0.8562,
+      "total_elapsed_sec": 18.14,
+      "sec_per_page": 18.14,
+      "pages_per_minute": 3.3,
+      "sample_text": ":lle bwe 7 [Right from ancient time in Sanskrit, the fables literature have been popular in Sanskrit literature. Whether it is a Jataka Tales or Panchatantra or the Hitopadesha, in every book, animals are the characters through which different Tales have been imagi- nativelywritten. Fables are creat",
+      "cer": 0.8148,
+      "wer": 1.0,
+      "quality_gate_passed": true
+    },
+    {
+      "filename": "Std-11_Hornbill_EnglishMedium.pdf",
+      "relative_path": "STD-11th/Std-11_Hornbill_EnglishMedium.pdf",
+      "standard": 11,
+      "subject": "Hornbill English",
+      "pages_tested": [
+        12
+      ],
+      "total_lines": 38,
+      "total_words": 73,
+      "total_chars": 464,
+      "avg_confidence": 0.9646,
+      "total_elapsed_sec": 8.1,
+      "sec_per_page": 8.1,
+      "pages_per_minute": 7.4,
+      "sample_text": "Contents FOREWORD ti RATIONALISATION OF CONTENT IN THE TEXTBOOKS V ABOUT THE BOOK !a READING SKILLS 1-72 The Portrait of a Lady 3 KHUSHWANT SINGH A Photograph 11 SHIRLEY TOULSON 2 We're Not Afraid toDie.. ifWeCanAllBeTogether 13 GORDON CoOK and ALAN EAST 3. Discovering Tut: the Saga Continues 22 A.R",
+      "cer": 0.5122,
+      "wer": 0.375,
+      "quality_gate_passed": true
+    }
+  ]
+}
