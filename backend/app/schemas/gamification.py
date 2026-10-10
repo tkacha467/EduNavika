@@ -22,6 +22,23 @@ class BadgeItem(BaseModel):
     target: int = Field(1, description="Target value required to unlock")
 
 
+class QuestItem(BaseModel):
+    """Adaptive learning quest derived from student learning signals."""
+    quest_id: str = Field(..., description="Unique quest identifier")
+    quest_type: str = Field(..., description="Quest type: CONCEPT_RECOVERY, MASTERY_QUEST, REVISION_RESCUE, CONSISTENCY_QUEST, PERSONAL_BEST")
+    title: str = Field(..., description="Title of the learning quest")
+    description: str = Field(..., description="Specific goal and criteria for quest completion")
+    topic_id: Optional[str] = Field(None, description="Topic ID if quest is curriculum-specific")
+    topic_title: Optional[str] = Field(None, description="Topic title if curriculum-specific")
+    current_progress: int = Field(0, description="Current progress units completed")
+    target_progress: int = Field(1, description="Target progress units needed to complete")
+    progress_percentage: float = Field(0.0, description="Completion percentage (0-100)")
+    status: str = Field("ACTIVE", description="ACTIVE | COMPLETED | EXPIRED")
+    xp_reward: int = Field(20, description="Bonus XP awarded upon quest completion")
+    reward_badge_id: Optional[str] = Field(None, description="Optional badge awarded on completion")
+    can_launch: bool = Field(True, description="Whether quest has a direct actionable learning link")
+
+
 class GamificationResponse(BaseModel):
     """Comprehensive gamification profile for student dashboard."""
     student_id: str = Field(..., description="Student profile ID")
@@ -39,3 +56,6 @@ class GamificationResponse(BaseModel):
     unlocked_badges: List[BadgeItem] = Field(default_factory=list, description="Unlocked achievement badges")
     locked_badges: List[BadgeItem] = Field(default_factory=list, description="Locked achievement badges")
     recently_earned_badges: List[BadgeItem] = Field(default_factory=list, description="Recently unlocked badges")
+    active_quests: List[QuestItem] = Field(default_factory=list, description="Active adaptive learning quests derived from student data")
+    completed_quests: List[QuestItem] = Field(default_factory=list, description="Recently completed learning quests")
+

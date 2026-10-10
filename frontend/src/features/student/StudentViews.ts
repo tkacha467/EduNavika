@@ -909,7 +909,7 @@ export function subjectDetailPage(): string {
           </div>
           <div class="flex gap-2" style="align-self:flex-start">
             <button class="btn" onclick="navigate('student/revision')">${icon('refresh')} Revision plan</button>
-            <button class="btn btn-primary" onclick="startQuiz('${s.name}')">${icon('play')} Practice</button>
+            <button class="btn btn-primary" onclick="startQuiz('${s.topicList[0]?.name || s.name}', '${s.topicList[0]?.id || ''}')">${icon('play')} Practice</button>
           </div>
         </div>
         <div class="grid g-4 mt-5" style="padding-top:20px;border-top:1px solid var(--border-2)">
@@ -966,7 +966,7 @@ export function subjectDetailPage(): string {
                 </div>
                 <div class="flex gap-2">
                   ${riskBadge(t.risk)}
-                  <button class="btn btn-sm">Open</button>
+                  <button class="btn btn-sm btn-primary" onclick="startQuiz('${t.name}', '${t.id}')">${icon('play')} Practice</button>
                 </div>
               </div>
               <div class="grid g-3">
@@ -987,7 +987,7 @@ export function subjectDetailPage(): string {
               <div class="card pad">
                 <div class="h4 mb-2">${p.n}</div>
                 <div class="tiny mb-3">${p.q} questions · ${p.d}</div>
-                <div class="flex-b"><span class="badge ${p.tone}">${p.time}</span><button class="btn btn-sm btn-primary" onclick="startQuiz('${s.name}')">${icon('play')} Start</button></div>
+                <div class="flex-b"><span class="badge ${p.tone}">${p.time}</span><button class="btn btn-sm btn-primary" onclick="startQuiz('${s.topicList[0]?.name || s.name}', '${s.topicList[0]?.id || ''}')">${icon('play')} Start</button></div>
               </div>`).join('')}
           </div>
         </div>
@@ -1002,7 +1002,7 @@ export function subjectDetailPage(): string {
                   <td><div class="flex gap-2" style="width:140px">${progressBar(t.kh, t.kh >= 70 ? 'green' : t.kh >= 55 ? 'amber' : 'coral')}<b style="font-size:12px">${t.kh}%</b></div></td>
                   <td>${riskBadge(t.risk)}</td>
                   <td class="muted">${t.next}</td>
-                  <td class="right"><button class="btn btn-sm" onclick="startQuiz('${t.name}')">Review</button></td>
+                  <td class="right"><button class="btn btn-sm" onclick="startQuiz('${t.name}', '${t.id}')">Review</button></td>
                 </tr>`).join('')}
             </tbody>
           </table>
@@ -2999,10 +2999,12 @@ export function switchTab(btn: HTMLElement, paneId: string): void {
 }
 
 /* ---------- Adaptive Practice View (Phase 7) ---------- */
+/* ---------- Adaptive Practice View (Phase 7) ---------- */
 let practiceState: {
   topicId: string;
   topicTitle: string;
   loading: boolean;
+  error?: string | null;
   questions: any[];
   currentIndex: number;
   generationMode?: string;
@@ -3015,20 +3017,33 @@ let practiceState: {
   topicId: '5a321a44-bc06-4db4-a50f-5e53f913b612',
   topicTitle: 'Chemical Reactions and Equations',
   loading: false,
+  error: null,
   questions: [],
   currentIndex: 0,
   submitted: false,
 };
 
 export function studentPractice(): string {
-  if (practiceState.questions.length === 0 && !practiceState.loading) {
-    loadAdaptivePractice();
+  if (practiceState.error) {
     return `
       <div class="page">
-        <div class="card pad" style="text-align:center;padding:48px 24px">
-          <div style="font-size:28px;margin-bottom:12px">⚡</div>
-          <h3>Loading Adaptive Practice…</h3>
-          <p class="sub" style="margin-top:6px">Analyzing your empirical mastery and generating curriculum-grounded questions.</p>
+        <div class="card pad" style="text-align:center;padding:48px 24px;border:1.5px solid rgba(235,94,85,.3);border-radius:14px;background:var(--surface)">
+          <div style="font-size:36px;margin-bottom:14px">⚠️</div>
+          <h3 style="font-size:18px;margin-bottom:8px">Unable to Load Practice Questions</h3>
+          <p class="sub" style="max-width:520px;margin:0 auto 20px;color:var(--text-2);font-size:13.5px">
+            ${practiceState.error}
+          </p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="loadAdaptivePractice()">
+              ${icon('refresh')} Retry Practice
+            </button>
+            <button class="btn btn-outline" onclick="window.navigate ? window.navigate('student/materials') : null">
+              📖 Return to Syllabus
+            </button>
+            <button class="btn" onclick="window.navigate ? window.navigate('student/dashboard') : null">
+              Back to Dashboard
+            </button>
+          </div>
         </div>
       </div>`;
   }
@@ -3036,10 +3051,27 @@ export function studentPractice(): string {
   if (practiceState.loading) {
     return `
       <div class="page">
-        <div class="card pad" style="text-align:center;padding:48px 24px">
-          <div style="font-size:28px;margin-bottom:12px">⚙️</div>
-          <h3>Generating Practice Set…</h3>
-          <p class="sub" style="margin-top:6px">Evaluating curriculum concepts for ${practiceState.topicTitle}…</p>
+        <div class="card pad" style="text-align:center;padding:48px 24px;border-radius:14px;background:var(--surface)">
+          <div style="font-size:32px;margin-bottom:14px">⚡</div>
+          <h3 style="font-size:18px;margin-bottom:8px">Loading Adaptive Practice…</h3>
+          <p class="sub" style="margin-top:6px;color:var(--text-2);font-size:13.5px">
+            Analyzing your empirical mastery and generating curriculum-grounded questions for ${practiceState.topicTitle}…
+          </p>
+        </div>
+      </div>`;
+  }
+
+  if (practiceState.questions.length === 0) {
+    // Trigger load safely once
+    loadAdaptivePractice();
+    return `
+      <div class="page">
+        <div class="card pad" style="text-align:center;padding:48px 24px;border-radius:14px;background:var(--surface)">
+          <div style="font-size:32px;margin-bottom:14px">⚡</div>
+          <h3 style="font-size:18px;margin-bottom:8px">Loading Adaptive Practice…</h3>
+          <p class="sub" style="margin-top:6px;color:var(--text-2);font-size:13.5px">
+            Analyzing your empirical mastery and generating curriculum-grounded questions.
+          </p>
         </div>
       </div>`;
   }
@@ -3048,10 +3080,15 @@ export function studentPractice(): string {
   if (!q) {
     return `
       <div class="page">
-        <div class="card pad" style="text-align:center;padding:40px 20px">
-          <h3>Practice Set Complete 🎉</h3>
-          <p class="sub mt-2 mb-4">You have completed all questions in this adaptive set.</p>
-          <button class="btn btn-primary" onclick="restartAdaptivePractice()">Start New Set</button>
+        <div class="card pad" style="text-align:center;padding:40px 20px;border-radius:14px;background:var(--surface)">
+          <div style="font-size:36px;margin-bottom:12px">🎉</div>
+          <h3 style="font-size:18px;margin-bottom:8px">Practice Set Complete</h3>
+          <p class="sub mt-2 mb-4" style="color:var(--text-2);font-size:13.5px">You have completed all questions in this adaptive set.</p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="restartAdaptivePractice()">Start New Set</button>
+            <button class="btn btn-outline" onclick="window.navigate ? window.navigate('student/materials') : null">📖 Return to Syllabus</button>
+            <button class="btn" onclick="window.navigate ? window.navigate('student/dashboard') : null">Return to Dashboard</button>
+          </div>
         </div>
       </div>`;
   }
@@ -3142,16 +3179,45 @@ export function studentPractice(): string {
                 ${practiceState.lastResponse.correct ? '✓ Correct Concept Applied' : '✗ Misconception Detected'}
               </span>
               <span class="badge ${practiceState.lastResponse.correct ? 'green' : 'coral'}" style="font-size:11px;font-weight:700">
-                ${practiceState.lastResponse.correct ? 'Accuracy Gained' : 'Learning Path Updated'}
+                ${practiceState.lastResponse.correct ? 'Accuracy Gained' : 'Remediation Active'}
               </span>
             </div>
             
             <p style="font-size:13.5px;line-height:1.55;margin-bottom:10px;color:var(--text)">${practiceState.lastResponse.feedback}</p>
-            
-            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-2);margin-bottom:12px;background:rgba(255,255,255,.6);padding:6px 12px;border-radius:8px">
-              <span style="font-weight:700;color:var(--indigo)">📖 Verified Provenance:</span>
-              <span>${practiceState.lastResponse.source_document || 'STD-10 Science'} (Textbook Page ${practiceState.lastResponse.source_page || 14})</span>
-            </div>
+
+            ${!practiceState.lastResponse.correct && practiceState.lastResponse.remediation ? `
+              <!-- Structured Misconception Remediation Card -->
+              <div style="background:#fff;padding:14px 16px;border-radius:10px;border:1.5px solid rgba(229,107,111,.3);margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)">
+                <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--coral);text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px">
+                  <span>🎯 Concept Remediation:</span>
+                  <span>${practiceState.lastResponse.remediation.concept_target}</span>
+                </div>
+                
+                <div style="font-size:12.5px;color:var(--text);line-height:1.5;margin-bottom:10px">
+                  <b>Diagnosis:</b> ${practiceState.lastResponse.remediation.what_went_wrong}
+                </div>
+
+                ${practiceState.lastResponse.remediation.textbook_excerpt ? `
+                  <div style="background:rgba(36,59,107,.04);border-left:3px solid var(--indigo);padding:10px 12px;border-radius:0 8px 8px 0;margin-bottom:10px">
+                    <div style="font-size:11px;font-weight:700;color:var(--indigo);margin-bottom:4px">
+                      📖 Authentic Textbook Passage (${practiceState.lastResponse.remediation.source_document || 'Official Syllabus'}, Page ${practiceState.lastResponse.remediation.source_page || '—'})
+                    </div>
+                    <div style="font-size:12px;color:var(--text);font-style:italic;line-height:1.5">
+                      "${practiceState.lastResponse.remediation.textbook_excerpt}..."
+                    </div>
+                  </div>
+                ` : ''}
+
+                <div style="font-size:12px;color:var(--text-2);line-height:1.45">
+                  <b>Core Principle:</b> ${practiceState.lastResponse.remediation.concept_explanation}
+                </div>
+              </div>
+            ` : `
+              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-2);margin-bottom:12px;background:rgba(255,255,255,.6);padding:6px 12px;border-radius:8px">
+                <span style="font-weight:700;color:var(--indigo)">📖 Verified Provenance:</span>
+                <span>${practiceState.lastResponse.source_document || 'STD-10 Science'} (Textbook Page ${practiceState.lastResponse.source_page || 14})</span>
+              </div>
+            `}
 
             <!-- Visible Adaptive Causal Chain -->
             <div style="background:#fff;padding:12px 14px;border-radius:10px;border:1px solid rgba(0,0,0,.08);margin-bottom:14px">
@@ -3161,7 +3227,7 @@ export function studentPractice(): string {
               <div style="font-size:12px;color:var(--text);line-height:1.5">
                 ${practiceState.lastResponse.correct
                   ? `<b>Success recorded!</b> Your rolling accuracy for this concept increased. The recommendation engine is advancing your mastery curve.`
-                  : `<b>Weakness flagged:</b> Learning event recorded in local memory. Difficulty adjusted to <b>FOUNDATIONAL</b>. The system targets this exact concept for remediation.`}
+                  : `<b>Weakness flagged:</b> Learning event recorded in local SQLite memory. Retention risk updated. The system targets this exact concept for remediation.`}
               </div>
               <div style="margin-top:6px;font-size:11.5px;color:var(--text-3)">
                 <b>Next Action:</b> ${practiceState.lastResponse.next_recommended_action}
@@ -3169,11 +3235,16 @@ export function studentPractice(): string {
             </div>
 
             <div class="flex gap-2 items-center wrap">
-              <button class="btn btn-primary" onclick="nextPracticeQuestion()">
-                ${practiceState.currentIndex < practiceState.questions.length - 1 ? 'Next Adaptive Question →' : 'Finish Practice Set'}
+              ${!practiceState.lastResponse.correct ? `
+                <button class="btn btn-primary" onclick="retryPracticeQuestion()">
+                  ↺ Retry Question
+                </button>
+              ` : ''}
+              <button class="btn ${practiceState.lastResponse.correct ? 'btn-primary' : ''}" style="${!practiceState.lastResponse.correct ? 'background:#fff' : ''}" onclick="nextPracticeQuestion()">
+                ${practiceState.currentIndex < practiceState.questions.length - 1 ? 'Next Question →' : 'Finish Practice Set'}
               </button>
               <button class="btn" style="background:#fff" onclick="openAIPanel()">
-                ${icon('sparkles')} Ask EduNavika AI to explain this
+                ${icon('sparkles')} Ask Companion to explain
               </button>
             </div>
           </div>
@@ -3182,34 +3253,75 @@ export function studentPractice(): string {
     </div>`;
 }
 
+let currentPracticeRequestId = 0;
+
 export async function loadAdaptivePractice(topicId?: string): Promise<void> {
   if (topicId) {
     practiceState.topicId = topicId;
+    if (typeof window !== 'undefined' && window.navigate) {
+      const hash = window.location.hash || '';
+      if (!hash.includes('student/practice')) {
+        window.navigate('student/practice');
+      }
+    }
   }
+  const requestId = ++currentPracticeRequestId;
   practiceState.loading = true;
+  practiceState.error = null;
   practiceState.submitted = false;
   practiceState.selectedOption = undefined;
   practiceState.lastResponse = undefined;
 
+  // Render loading state immediately on practice view
+  if (typeof window !== 'undefined') {
+    const hash = window.location.hash || '';
+    if (hash.includes('student/practice') && window.navigate) {
+      window.navigate('student/practice');
+    }
+  }
+
   const user = getCurrentUser();
   const studentId = user.id || 'e09699dd-0c64-44cc-82ef-ab41a832e072';
 
-  // Concurrently fetch recommendation and questions
-  const [rec, res] = await Promise.all([
-    adaptiveService.getNextPracticeRecommendation(studentId, practiceState.topicId),
-    adaptiveService.getPracticeQuestions(studentId, practiceState.topicId, 3),
-  ]);
+  try {
+    // Concurrently fetch recommendation and questions
+    const [rec, res] = await Promise.all([
+      adaptiveService.getNextPracticeRecommendation(studentId, practiceState.topicId),
+      adaptiveService.getPracticeQuestions(studentId, practiceState.topicId, 3),
+    ]);
 
-  practiceState.loading = false;
-  practiceState.recommendation = rec;
-  if (res && res.questions) {
-    practiceState.questions = res.questions;
-    practiceState.currentIndex = 0;
-    practiceState.generationMode = res.generation_mode;
-    practiceState.targetDifficulty = res.target_difficulty;
-  }
-  if (typeof window !== 'undefined' && window.navigate) {
-    window.navigate('student/practice');
+    // Stale response protection
+    if (requestId !== currentPracticeRequestId) return;
+
+    practiceState.recommendation = rec;
+    if (res && Array.isArray(res.questions) && res.questions.length > 0) {
+      practiceState.questions = res.questions;
+      practiceState.currentIndex = 0;
+      practiceState.generationMode = res.generation_mode;
+      practiceState.targetDifficulty = res.target_difficulty;
+      if (res.topic_title) {
+        practiceState.topicTitle = res.topic_title;
+      }
+    } else if (res && res.message) {
+      practiceState.error = res.message;
+    } else {
+      practiceState.error = "No curriculum-grounded practice questions are currently available for this topic.";
+    }
+  } catch (err: any) {
+    if (requestId !== currentPracticeRequestId) return;
+    console.warn('Failed to load adaptive practice:', err);
+    practiceState.error = err.message || "Failed to load adaptive practice questions. Please check local connectivity and retry.";
+  } finally {
+    if (requestId === currentPracticeRequestId) {
+      practiceState.loading = false;
+      // Re-render practice view with updated questions or honest error message
+      if (typeof window !== 'undefined') {
+        const hash = window.location.hash || '';
+        if (hash.includes('student/practice') && window.navigate) {
+          window.navigate('student/practice');
+        }
+      }
+    }
   }
 }
 
@@ -3249,6 +3361,15 @@ export async function submitPracticeAnswer(): Promise<void> {
 
 export function nextPracticeQuestion(): void {
   practiceState.currentIndex += 1;
+  practiceState.submitted = false;
+  practiceState.selectedOption = undefined;
+  practiceState.lastResponse = undefined;
+  if (typeof window !== 'undefined' && window.navigate) {
+    window.navigate('student/practice');
+  }
+}
+
+export function retryPracticeQuestion(): void {
   practiceState.submitted = false;
   practiceState.selectedOption = undefined;
   practiceState.lastResponse = undefined;
@@ -3336,71 +3457,148 @@ export function studentMissions(): string {
       </div>
     </div>
 
-    <!-- MISSION CARDS GRID -->
+    <!-- ADAPTIVE LEARNING QUESTS GRID -->
     <div class="sec-head">
-      <div><h2>${icon('target')} Today's Personalized Directives</h2><p>Synthesized from your knowledge profile and retention decay signals</p></div>
+      <div><h2>${icon('target')} Adaptive Learning Quests</h2><p>Synthesized dynamically from your empirical learning history, weakness recovery, and mastery milestones</p></div>
     </div>
 
-    <div class="grid g-3 mb-6" style="gap:16px">
-      <!-- Mission 1: Retention Rescue -->
-      <div class="card pad" style="border-radius:14px;border:1.5px solid var(--border);display:flex;flex-direction:column;justify-content:space-between">
-        <div>
-          <div class="flex-b items-center mb-2">
-            <span class="badge ${hasDueRev ? 'coral' : 'teal'}" style="font-size:10px;font-weight:800">
-              ${hasDueRev ? '⏰ MEMORY RESCUE' : '✨ RETENTION CHECK'}
-            </span>
-            <span class="badge green" style="font-weight:800">+15 XP</span>
-          </div>
-          <h3 style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px">${targetRevTopic}</h3>
-          <p style="font-size:12.5px;color:var(--text-2);line-height:1.5;margin:0 0 12px 0">
-            ${hasDueRev ? 'This topic is scheduled on your forgetting curve today. Reviewing now prevents memory decay.' : 'Complete a quick retention check on this chapter to keep your knowledge health peaked.'}
-          </p>
-        </div>
-        <div>
-          <button class="btn btn-sm btn-primary" style="width:100%" onclick="loadAdaptivePractice('${targetRevId}')">
-            ${icon('refresh')} Start Revision Check
-          </button>
-        </div>
-      </div>
+    ${(g?.active_quests && g.active_quests.length > 0) ? `
+      <div class="grid g-3 mb-6" style="gap:16px">
+        ${g.active_quests.map(quest => {
+          let badgeColor = 'indigo';
+          let tagIcon = '🎯';
+          if (quest.quest_type === 'CONCEPT_RECOVERY') {
+            badgeColor = 'coral';
+            tagIcon = '🛡️';
+          } else if (quest.quest_type === 'REVISION_RESCUE') {
+            badgeColor = 'amber';
+            tagIcon = '⏰';
+          } else if (quest.quest_type === 'MASTERY_QUEST') {
+            badgeColor = 'teal';
+            tagIcon = '⭐';
+          } else if (quest.quest_type === 'CONSISTENCY_QUEST') {
+            badgeColor = 'indigo';
+            tagIcon = '🔥';
+          } else if (quest.quest_type === 'PERSONAL_BEST') {
+            badgeColor = 'green';
+            tagIcon = '🌟';
+          }
 
-      <!-- Mission 2: Concept Remediation -->
-      <div class="card pad" style="border-radius:14px;border:1.5px solid var(--border);display:flex;flex-direction:column;justify-content:space-between">
-        <div>
-          <div class="flex-b items-center mb-2">
-            <span class="badge amber" style="font-size:10px;font-weight:800">🎯 CONCEPT FORTRESS</span>
-            <span class="badge green" style="font-weight:800">+20 XP</span>
-          </div>
-          <h3 style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px">${targetWeakTopic}</h3>
-          <p style="font-size:12.5px;color:var(--text-2);line-height:1.5;margin:0 0 12px 0">
-            Target foundational practice questions to improve accuracy and remediate any common misconceptions.
-          </p>
-        </div>
-        <div>
-          <button class="btn btn-sm btn-outline" style="width:100%" onclick="loadAdaptivePractice('${targetWeakId}')">
-            ${icon('target')} Practice Targeted Tier
-          </button>
-        </div>
-      </div>
+          const actionHtml = quest.topic_id
+            ? `<button class="btn btn-sm btn-primary" style="width:100%" onclick="loadAdaptivePractice('${quest.topic_id}')">
+                ${icon('play')} Practice Quest Topic
+              </button>`
+            : `<button class="btn btn-sm btn-outline" style="width:100%" onclick="loadAdaptivePractice()">
+                ${icon('zap')} Open Practice Session
+              </button>`;
 
-      <!-- Mission 3: Habit Streak Defender -->
-      <div class="card pad" style="border-radius:14px;border:1.5px solid var(--border);display:flex;flex-direction:column;justify-content:space-between">
-        <div>
-          <div class="flex-b items-center mb-2">
-            <span class="badge indigo" style="font-size:10px;font-weight:800">🛡️ STREAK DEFENDER</span>
-            <span class="badge green" style="font-weight:800">+25 XP</span>
+          return `
+            <div class="card pad" style="border-radius:14px;border:1.5px solid var(--border);display:flex;flex-direction:column;justify-content:space-between">
+              <div>
+                <div class="flex-b items-center mb-2">
+                  <span class="badge ${badgeColor}" style="font-size:10px;font-weight:800">
+                    ${tagIcon} ${quest.quest_type.replace('_', ' ')}
+                  </span>
+                  <span class="badge green" style="font-weight:800">+${quest.xp_reward} XP</span>
+                </div>
+                <h3 style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px">${quest.title}</h3>
+                <p style="font-size:12.5px;color:var(--text-2);line-height:1.5;margin:0 0 12px 0">
+                  ${quest.description}
+                </p>
+                <div style="margin-bottom:14px">
+                  <div class="flex-b items-center tiny mb-1" style="color:var(--text-3)">
+                    <span>Progress: <b>${quest.current_progress} / ${quest.target_progress}</b></span>
+                    <b>${quest.progress_percentage}%</b>
+                  </div>
+                  ${progressBar(quest.progress_percentage, badgeColor)}
+                </div>
+              </div>
+              <div>
+                ${actionHtml}
+              </div>
+            </div>`;
+        }).join('')}
+      </div>
+    ` : `
+      <!-- Fallback / Baseline Directives when starting out -->
+      <div class="grid g-3 mb-6" style="gap:16px">
+        <div class="card pad" style="border-radius:14px;border:1.5px solid var(--border);display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div class="flex-b items-center mb-2">
+              <span class="badge ${hasDueRev ? 'coral' : 'teal'}" style="font-size:10px;font-weight:800">
+                ${hasDueRev ? '⏰ MEMORY RESCUE' : '✨ RETENTION CHECK'}
+              </span>
+              <span class="badge green" style="font-weight:800">+15 XP</span>
+            </div>
+            <h3 style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px">${targetRevTopic}</h3>
+            <p style="font-size:12.5px;color:var(--text-2);line-height:1.5;margin:0 0 12px 0">
+              ${hasDueRev ? 'This topic is scheduled on your forgetting curve today. Reviewing now prevents memory decay.' : 'Complete a quick retention check on this chapter to keep your knowledge health peaked.'}
+            </p>
           </div>
-          <h3 style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px">Complete 3 Activities</h3>
-          <p style="font-size:12.5px;color:var(--text-2);line-height:1.5;margin:0 0 12px 0">
-            Submit answers in adaptive practice or complete scheduled revision to defend your daily learning streak.
-          </p>
+          <div>
+            <button class="btn btn-sm btn-primary" style="width:100%" onclick="loadAdaptivePractice('${targetRevId}')">
+              ${icon('refresh')} Start Revision Check
+            </button>
+          </div>
         </div>
-        <div>
-          <button class="btn btn-sm" style="width:100%" data-go="student/practice">
-            ${icon('zap')} Jump into Practice
-          </button>
+
+        <div class="card pad" style="border-radius:14px;border:1.5px solid var(--border);display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div class="flex-b items-center mb-2">
+              <span class="badge amber" style="font-size:10px;font-weight:800">🎯 CONCEPT FORTRESS</span>
+              <span class="badge green" style="font-weight:800">+20 XP</span>
+            </div>
+            <h3 style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px">${targetWeakTopic}</h3>
+            <p style="font-size:12.5px;color:var(--text-2);line-height:1.5;margin:0 0 12px 0">
+              Target foundational practice questions to improve accuracy and remediate any common misconceptions.
+            </p>
+          </div>
+          <div>
+            <button class="btn btn-sm btn-outline" style="width:100%" onclick="loadAdaptivePractice('${targetWeakId}')">
+              ${icon('target')} Practice Targeted Tier
+            </button>
+          </div>
+        </div>
+
+        <div class="card pad" style="border-radius:14px;border:1.5px solid var(--border);display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div class="flex-b items-center mb-2">
+              <span class="badge indigo" style="font-size:10px;font-weight:800">🛡️ STREAK DEFENDER</span>
+              <span class="badge green" style="font-weight:800">+25 XP</span>
+            </div>
+            <h3 style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px">Daily Learning Habit</h3>
+            <p style="font-size:12.5px;color:var(--text-2);line-height:1.5;margin:0 0 12px 0">
+              Submit practice answers or complete scheduled revision to extend your daily streak.
+            </p>
+          </div>
+          <div>
+            <button class="btn btn-sm" style="width:100%" onclick="loadAdaptivePractice()">
+              ${icon('zap')} Jump into Practice
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    `}
+
+    ${(g?.completed_quests && g.completed_quests.length > 0) ? `
+      <!-- COMPLETED QUESTS SECTION -->
+      <div class="sec-head mt-6">
+        <div><h3>${icon('check')} Recently Completed Quests</h3><p>Quests achieved through verified mastery and consistent practice</p></div>
+      </div>
+      <div class="grid g-3 mb-6" style="gap:14px">
+        ${g.completed_quests.slice(-3).map(q => `
+          <div class="card pad-sm" style="border-radius:12px;background:rgba(46,155,104,.06);border:1px solid rgba(46,155,104,.2);display:flex;align-items:center;gap:12px">
+            <div style="width:34px;height:34px;border-radius:50%;background:rgba(46,155,104,.15);color:var(--green);display:grid;place-items:center;font-weight:800;font-size:15px;flex:0 0 auto">
+              ✓
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:700;font-size:13px;color:var(--text)">${q.title}</div>
+              <div class="tiny" style="color:var(--green)">Earned +${q.xp_reward} XP · Goal Fulfilled</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
   </div>`;
 }
 
@@ -3785,6 +3983,7 @@ if (typeof window !== 'undefined') {
   window.selectPracticeOption = selectPracticeOption;
   window.submitPracticeAnswer = submitPracticeAnswer;
   window.nextPracticeQuestion = nextPracticeQuestion;
+  window.retryPracticeQuestion = retryPracticeQuestion;
   window.restartAdaptivePractice = restartAdaptivePractice;
   window.loadStudentProgress = loadStudentProgress;
   window.loadStudentGamification = loadStudentGamification;

@@ -49,6 +49,9 @@ from backend.app.models.adaptive_models import (
     ForgettingSignalStatus,
     TeacherAction,
     TeacherActionType,
+    LearningQuest,
+    QuestType,
+    QuestStatus,
 )
 
 __all__ = [
@@ -87,4 +90,7 @@ __all__ = [
     "ForgettingSignalStatus",
     "TeacherAction",
     "TeacherActionType",
+    "LearningQuest",
+    "QuestType",
+    "QuestStatus",
 ]

@@ -1,10 +1,10 @@
 # GSEB Chunk Quality & Lexical Retrieval Audit Report
 
 - **Quality Gate Verdict**: **`PASS`**
-- **Total Chunks Evaluated**: 865
-- **Average Chunk Size**: 369.4 tokens (Median: 453.0)
-- **Token Distribution**: Min: 8, P25: 33.0, P75: 600.0, P95: 783.0, Max: 1580
-- **Detected Anomalies**: 7 (0.81%)
+- **Total Chunks Evaluated**: 459
+- **Average Chunk Size**: 556.3 tokens (Median: 549.0)
+- **Token Distribution**: Min: 8, P25: 462.0, P75: 666.0, P95: 799.0, Max: 1580
+- **Detected Anomalies**: 7 (1.53%)
 
 ---
 

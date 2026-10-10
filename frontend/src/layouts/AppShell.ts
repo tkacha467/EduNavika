@@ -164,10 +164,9 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
           const itemKey = `nav.${it.id.split('/')[1]}`;
           const itemLabel = t(itemKey, it.label);
           return `
-        <div class="nav-item ${currentRoute === it.id ? 'on' : ''}" data-go="${it.id}">
+        <div class="nav-item ${currentRoute === it.id ? 'on' : ''}" data-go="${it.id}" title="${itemLabel}">
           ${icon(it.icon)}<span class="lbl">${itemLabel}</span>
           ${badge ? `<span class="bdg">${badge}</span>` : ''}
-          <span class="tip">${itemLabel}</span>
         </div>`;
         })
         .join('')}

@@ -760,6 +760,18 @@ BADGE_METADATA: Dict[str, Dict[str, Any]] = {
         "hi": {"name": "निरंतर शिक्षार्थी", "desc": "10 सार्थक पाठ्यक्रम शिक्षण गतिविधियाँ पूरी करें"},
         "gu": {"name": "સતત વિદ્યાર્થી", "desc": "૧૦ અર્થપૂર્ણ અભ્યાસક્રમ પ્રવૃત્તિઓ પૂર્ણ કરો"},
     },
+    "CONCEPT_RECOVERY": {
+        "icon": "🛡️",
+        "en": {"name": "Concept Recovery", "desc": "Demonstrate recovery by correctly answering questions after a misconception"},
+        "hi": {"name": "संकल्पना सुधार", "desc": "किसी ग़लती के बाद सही उत्तर देकर संकल्पना सुधार सिद्ध करें"},
+        "gu": {"name": "સંકલ્પના સુધાર", "desc": "ભૂલ પછી સાચા જવાબો આપીને સંકલ્પના પર પકડ સાબિત કરો"},
+    },
+    "PERSONAL_BEST": {
+        "icon": "🌟",
+        "en": {"name": "Personal Best", "desc": "Surpass your previous score and achieve your highest accuracy on a topic"},
+        "hi": {"name": "व्यक्तिगत सर्वश्रेष्ठ", "desc": "अपने पिछले स्कोर को पार करें और विषय पर अपनी उच्चतम सटीकता हासिल करें"},
+        "gu": {"name": "વ્યક્તિગત શ્રેષ્ઠ", "desc": "તમારા અગાઉના સ્કોરને વટાવીને વિષય પર તમારી શ્રેષ્ઠ સચોટતા હાંસલ કરો"},
+    },
 }
 
 

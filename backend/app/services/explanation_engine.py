@@ -614,6 +614,18 @@ class OnDeviceLLMExplanationEngine(ExplanationEngineInterface):
             return None
 
         try:
+            import sys
+            if sys.platform == "win32":
+                try:
+                    import ctypes
+                    # SEM_FAILCRITICALERRORS (0x0001) | SEM_NOGPFAULTERRORBOX (0x0002)
+                    _flags = 0x0001 | 0x0002
+                    ctypes.windll.kernel32.SetErrorMode(_flags)
+                    _prev = ctypes.c_uint()
+                    ctypes.windll.kernel32.SetThreadErrorMode(_flags, ctypes.byref(_prev))
+                except Exception:
+                    pass
+
             from llama_cpp import Llama
             # Force CPU execution (n_gpu_layers=0)
             self._llm = Llama(

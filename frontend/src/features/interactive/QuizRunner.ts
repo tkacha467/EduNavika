@@ -395,14 +395,122 @@ const DEFAULT_QUIZ_BANK: Record<string, QuizQuestion[]> = {
       difficulty: 'APPLICATION',
     },
   ],
+  'Trigonometry': [
+    {
+      q: 'In a right triangle ABC right-angled at B, if tan A = 4/3, what is the exact value of sin A?',
+      o: ['4/5', '3/5', '5/4', '3/4'],
+      a: 0,
+      e: 'If tan A = opposite/adjacent = 4/3, then hypotenuse = √(4² + 3²) = 5, so sin A = opposite/hypotenuse = 4/5 (Textbook Page 175).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 175,
+      difficulty: 'FOUNDATIONAL',
+    },
+    {
+      q: 'What is the exact numerical value of sin 30° + cos 60°?',
+      o: ['1', '1/2', '√3/2', '2'],
+      a: 0,
+      e: 'sin 30° = 1/2 and cos 60° = 1/2, so 1/2 + 1/2 = 1 (Textbook Page 185).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 185,
+      difficulty: 'GUIDED',
+    },
+  ],
+  'Coordinate Geometry': [
+    {
+      q: 'What is the distance of the point P(3, 4) from the origin (0, 0)?',
+      o: ['5 units', '7 units', '4 units', '3 units'],
+      a: 0,
+      e: 'Distance from origin = √(x² + y²) = √(3² + 4²) = √25 = 5 units (Textbook Page 157).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 157,
+      difficulty: 'FOUNDATIONAL',
+    },
+  ],
+  'Probability': [
+    {
+      q: 'If a fair standard six-sided die is thrown once, what is the theoretical probability of obtaining an even number?',
+      o: ['1/2', '1/6', '1/3', '2/3'],
+      a: 0,
+      e: 'Favorable outcomes are {2, 4, 6} (3 out of 6 possible): P = 3/6 = 1/2 (Textbook Page 232).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 232,
+      difficulty: 'APPLICATION',
+    },
+  ],
+  'Statistics': [
+    {
+      q: 'How is the class mark of any continuous class interval calculated in statistics?',
+      o: [
+        'Class mark = (Upper class limit + Lower class limit) / 2',
+        'Class mark = Upper class limit - Lower class limit',
+        'Class mark = Frequency / Class size',
+        'Class mark = (Upper limit × Lower limit) / 2'
+      ],
+      a: 0,
+      e: 'Class mark represents the midpoint of the class interval (Textbook Page 189).',
+      source_document: 'STD-10/Std-10_Maths_EnglishMedium.pdf',
+      source_page: 189,
+      difficulty: 'FOUNDATIONAL',
+    },
+  ],
+  'Light — Reflection & Refraction': [
+    {
+      q: 'According to the laws of reflection of light, what is the relationship between the angle of incidence and the angle of reflection?',
+      o: [
+        'The angle of incidence is strictly equal to the angle of reflection',
+        'The angle of incidence is always double the angle of reflection',
+        'The angle of reflection is 90 degrees minus the angle of incidence',
+        'The angle of reflection depends inversely on the mirror thickness'
+      ],
+      a: 0,
+      e: 'The angle of incidence is equal to the angle of reflection (Textbook Page 148).',
+      source_document: 'STD-10/Std-10_Science_English Medium.pdf',
+      source_page: 148,
+      difficulty: 'FOUNDATIONAL',
+    },
+  ],
+  'Life Processes': [
+    {
+      q: 'During the first stage of cellular respiration in living cells, where does the breakdown of glucose to pyruvate take place?',
+      o: ['Cytoplasm', 'Mitochondrial matrix', 'Nucleus', 'Endoplasmic reticulum'],
+      a: 0,
+      e: 'The breakdown of glucose into pyruvate occurs in the cytoplasm (Textbook Page 102).',
+      source_document: 'STD-10/Std-10_Science_English Medium.pdf',
+      source_page: 102,
+      difficulty: 'FOUNDATIONAL',
+    },
+  ],
 };
 
+// Aliases for subjects and common titles in default offline bank
+DEFAULT_QUIZ_BANK['Mathematics'] = DEFAULT_QUIZ_BANK['Quadratic Equations'];
+DEFAULT_QUIZ_BANK['Science'] = DEFAULT_QUIZ_BANK['Chemical Reactions'];
+DEFAULT_QUIZ_BANK['Physics'] = DEFAULT_QUIZ_BANK['Electricity & Circuits'];
+DEFAULT_QUIZ_BANK['Chemistry'] = DEFAULT_QUIZ_BANK['Chemical Reactions'];
+DEFAULT_QUIZ_BANK['Diagnostic Check'] = DEFAULT_QUIZ_BANK['Real Numbers & Polynomials'];
+DEFAULT_QUIZ_BANK['Light — Reflection and Refraction'] = DEFAULT_QUIZ_BANK['Light — Reflection & Refraction'];
+
 export async function startQuiz(topic: string, topicId?: string, onFinishNavigate?: (route: string) => void) {
-  // If topicId not provided or default placeholder, resolve from APPROVED_SUBJECTS or pass topic title
   let effectiveTopicId = topicId;
-  if (!effectiveTopicId || effectiveTopicId === 'm1') {
+
+  // 1. If topic represents a whole subject and NO specific topicId was provided, resolve to the subject's primary topic
+  if (!effectiveTopicId) {
+    const matchingSubj = APPROVED_SUBJECTS.find(s =>
+      s.name.toLowerCase() === topic.toLowerCase() ||
+      s.id.toLowerCase() === topic.toLowerCase() ||
+      s.code.toLowerCase() === topic.toLowerCase()
+    );
+    if (matchingSubj && matchingSubj.topicList.length > 0) {
+      const primaryTopic = matchingSubj.topicList[0];
+      effectiveTopicId = primaryTopic.id;
+      topic = primaryTopic.name;
+    }
+  }
+
+  // 2. If topicId not provided, search through approved topics
+  if (!effectiveTopicId) {
     for (const subj of APPROVED_SUBJECTS) {
-      const found = subj.topicList.find(t => t.name === topic || t.title === topic);
+      const found = subj.topicList.find(t => t.id === topicId || t.name === topic || t.title === topic);
       if (found) {
         effectiveTopicId = found.id;
         break;
@@ -721,6 +829,7 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
     chosen: number | null;
     isCorrect: boolean;
     explanation: string;
+    remediation?: any;
   }> = [];
 
   for (let i = 0; i < total; i++) {
@@ -728,6 +837,7 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
     const chosen = CURRENT_QUIZ.answers[i];
     let isCorrect = false;
     let explanation = q.e;
+    let remediation: any = null;
 
     if (chosen !== null) {
       const selectedOptionLetter = 'ABCD'[chosen];
@@ -749,6 +859,7 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
         if (subResp && typeof subResp.correct === 'boolean') {
           isCorrect = subResp.correct;
           if (subResp.explanation) explanation = subResp.explanation;
+          if (subResp.remediation) remediation = subResp.remediation;
         } else if (q.a !== -1 && typeof q.a === 'number') {
           isCorrect = chosen === q.a;
         }
@@ -771,7 +882,7 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
     }
 
     if (isCorrect) correct++;
-    questionReviews.push({ question: q, chosen, isCorrect, explanation });
+    questionReviews.push({ question: q, chosen, isCorrect, explanation, remediation });
   }
 
   const pct = Math.round((correct / total) * 100);
@@ -861,22 +972,34 @@ async function handleQuizSubmit(onFinishNavigate?: (route: string) => void) {
         <div class="card pad-sm center"><div class="tiny">Time</div><div style="font-size:20px;font-weight:800;font-family:Manrope">${Math.round(durationMs / 1000)}s</div></div>
         <div class="card pad-sm center"><div class="tiny">Knowledge impact</div><div style="font-size:20px;font-weight:800;font-family:Manrope;color:var(--green)">+5%</div></div>
       </div>
-      <div class="mt-4" style="text-align:left;max-height:200px;overflow-y:auto;border:1px solid var(--border-2);border-radius:var(--r-md);padding:12px;background:var(--surface)">
-        <div style="font-size:11.5px;font-weight:700;color:var(--text-2);margin-bottom:8px">QUESTION REVIEW & TEXTBOOK GROUNDING</div>
+      <div class="mt-4" style="text-align:left;max-height:240px;overflow-y:auto;border:1px solid var(--border-2);border-radius:var(--r-md);padding:12px;background:var(--surface)">
+        <div style="font-size:11.5px;font-weight:700;color:var(--text-2);margin-bottom:8px">QUESTION REVIEW & EVIDENCE GROUNDING</div>
         ${questionReviews
           .map(
             (qr, idx) => `
-          <div style="padding:8px 0;border-bottom:1px solid var(--border-2);font-size:12px">
+          <div style="padding:10px 0;border-bottom:1px solid var(--border-2);font-size:12px">
             <div style="display:flex;align-items:flex-start;gap:8px">
               <span>${qr.isCorrect ? '✅' : '❌'}</span>
-              <div>
+              <div style="flex:1">
                 <b style="color:var(--text)">Q${idx + 1}: ${qr.question.q}</b>
                 <div style="color:var(--text-2);margin-top:2px">
                   Your Answer: <b>${qr.chosen !== null ? qr.question.o[qr.chosen] : 'Unanswered'}</b>
                 </div>
-                <div style="color:var(--indigo);font-size:11px;margin-top:3px;line-height:1.4">
-                  📖 ${qr.explanation}
-                </div>
+                ${!qr.isCorrect && qr.remediation ? `
+                  <div style="margin-top:6px;padding:8px 10px;background:rgba(229,107,111,.08);border-radius:6px;border:1px solid rgba(229,107,111,.2)">
+                    <div style="font-weight:700;color:var(--coral);font-size:11px">🎯 Remediation: ${qr.remediation.concept_target}</div>
+                    <div style="color:var(--text);font-size:11.5px;margin-top:2px">${qr.remediation.what_went_wrong}</div>
+                    ${qr.remediation.textbook_excerpt ? `
+                      <div style="margin-top:4px;font-size:11px;color:var(--indigo);font-style:italic">
+                        📖 "${qr.remediation.textbook_excerpt}..." (Page ${qr.remediation.source_page || '—'})
+                      </div>
+                    ` : ''}
+                  </div>
+                ` : `
+                  <div style="color:var(--indigo);font-size:11px;margin-top:3px;line-height:1.4">
+                    📖 ${qr.explanation}
+                  </div>
+                `}
               </div>
             </div>
           </div>`

@@ -13,7 +13,9 @@ from backend.app.domain.enums import (
     ForgettingSignalStatus,
     RevisionPriority,
     RevisionCompletionState,
-    TeacherActionType
+    TeacherActionType,
+    QuestType,
+    QuestStatus,
 )
 
 __all__ = [
@@ -27,6 +29,9 @@ __all__ = [
     "RevisionCompletionState",
     "TeacherAction",
     "TeacherActionType",
+    "LearningQuest",
+    "QuestType",
+    "QuestStatus",
 ]
 
 
@@ -172,3 +177,38 @@ class TeacherAction(BaseModelMixin, Base):
     teacher = relationship("TeacherProfile", back_populates="actions_created")
     student = relationship("StudentProfile", back_populates="interventions_received")
     topic = relationship("Topic", back_populates="teacher_actions")
+
+
+class LearningQuest(BaseModelMixin, Base):
+    """
+    Persistent, adaptive student quest derived from empirical learning signals,
+    weakness recovery, retention decay, or mastery milestones.
+    """
+    __tablename__ = "learning_quests"
+    __table_args__ = (
+        Index("ix_learning_quests_student_status", "student_id", "status"),
+        CheckConstraint("current_progress >= 0", name="chk_quest_current_progress_non_negative"),
+        CheckConstraint("target_progress >= 1", name="chk_quest_target_progress_positive"),
+        CheckConstraint("xp_reward >= 0", name="chk_quest_xp_reward_non_negative"),
+    )
+
+    student_id = Column(String(36), ForeignKey("student_profiles.id", ondelete="CASCADE"), nullable=False, index=True)
+    quest_type = Column(SQLEnum(QuestType), nullable=False, index=True)
+    title = Column(String(255), nullable=False)
+    description = Column(Text, nullable=False)
+    topic_id = Column(String(36), ForeignKey("topics.id", ondelete="SET NULL"), nullable=True, index=True)
+    
+    current_progress = Column(Integer, default=0, nullable=False)
+    target_progress = Column(Integer, default=1, nullable=False)
+    status = Column(SQLEnum(QuestStatus), default=QuestStatus.ACTIVE, nullable=False, index=True)
+    xp_reward = Column(Integer, default=20, nullable=False)
+    reward_badge_id = Column(String(50), nullable=True)
+    
+    quest_metadata = Column(JSON, nullable=True)
+    completed_at = Column(DateTime(timezone=True), nullable=True)
+    expires_at = Column(DateTime(timezone=True), nullable=True)
+
+    # Relationships
+    student = relationship("StudentProfile", back_populates="quests")
+    topic = relationship("Topic")
+

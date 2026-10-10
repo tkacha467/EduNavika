@@ -1,3 +1,15 @@
+import sys
+if sys.platform == "win32":
+    try:
+        import ctypes
+        # SEM_FAILCRITICALERRORS (0x0001) | SEM_NOGPFAULTERRORBOX (0x0002)
+        _SEM_FLAGS = 0x0001 | 0x0002
+        ctypes.windll.kernel32.SetErrorMode(_SEM_FLAGS)
+        _prev_thread_mode = ctypes.c_uint()
+        ctypes.windll.kernel32.SetThreadErrorMode(_SEM_FLAGS, ctypes.byref(_prev_thread_mode))
+    except Exception:
+        pass
+
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -24,6 +36,8 @@ def on_startup():
     Base.metadata.create_all(bind=engine)
     with SessionLocal() as db:
         ensure_default_accounts(db)
+        from backend.app.services.curriculum_question_bank import sync_canonical_questions_to_db
+        sync_canonical_questions_to_db(db)
 
 # CORS
 app.add_middleware(

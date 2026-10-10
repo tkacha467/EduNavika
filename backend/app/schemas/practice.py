@@ -58,6 +58,22 @@ class PracticeSubmissionRequest(BaseModel):
     confidence_level: Optional[str] = None  # GUESSING | SOMEWHAT_CONFIDENT | VERY_CONFIDENT
 
 
+class RemediationEvidence(BaseModel):
+    """
+    Evidence-grounded misconception remediation details extracted from verified local textbook chunks.
+    """
+    concept_target: str
+    what_went_wrong: str
+    concept_explanation: str
+    textbook_excerpt: Optional[str] = None
+    source_document: Optional[str] = None
+    source_page: Optional[int] = None
+    source_chunk_id: Optional[str] = None
+    follow_up_question_id: Optional[str] = None
+    follow_up_question_text: Optional[str] = None
+    can_retry: bool = True
+
+
 class PracticeSubmissionResponse(BaseModel):
     """
     Pedagogical feedback and updated learning state following practice submission.
@@ -73,6 +89,8 @@ class PracticeSubmissionResponse(BaseModel):
     source_document: Optional[str] = None
     source_page: Optional[int] = None
     event_id: str
+    remediation: Optional[RemediationEvidence] = None
+
 
 
 class PracticeRecommendation(BaseModel):

@@ -11,17 +11,22 @@ from backend.app.models import (
     RevisionPlan,
     RevisionCompletionState,
     EventType,
+    LearningQuest,
+    QuestType,
+    QuestStatus,
 )
 from backend.app.domain.enums import MasteryLevel
 from backend.app.schemas.gamification import (
     GamificationResponse,
     DailyGoalSummary,
     BadgeItem,
+    QuestItem,
 )
 from backend.app.services.curriculum_translations import (
     localize_level_title,
     localize_badge,
 )
+from backend.app.services.curriculum_question_bank import get_canonical_questions_for_topic
 
 logger = logging.getLogger("gamification_service")
 
@@ -34,6 +39,7 @@ XP_RULES = {
     "WEAK_TOPIC_IMPROVEMENT": 20,
     "DAILY_GOAL_ACHIEVED": 25,
     "CONCEPTUAL_REVIEW": 5,
+    "QUEST_COMPLETION": 20,
 }
 
 LEVEL_THRESHOLDS: List[Tuple[int, int, int]] = [
@@ -278,6 +284,22 @@ class GamificationService:
 
         total_meaningful_count = len(meaningful_events)
 
+        # Check Concept Recovery (recovered from a recent mistake on a topic by getting >= 2 correct answers thereafter)
+        concept_recovery_unlocked = False
+        for tid, tevs in events_by_topic.items():
+            for idx, e in enumerate(tevs):
+                if e.correctness is False and idx + 1 < len(tevs):
+                    following_correct = sum(1 for post_e in tevs[idx + 1:] if post_e.correctness is True)
+                    if following_correct >= 2:
+                        concept_recovery_unlocked = True
+                        break
+            if concept_recovery_unlocked:
+                break
+
+        # Check Personal Best (attained highest topic accuracy >= 80% on at least 3 attempts)
+        personal_best_unlocked = any(tp.accuracy >= 80.0 and tp.total_attempts >= 3 for tp in topic_perfs)
+
+        # Standard 6 core badge definitions
         badge_definitions: List[Dict[str, Any]] = [
             {
                 "id": "FIRST_STEP",
@@ -323,6 +345,25 @@ class GamificationService:
             },
         ]
 
+        # Additional adaptive mastery badges (unlocked dynamically upon qualifying achievement)
+        if concept_recovery_unlocked:
+            badge_definitions.append({
+                "id": "CONCEPT_RECOVERY",
+                "progress": 1,
+                "target": 1,
+                "unlocked": True,
+                "unlocked_at": current_time.isoformat(),
+            })
+
+        if personal_best_unlocked:
+            badge_definitions.append({
+                "id": "PERSONAL_BEST",
+                "progress": 1,
+                "target": 1,
+                "unlocked": True,
+                "unlocked_at": current_time.isoformat(),
+            })
+
         unlocked_badges: List[BadgeItem] = []
         locked_badges: List[BadgeItem] = []
 
@@ -345,6 +386,47 @@ class GamificationService:
 
         recently_earned = list(unlocked_badges)
 
+        # 8. Adaptive Learning Quests Synchronization & Generation
+        active_quests, completed_quests, quest_bonus_xp = cls._sync_adaptive_quests(
+            db=db,
+            student=student,
+            events_by_topic=events_by_topic,
+            topic_perfs=topic_perfs,
+            current_streak=current_streak,
+            current_time=current_time,
+            language=target_lang,
+        )
+
+        total_xp += quest_bonus_xp
+
+        # Recalculate level thresholds with quest bonus XP included
+        if total_xp < 100:
+            level = 1
+            xp_towards = total_xp
+            xp_required = 100
+            level_pct = round((xp_towards / xp_required) * 100.0, 1)
+        elif total_xp < 250:
+            level = 2
+            xp_towards = total_xp - 100
+            xp_required = 150
+            level_pct = round((xp_towards / xp_required) * 100.0, 1)
+        elif total_xp < 500:
+            level = 3
+            xp_towards = total_xp - 250
+            xp_required = 250
+            level_pct = round((xp_towards / xp_required) * 100.0, 1)
+        elif total_xp < 1000:
+            level = 4
+            xp_towards = total_xp - 500
+            xp_required = 500
+            level_pct = round((xp_towards / xp_required) * 100.0, 1)
+        else:
+            level = 5
+            xp_towards = total_xp - 1000
+            xp_required = 0
+            level_pct = 100.0
+        level_title = localize_level_title(level, target_lang)
+
         return GamificationResponse(
             student_id=student.id,
             total_xp=total_xp,
@@ -361,7 +443,244 @@ class GamificationService:
             unlocked_badges=unlocked_badges,
             locked_badges=locked_badges,
             recently_earned_badges=recently_earned,
+            active_quests=active_quests,
+            completed_quests=completed_quests,
         )
+
+    @classmethod
+    def _sync_adaptive_quests(
+        cls,
+        db: Session,
+        student: StudentProfile,
+        events_by_topic: Dict[str, List[LearningEvent]],
+        topic_perfs: List[TopicPerformance],
+        current_streak: int,
+        current_time: datetime,
+        language: str,
+    ) -> Tuple[List[QuestItem], List[QuestItem], int]:
+        """
+        Synchronizes persistent adaptive quests with student's live learning state,
+        generating new evidence-grounded quests when appropriate.
+        Anti-cheat: verified progress updates only from actual LearningEvents and TopicPerformance.
+        """
+        existing_quests = (
+            db.query(LearningQuest)
+            .filter(LearningQuest.student_id == student.id)
+            .order_by(LearningQuest.created_at.asc())
+            .all()
+        )
+
+        quest_bonus_xp = 0
+        perf_by_topic = {tp.topic_id: tp for tp in topic_perfs}
+
+        # Helper to compute progress on any quest
+        def _update_quest_progress(q: LearningQuest):
+            nonlocal quest_bonus_xp
+            if q.status != QuestStatus.ACTIVE:
+                return
+            if q.quest_type == QuestType.CONCEPT_RECOVERY and q.topic_id:
+                tevs = events_by_topic.get(q.topic_id, [])
+                last_wrong_idx = -1
+                for idx, e in enumerate(tevs):
+                    if e.correctness is False:
+                        last_wrong_idx = idx
+                if last_wrong_idx >= 0:
+                    post_correct = sum(1 for e in tevs[last_wrong_idx + 1:] if e.correctness is True)
+                else:
+                    created_ts = q.created_at
+                    if created_ts and created_ts.tzinfo is None:
+                        created_ts = created_ts.replace(tzinfo=timezone.utc)
+                    post_correct = sum(
+                        1 for e in tevs
+                        if (not created_ts or (e.timestamp.replace(tzinfo=timezone.utc) if e.timestamp.tzinfo is None else e.timestamp) >= created_ts)
+                        and e.correctness is True
+                    )
+                q.current_progress = min(q.target_progress, post_correct)
+
+            elif q.quest_type == QuestType.MASTERY_QUEST and q.topic_id:
+                tp = perf_by_topic.get(q.topic_id)
+                if tp:
+                    q.current_progress = min(q.target_progress, tp.correct_attempts)
+
+            elif q.quest_type == QuestType.REVISION_RESCUE and q.topic_id:
+                tp = perf_by_topic.get(q.topic_id)
+                if tp:
+                    q.current_progress = min(q.target_progress, tp.revision_count)
+
+            elif q.quest_type == QuestType.CONSISTENCY_QUEST:
+                q.current_progress = min(q.target_progress, current_streak)
+
+            elif q.quest_type == QuestType.PERSONAL_BEST and q.topic_id:
+                tp = perf_by_topic.get(q.topic_id)
+                if tp and tp.accuracy >= 80.0 and tp.total_attempts >= 3:
+                    q.current_progress = q.target_progress
+
+            if q.current_progress >= q.target_progress:
+                q.status = QuestStatus.COMPLETED
+                q.completed_at = current_time
+                quest_bonus_xp += q.xp_reward
+
+        # 1. Update progress and completion state of existing active quests
+        for q in existing_quests:
+            if q.status == QuestStatus.ACTIVE:
+                _update_quest_progress(q)
+            elif q.status == QuestStatus.COMPLETED:
+                quest_bonus_xp += q.xp_reward
+
+        db.flush()
+
+        # 2. Check if new adaptive quests should be generated
+        active_list = [q for q in existing_quests if q.status == QuestStatus.ACTIVE]
+        existing_types_and_topics = {(q.quest_type, q.topic_id) for q in existing_quests}
+
+        # Candidate 1: Concept Recovery Quest
+        # If student recently had an incorrect answer on a topic with canonical questions
+        if len(active_list) < 3:
+            for topic_id, tevs in events_by_topic.items():
+                if any(e.correctness is False for e in tevs):
+                    # Check if topic has canonical curriculum questions available offline
+                    topic_obj = db.query(Topic).filter(Topic.id == topic_id).first()
+                    topic_title = topic_obj.title if topic_obj else "Syllabus Concept"
+                    canon_qs = get_canonical_questions_for_topic(topic_id, topic_title=topic_title)
+                    if canon_qs and (QuestType.CONCEPT_RECOVERY, topic_id) not in existing_types_and_topics:
+                        new_q = LearningQuest(
+                            student_id=student.id,
+                            quest_type=QuestType.CONCEPT_RECOVERY,
+                            title=f"Concept Recovery: {topic_title}",
+                            description=f"Overcome recent misconceptions by answering 2 practice questions correctly on {topic_title}.",
+                            topic_id=topic_id,
+                            current_progress=0,
+                            target_progress=2,
+                            status=QuestStatus.ACTIVE,
+                            xp_reward=20,
+                            reward_badge_id="CONCEPT_RECOVERY",
+                        )
+                        _update_quest_progress(new_q)
+                        db.add(new_q)
+                        existing_quests.append(new_q)
+                        existing_types_and_topics.add((QuestType.CONCEPT_RECOVERY, topic_id))
+                        if new_q.status == QuestStatus.ACTIVE:
+                            active_list.append(new_q)
+                        break
+
+        # Candidate 2: Revision Rescue Quest
+        # Check active revision plans due or high priority
+        if len(active_list) < 3:
+            rev_plan = (
+                db.query(RevisionPlan)
+                .filter(
+                    RevisionPlan.student_id == student.id,
+                    RevisionPlan.completion_state == RevisionCompletionState.PENDING,
+                )
+                .order_by(RevisionPlan.recommended_revision_at.asc())
+                .first()
+            )
+            if rev_plan and (QuestType.REVISION_RESCUE, rev_plan.topic_id) not in existing_types_and_topics:
+                top_obj = db.query(Topic).filter(Topic.id == rev_plan.topic_id).first()
+                top_name = top_obj.title if top_obj else "Scheduled Topic"
+                new_q = LearningQuest(
+                    student_id=student.id,
+                    quest_type=QuestType.REVISION_RESCUE,
+                    title=f"Revision Rescue: {top_name}",
+                    description=f"Complete scheduled spaced retention review for {top_name} to reinforce long-term memory.",
+                    topic_id=rev_plan.topic_id,
+                    current_progress=0,
+                    target_progress=1,
+                    status=QuestStatus.ACTIVE,
+                    xp_reward=15,
+                    reward_badge_id="REVISION_CHAMPION",
+                )
+                _update_quest_progress(new_q)
+                db.add(new_q)
+                existing_quests.append(new_q)
+                existing_types_and_topics.add((QuestType.REVISION_RESCUE, rev_plan.topic_id))
+                if new_q.status == QuestStatus.ACTIVE:
+                    active_list.append(new_q)
+
+        # Candidate 3: Mastery Quest
+        # Find a topic with developing performance to push to proficiency
+        if len(active_list) < 3:
+            for tp in topic_perfs:
+                if 40.0 <= tp.accuracy < 85.0 and (QuestType.MASTERY_QUEST, tp.topic_id) not in existing_types_and_topics:
+                    top_obj = db.query(Topic).filter(Topic.id == tp.topic_id).first()
+                    top_name = top_obj.title if top_obj else "Curriculum Topic"
+                    new_q = LearningQuest(
+                        student_id=student.id,
+                        quest_type=QuestType.MASTERY_QUEST,
+                        title=f"Mastery Quest: {top_name}",
+                        description=f"Demonstrate solid conceptual mastery by achieving 3 correct answers on {top_name}.",
+                        topic_id=tp.topic_id,
+                        current_progress=min(3, tp.correct_attempts),
+                        target_progress=max(3, tp.correct_attempts + 2),
+                        status=QuestStatus.ACTIVE,
+                        xp_reward=25,
+                        reward_badge_id="TOPIC_MASTER",
+                    )
+                    _update_quest_progress(new_q)
+                    db.add(new_q)
+                    existing_quests.append(new_q)
+                    existing_types_and_topics.add((QuestType.MASTERY_QUEST, tp.topic_id))
+                    if new_q.status == QuestStatus.ACTIVE:
+                        active_list.append(new_q)
+                    break
+
+        # Candidate 4: Consistency Quest (Streak Goal)
+        if len(active_list) < 3 and (QuestType.CONSISTENCY_QUEST, None) not in existing_types_and_topics:
+            target_streak = max(3, current_streak + 1)
+            new_q = LearningQuest(
+                student_id=student.id,
+                quest_type=QuestType.CONSISTENCY_QUEST,
+                title="Consistency Quest: Build Habit",
+                description=f"Engage in meaningful offline curriculum practice across {target_streak} distinct calendar days.",
+                topic_id=None,
+                current_progress=min(target_streak, current_streak),
+                target_progress=target_streak,
+                status=QuestStatus.ACTIVE,
+                xp_reward=30,
+                reward_badge_id="THREE_DAY_LEARNER",
+            )
+            _update_quest_progress(new_q)
+            db.add(new_q)
+            existing_quests.append(new_q)
+            existing_types_and_topics.add((QuestType.CONSISTENCY_QUEST, None))
+            if new_q.status == QuestStatus.ACTIVE:
+                active_list.append(new_q)
+
+        db.commit()
+
+        # Build schema items
+        active_items: List[QuestItem] = []
+        completed_items: List[QuestItem] = []
+
+        for q in existing_quests:
+            topic_title = None
+            if q.topic_id:
+                t = db.query(Topic).filter(Topic.id == q.topic_id).first()
+                if t:
+                    topic_title = t.title
+
+            pct = min(100.0, round((q.current_progress / max(1, q.target_progress)) * 100.0, 1))
+            q_item = QuestItem(
+                quest_id=q.id,
+                quest_type=q.quest_type.value if hasattr(q.quest_type, "value") else str(q.quest_type),
+                title=q.title,
+                description=q.description,
+                topic_id=q.topic_id,
+                topic_title=topic_title,
+                current_progress=q.current_progress,
+                target_progress=q.target_progress,
+                progress_percentage=pct,
+                status=q.status.value if hasattr(q.status, "value") else str(q.status),
+                xp_reward=q.xp_reward,
+                reward_badge_id=q.reward_badge_id,
+                can_launch=bool(q.topic_id),
+            )
+            if q.status == QuestStatus.ACTIVE:
+                active_items.append(q_item)
+            else:
+                completed_items.append(q_item)
+
+        return active_items, completed_items, quest_bonus_xp
 
 
 gamification_service = GamificationService()

@@ -288,8 +288,8 @@ def test_ps06_complete_offline_closed_loop_personalization(client, db_session, p
     assert gam_res.status_code == 200
     gam_data = gam_res.json()
 
-    # 3 practices (3*10=30) + 2 correct (2*5=10) + weak topic turnaround improvement (+20) = 60 XP
-    assert gam_data["total_xp"] == 60
+    # 3 practices (3*10=30) + 2 correct (2*5=10) + weak topic turnaround improvement (+20) + CONCEPT_RECOVERY quest completion (+20) = 80 XP
+    assert gam_data["total_xp"] == 80
     assert gam_data["level"] == 1
     assert gam_data["level_title"] == "Curious Explorer"
     assert gam_data["current_streak"] == 1

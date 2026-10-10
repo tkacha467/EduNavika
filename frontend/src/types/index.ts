@@ -479,6 +479,22 @@ export interface BadgeItem {
   target: number;
 }
 
+export interface QuestItem {
+  quest_id: string;
+  quest_type: string;
+  title: string;
+  description: string;
+  topic_id?: string | null;
+  topic_title?: string | null;
+  current_progress: number;
+  target_progress: number;
+  progress_percentage: number;
+  status: 'ACTIVE' | 'COMPLETED' | 'EXPIRED';
+  xp_reward: number;
+  reward_badge_id?: string | null;
+  can_launch: boolean;
+}
+
 export interface GamificationResponse {
   student_id: string;
   total_xp: number;
@@ -495,5 +511,7 @@ export interface GamificationResponse {
   unlocked_badges: BadgeItem[];
   locked_badges: BadgeItem[];
   recently_earned_badges: BadgeItem[];
+  active_quests?: QuestItem[];
+  completed_quests?: QuestItem[];
 }
 

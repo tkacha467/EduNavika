@@ -113,3 +113,18 @@ class RecommendationAction(str, enum.Enum):
     REVISION = "REVISION"
     PRACTICE = "PRACTICE"
     REVIEW = "REVIEW"
+
+
+class QuestType(str, enum.Enum):
+    CONCEPT_RECOVERY = "CONCEPT_RECOVERY"
+    MASTERY_QUEST = "MASTERY_QUEST"
+    REVISION_RESCUE = "REVISION_RESCUE"
+    CONSISTENCY_QUEST = "CONSISTENCY_QUEST"
+    PERSONAL_BEST = "PERSONAL_BEST"
+
+
+class QuestStatus(str, enum.Enum):
+    ACTIVE = "ACTIVE"
+    COMPLETED = "COMPLETED"
+    EXPIRED = "EXPIRED"
+

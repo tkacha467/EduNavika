@@ -65,6 +65,7 @@ class StudentProfile(BaseModelMixin, Base):
     revision_plans = relationship("RevisionPlan", back_populates="student", cascade="all, delete-orphan")
     forgetting_signals = relationship("ForgettingSignal", back_populates="student", cascade="all, delete-orphan")
     interventions_received = relationship("TeacherAction", back_populates="student", cascade="all, delete-orphan")
+    quests = relationship("LearningQuest", back_populates="student", cascade="all, delete-orphan")
 
 
 class TeacherProfile(BaseModelMixin, Base):

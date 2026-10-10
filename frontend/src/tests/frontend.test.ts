@@ -115,3 +115,39 @@ describe('Authentication & Session Management', () => {
     expect(authService.getRole()).toBe('student');
   });
 });
+
+describe('Adaptive Practice Responsiveness & Error Recovery', () => {
+  it('should render loading state cleanly without throwing or freezing', () => {
+    const html = ROUTES['student/practice']();
+    expect(html).toContain('Loading Adaptive Practice');
+    expect(html).toContain('Analyzing your empirical mastery');
+  });
+
+  it('should allow clean navigation between dashboard and practice', () => {
+    const dashHtml = ROUTES['student/dashboard']();
+    expect(dashHtml).toContain("Today's Focus");
+    const practiceHtml = ROUTES['student/practice']();
+    expect(practiceHtml).toBeDefined();
+    const backToDashHtml = ROUTES['student/dashboard']();
+    expect(backToDashHtml).toContain("Today's Focus");
+  });
+
+  it('should preserve specific topicId in loadAdaptivePractice and navigate to student/practice', () => {
+    let navigatedTo = '';
+    const fakeWindow: any = {
+      location: { hash: '#/student/materials' },
+      navigate: (route: string) => {
+        navigatedTo = route;
+      },
+    };
+    (globalThis as any).window = fakeWindow;
+
+    const testTopicId = '565bf22f-2a3c-4e5a-b78d-31bcd24bae0c'; // 1.1 Introduction1
+    // Dynamically import or invoke
+    import('../features/student/StudentViews').then(mod => {
+      mod.loadAdaptivePractice(testTopicId);
+      expect(navigatedTo).toBe('student/practice');
+    });
+  });
+});
+

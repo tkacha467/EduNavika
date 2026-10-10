@@ -481,3 +481,120 @@ def test_12_gamification_does_not_mutate_learning_data(client, db_session, gamif
     count_after = db_session.query(LearningEvent).filter(LearningEvent.student_id == student.id).count()
 
     assert count_before == count_after == 1
+
+
+def test_13_adaptive_quests_generation_and_persistence(db_session, gamification_fixture):
+    """13. Quests are generated from student weaknesses/signals and persist across queries."""
+    student = gamification_fixture["student"]
+    t1 = gamification_fixture["t1"]
+
+    # Student incurs a misconception on topic t1
+    db_session.add(
+        LearningEvent(
+            student_id=student.id,
+            topic_id=t1.id,
+            event_type=EventType.PRACTICE,
+            correctness=False,
+            score=0.0,
+            timestamp=datetime.now(timezone.utc),
+        )
+    )
+    db_session.commit()
+
+    # Query gamification: should generate Concept Recovery and Consistency quests
+    gam1 = GamificationService.get_student_gamification(db_session, student.id)
+    assert len(gam1.active_quests) >= 1
+    recovery_q = next((q for q in gam1.active_quests if q.quest_type == "CONCEPT_RECOVERY"), None)
+    assert recovery_q is not None
+    assert recovery_q.topic_id == t1.id
+    assert recovery_q.target_progress == 2
+    assert recovery_q.current_progress == 0
+
+    # Query again: same quest should persist, not generate duplicate quests
+    gam2 = GamificationService.get_student_gamification(db_session, student.id)
+    matching = [q for q in gam2.active_quests if q.quest_id == recovery_q.quest_id]
+    assert len(matching) == 1
+
+
+def test_14_quest_completion_and_bonus_xp(db_session, gamification_fixture):
+    """14. Completing a quest awards bonus XP and marks status COMPLETED without duplication."""
+    student = gamification_fixture["student"]
+    t1 = gamification_fixture["t1"]
+
+    # Student incurs a misconception on topic t1 first, then answers 2 practice questions correctly
+    now = datetime.now(timezone.utc)
+    db_session.add_all([
+        LearningEvent(
+            student_id=student.id,
+            topic_id=t1.id,
+            event_type=EventType.PRACTICE,
+            correctness=False,
+            score=0.0,
+            timestamp=now - timedelta(minutes=5),
+        ),
+        LearningEvent(
+            student_id=student.id,
+            topic_id=t1.id,
+            event_type=EventType.PRACTICE,
+            correctness=True,
+            score=100.0,
+            timestamp=now + timedelta(seconds=1),
+        ),
+        LearningEvent(
+            student_id=student.id,
+            topic_id=t1.id,
+            event_type=EventType.PRACTICE,
+            correctness=True,
+            score=100.0,
+            timestamp=now + timedelta(seconds=2),
+        ),
+    ])
+    db_session.commit()
+
+    gam = GamificationService.get_student_gamification(db_session, student.id)
+    # The Concept Recovery quest should now be completed
+    completed = [q for q in gam.completed_quests if q.quest_type == "CONCEPT_RECOVERY"]
+    assert len(completed) >= 1
+    assert completed[0].status == "COMPLETED"
+    assert completed[0].progress_percentage == 100.0
+
+    # Check that CONCEPT_RECOVERY badge was dynamically unlocked
+    badge_ids = [b.badge_id for b in gam.unlocked_badges]
+    assert "CONCEPT_RECOVERY" in badge_ids
+
+
+def test_15_personal_best_badge_unlock(db_session, gamification_fixture):
+    """15. Personal Best badge unlocks when student achieves >= 80% accuracy over >= 3 attempts."""
+    student = gamification_fixture["student"]
+    t2 = gamification_fixture["t2"]
+
+    # Record 3 correct attempts on t2
+    now = datetime.now(timezone.utc)
+    for i in range(3):
+        db_session.add(
+            LearningEvent(
+                student_id=student.id,
+                topic_id=t2.id,
+                event_type=EventType.PRACTICE,
+                correctness=True,
+                score=100.0,
+                timestamp=now + timedelta(minutes=i),
+            )
+        )
+    # Update TopicPerformance
+    db_session.add(
+        TopicPerformance(
+            student_id=student.id,
+            topic_id=t2.id,
+            total_attempts=3,
+            correct_attempts=3,
+            accuracy=100.0,
+            mastery_state="PROFICIENT",
+        )
+    )
+    db_session.commit()
+
+    gam = GamificationService.get_student_gamification(db_session, student.id)
+    badge_ids = [b.badge_id for b in gam.unlocked_badges]
+    assert "PERSONAL_BEST" in badge_ids
+

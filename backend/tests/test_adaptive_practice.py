@@ -184,7 +184,7 @@ def test_7_question_is_curriculum_grounded_with_source_page(db_session, practice
     for q in res.questions:
         assert q.source_document is not None
         assert q.source_page is not None
-        assert q.source_page in (12, 14, 15, 16, 17, 18, 20, 21, 22, 23)
+        assert q.source_page in (12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23)
         assert q.correct_answer is None  # Hidden from student endpoint before submission
 
 

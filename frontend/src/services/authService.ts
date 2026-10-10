@@ -8,7 +8,7 @@ const STORAGE_KEY_ROLE = 'edunavika_role';
 const STORAGE_KEY_TOKEN = 'edunavika_token';
 
 export const DEFAULT_STUDENT: User = {
-  id: 'stu-tushar-kacha-001',
+  id: 'e09699dd-0c64-44cc-82ef-ab41a832e072',
   email: 'kachatushar108@gmail.com',
   full_name: 'Tushar Kacha',
   name: 'Tushar Kacha',
@@ -26,7 +26,7 @@ export const DEFAULT_STUDENT: User = {
 };
 
 export const DEFAULT_TEACHER: User = {
-  id: 'tch-prof-tushar-kacha-001',
+  id: 'd95f6bf6-bfa9-421e-85d7-eae488519348',
   email: 'tushar.kacha141862@marwadiuniversity.ac.in',
   full_name: 'Prof. Tushar Kacha',
   name: 'Prof. Tushar Kacha',
