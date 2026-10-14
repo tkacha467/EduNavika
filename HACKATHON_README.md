@@ -64,14 +64,24 @@ Verified on standard commodity x86_64 CPU (4 threads, zero GPU acceleration, `n_
 ---
 
 ## 7. Technology Stack
-- **Frontend:** TypeScript, Vite, Modern Responsive Web Components, CSS Grid & Flexbox
-- **Backend:** Python 3.11, FastAPI, SQLAlchemy, SQLite
+- **Frontend:** TypeScript 5.7, Vite, Vanilla High-Performance DOM Components, Global Command Palette (`Ctrl + K`)
+- **Backend:** Python 3.11, FastAPI, SQLAlchemy 2.0, SQLite
 - **Local AI Inference:** `llama-cpp-python`, `Qwen2.5-0.5B-Instruct` (GGUF Q4_K_M)
-- **Curriculum Search:** Rank-BM25 local search over tokenized GSEB Standard 10 textbooks
+- **Curriculum Search:** Rank-BM25 local search over tokenized GSEB Standard 9–12 textbooks
+- **Automated Verification:** 347 Backend Tests (Pytest) + 20 Frontend Tests (Vitest) — 100% Green
 
 ---
 
-## 8. Quick Start / Demo Instructions
+## 8. Final Presentation & PPT Preparation
+For preparing your final hackathon presentation slides and speaker notes:
+- 📊 **[`FINAL_PRESENTATION_DECK_GUIDE.md`](./FINAL_PRESENTATION_DECK_GUIDE.md)**: Exact 12-slide PowerPoint blueprint, bullet points, diagrams, timing, and judge Q&A defense.
+- 📖 **[`README.md`](./README.md)**: Master comprehensive architecture guide, mathematical decay models, and hardware benchmarks.
+- 🎤 **[`PITCH.md`](./PITCH.md)**: 30-second, 60-second, and 2-minute elevator pitches.
+- 📋 **[`DEMO_CHECKLIST.md`](./DEMO_CHECKLIST.md)**: 5-minute live demo execution sequence.
+
+---
+
+## 9. Quick Start / Demo Instructions
 
 ### Prerequisites
 - Python 3.11 with virtual environment installed at `.venv`
