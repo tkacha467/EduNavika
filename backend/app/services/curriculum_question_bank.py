@@ -721,7 +721,7 @@ CANONICAL_CURRICULUM_BANK: Dict[str, List[Dict[str, Any]]] = {
             "correct_answer": "ax² + bx + c = 0, where a, b, c are real numbers and a ≠ 0",
             "explanation": "A quadratic equation in the variable x is an equation of the form ax² + bx + c = 0, where a, b, c are real numbers and a ≠ 0 (Textbook Page 54).",
             "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
-            "source_page": 53,
+            "source_page": 54,
             "source_chunk_id": "6f64b243-a2d9-485c-a106-1406a3e13cd5",
             "source_text": "A quadratic equation in the variable x is an equation of the form ax2 + bx + c = 0, where a, b, c are real numbers and a != 0. In fact, any equation of the form p(x) = 0, where p(x) is a polynomial of degree 2, is a quadratic equation.",
             "skill_target": "Quadratic Equations Standard Form"
@@ -1979,7 +1979,7 @@ def sync_canonical_questions_to_db(db) -> int:
     and full provenance tracking.
     """
     from backend.app.models.assessment_models import MCQQuestion, OptionKey, QuestionDifficulty, QuestionStatus
-    from backend.app.models import Topic, LearningContent
+    from backend.app.models import Topic, Chapter, Subject, Standard, LearningContent
     import uuid
 
     count = 0
@@ -1990,16 +1990,111 @@ def sync_canonical_questions_to_db(db) -> int:
         "CHALLENGE": QuestionDifficulty.HARD,
     }
 
+    try:
+        existing_ids = {row[0] for row in db.query(MCQQuestion.id).all()}
+        existing_texts = {row[0] for row in db.query(MCQQuestion.question_text).all()}
+    except Exception:
+        existing_ids = set()
+        existing_texts = set()
+
     for tid, qlist in CANONICAL_CURRICULUM_BANK.items():
+        if not qlist:
+            continue
+        first_q = qlist[0]
+
+        # 1. Ensure Topic exists in DB so foreign key and resolver lookups succeed
         topic = db.query(Topic).filter(Topic.id == tid).first()
         if not topic:
-            continue
+            subj_raw = first_q.get("subject", "Science & Technology")
+            if "math" in subj_raw.lower():
+                subj_canonical = "Mathematics"
+            elif any(k in subj_raw.lower() for k in ["chem", "phys", "bio", "science"]):
+                subj_canonical = "Science & Technology"
+            elif "eng" in subj_raw.lower():
+                subj_canonical = "English Literature & Language"
+            elif "social" in subj_raw.lower():
+                subj_canonical = "Social Science"
+            else:
+                subj_canonical = subj_raw
+
+            subj = db.query(Subject).filter(
+                (Subject.name == subj_canonical) | (Subject.name.ilike(f"%{subj_canonical}%"))
+            ).first()
+            if not subj:
+                s10 = db.query(Standard).filter((Standard.grade_number == 10) | (Standard.name.ilike("%10%"))).first()
+                subj = Subject(
+                    id=str(uuid.uuid4()),
+                    standard_id=s10.id if s10 else None,
+                    name=subj_canonical,
+                    code=subj_canonical.lower().replace(" ", "_").replace("&", "and"),
+                    description=f"GSEB Standard 10 {subj_canonical}",
+                    is_active=True
+                )
+                db.add(subj)
+                db.flush()
+
+            ch_title = first_q.get("chapter", "General Content")
+            chap = db.query(Chapter).filter(
+                Chapter.subject_id == subj.id,
+                Chapter.title == ch_title
+            ).first()
+            if not chap:
+                existing_chaps_count = db.query(Chapter).filter(Chapter.subject_id == subj.id).count()
+                chap = Chapter(
+                    id=str(uuid.uuid4()),
+                    subject_id=subj.id,
+                    chapter_number=existing_chaps_count + 1,
+                    title=ch_title,
+                    description=f"{subj.name} - {ch_title}",
+                    source_reference=first_q.get("source_document", "STD-10/Std-10_Science_English Medium.pdf"),
+                    is_active=True
+                )
+                db.add(chap)
+                db.flush()
+
+            existing_topics_count = db.query(Topic).filter(Topic.chapter_id == chap.id).count()
+            topic = Topic(
+                id=tid,
+                chapter_id=chap.id,
+                title=first_q.get("topic_title", ch_title),
+                topic_order=existing_topics_count + 1,
+                is_active=True
+            )
+            db.add(topic)
+            db.flush()
+
+        # 2. Ensure LearningContent chunks exist for authentic excerpts and page citations
+        for q_item in qlist:
+            chunk_id = q_item.get("source_chunk_id")
+            if chunk_id:
+                existing_chunk = db.query(LearningContent).filter(LearningContent.id == chunk_id).first()
+                if not existing_chunk:
+                    src_doc = q_item.get("source_document", "STD-10/Std-10_Science_English Medium.pdf")
+                    src_page = q_item.get("source_page", 1)
+                    src_text = q_item.get("source_text") or q_item.get("explanation", "")
+                    if len(src_text.strip()) < 30:
+                        src_text = f"Curriculum source text for {q_item.get('topic_title', '')}: {q_item.get('explanation', '')}"
+                    new_lc = LearningContent(
+                        id=chunk_id,
+                        topic_id=tid,
+                        title=q_item.get("topic_title", topic.title),
+                        content_text=src_text,
+                        source_document=src_doc,
+                        source_page=src_page,
+                        source_reference=f"Page {src_page} of {src_doc}",
+                        chunk_identifier=f"chunk_{chunk_id[:8]}"
+                    )
+                    db.add(new_lc)
+                    db.flush()
+
+        # 3. Synchronize MCQs with collision prevention
         for q in qlist:
             qid = q.get("id")
-            existing = db.query(MCQQuestion).filter(
-                (MCQQuestion.id == qid) | (MCQQuestion.question_text == q["question"])
-            ).first()
-            if existing:
+            q_text = q.get("question")
+            if not qid or not q_text:
+                continue
+
+            if qid in existing_ids or q_text in existing_texts:
                 continue
 
             options = q.get("options", [])
@@ -2011,16 +2106,10 @@ def sync_canonical_questions_to_db(db) -> int:
             correct_idx = options.index(correct_ans)
             opt_key = [OptionKey.A, OptionKey.B, OptionKey.C, OptionKey.D][correct_idx]
 
-            # Find matching learning content if available
-            source_chunk_id = q.get("source_chunk_id")
-            lc = db.query(LearningContent).filter(LearningContent.id == source_chunk_id).first() if source_chunk_id else None
-            if not lc:
-                lc = db.query(LearningContent).filter(LearningContent.topic_id == tid).first()
-
             mcq = MCQQuestion(
-                id=qid if qid and len(qid) <= 36 else str(uuid.uuid4()),
+                id=qid if len(qid) <= 36 else str(uuid.uuid4()),
                 topic_id=tid,
-                question_text=q["question"],
+                question_text=q_text,
                 option_a=options[0],
                 option_b=options[1],
                 option_c=options[2],
@@ -2034,10 +2123,15 @@ def sync_canonical_questions_to_db(db) -> int:
                 status=QuestionStatus.PUBLISHED,
             )
             db.add(mcq)
+            existing_ids.add(qid)
+            existing_texts.add(q_text)
             count += 1
 
-    if count > 0:
+    try:
         db.commit()
-        logger.info("[CURRICULUM_SYNC] Synced %d canonical questions to SQLite mcq_questions table.", count)
+        logger.info("[CURRICULUM_SYNC] Synced canonical curriculum and %d questions to SQLite.", count)
+    except Exception as e:
+        db.rollback()
+        logger.warning("[CURRICULUM_SYNC] Error during commit: %s", e)
     return count
 
