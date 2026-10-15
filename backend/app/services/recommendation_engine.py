@@ -74,11 +74,14 @@ class RecommendationEngineService:
         Generates deterministic, explainable recommendations for a student.
         Supports English, Hindi, and Gujarati localization while preserving exact score ranking.
         """
-        student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+        from backend.app.services.topic_resolver import get_or_create_student_profile
+
+        student = get_or_create_student_profile(db, student_id)
+        target_student_id = student.id if student else student_id
         target_lang = language or (student.preferred_language if student else "en") or "en"
 
         # 1. Fetch student's knowledge profile across active topics
-        profile_response = KnowledgeModelService.get_student_knowledge_profiles(db, student_id)
+        profile_response = KnowledgeModelService.get_student_knowledge_profiles(db, target_student_id)
         raw_profiles = profile_response.profiles
 
         # Filter profiles for curriculum eligibility
@@ -92,7 +95,7 @@ class RecommendationEngineService:
         all_pending_plans = (
             db.query(RevisionPlan)
             .filter(
-                RevisionPlan.student_id == student_id,
+                RevisionPlan.student_id == target_student_id,
                 RevisionPlan.completion_state == RevisionCompletionState.PENDING,
             )
             .all()

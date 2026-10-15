@@ -12,7 +12,10 @@ from backend.app.services.explanation_engine import (
     DeterministicExplanationEngine,
     OnDeviceLLMExplanationEngine,
 )
-from backend.app.api.v1.endpoints.attempts import _resolve_topic
+from backend.app.api.v1.endpoints.attempts import (
+    _resolve_topic,
+    _get_or_create_student_profile,
+)
 
 
 class PersonalizedExplanationService:
@@ -30,7 +33,8 @@ class PersonalizedExplanationService:
         request: ExplanationRequest,
     ) -> ExplanationResponse:
         student_id = request.student_id
-        student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+        student = _get_or_create_student_profile(db, student_id)
+        target_student_id = student.id if student else student_id
 
         # 1. Resolve & Validate Topic
         resolved_topic = _resolve_topic(db, request.topic_id)
@@ -42,14 +46,14 @@ class PersonalizedExplanationService:
             raise ValueError(f"Topic '{resolved_topic.title}' is not an eligible curriculum topic for this student.")
 
         # 2. Retrieve Student Knowledge Profile for this topic
-        prof_resp = KnowledgeModelService.get_student_knowledge_profiles(db, student_id, topic_id=resolved_topic.id)
+        prof_resp = KnowledgeModelService.get_student_knowledge_profiles(db, target_student_id, topic_id=resolved_topic.id)
         if prof_resp.profiles:
             knowledge_profile = prof_resp.profiles[0]
         else:
-            knowledge_profile = KnowledgeModelService.calculate_topic_profile(db, student_id, resolved_topic)
+            knowledge_profile = KnowledgeModelService.calculate_topic_profile(db, target_student_id, resolved_topic)
 
         # 3. Retrieve Recommendation context
-        rec_resp = RecommendationEngineService.generate_recommendations(db, student_id)
+        rec_resp = RecommendationEngineService.generate_recommendations(db, target_student_id)
         rec = next((r for r in rec_resp.recommendations if r.topic_id == resolved_topic.id), None)
 
         # 4. Retrieve Grounded Curriculum Material

@@ -109,16 +109,19 @@ class RevisionPlannerService:
         """
         Computes and retrieves the complete, personalized revision plan for a student.
         """
-        student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+        from backend.app.services.topic_resolver import get_or_create_student_profile
+
+        student = get_or_create_student_profile(db, student_id)
         if not student:
             raise ValueError(f"Student profile '{student_id}' not found.")
+        target_student_id = student.id
 
         target_lang = language or student.preferred_language or "en"
         current_time = now or datetime.now(timezone.utc)
         today_date_str = current_time.strftime("%Y-%m-%d")
 
         # 1. Fetch student's knowledge profile across active topics
-        profile_response = KnowledgeModelService.get_student_knowledge_profiles(db, student_id)
+        profile_response = KnowledgeModelService.get_student_knowledge_profiles(db, target_student_id)
         raw_profiles = profile_response.profiles
 
         # Filter profiles for curriculum eligibility
@@ -137,7 +140,7 @@ class RevisionPlannerService:
         pending_plans = (
             db.query(RevisionPlan)
             .filter(
-                RevisionPlan.student_id == student_id,
+                RevisionPlan.student_id == target_student_id,
                 RevisionPlan.completion_state == RevisionCompletionState.PENDING,
             )
             .all()
@@ -171,7 +174,7 @@ class RevisionPlannerService:
                 topic_record = db.query(Topic).filter(Topic.id == topic_id).first()
                 if topic_record and RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic_record):
                     profile_map[topic_id] = KnowledgeModelService.calculate_topic_profile(
-                        db, student_id, topic_record
+                        db, target_student_id, topic_record
                     )
 
         revision_items: List[RevisionPlanItem] = []
@@ -193,7 +196,7 @@ class RevisionPlannerService:
             # Performance record for revision count and elapsed days
             perf = (
                 db.query(TopicPerformance)
-                .filter(TopicPerformance.student_id == student_id, TopicPerformance.topic_id == topic_id)
+                .filter(TopicPerformance.student_id == target_student_id, TopicPerformance.topic_id == topic_id)
                 .first()
             )
             rev_count = perf.revision_count if perf else 0
@@ -217,7 +220,7 @@ class RevisionPlannerService:
             db_plan = existing_plan
             if not db_plan and priority in (RevisionPriority.URGENT, RevisionPriority.HIGH, RevisionPriority.MEDIUM):
                 db_plan = RevisionPlan(
-                    student_id=student_id,
+                    student_id=target_student_id,
                     topic_id=topic_id,
                     recommended_revision_at=recommended_at,
                     priority=priority,

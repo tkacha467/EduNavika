@@ -32,6 +32,9 @@ class RevisionOutcomeRequest(BaseModel):
 
 
 
+from backend.app.services.topic_resolver import get_or_create_student_profile
+
+
 @router.post(
     "/detect-decay/{student_id}",
     response_model=DecayDetectionResponse,
@@ -42,7 +45,7 @@ def detect_decay_for_student(
     topic_id: Optional[str] = Query(None, description="Optional topic filter"),
     db: Session = Depends(get_db)
 ):
-    student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    student = get_or_create_student_profile(db, student_id)
     if not student:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -51,7 +54,7 @@ def detect_decay_for_student(
 
     return adaptive_service.detect_and_schedule_for_student(
         db=db,
-        student_id=student_id,
+        student_id=student.id,
         topic_id=topic_id
     )
 
@@ -65,14 +68,14 @@ def get_adaptive_schedule(
     student_id: str,
     db: Session = Depends(get_db)
 ):
-    student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    student = get_or_create_student_profile(db, student_id)
     if not student:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Student profile {student_id} not found"
         )
 
-    return adaptive_service.get_student_schedule(db=db, student_id=student_id)
+    return adaptive_service.get_student_schedule(db=db, student_id=student.id)
 
 
 @router.get(
