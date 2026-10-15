@@ -49,6 +49,11 @@ class EventRecorderService:
         elif event_type == EventType.REVIEW:
             correctness = None
 
+        from backend.app.services.topic_resolver import get_or_create_student_profile
+
+        student = get_or_create_student_profile(db, student_id)
+        effective_student_id = student.id if student else student_id
+
         meta = dict(event_metadata) if event_metadata else {}
         if idempotency_key:
             meta["idempotency_key"] = idempotency_key
@@ -63,7 +68,7 @@ class EventRecorderService:
                     existing = (
                         db.query(LearningEvent)
                         .filter(
-                            LearningEvent.student_id == student_id,
+                            LearningEvent.student_id == effective_student_id,
                             LearningEvent.topic_id == topic_id,
                             LearningEvent.event_type == event_type,
                         )
@@ -75,7 +80,7 @@ class EventRecorderService:
 
                 # 1. Store immutable raw learning event
                 event = LearningEvent(
-                    student_id=student_id,
+                    student_id=effective_student_id,
                     topic_id=topic_id,
                     event_type=event_type,
                     timestamp=timestamp,
@@ -93,7 +98,7 @@ class EventRecorderService:
                 # 2. Update TopicPerformance evidence aggregation
                 EventRecorderService._update_topic_performance(
                     db=db,
-                    student_id=student_id,
+                    student_id=effective_student_id,
                     topic_id=topic_id,
                     event_type=event_type,
                     timestamp=timestamp,

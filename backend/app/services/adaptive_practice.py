@@ -230,6 +230,7 @@ class AdaptivePracticeService:
         """
         from backend.app.services.topic_resolver import get_or_create_student_profile
         student = get_or_create_student_profile(db, student_id)
+        target_student_id = student.id if student else student_id
         topic = _resolve_topic(db, topic_id)
         if not topic:
             raise ValueError(f"Topic '{topic_id}' could not be resolved.")
@@ -241,17 +242,17 @@ class AdaptivePracticeService:
             raise ValueError(f"Topic '{topic.title}' is not an eligible curriculum topic for this student.")
 
         # 1. Retrieve Knowledge Profile
-        prof_resp = KnowledgeModelService.get_student_knowledge_profiles(db, student_id, topic_id=topic.id)
+        prof_resp = KnowledgeModelService.get_student_knowledge_profiles(db, target_student_id, topic_id=topic.id)
         if prof_resp.profiles:
             profile = prof_resp.profiles[0]
         else:
-            profile = KnowledgeModelService.calculate_topic_profile(db, student_id, topic)
+            profile = KnowledgeModelService.calculate_topic_profile(db, target_student_id, topic)
 
         # 2. Extract recent incorrect attempt context
         error_events = (
             db.query(LearningEvent)
             .filter(
-                LearningEvent.student_id == student_id,
+                LearningEvent.student_id == target_student_id,
                 LearningEvent.topic_id == topic.id,
                 LearningEvent.correctness == False,
             )
@@ -689,6 +690,7 @@ class AdaptivePracticeService:
         """
         from backend.app.services.topic_resolver import get_or_create_student_profile
         student = get_or_create_student_profile(db, submission.student_id)
+        target_student_id = student.id if student else submission.student_id
         topic = _resolve_topic(db, submission.topic_id)
         if not topic:
             raise ValueError(f"Topic '{submission.topic_id}' could not be resolved.")
@@ -804,7 +806,7 @@ class AdaptivePracticeService:
         # 2. Record atomic LearningEvent via EventRecorderService (100% language-invariant)
         event = EventRecorderService.record_event(
             db=db,
-            student_id=submission.student_id,
+            student_id=target_student_id,
             topic_id=topic.id,
             event_type=EventType.PRACTICE,
             score=100.0 if is_correct else 0.0,
@@ -822,7 +824,7 @@ class AdaptivePracticeService:
         )
 
         # 3. Retrieve updated Knowledge Profile (computed empirically from LearningEvents)
-        updated_profile = KnowledgeModelService.calculate_topic_profile(db, submission.student_id, topic)
+        updated_profile = KnowledgeModelService.calculate_topic_profile(db, target_student_id, topic)
 
         # 4. Generate Personalized Pedagogical Feedback
         feedback, next_action = self._build_personalized_feedback(
