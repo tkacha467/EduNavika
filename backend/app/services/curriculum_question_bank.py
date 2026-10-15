@@ -2017,9 +2017,13 @@ def sync_canonical_questions_to_db(db) -> int:
             ).first()
             if not subj:
                 s10 = db.query(Standard).filter((Standard.grade_number == 10) | (Standard.name.ilike("%10%"))).first()
+                if not s10:
+                    s10 = Standard(grade_number=10, name="Standard 10", description="GSEB Standard 10")
+                    db.add(s10)
+                    db.flush()
                 subj = Subject(
                     id=str(uuid.uuid4()),
-                    standard_id=s10.id if s10 else None,
+                    standard_id=s10.id,
                     name=subj_canonical,
                     code=subj_canonical.lower().replace(" ", "_").replace("&", "and"),
                     description=f"GSEB Standard 10 {subj_canonical}",
@@ -2112,7 +2116,7 @@ def sync_canonical_questions_to_db(db) -> int:
                 correct_option=opt_key,
                 explanation=q.get("explanation"),
                 difficulty=diff_map.get(q.get("difficulty", "GUIDED"), QuestionDifficulty.MEDIUM),
-                source_content_id=lc.id if lc else None,
+                source_content_id=q.get("source_chunk_id"),
                 generation_model="GSEB/NCERT Standard 10 Official Curriculum",
                 generation_version="v1.0",
                 status=QuestionStatus.PUBLISHED,

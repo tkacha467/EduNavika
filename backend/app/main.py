@@ -33,6 +33,8 @@ app = FastAPI(
 
 @app.on_event("startup")
 def on_startup():
+    if settings.ENV == "testing" or os.getenv("ENV") == "testing":
+        return
     Base.metadata.create_all(bind=engine)
     with SessionLocal() as db:
         ensure_default_accounts(db)

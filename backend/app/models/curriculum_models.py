@@ -91,6 +91,7 @@ class Topic(BaseModelMixin, Base):
     revision_plans = relationship("RevisionPlan", back_populates="topic", cascade="all, delete-orphan")
     forgetting_signals = relationship("ForgettingSignal", back_populates="topic", cascade="all, delete-orphan")
     teacher_actions = relationship("TeacherAction", back_populates="topic", cascade="all, delete-orphan")
+    exam_topics = relationship("ExamTopic", back_populates="topic", cascade="all, delete-orphan")
 
 
 class LearningContent(BaseModelMixin, Base):

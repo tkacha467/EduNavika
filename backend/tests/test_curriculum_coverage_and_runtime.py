@@ -6,7 +6,7 @@ and On-Device AI Runtime for EduNavika (PS-06, Team Varja).
 import pytest
 from fastapi.testclient import TestClient
 from backend.app.main import app
-from backend.app.core.database import SessionLocal
+from backend.app.core.database import SessionLocal, Base
 from backend.app.models.assessment_models import MCQQuestion, OptionKey, QuestionStatus
 from backend.app.models import Topic, Subject, Chapter, LearningContent
 from backend.app.services.topic_resolver import resolve_topic
@@ -19,7 +19,7 @@ from backend.app.services.adaptive_practice import AdaptivePracticeService
 
 
 @pytest.fixture(scope="module")
-def client():
+def client(db_session):
     with TestClient(app) as c:
         yield c
 
@@ -27,6 +27,8 @@ def client():
 @pytest.fixture(scope="module")
 def db_session():
     db = SessionLocal()
+    Base.metadata.create_all(bind=db.get_bind())
+    sync_canonical_questions_to_db(db)
     yield db
     db.close()
 

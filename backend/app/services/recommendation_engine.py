@@ -33,6 +33,7 @@ class RecommendationEngineService:
         db: Session,
         student: Optional[StudentProfile],
         topic: Topic,
+        exam_code: Optional[str] = None,
     ) -> bool:
         """
         Validates whether a topic is an authentic pedagogical curriculum topic eligible
@@ -42,6 +43,7 @@ class RecommendationEngineService:
         1. Exclude synthetic / placeholder topics (e.g. 'General Content', 'General Curriculum Content').
         2. Standard/grade alignment: If student has an assigned standard, topic must belong to that standard.
         3. Active topic & curriculum check: topic must be active and have a valid chapter hierarchy.
+        4. Exam-specific applicability: If exam_code is provided, verify an active association in exam_topics.
         """
         if not topic.is_active:
             return False
@@ -60,6 +62,17 @@ class RecommendationEngineService:
             if topic.chapter and topic.chapter.subject:
                 if topic.chapter.subject.standard_id != student.standard_id:
                     return False
+
+        # Rule 4: Exam-specific applicability
+        if exam_code:
+            from backend.app.models.competitive_models import ExamTopic
+            has_link = db.query(ExamTopic).filter(
+                ExamTopic.exam_code == exam_code,
+                ExamTopic.topic_id == topic.id,
+                ExamTopic.inclusion_status == "ACTIVE"
+            ).first()
+            if not has_link:
+                return False
 
         return True
 

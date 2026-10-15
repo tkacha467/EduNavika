@@ -1,8 +1,8 @@
-from typing import List
+from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.models import Standard, Subject, Chapter, Topic
+from backend.app.models import Standard, Subject, Chapter, Topic, ExamTopic
 from backend.app.schemas.curriculum import (
     StandardCreate,
     StandardResponse,
@@ -82,11 +82,22 @@ def create_chapter(payload: ChapterCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/chapters/{id}/topics", response_model=List[TopicResponse], summary="List topics for a chapter")
-def get_topics_by_chapter(id: str, db: Session = Depends(get_db)):
+def get_topics_by_chapter(
+    id: str,
+    exam_code: Optional[str] = Query(None, description="Optional competitive exam code (e.g. JEE_MAIN, JEE_ADVANCED, NEET_UG)"),
+    db: Session = Depends(get_db)
+):
     chapter = db.query(Chapter).filter(Chapter.id == id).first()
     if not chapter:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Chapter not found")
-    return db.query(Topic).filter(Topic.chapter_id == id, Topic.is_active == True).order_by(Topic.topic_order).all()
+    
+    query = db.query(Topic).filter(Topic.chapter_id == id, Topic.is_active == True)
+    if exam_code:
+        query = query.join(ExamTopic, ExamTopic.topic_id == Topic.id).filter(
+            ExamTopic.exam_code == exam_code,
+            ExamTopic.inclusion_status == "ACTIVE"
+        )
+    return query.order_by(Topic.topic_order).all()
 
 
 # Topics

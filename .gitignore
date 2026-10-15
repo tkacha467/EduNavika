@@ -72,9 +72,10 @@ yarn-debug.log*
 yarn-error.log*
 
 # On-Device Model Weights
-models/
+/models/
 *.gguf
 *.bin
+
 
 
 

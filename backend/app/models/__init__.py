@@ -53,6 +53,15 @@ from backend.app.models.adaptive_models import (
     QuestType,
     QuestStatus,
 )
+from backend.app.models.competitive_models import (
+    Examination,
+    ExamSubject,
+    ExamTopic,
+    ExamPaper,
+    Question,
+    QuestionOption,
+    QuestionVerificationLog,
+)
 
 __all__ = [
     "Base",
@@ -93,4 +102,12 @@ __all__ = [
     "LearningQuest",
     "QuestType",
     "QuestStatus",
+    "Examination",
+    "ExamSubject",
+    "ExamTopic",
+    "ExamPaper",
+    "Question",
+    "QuestionOption",
+    "QuestionVerificationLog",
 ]
+

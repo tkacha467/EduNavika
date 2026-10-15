@@ -11,10 +11,13 @@ Verifies:
 import pytest
 from fastapi.testclient import TestClient
 from backend.app.main import app
-from backend.app.core.database import SessionLocal
+from backend.app.core.database import SessionLocal, Base
 from backend.app.models import StudentProfile, User, UserRole, Topic, LearningEvent
 from backend.app.services.topic_resolver import resolve_topic
-from backend.app.services.curriculum_question_bank import get_canonical_questions_for_topic
+from backend.app.services.curriculum_question_bank import (
+    get_canonical_questions_for_topic,
+    sync_canonical_questions_to_db,
+)
 
 client = TestClient(app)
 
@@ -22,6 +25,8 @@ client = TestClient(app)
 @pytest.fixture(scope="module")
 def audit_student():
     db = SessionLocal()
+    Base.metadata.create_all(bind=db.get_bind())
+    sync_canonical_questions_to_db(db)
     # Check or create a test student
     user = db.query(User).filter(User.email == "audit_tester@edunavika.local").first()
     if not user:
