@@ -1965,11 +1965,6 @@ CANONICAL_CURRICULUM_BANK["2cff78b2-5aed-4950-99b9-6a9047ff6a4c"] = CANONICAL_CU
 CANONICAL_CURRICULUM_BANK["6021ae32-e541-47d5-8b33-6623bdd7d734"] = CANONICAL_CURRICULUM_BANK["9b029f78-a6e2-4776-93a1-0af927cfea40"]  # Carbon and its Compounds: 4.5 SOAPS AND DETERGENTS
 CANONICAL_CURRICULUM_BANK["ca0f1790-74e6-4214-919b-47dfb6eedb5c"] = CANONICAL_CURRICULUM_BANK["ea3cb4fd-f34d-409b-b0f6-d69b70db05b0"]  # Electricity: 10.6 SC ATTERING OF LIGHT
 
-try:
-    from backend.app.services.additional_curriculum_questions import ADDITIONAL_CURRICULUM_BANK
-    CANONICAL_CURRICULUM_BANK.update(ADDITIONAL_CURRICULUM_BANK)
-except Exception as e:
-    logger.warning("Could not load ADDITIONAL_CURRICULUM_BANK: %s", e)
 
 
 def sync_canonical_questions_to_db(db) -> int:

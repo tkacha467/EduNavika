@@ -228,11 +228,11 @@ def get_or_create_student_profile(db: Session, student_id: str) -> Optional[Stud
     if student:
         return student
 
-    # 3. Match User by ID or student role
+    # 3. Match User by ID or student role for demo/default sessions
     user = db.query(User).filter(User.id == student_id).first()
-    if not user:
+    if not user and (student_id in ("default", "demo", "student", "guest", "e09699dd-0c64-44cc-82ef-ab41a832e072") or student_id.startswith("demo-")):
         user = db.query(User).filter(User.role == UserRole.STUDENT).first()
-    if not user:
+    if not user and student_id in ("default", "demo"):
         user = db.query(User).filter(User.email == "kachatushar108@gmail.com").first()
 
     if user:

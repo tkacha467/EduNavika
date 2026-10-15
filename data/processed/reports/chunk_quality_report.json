@@ -1,69 +1,149 @@
 {
-  "total_chunks_evaluated": 459,
-  "min_tokens": 8,
+  "total_chunks_evaluated": 563,
+  "min_tokens": 14,
   "max_tokens": 1580,
-  "avg_tokens": 556.3,
-  "median_tokens": 549.0,
-  "p25_tokens": 462.0,
-  "p75_tokens": 666.0,
-  "p95_tokens": 799.0,
-  "anomalies_count": 7,
+  "avg_tokens": 451.1,
+  "median_tokens": 510.0,
+  "p25_tokens": 83.0,
+  "p75_tokens": 657.0,
+  "p95_tokens": 790.0,
+  "anomalies_count": 17,
   "anomalies": [
-    {
-      "chunk_id": "chk_cb5ba5feed912b30",
-      "issue_type": "TOO_SHORT",
-      "details": "Chunk has only 11 tokens",
-      "token_count": 11,
-      "source_document": "STD-10/Std-10_Black-Buck_Supplementry_Reader.pdf",
-      "source_page": 2
-    },
-    {
-      "chunk_id": "chk_2086f1b64d7dd501",
-      "issue_type": "TOO_SHORT",
-      "details": "Chunk has only 20 tokens",
-      "token_count": 20,
-      "source_document": "STD-10/Std-10_English Second Language.pdf",
-      "source_page": 3
-    },
-    {
-      "chunk_id": "chk_08df27906aaf7de7",
-      "issue_type": "BROKEN_UNICODE",
-      "details": "Contains unresolved raw font glyph markers (/G<n>)",
-      "token_count": 552,
-      "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
-      "source_page": 194
-    },
-    {
-      "chunk_id": "chk_7e962356ac57d3fd",
-      "issue_type": "BROKEN_UNICODE",
-      "details": "Contains unresolved raw font glyph markers (/G<n>)",
-      "token_count": 470,
-      "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
-      "source_page": 237
-    },
     {
       "chunk_id": "chk_7ba6bdee7618c98d",
       "issue_type": "TOO_LONG",
       "details": "Chunk is excessively long (1580 tokens)",
       "token_count": 1580,
-      "source_document": "STD-10/Std-10_Science_English Medium.pdf",
+      "source_document": "STD-10th/Std-10_Science_English Medium.pdf",
       "source_page": 193
     },
     {
-      "chunk_id": "chk_585ed616fd95f394",
-      "issue_type": "TOO_SHORT",
-      "details": "Chunk has only 12 tokens",
-      "token_count": 12,
-      "source_document": "STD-10/Std-10_Social_Science_EnglishMedium.pdf",
-      "source_page": 3
+      "chunk_id": "chk_5d15faf7ea42af7b",
+      "issue_type": "BROKEN_UNICODE",
+      "details": "Contains unresolved raw font glyph markers (/G<n>)",
+      "token_count": 552,
+      "source_document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "source_page": 194
     },
     {
-      "chunk_id": "chk_cc5d72e1988183c5",
+      "chunk_id": "chk_1e2bf818a4e89f9c",
+      "issue_type": "BROKEN_UNICODE",
+      "details": "Contains unresolved raw font glyph markers (/G<n>)",
+      "token_count": 470,
+      "source_document": "STD-10th/Std-10_Maths_EnglishMedium.pdf",
+      "source_page": 237
+    },
+    {
+      "chunk_id": "659c2847-5c1f-4b48-96b0-cfc8f1298c5c",
       "issue_type": "TOO_SHORT",
-      "details": "Chunk has only 8 tokens",
-      "token_count": 8,
-      "source_document": "STD-10/Std_10_Yoga, Health and Physical Education_Eng_M.pdf",
-      "source_page": 3
+      "details": "Chunk has only 29 tokens",
+      "token_count": 29,
+      "source_document": "STD-10/Std-10_Science_English Medium.pdf",
+      "source_page": 16
+    },
+    {
+      "chunk_id": "chunk_d8e3396b",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 14 tokens",
+      "token_count": 14,
+      "source_document": "STD-10/Std-10_Science_English Medium.pdf",
+      "source_page": 148
+    },
+    {
+      "chunk_id": "chunk_0a40d615",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 14 tokens",
+      "token_count": 14,
+      "source_document": "STD-10/Std-10_Science_English Medium.pdf",
+      "source_page": 40
+    },
+    {
+      "chunk_id": "chunk_f935fc42",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 28 tokens",
+      "token_count": 28,
+      "source_document": "STD-10/Std-10_Social_Science_EnglishMedium.pdf",
+      "source_page": 1
+    },
+    {
+      "chunk_id": "chunk_ab35056f",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 27 tokens",
+      "token_count": 27,
+      "source_document": "STD-10/Std-10_ComputerStudies_EnglishMedium.pdf",
+      "source_page": 1
+    },
+    {
+      "chunk_id": "chunk_bc163adf",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 27 tokens",
+      "token_count": 27,
+      "source_document": "STD-10/Std-10_ComputerStudies_EnglishMedium.pdf",
+      "source_page": 90
+    },
+    {
+      "chunk_id": "chunk_ae6422a8",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 27 tokens",
+      "token_count": 27,
+      "source_document": "STD-10/Std-10_Black-Buck_Supplementry_Reader.pdf",
+      "source_page": 1
+    },
+    {
+      "chunk_id": "chunk_767367f7",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 21 tokens",
+      "token_count": 21,
+      "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+      "source_page": 68
+    },
+    {
+      "chunk_id": "chunk_4878bb68",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 25 tokens",
+      "token_count": 25,
+      "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+      "source_page": 77
+    },
+    {
+      "chunk_id": "chunk_d2c8ff78",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 29 tokens",
+      "token_count": 29,
+      "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+      "source_page": 129
+    },
+    {
+      "chunk_id": "chunk_78536fe8",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 22 tokens",
+      "token_count": 22,
+      "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+      "source_page": 188
+    },
+    {
+      "chunk_id": "chunk_9969c79a",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 17 tokens",
+      "token_count": 17,
+      "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+      "source_page": 189
+    },
+    {
+      "chunk_id": "chunk_6afa8682",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 15 tokens",
+      "token_count": 15,
+      "source_document": "STD-10/Std-10_Maths_EnglishMedium.pdf",
+      "source_page": 194
+    },
+    {
+      "chunk_id": "chunk_dcd2074e",
+      "issue_type": "TOO_SHORT",
+      "details": "Chunk has only 26 tokens",
+      "token_count": 26,
+      "source_document": "STD-10/Std-10_Science_English Medium.pdf",
+      "source_page": 154
     }
   ],
   "retrieval_queries_tested": 6,
@@ -77,8 +157,8 @@
       "query_id": "Q1",
       "query_text": "Euclid's division lemma states that for given positive integers a and b there exist unique integers q and r",
       "target_subject": "Mathematics",
-      "top_chunk_id": "chk_a67429308f9f00dd",
-      "top_score": 33.603,
+      "top_chunk_id": "chk_d0ab7070799c2c0d",
+      "top_score": 34.413,
       "top_preview": "PROOFS IN MA THEMA TICS 235 lSo, we begin by assuming that the statement is not true, that is, we assume that the negation of p is true (i.e., A is no",
       "rank_of_first_relevant": 1,
       "is_recall_at_1": true,
@@ -90,8 +170,8 @@
       "query_id": "Q2",
       "query_text": "Fundamental theorem of arithmetic every composite number can be expressed as a product of primes",
       "target_subject": "Mathematics",
-      "top_chunk_id": "chk_a901156f02c02325",
-      "top_score": 53.2,
+      "top_chunk_id": "chk_ab811f71cf6fa30b",
+      "top_score": 56.286,
       "top_preview": "REAL NUMBERS 3 An equivalent version of Theorem 1.1 was probably first recorded as Proposition 14 of Book IX in Euclid\u0092s Elements, before it came to b",
       "rank_of_first_relevant": 1,
       "is_recall_at_1": true,
@@ -104,7 +184,7 @@
       "query_text": "Chemical reactions and equations magnesium ribbon burns with a dazzling white flame",
       "target_subject": "Science",
       "top_chunk_id": "chk_231e14979193112b",
-      "top_score": 33.655,
+      "top_score": 32.358,
       "top_preview": "Science2 Activity 1.2Activity 1.2Activity 1.2Activity 1.2Activity 1.2 Figure 1.2Figure 1.2Figure 1.2Figure 1.2Figure 1.2 Formation of hydrogen gas by ",
       "rank_of_first_relevant": 1,
       "is_recall_at_1": true,
@@ -117,7 +197,7 @@
       "query_text": "Acids bases and salts litmus paper turns red or blue phenolphthalein indicator",
       "target_subject": "Science",
       "top_chunk_id": "chk_10db067909bab846",
-      "top_score": 29.501,
+      "top_score": 29.662,
       "top_preview": "Science34 /square6The strength of an acid or an alkali can be tested by using a scale called the pH scale (0-14) which gives the measure of hydrogen i",
       "rank_of_first_relevant": 1,
       "is_recall_at_1": true,
@@ -130,7 +210,7 @@
       "query_text": "Lencho was a dedicated farmer who prayed for rain to nourish his field of ripe corn",
       "target_subject": "First Flight",
       "top_chunk_id": "chk_a842b4879209187a",
-      "top_score": 39.842,
+      "top_score": 42.701,
       "top_preview": "\uf041\uf020\uf04c\uf065\uf074\uf074\uf065\uf072\uf020\uf074\uf06f\uf020\uf047\uf06f\uf064 \uf033 T HE house \u2014 the only one in the entire valley \u2014 sat on the crest of a low hill. From this height one could see the river and the fi",
       "rank_of_first_relevant": 1,
       "is_recall_at_1": true,
@@ -143,7 +223,7 @@
       "query_text": "Nelson Mandela inauguration as first black President of South Africa at the Union Buildings amphitheatre",
       "target_subject": "First Flight",
       "top_chunk_id": "chk_13813bb4cdd11c45",
-      "top_score": 71.765,
+      "top_score": 72.8,
       "top_preview": "\uf042\uf045\uf046\uf04f\uf052\uf045\uf020 \uf059\uf04f\uf055\uf020\uf052 \uf045\uf041\uf044 \u2022 \u201dApartheid\u2019 is a political system that separates people according to their race. Can you say which of the three countries named be",
       "rank_of_first_relevant": 1,
       "is_recall_at_1": true,

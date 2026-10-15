@@ -48,6 +48,7 @@ htmlcov/
 
 # Temp files
 *.tmp
+backups/
 
 # Large PDF Textbook Datasets (Prevent exceeding GitHub 100MB limit)
 GSEB-Dataset/**/*.pdf
