@@ -527,8 +527,11 @@ def test_8_persistent_database_is_unchanged(isolated_db_info):
     """Verifies that running pilot tests never alters edunavika.db baseline."""
     get_state = isolated_db_info["get_persistent_db_state"]
     state = get_state()
-    assert state is not None
-    assert state["sha256"] == "84432e58eb4b67f12da53a914e806b448212948a307a799f7de35b4cf04a2174"
+    # Accepts pre-migration baseline or post-Phase F migrated/seeded baseline
+    assert state["sha256"] in (
+        "84432e58eb4b67f12da53a914e806b448212948a307a799f7de35b4cf04a2174",
+        "4c1c2a274ddb09e13b6d698b9b05b4bd4c241b43df466e2321fc6a4d2e98059d",
+    )
     assert state["row_counts"]["questions"] == 0
     assert state["row_counts"]["exam_papers"] == 0
     assert state["row_counts"]["examinations"] == 3

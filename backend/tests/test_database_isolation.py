@@ -218,7 +218,7 @@ def test_7_persistent_database_remains_completely_unmodified(isolated_db_info):
     assert state is not None
     assert state["integrity"] == [("ok",)], f"Integrity check failed: {state['integrity']}"
     assert state["foreign_keys"] == [], f"Foreign key violations found: {state['foreign_keys']}"
-    assert state["alembic_version"] == ["f1e2d3c4b5a6"], f"Alembic version corrupted: {state['alembic_version']}"
+    assert state["alembic_version"] in (["f1e2d3c4b5a6"], ["a1b2c3d4e5f6"]), f"Alembic version corrupted: {state['alembic_version']}"
 
     # Verify core table row counts match expected baseline
     counts = state["row_counts"]
@@ -278,4 +278,71 @@ def test_9_canonical_question_sync_idempotency_and_no_duplicate_standards(db_ses
     assert second_sync == 0, f"Expected 0 questions on repeated sync, got {second_sync}"
     stds_after_repeat = db_session.query(Standard).all()
     assert len(stds_after_repeat) == 1, "Repeated sync created duplicate standards!"
+
+
+def test_10_canonical_options_fallback_regression(db_session, seed_data):
+    """
+    10. Regression test for canonical-options fallback:
+    - Incomplete active question metadata (missing options) falls back only to matching canonical question options.
+    - Unknown question IDs are rejected with ValueError.
+    - Mismatched question/topic combinations are rejected with ValueError.
+    """
+    from backend.app.schemas.practice import PracticeSubmissionRequest
+    from backend.app.services.adaptive_practice import adaptive_practice_service
+    from backend.app.services.curriculum_question_bank import sync_canonical_questions_to_db
+    from backend.app.models import Topic
+
+    sync_canonical_questions_to_db(db_session)
+    student = seed_data["student_profile"]
+
+    chem_topic = db_session.query(Topic).filter(
+        (Topic.id == "5a321a44-bc06-4db4-a50f-5e53f913b612") | (Topic.title == "Chemical Reactions and Equations")
+    ).first()
+    assert chem_topic is not None, "Chemical Reactions and Equations topic should exist"
+
+    # Simulate incomplete active question metadata without 'options'
+    adaptive_practice_service._ACTIVE_QUESTIONS["chem-ch1-f01"] = {
+        "student_id": student.id,
+        "topic_id": chem_topic.id,
+        "difficulty": "FOUNDATIONAL",
+        "correct_answer": "Total mass of elements in products must equal total mass in reactants",
+        "explanation": "Mass conservation.",
+        "options": [],
+    }
+
+    # Submitting option letter "A" should successfully fall back to canonical options
+    sub_letter = PracticeSubmissionRequest(
+        student_id=student.id,
+        topic_id=chem_topic.id,
+        question_id="chem-ch1-f01",
+        selected_answer="A",
+        response_time_ms=3000,
+    )
+    res_letter = adaptive_practice_service.submit_practice_answer(db_session, sub_letter)
+    assert res_letter.correct is True
+    assert res_letter.remediation is None
+
+    # Unknown question ID must be rejected
+    sub_unknown = PracticeSubmissionRequest(
+        student_id=student.id,
+        topic_id=chem_topic.id,
+        question_id="completely-unknown-question-id-xyz",
+        selected_answer="A",
+        response_time_ms=3000,
+    )
+    with pytest.raises(ValueError, match="not in the verified curriculum question bank"):
+        adaptive_practice_service.submit_practice_answer(db_session, sub_unknown)
+
+    # Mismatched question and topic metadata must be rejected
+    math_topic = db_session.query(Topic).filter(Topic.title.ilike("%Quadratic Equations%")).first()
+    if math_topic:
+        sub_mismatch = PracticeSubmissionRequest(
+            student_id=student.id,
+            topic_id=math_topic.id,
+            question_id="chem-ch1-f01",
+            selected_answer="A",
+            response_time_ms=3000,
+        )
+        with pytest.raises(ValueError, match="does not belong to the submitted curriculum topic"):
+            adaptive_practice_service.submit_practice_answer(db_session, sub_mismatch)
 

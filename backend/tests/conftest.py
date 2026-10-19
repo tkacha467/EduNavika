@@ -63,6 +63,12 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.execute("PRAGMA busy_timeout=30000")
     cursor.close()
 
+@event.listens_for(test_engine, "checkout")
+def set_sqlite_pragma_on_checkout(dbapi_connection, connection_record, connection_proxy):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
+
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine, future=True)
 
 # ---------------------------------------------------------------------------
@@ -187,22 +193,47 @@ def isolated_db_info():
     }
 
 
+def _clean_test_tables():
+    with test_engine.connect() as conn:
+        conn = conn.execution_options(isolation_level="AUTOCOMMIT")
+        conn.exec_driver_sql("PRAGMA foreign_keys = OFF;")
+        for table in reversed(Base.metadata.sorted_tables):
+            try:
+                conn.execute(table.delete())
+            except Exception:
+                pass
+        conn.exec_driver_sql("PRAGMA foreign_keys = ON;")
+
+
+@pytest.fixture(autouse=True)
+def reset_active_questions():
+    """Reset in-memory active question state between tests to ensure test isolation."""
+    try:
+        from backend.app.services.adaptive_practice import AdaptivePracticeService, adaptive_practice_service
+        AdaptivePracticeService._ACTIVE_QUESTIONS.clear()
+        adaptive_practice_service._ACTIVE_QUESTIONS.clear()
+    except Exception:
+        pass
+    yield
+    try:
+        from backend.app.services.adaptive_practice import AdaptivePracticeService, adaptive_practice_service
+        AdaptivePracticeService._ACTIVE_QUESTIONS.clear()
+        adaptive_practice_service._ACTIVE_QUESTIONS.clear()
+    except Exception:
+        pass
+
+
 @pytest.fixture(scope="function")
 def db_session():
     """Provides a clean database schema and session per test."""
+    _clean_test_tables()
     Base.metadata.create_all(bind=test_engine)
     session = TestingSessionLocal()
     try:
         yield session
     finally:
         session.close()
-        # Clean up rows rather than dropping tables, avoiding SQLite schema cache churn
-        with test_engine.begin() as conn:
-            for table in reversed(Base.metadata.sorted_tables):
-                try:
-                    conn.execute(table.delete())
-                except Exception:
-                    pass
+        _clean_test_tables()
 
 
 @pytest.fixture(scope="function")
