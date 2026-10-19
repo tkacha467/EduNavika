@@ -124,6 +124,7 @@ def get_topic(id: str, db: Session = Depends(get_db)):
 @router.get("/curriculum/hierarchy", summary="Retrieve complete offline curriculum hierarchy with content & practice availability")
 def get_curriculum_hierarchy(
     grade: int = Query(10, description="Standard grade number"),
+    exam_code: Optional[str] = Query(None, description="Optional competitive exam code (e.g. JEE_MAIN, JEE_ADVANCED, NEET_UG)"),
     db: Session = Depends(get_db)
 ):
     standard = db.query(Standard).filter(Standard.grade_number == grade, Standard.is_active == True).first()
@@ -153,10 +154,16 @@ def get_curriculum_hierarchy(
 
         result_chapters = []
         for c in real_chapters:
-            topics = db.query(Topic).filter(
+            t_query = db.query(Topic).filter(
                 Topic.chapter_id == c.id,
                 Topic.is_active == True
-            ).order_by(Topic.topic_order).all()
+            )
+            if exam_code:
+                t_query = t_query.join(ExamTopic, ExamTopic.topic_id == Topic.id).filter(
+                    ExamTopic.exam_code == exam_code,
+                    ExamTopic.inclusion_status == "ACTIVE"
+                )
+            topics = t_query.order_by(Topic.topic_order).all()
 
             result_topics = []
             for t in topics:
@@ -194,6 +201,9 @@ def get_curriculum_hierarchy(
                     "source_page": source_page,
                 })
 
+            if exam_code and len(result_topics) == 0:
+                continue
+
             result_chapters.append({
                 "id": c.id,
                 "chapter_number": c.chapter_number,
@@ -201,6 +211,9 @@ def get_curriculum_hierarchy(
                 "total_topics": len(result_topics),
                 "topics": result_topics,
             })
+
+        if exam_code and len(result_chapters) == 0:
+            continue
 
         result_subjects.append({
             "id": s.id,

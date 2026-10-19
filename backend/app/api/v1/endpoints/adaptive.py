@@ -114,6 +114,7 @@ def get_student_recommendations(
     student_id: str,
     limit: int = Query(10, ge=1, le=50, description="Max recommendations to return"),
     language: Optional[str] = Query(None, description="Language code (en, hi, gu)"),
+    exam_code: Optional[str] = Query(None, description="Optional competitive exam code (e.g. JEE_MAIN, JEE_ADVANCED, NEET_UG)"),
     db: Session = Depends(get_db)
 ):
     from backend.app.api.v1.endpoints.attempts import _get_or_create_student_profile
@@ -133,6 +134,7 @@ def get_student_recommendations(
         student_id=student.id,
         limit=limit,
         language=target_lang,
+        exam_code=exam_code,
     )
 
 
@@ -279,6 +281,7 @@ def get_next_practice_recommendation(
     student_id: str,
     topic_id: Optional[str] = Query(None, description="Optional target topic ID or title"),
     language: Optional[str] = Query(None, description="Language code (en, hi, gu)"),
+    exam_code: Optional[str] = Query(None, description="Optional competitive exam code (e.g. JEE_MAIN, JEE_ADVANCED, NEET_UG)"),
     db: Session = Depends(get_db),
 ):
     try:
@@ -287,6 +290,7 @@ def get_next_practice_recommendation(
             student_id=student_id,
             topic_id=topic_id,
             language=language,
+            exam_code=exam_code,
         )
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
@@ -307,6 +311,7 @@ def get_adaptive_practice_questions(
     topic_id: str = Query(..., description="Target curriculum topic ID or title"),
     count: int = Query(3, ge=1, le=10, description="Number of questions to generate"),
     language: Optional[str] = Query(None, description="Language code (en, hi, gu)"),
+    exam_code: Optional[str] = Query(None, description="Optional competitive exam code (e.g. JEE_MAIN, JEE_ADVANCED, NEET_UG)"),
     db: Session = Depends(get_db),
 ):
     try:
@@ -316,6 +321,7 @@ def get_adaptive_practice_questions(
             topic_id=topic_id,
             count=count,
             language=language,
+            exam_code=exam_code,
         )
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
@@ -365,6 +371,7 @@ def get_student_progress(
     student_id: str,
     subject_id: Optional[str] = Query(None, description="Optional subject id, code, name, or 'all' to scope curriculum progress"),
     language: Optional[str] = Query(None, description="Language code (en, hi, gu)"),
+    exam_code: Optional[str] = Query(None, description="Optional competitive exam code (e.g. JEE_MAIN, JEE_ADVANCED, NEET_UG)"),
     db: Session = Depends(get_db),
 ):
     try:
@@ -373,6 +380,7 @@ def get_student_progress(
             student_id=student_id,
             subject_id=subject_id,
             language=language,
+            exam_code=exam_code,
         )
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
@@ -399,6 +407,7 @@ def get_student_revision_plan(
     student_id: str,
     subject_id: Optional[str] = Query(None, description="Optional subject id, code, or 'all' to scope revision plan"),
     language: Optional[str] = Query(None, description="Language code for presentation: en, hi, gu"),
+    exam_code: Optional[str] = Query(None, description="Optional competitive exam code (e.g. JEE_MAIN, JEE_ADVANCED, NEET_UG)"),
     db: Session = Depends(get_db),
 ):
     try:
@@ -407,6 +416,7 @@ def get_student_revision_plan(
             student_id=student_id,
             subject_id=subject_id,
             language=language,
+            exam_code=exam_code,
         )
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))

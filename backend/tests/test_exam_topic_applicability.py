@@ -362,3 +362,157 @@ def test_11_recommendation_and_study_engine_eligibility_filter(db_session, seede
 
     # 4. NEET UG context: cooling is NOT eligible
     assert RecommendationEngineService.is_eligible_curriculum_topic(db_session, None, cooling, exam_code="NEET_UG") is False
+
+
+def test_12_recommendations_endpoint_respects_exam_code(client, db_session, seeded_environment):
+    """Test 12: GET /api/v1/adaptive/recommendations/{student_id} respects exam_code parameter."""
+    sync_exam_topics(db_session, dry_run=False)
+
+    # Create dummy student
+    from backend.app.models import StudentProfile, User
+    user = User(
+        id=str(uuid.uuid4()),
+        email="test_student_exam@example.com",
+        name="Exam Student",
+        hashed_password="hashed_pw_test",
+        role="STUDENT",
+        is_active=True,
+    )
+    db_session.add(user)
+    db_session.flush()
+
+    student = StudentProfile(
+        id=str(uuid.uuid4()),
+        user_id=user.id,
+        enrollment_number="ENR-12345",
+        preferred_language="en",
+    )
+    db_session.add(student)
+    db_session.commit()
+
+    # 1. Without exam_code: starter recommendation is generated
+    res_all = client.get(f"/api/v1/adaptive/recommendations/{student.id}")
+    assert res_all.status_code == 200, res_all.text
+    data_all = res_all.json()
+    assert data_all["total_recommendations"] >= 1
+
+    # 2. With exam_code=JEE_MAIN: recommendations filtered for JEE Main
+    res_main = client.get(f"/api/v1/adaptive/recommendations/{student.id}?exam_code=JEE_MAIN")
+    assert res_main.status_code == 200, res_main.text
+    data_main = res_main.json()
+    assert data_main["total_recommendations"] >= 1
+    # Verify no JEE-Advanced-only or textbook-only topics recommended
+    for rec in data_main["recommendations"]:
+        assert rec["topic_title"] != "Carnot Engine and Efficiency"
+        assert rec["topic_title"] != "Newton's Law of Cooling"
+
+
+def test_13_adaptive_practice_rejects_inapplicable_topics(client, db_session, seeded_environment):
+    """Test 13: Practice generation rejects topics excluded from student's selected exam."""
+    sync_exam_topics(db_session, dry_run=False)
+
+    from backend.app.models import StudentProfile, User
+    user = User(
+        id=str(uuid.uuid4()),
+        email="practice_student_exam@example.com",
+        name="Practice Student",
+        hashed_password="hashed_pw_test",
+        role="STUDENT",
+        is_active=True,
+    )
+    db_session.add(user)
+    db_session.flush()
+
+    student = StudentProfile(
+        id=str(uuid.uuid4()),
+        user_id=user.id,
+        enrollment_number="ENR-54321",
+        preferred_language="en",
+    )
+    db_session.add(student)
+    db_session.commit()
+
+    carnot = db_session.query(Topic).filter(Topic.title == "Carnot Engine and Efficiency").first()
+    assert carnot is not None
+
+    # 1. JEE Main rejects Carnot engine practice
+    res_main = client.get(f"/api/v1/adaptive/practice/{student.id}?topic_id={carnot.id}&count=1&exam_code=JEE_MAIN")
+    assert res_main.status_code == 400, "JEE Main MUST reject practice on Carnot engine!"
+    err_body = res_main.json()
+    err_msg = err_body.get("error", {}).get("message", "") or err_body.get("detail", "")
+    assert "not an eligible curriculum topic" in err_msg
+
+    # 2. JEE Advanced allows Carnot engine practice (doesn't fail with eligibility error)
+    res_adv = client.get(f"/api/v1/adaptive/practice/{student.id}?topic_id={carnot.id}&count=1&exam_code=JEE_ADVANCED")
+    assert res_adv.status_code == 200 or "not an eligible curriculum topic" not in res_adv.text
+
+
+def test_14_progress_and_revision_filter_by_exam_code(client, db_session, seeded_environment):
+    """Test 14: Progress tracking and revision planning endpoints respect exam_code."""
+    from datetime import datetime, timezone
+    sync_exam_topics(db_session, dry_run=False)
+
+    from backend.app.models import StudentProfile, User, RevisionPlan, RevisionCompletionState
+    user = User(
+        id=str(uuid.uuid4()),
+        email="progress_student_exam@example.com",
+        name="Progress Student",
+        hashed_password="hashed_pw_test",
+        role="STUDENT",
+        is_active=True,
+    )
+    db_session.add(user)
+    db_session.flush()
+
+    student = StudentProfile(
+        id=str(uuid.uuid4()),
+        user_id=user.id,
+        enrollment_number="ENR-99999",
+        preferred_language="en",
+    )
+    db_session.add(student)
+    db_session.flush()
+
+    carnot = db_session.query(Topic).filter(Topic.title == "Carnot Engine and Efficiency").first()
+    assert carnot is not None
+
+    # Add a pending revision plan for Carnot engine
+    plan = RevisionPlan(
+        student_id=student.id,
+        topic_id=carnot.id,
+        recommended_revision_at=datetime.now(timezone.utc),
+        priority="MEDIUM",
+        reason="Test revision plan",
+        completion_state=RevisionCompletionState.PENDING,
+    )
+    db_session.add(plan)
+    db_session.commit()
+
+    # 1. Check revision plans endpoint without exam_code -> includes Carnot
+    res_rev_all = client.get(f"/api/v1/students/{student.id}/revision-plan")
+    assert res_rev_all.status_code == 200
+    rev_titles_all = [p["topic_title"] for p in res_rev_all.json()]
+    assert "Carnot Engine and Efficiency" in rev_titles_all
+
+    # 2. Check revision plans endpoint with exam_code=JEE_MAIN -> excludes Carnot
+    res_rev_main = client.get(f"/api/v1/students/{student.id}/revision-plan?exam_code=JEE_MAIN")
+    assert res_rev_main.status_code == 200
+    rev_titles_main = [p["topic_title"] for p in res_rev_main.json()]
+    assert "Carnot Engine and Efficiency" not in rev_titles_main
+
+    # 3. Check revision plans endpoint with exam_code=JEE_ADVANCED -> includes Carnot
+    res_rev_adv = client.get(f"/api/v1/students/{student.id}/revision-plan?exam_code=JEE_ADVANCED")
+    assert res_rev_adv.status_code == 200
+    rev_titles_adv = [p["topic_title"] for p in res_rev_adv.json()]
+    assert "Carnot Engine and Efficiency" in rev_titles_adv
+
+    # 4. Check progress endpoint with exam_code=JEE_MAIN vs JEE_ADVANCED
+    res_prog_main = client.get(f"/api/v1/adaptive/progress/{student.id}?exam_code=JEE_MAIN")
+    assert res_prog_main.status_code == 200
+    prog_main_topics = [t["topic_title"] for t in res_prog_main.json()["topics"]]
+    assert "Carnot Engine and Efficiency" not in prog_main_topics
+
+    res_prog_adv = client.get(f"/api/v1/adaptive/progress/{student.id}?exam_code=JEE_ADVANCED")
+    assert res_prog_adv.status_code == 200
+    prog_adv_topics = [t["topic_title"] for t in res_prog_adv.json()["topics"]]
+    assert "Carnot Engine and Efficiency" in prog_adv_topics

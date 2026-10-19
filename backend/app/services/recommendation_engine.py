@@ -82,6 +82,7 @@ class RecommendationEngineService:
         student_id: str,
         limit: int = 10,
         language: Optional[str] = "en",
+        exam_code: Optional[str] = None,
     ) -> RecommendationResponse:
         """
         Generates deterministic, explainable recommendations for a student.
@@ -101,7 +102,7 @@ class RecommendationEngineService:
         active_profiles: List[TopicKnowledgeProfile] = []
         for prof in raw_profiles:
             topic_record = db.query(Topic).filter(Topic.id == prof.topic_id).first()
-            if topic_record and RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic_record):
+            if topic_record and RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic_record, exam_code=exam_code):
                 active_profiles.append(prof)
 
         # 2. Fetch student's active pending revision plans (filtering for eligible topics)
@@ -116,7 +117,7 @@ class RecommendationEngineService:
         plan_by_topic: Dict[str, RevisionPlan] = {}
         for p in all_pending_plans:
             t = db.query(Topic).filter(Topic.id == p.topic_id).first()
-            if t and RecommendationEngineService.is_eligible_curriculum_topic(db, student, t):
+            if t and RecommendationEngineService.is_eligible_curriculum_topic(db, student, t, exam_code=exam_code):
                 plan_by_topic[p.topic_id] = p
 
         # 3. Handle Edge Case: Student with zero activity or no eligible history
@@ -133,7 +134,7 @@ class RecommendationEngineService:
 
             candidate_starters = starter_query.order_by(Topic.topic_order.asc()).all()
             starter_topic = next(
-                (t for t in candidate_starters if RecommendationEngineService.is_eligible_curriculum_topic(db, student, t)),
+                (t for t in candidate_starters if RecommendationEngineService.is_eligible_curriculum_topic(db, student, t, exam_code=exam_code)),
                 None
             )
 
@@ -141,7 +142,7 @@ class RecommendationEngineService:
                 # General fallback to any topic satisfying eligibility
                 all_candidates = db.query(Topic).filter(Topic.is_active == True).order_by(Topic.topic_order.asc()).all()
                 starter_topic = next(
-                    (t for t in all_candidates if RecommendationEngineService.is_eligible_curriculum_topic(db, student, t)),
+                    (t for t in all_candidates if RecommendationEngineService.is_eligible_curriculum_topic(db, student, t, exam_code=exam_code)),
                     None
                 )
 
@@ -189,7 +190,7 @@ class RecommendationEngineService:
         for topic_id, plan in plan_by_topic.items():
             if topic_id not in profile_map:
                 topic_record = db.query(Topic).filter(Topic.id == topic_id).first()
-                if topic_record and RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic_record):
+                if topic_record and RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic_record, exam_code=exam_code):
                     profile_map[topic_id] = KnowledgeModelService.calculate_topic_profile(
                         db, student_id, topic_record
                     )

@@ -157,6 +157,7 @@ class StudentProgressService:
         student_id: str,
         subject_id: Optional[str] = None,
         language: Optional[str] = "en",
+        exam_code: Optional[str] = None,
     ) -> StudentProgressResponse:
         from backend.app.api.v1.endpoints.attempts import _get_or_create_student_profile
 
@@ -186,13 +187,13 @@ class StudentProgressService:
         # Filter strictly pedagogical curriculum topics (excluding placeholders and synthetic test topics)
         eligible_topics = [
             t for t in all_topics
-            if RecommendationEngineService.is_eligible_curriculum_topic(db, student, t)
+            if RecommendationEngineService.is_eligible_curriculum_topic(db, student, t, exam_code=exam_code)
             and not cls._is_synthetic_subject(t.chapter.subject if t.chapter else None)
         ]
         if not eligible_topics and all_topics:
             eligible_topics = [
                 t for t in all_topics
-                if RecommendationEngineService.is_eligible_curriculum_topic(db, student, t)
+                if RecommendationEngineService.is_eligible_curriculum_topic(db, student, t, exam_code=exam_code)
             ]
 
         # 2. Compute TopicProgressItems

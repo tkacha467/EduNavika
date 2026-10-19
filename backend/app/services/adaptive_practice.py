@@ -115,6 +115,7 @@ class AdaptivePracticeService:
         student_id: str,
         topic_id: Optional[str] = None,
         language: Optional[str] = "en",
+        exam_code: Optional[str] = None,
     ) -> PracticeRecommendation:
         """
         Determines the next practice recommendation for a student.
@@ -134,7 +135,7 @@ class AdaptivePracticeService:
                 raise ValueError(f"Topic '{topic_id}' could not be resolved.")
         else:
             # Consult existing RecommendationEngineService
-            rec_resp = RecommendationEngineService.generate_recommendations(db, student_id, limit=5, language=target_lang)
+            rec_resp = RecommendationEngineService.generate_recommendations(db, student_id, limit=5, language=target_lang, exam_code=exam_code)
             if rec_resp.recommendations:
                 top_rec = rec_resp.recommendations[0]
                 target_topic = _resolve_topic(db, top_rec.topic_id)
@@ -153,7 +154,7 @@ class AdaptivePracticeService:
                 raise ValueError("No eligible curriculum topic found for student.")
 
         # Ensure topic eligibility
-        if not RecommendationEngineService.is_eligible_curriculum_topic(db, student, target_topic):
+        if not RecommendationEngineService.is_eligible_curriculum_topic(db, student, target_topic, exam_code=exam_code):
             raise ValueError(f"Topic '{target_topic.title}' is not an eligible curriculum topic for this student.")
 
         # Compute student knowledge profile
@@ -222,6 +223,7 @@ class AdaptivePracticeService:
         topic_id: str,
         count: int = 3,
         language: Optional[str] = "en",
+        exam_code: Optional[str] = None,
     ) -> AdaptivePracticeResponse:
         """
         Generates personalized practice questions tailored to the student's mastery profile.
@@ -238,7 +240,7 @@ class AdaptivePracticeService:
         target_lang = language or (student.preferred_language if student else "en") or "en"
 
         # Ensure topic eligibility
-        if not RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic):
+        if not RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic, exam_code=exam_code):
             raise ValueError(f"Topic '{topic.title}' is not an eligible curriculum topic for this student.")
 
         # 1. Retrieve Knowledge Profile
@@ -713,6 +715,8 @@ class AdaptivePracticeService:
             src_page = q_meta.get("source_page")
             canonical_answer = q_meta.get("canonical_correct_answer", correct_answer)
             options = q_meta.get("options", [])
+            if (not options or len(options) < 4) and canonical_q and canonical_question_matches_topic(canonical_q, topic.id, topic.title):
+                options = canonical_q.get("options", [])
             source_chunk_id = q_meta.get("source_chunk_id")
             source_text = q_meta.get("source_text")
             skill_target = q_meta.get("skill_target")

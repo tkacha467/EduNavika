@@ -10,12 +10,15 @@ from backend.app.schemas.revision import RevisionPlanCreate, RevisionPlanRespons
 router = APIRouter()
 
 
+from backend.app.models.competitive_models import ExamTopic
+
 @router.get("/students/{id}/revision-plan", response_model=List[RevisionPlanResponse], summary="Get revision plans for a student")
 @router.get("/revision/plans", response_model=List[RevisionPlanResponse], summary="Get revision plans query alias")
 def get_student_revision_plan(
     id: Optional[str] = None,
     student_id: Optional[str] = None,
     completion_state: Optional[RevisionCompletionState] = None,
+    exam_code: Optional[str] = None,
     db: Session = Depends(get_db)
 ):
     target_id = id or student_id
@@ -29,6 +32,11 @@ def get_student_revision_plan(
     query = db.query(RevisionPlan).filter(RevisionPlan.student_id == target_id)
     if completion_state:
         query = query.filter(RevisionPlan.completion_state == completion_state)
+    if exam_code:
+        query = query.join(ExamTopic, ExamTopic.topic_id == RevisionPlan.topic_id).filter(
+            ExamTopic.exam_code == exam_code,
+            ExamTopic.inclusion_status == "ACTIVE"
+        )
 
     plans = query.order_by(RevisionPlan.recommended_revision_at.asc()).all()
 

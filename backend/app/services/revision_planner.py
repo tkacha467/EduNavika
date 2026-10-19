@@ -105,6 +105,7 @@ class RevisionPlannerService:
         subject_id: Optional[str] = None,
         language: Optional[str] = "en",
         now: Optional[datetime] = None,
+        exam_code: Optional[str] = None,
     ) -> RevisionPlanResponse:
         """
         Computes and retrieves the complete, personalized revision plan for a student.
@@ -128,7 +129,7 @@ class RevisionPlannerService:
         active_profiles: List[TopicKnowledgeProfile] = []
         for prof in raw_profiles:
             topic_record = db.query(Topic).filter(Topic.id == prof.topic_id).first()
-            if topic_record and RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic_record):
+            if topic_record and RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic_record, exam_code=exam_code):
                 # Apply subject filter if specified
                 if subject_id and subject_id.strip().lower() != "all":
                     t_subj_id = topic_record.chapter.subject_id if topic_record.chapter else None
@@ -148,7 +149,7 @@ class RevisionPlannerService:
         plan_by_topic: Dict[str, RevisionPlan] = {}
         for p in pending_plans:
             t = db.query(Topic).filter(Topic.id == p.topic_id).first()
-            if t and RecommendationEngineService.is_eligible_curriculum_topic(db, student, t):
+            if t and RecommendationEngineService.is_eligible_curriculum_topic(db, student, t, exam_code=exam_code):
                 plan_by_topic[p.topic_id] = p
 
         # 3. Handle Edge Case: Student with zero activity
@@ -172,7 +173,7 @@ class RevisionPlannerService:
         for topic_id, plan in plan_by_topic.items():
             if topic_id not in profile_map:
                 topic_record = db.query(Topic).filter(Topic.id == topic_id).first()
-                if topic_record and RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic_record):
+                if topic_record and RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic_record, exam_code=exam_code):
                     profile_map[topic_id] = KnowledgeModelService.calculate_topic_profile(
                         db, target_student_id, topic_record
                     )

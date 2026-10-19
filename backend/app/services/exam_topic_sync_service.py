@@ -83,9 +83,10 @@ def sync_exam_topics(
         ExamTopicSyncReport dictionary.
     """
     report = ExamTopicSyncReport(dry_run=dry_run)
-    manifest = load_manifest(manifest_path)
 
     try:
+        manifest = load_manifest(manifest_path)
+
         # Pre-verify examinations exist in database
         active_exams = {
             e.code for e in db.query(Examination).filter(Examination.is_active == True).all()
