@@ -1,6 +1,6 @@
 {
-  "total_audited": 3,
-  "passed_count": 3,
+  "total_audited": 2,
+  "passed_count": 2,
   "review_count": 0,
   "failed_count": 0,
   "documents": [
@@ -91,74 +91,6 @@
         {
           "chapter_number": 13,
           "chapter_title": "Our Environment",
-          "pages": "pp. 25-25",
-          "topics_count": 1
-        }
-      ]
-    },
-    {
-      "document_name": "Std-10 First Flight English",
-      "relative_path": "STD-10/Std-10_First Flight_EnglishMedium.pdf",
-      "expected_chapters": 9,
-      "detected_chapters": 9,
-      "expected_topics_approx": "~9-15",
-      "detected_topics": 9,
-      "status": "PASS",
-      "diagnostic_notes": [
-        "Exact chapter count match: 9/9 chapters detected."
-      ],
-      "chapters": [
-        {
-          "chapter_number": 1,
-          "chapter_title": "A Letter to God",
-          "pages": "pp. 12-24",
-          "topics_count": 1
-        },
-        {
-          "chapter_number": 2,
-          "chapter_title": "Nelson Mandela: Long Walk to Freedom",
-          "pages": "pp. 25-25",
-          "topics_count": 1
-        },
-        {
-          "chapter_number": 3,
-          "chapter_title": "Two Stories about Flying",
-          "pages": "pp. 25-25",
-          "topics_count": 1
-        },
-        {
-          "chapter_number": 4,
-          "chapter_title": "From the Diary of Anne Frank",
-          "pages": "pp. 25-25",
-          "topics_count": 1
-        },
-        {
-          "chapter_number": 5,
-          "chapter_title": "Glimpses of India",
-          "pages": "pp. 25-25",
-          "topics_count": 1
-        },
-        {
-          "chapter_number": 6,
-          "chapter_title": "Mijbil the Otter",
-          "pages": "pp. 25-25",
-          "topics_count": 1
-        },
-        {
-          "chapter_number": 7,
-          "chapter_title": "Madam Rides the Bus",
-          "pages": "pp. 25-25",
-          "topics_count": 1
-        },
-        {
-          "chapter_number": 8,
-          "chapter_title": "The Sermon at Benares",
-          "pages": "pp. 25-25",
-          "topics_count": 1
-        },
-        {
-          "chapter_number": 9,
-          "chapter_title": "The Proposal",
           "pages": "pp. 25-25",
           "topics_count": 1
         }

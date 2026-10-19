@@ -1,31 +1,28 @@
-# EduNavika — Milestone 4 Phase E.4: Exam-Specific Topic Applicability Design and Validation Report
+# EduNavika — Milestone 4 Phase E.4: Exam-Specific Topic Applicability Architecture and Design
 
-**Document ID:** `docs/MILESTONE_4_PHASE_E4_EXAM_TOPIC_DESIGN.md`  
-**Execution Date:** 2026-10-15  
-**Baseline Persistent Database:** `edunavika.db`  
-**Baseline SHA-256:** `84432e58eb4b67f12da53a914e806b448212948a307a799f7de35b4cf04a2174` (Verified Unchanged)  
+**Document ID:** `docs/MILESTONE_4_PHASE_E4_EXAM_TOPIC_DESIGN.md`<br/>
+**Execution Date:** 2026-10-19<br/>
+**Baseline Persistent Database:** `edunavika.db`<br/>
+**Baseline SHA-256:** `84432e58eb4b67f12da53a914e806b448212948a307a799f7de35b4cf04a2174` (Verified Unchanged)<br/>
 **Status:** **GO** (Ready for Persistent Seeding upon Explicit Operator Approval)
 
 ---
 
-## 1. Executive Summary & Recommendation
+## 1. Executive Summary
 
-In Milestone 4 Phase E.4, we resolved the architectural gap between the canonical Class 11–12 Science textbook curriculum hierarchy (106 chapters, 626 topics) and competitive examination syllabi (JEE Main, JEE Advanced, NEET UG). 
+In Milestone 4 Phase E.4, EduNavika resolves the architectural gap between the canonical Class 11–12 Science textbook curriculum hierarchy (106 chapters, 626 topics) and competitive examination syllabi (JEE Main, JEE Advanced, NEET UG).
 
 While Phase B introduced subject-level linkages (`exam_subjects`), subject-level filtering was coarse:
-1. It could not differentiate topics pruned by NTA from JEE Main but explicitly retained by IITs for JEE Advanced (e.g., *Carnot Engine and Efficiency*, *Doppler Effect in Sound*, *Reynolds Number*, *Tangents and Normals*, *Planes in 3D*).
-2. It could not isolate foundational textbook-only topics (e.g., *Newton's Law of Cooling*, *Approximations*) from competitive exam practice without deleting them from general school curricula.
-3. It could not prevent questions in unverified or quarantined topics (*Morphology of Flowering Plants*, *Cockroach Anatomy*) from leaking into scored exam practice.
+1. **Subtopic Pruning Asymmetry:** NTA pruned classical topics from JEE Main that IITs explicitly retained for JEE Advanced (e.g., *Carnot Engine and Efficiency*, *Doppler Effect in Sound*, *Reynolds Number*, *Special Series*, *Tangents and Normals*, *Scalar Triple Product*, *Planes in 3D*).
+2. **Foundational Textbook Isolation:** Foundational textbook-only topics (e.g., *Newton's Law of Cooling*, *Approximations*) must remain accessible in school/general study contexts but must never be presented as competitive exam syllabus items or scored in exam practice.
+3. **Quarantine Protection:** Two unverified topics requiring human review (*Morphology of Flowering Plants*, *Cockroach Anatomy*) must remain strictly quarantined with 0 exam links.
 
 We have designed, implemented, and fully validated on isolated disposable sandbox databases:
 - **Smallest Correct Schema:** The `exam_topics` association table with explicit provenance and unique constraints.
 - **Manifest Synchronization Service:** An idempotent, dry-run capable sync engine reconciling `data/manifests/canonical_curriculum_manifest.json` against the database.
-- **Universal Applicability Gate:** Updated query paths in API endpoints (`/api/v1/chapters/{id}/topics?exam_code=...`) and recommendation/practice engines (`is_eligible_curriculum_topic`).
-- **Comprehensive Test Suite:** 11 rigorous automated tests in `backend/tests/test_exam_topic_applicability.py` (100% passing).
+- **Universal Applicability Gate:** End-to-end data flow ensuring that `exam_code` filters curriculum browsing, recommendations, adaptive practice question retrieval, revision queues, and progress analytics.
+- **Comprehensive Test Suite:** 14 automated integration tests in `backend/tests/test_exam_topic_applicability.py` (100% passing).
 - **Persistent Database Protection:** Verified that `edunavika.db` was untouched and preserved at baseline SHA-256 `84432e58eb4b67f12da53a914e806b448212948a307a799f7de35b4cf04a2174`.
-
-### Decision: **GO**
-The migration (`a1b2c3d4e5f6`), model definitions, synchronization engine, and API integration are fully validated and ready to apply to the persistent database.
 
 ---
 
@@ -35,18 +32,15 @@ The migration (`a1b2c3d4e5f6`), model definitions, synchronization engine, and A
 
 We evaluated three competing architectural designs:
 1. **Model A: Topic Table Attribute Array (e.g., `applicable_exams` JSON column on `topics`):**
-   - *Pros:* No new table required.
    - *Cons:* Violates relational normalization; prevents database-level foreign-key cascade integrity; makes indexed joins against `examinations` slow; cannot enforce foreign keys against `examinations.code`.
 2. **Model B: Exclusion Table (`exam_topic_exclusions`):**
-   - *Pros:* Stores only the exceptions (e.g. Carnot engine excluded from JEE Main).
    - *Cons:* Dangerously assumes "everything is included by default unless excluded". Any newly seeded topic or mislabeled exam code defaults to inclusion, violating our core safety gate.
 3. **Model C: Positive Associative Association Table (`exam_topics`) [Selected]:**
    - *Pros:* Represents verified applicability only ("closed-world assumption"). If an exam-topic link does not exist, the topic is not eligible for that exam. Guarantees textbook-only topics and unreviewed topics receive zero links automatically.
-   - *Cons:* Requires a new table and index.
 
 ### 2.2 Selected Schema Specification
 
-The `exam_topics` table is defined in `backend/app/models/competitive_models.py` and Alembic migration `backend/alembic/versions/20261015_m4_exam_topics_association.py`:
+The `exam_topics` table is defined in `backend/app/models/competitive_models.py` and Alembic migration `backend/alembic/versions/20261015_m4_exam_topics_association.py` (revision `a1b2c3d4e5f6`, child of `f1e2d3c4b5a6`):
 
 ```sql
 CREATE TABLE exam_topics (
@@ -104,98 +98,88 @@ When synchronized against the canonical manifest:
 
 ---
 
-## 4. Affected Application Paths & Query Architecture
+## 4. End-to-End Query Architecture and Runtime Data Flow
 
-Every exam-specific topic list in EduNavika now utilizes the unified applicability rules:
+To ensure manifest metadata is strictly enforced by runtime queries, `exam_code` is propagated through all key application paths:
 
-### 4.1 Exam Selection and Topic/Chapter Browsing
-- **Endpoint:** `GET /api/v1/chapters/{chapter_id}/topics?exam_code={code}`
-- **Behavior:**
-  - When `exam_code` is provided (e.g. `JEE_MAIN`): Joins `ExamTopic` on `topics.id == exam_topics.topic_id` and filters by `exam_topics.exam_code == exam_code` and `inclusion_status == 'ACTIVE'`.
-  - When `exam_code` is omitted: Preserves full textbook curriculum browsing, returning all active topics including textbook-only concepts (e.g. *Newton's Law of Cooling*).
+```mermaid
+flowchart TD
+    Client["Client / Frontend Consumer"] -->|exam_code query param| API["FastAPI Endpoint Layer"]
+    API -->|exam_code| Svc["Core Pedagogical Services"]
+    Svc -->|exam_code| Gate["RecommendationEngineService.is_eligible_curriculum_topic()"]
+    Gate -->|SQL Lookup| DB[("exam_topics Table")]
+    DB -->|Active Link Found?| Decision{"Eligible?"}
+    Decision -->|Yes| Allowed["Return Topics / Questions / Plans"]
+    Decision -->|No| Rejected["Reject HTTP 400 / Filter Out of Scope"]
+```
 
-### 4.2 Pedagogical Engine Topic Eligibility Gate
-- **Service Method:** `RecommendationEngineService.is_eligible_curriculum_topic(db, student, topic, exam_code=None)`
-- **Behavior:**
-  - Integrated across:
-    1. `revision_planner.py`: Generates revision tasks only for topics in the student's selected exam syllabus.
-    2. `adaptive_practice.py`: Selects practice questions only from exam-eligible topics.
-    3. `recommendation_engine.py`: Onboarding diagnostics and next-step recommendations never recommend pruned or textbook-only topics to exam candidates.
-    4. `progress_service.py`: Computes syllabus completion percentage against the exact exam topic count (e.g. out of 436 for JEE Main, not 626).
-    5. `curriculum_retrieval.py`: Restricts AI RAG context retrieval to applicable topics.
+### 4.1 Detailed Path Audit
 
-### 4.3 Subject Boundary Enforcement
-- **NEET UG:** Contains 497 topics across Physics, Chemistry, and Biology (0 Mathematics topics).
-- **JEE Main & JEE Advanced:** Contain 436 and 444 topics respectively across Physics, Chemistry, and Mathematics (0 Biology topics).
+1. **Curriculum Browsing:**
+   - `GET /api/v1/chapters/{chapter_id}/topics?exam_code={code}`
+   - *Flow:* When `exam_code` is provided, joins `exam_topics` and filters `exam_topics.exam_code == exam_code AND inclusion_status == 'ACTIVE'`.
+   - *Textbook Preservation:* When omitted, queries all active `topics` for the chapter, preserving full textbook access.
 
----
+2. **Next-Step Recommendations & Diagnostics:**
+   - `GET /api/v1/adaptive/recommendations/{student_id}?exam_code={code}`
+   - *Flow:* `RecommendationEngineService.generate_recommendations` receives `exam_code` and validates candidate topics via `is_eligible_curriculum_topic(db, student, topic, exam_code=exam_code)`. Non-applicable topics are never recommended.
 
-## 5. Verification and Test Evidence
+3. **Scored Practice & Question Retrieval:**
+   - `GET /api/v1/adaptive/practice/{student_id}?topic_id={id}&exam_code={code}`
+   - `GET /api/v1/adaptive/next-practice/{student_id}?exam_code={code}`
+   - *Flow:* `adaptive_practice_service.generate_practice_questions` enforces `is_eligible_curriculum_topic(db, student, topic, exam_code=exam_code)`. If a student requests practice for a pruned topic under an exam that pruned it (e.g. Carnot Engine under `JEE_MAIN`), the system rejects the request with HTTP 400 (`Topic is not an eligible curriculum topic for this student`).
 
-### 5.1 Automated Pytest Suite (`backend/tests/test_exam_topic_applicability.py`)
+4. **Personalized Revision Planning:**
+   - `GET /api/v1/adaptive/revision-plan/{student_id}?exam_code={code}`
+   - `GET /api/v1/students/{student_id}/revision-plan?exam_code={code}`
+   - `GET /api/v1/revision/plans?exam_code={code}`
+   - *Flow:* Revision planners and query endpoints join `exam_topics` to schedule and display revision items strictly within the selected exam syllabus.
 
-A comprehensive test suite of 11 integration tests was executed against an isolated SQLite test database:
-
-| Test ID | Test Description | Result |
-| :--- | :--- | :--- |
-| `test_01` | Dry-run execution generates audit report with 0 database writes | **PASSED** |
-| `test_02` | Live synchronization creates exactly 1,377 associations (436 JEE Main, 444 JEE Adv, 497 NEET) | **PASSED** |
-| `test_03` | Re-running synchronization is 100% idempotent (0 inserts, 1,377 unchanged) | **PASSED** |
-| `test_04` | JEE Main excludes JEE-Advanced-only topics (Carnot Engine, Doppler Effect, Tangents & Normals, Planes in 3D) | **PASSED** |
-| `test_05` | Subject boundaries enforced: NEET UG has 0 Math; JEE Main & Adv have 0 Biology | **PASSED** |
-| `test_06` | Textbook-only topics (Newton's cooling, Approximations) receive 0 exam links but exist in DB | **PASSED** |
-| `test_07` | Quarantined human-review topics receive 0 exam links | **PASSED** |
-| `test_08` | FastAPI endpoint `/api/v1/chapters/{id}/topics` correctly filters by `exam_code` | **PASSED** |
-| `test_09` | SQLite `PRAGMA integrity_check` and `PRAGMA foreign_key_check` return 0 errors | **PASSED** |
-| `test_10` | Legacy Standard 10 data (505 topics) remains 100% intact and receives 0 competitive links | **PASSED** |
-| `test_11` | Recommendation and practice engine eligibility filter respects `exam_code` applicability | **PASSED** |
-
-### 5.2 Sandbox Clone Validation (`scripts/test_phase_e4_sandbox.py`)
-
-To validate migration `a1b2c3d4e5f6` against a real-world database snapshot, we cloned `edunavika.db` into a sandbox file `sandbox_test_phase_e4.db` and executed:
-1. Alembic upgrade from `f1e2d3c4b5a6` to `a1b2c3d4e5f6`.
-2. Schema inspection verifying `exam_topics` columns, foreign keys, and indexes.
-3. Seeding of 106 chapters and 624 verified topics.
-4. Dry-run synchronization (verified 0 writes).
-5. Live synchronization (verified 1,377 links created).
-6. Idempotency re-run (verified 0 inserts, 1,377 unchanged).
-7. PRAGMA integrity check and foreign-key check (0 errors).
-8. Legacy Standard 10 topic verification (preserved exactly 505 rows).
-9. Cleanup of sandbox database.
+5. **Progress & Mastery Analytics:**
+   - `GET /api/v1/adaptive/progress/{student_id}?exam_code={code}`
+   - *Flow:* `student_progress_service.get_student_progress` filters candidate curriculum topics by `is_eligible_curriculum_topic(db, student, t, exam_code=exam_code)`. Topic breakdowns and completion percentages reflect the exact exam syllabus scope (436 topics for JEE Main, 444 for JEE Advanced, 497 for NEET).
 
 ---
 
-## 6. Report on Affected API Endpoints and Frontend Consumers
+## 5. Affected Endpoints and Frontend Consumers
 
-| Endpoint | Method | Parameters Added / Modified | Impact on Frontend Consumers |
-| :--- | :--- | :--- | :--- |
-| `/api/v1/chapters/{chapter_id}/topics` | `GET` | Optional query param: `exam_code: Optional[str]` | Syllabus screen, Topic Selector, Diagnostic practice drawer. Passing `exam_code=JEE_MAIN` now renders only JEE Main topics. Leaving it blank renders full NCERT textbook topics. |
-| `/api/v1/recommendations/` | `GET` | Filtered via student target exam | Dashboard recommendations will only suggest topics applicable to student's chosen exam. |
-| `/api/v1/practice/adaptive` | `POST` | Filtered via topic eligibility | Prevents generating practice sets for non-exam topics when student is in competitive mode. |
-| `/api/v1/revision/plan` | `GET` | Filtered via topic eligibility | Revision calendar will only schedule revisions for exam-applicable topics. |
-| `/api/v1/progress/overview` | `GET` | Filtered via topic eligibility | Progress bars and mastery metrics calculate completion percentage against the exact target exam topic count. |
-
----
-
-## 7. Migration Readiness & Persistent Database Protection
-
-### 7.1 Persistent Database Verification
-Throughout Phase E.4, the persistent database `D:\EduNavika\edunavika.db` remained strictly untouched and protected:
-- **Baseline SHA-256:** `84432e58eb4b67f12da53a914e806b448212948a307a799f7de35b4cf04a2174`
-- **Post-Verification SHA-256:** `84432e58eb4b67f12da53a914e806b448212948a307a799f7de35b4cf04a2174`
-- **Status:** **MATCH (Zero modifications)**
-
-### 7.2 Rollout Plan (Upon Explicit Approval)
-When operator approval is granted:
-1. Create a fresh verified native SQLite backup in `backups/milestone_4_pre_phase_e_migration/`.
-2. Apply Alembic migration `a1b2c3d4e5f6` to `edunavika.db`.
-3. Run `curriculum_seeder.py` to seed 106 chapters and 624 verified topics.
-4. Run `exam_topic_sync_service.py` to populate 1,377 verified associations.
-5. Record the new persistent database SHA-256 hash.
+| Endpoint | Method | Parameter | Behavior with `exam_code` | Behavior without `exam_code` |
+| :--- | :--- | :--- | :--- | :--- |
+| `/api/v1/chapters/{id}/topics` | `GET` | `exam_code` | Returns only exam-applicable topics | Returns all authentic textbook topics |
+| `/api/v1/adaptive/recommendations/{id}` | `GET` | `exam_code` | Recommends only exam-eligible topics | Recommends standard textbook topics |
+| `/api/v1/adaptive/practice/{id}` | `GET` | `exam_code` | Rejects non-exam topics with HTTP 400 | Allows authentic textbook practice |
+| `/api/v1/adaptive/next-practice/{id}` | `GET` | `exam_code` | Suggests next practice within exam | Suggests next practice within textbook |
+| `/api/v1/adaptive/revision-plan/{id}` | `GET` | `exam_code` | Generates revision plan for exam topics | Generates revision plan for all topics |
+| `/api/v1/students/{id}/revision-plan` | `GET` | `exam_code` | Lists revision items for exam topics | Lists all revision items |
+| `/api/v1/adaptive/progress/{id}` | `GET` | `exam_code` | Progress scoped to exact exam syllabus | Progress scoped to full standard/subject |
 
 ---
 
-## 8. Final Status and Stop Condition
+## 6. Verification and Validation Results
 
-**Final Recommendation:** **GO**  
-The Phase E.4 design and validation are complete. All safety constraints have been respected, sandbox validation is 100% green, and persistent database baseline is preserved. Execution is paused awaiting explicit operator authorization.
+- **Automated Integration Tests (`backend/tests/test_exam_topic_applicability.py`):** 14 tests, 100% PASSED.
+- **Sandbox Lifecycle Execution (`scripts/test_phase_e4_sandbox.py`):** Full clone upgrade, seeding, dry-run, live sync, idempotency, and integrity checks executed cleanly with 0 errors.
+- **Regression Test Suites:** 33 tests across curriculum seeding, pilot ingestion, coverage, and database isolation passed with 0 errors.
+- **Persistent Database Protection:** Verified that `edunavika.db` was untouched and preserved at baseline SHA-256 `84432e58eb4b67f12da53a914e806b448212948a307a799f7de35b4cf04a2174`.
+
+---
+
+## 7. Migration Proposal & Rollout Plan
+
+### 7.1 Proposed Migration
+- **Revision ID:** `a1b2c3d4e5f6`
+- **Revises:** `f1e2d3c4b5a6`
+- **Location:** `backend/alembic/versions/20261015_m4_exam_topics_association.py`
+
+### 7.2 Execution Steps (Upon Explicit Approval)
+1. Verify pre-migration SHA-256 matches baseline `84432e58eb4b67f12da53a914e806b448212948a307a799f7de35b4cf04a2174`.
+2. Take a fresh verified native SQLite backup in `backups/milestone_4_pre_phase_e_migration/`.
+3. Apply migration `a1b2c3d4e5f6` to `D:\EduNavika\edunavika.db`.
+4. Run `curriculum_seeder.py` to seed 106 chapters and 624 verified topics.
+5. Run `exam_topic_sync_service.py` to populate 1,377 verified associations.
+6. Record post-migration SHA-256 and confirm 0 integrity or foreign-key violations.
+
+### 7.3 Rollback Strategy
+If any unexpected error occurs during migration or seeding:
+1. Revert Alembic revision: `alembic downgrade f1e2d3c4b5a6`.
+2. Or restore directly from the verified pre-migration native SQLite backup.

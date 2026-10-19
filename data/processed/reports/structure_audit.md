@@ -4,8 +4,8 @@
 
 | Metric | Value |
 | :--- | :--- |
-| **Documents Audited** | 3 |
-| **PASS Count** | 3 |
+| **Documents Audited** | 2 |
+| **PASS Count** | 2 |
 | **REVIEW Count** | 0 |
 | **FAIL Count** | 0 |
 
@@ -14,7 +14,6 @@
 | Document | Expected Chs | Detected Chs | Exp Topics | Det Topics | Status |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | `Std-10 Science` | 13 | 13 | ~15-25 | 14 | **PASS** |
-| `Std-10 First Flight English` | 9 | 9 | ~9-15 | 9 | **PASS** |
 | `Std-10 Mathematics` | 14 | 14 | ~35-50 | 17 | **PASS** |
 
 ## Detailed Document Diagnostics
@@ -38,22 +37,6 @@
 - Ch 11: Electricity (pp. 25-25) — 1 topics
 - Ch 12: Magnetic Effects of Electric Current (pp. 25-25) — 1 topics
 - Ch 13: Our Environment (pp. 25-25) — 1 topics
-
-### Std-10 First Flight English (`PASS`)
-
-- Exact chapter count match: 9/9 chapters detected.
-
-**Detected Chapters:**
-
-- Ch 1: A Letter to God (pp. 12-24) — 1 topics
-- Ch 2: Nelson Mandela: Long Walk to Freedom (pp. 25-25) — 1 topics
-- Ch 3: Two Stories about Flying (pp. 25-25) — 1 topics
-- Ch 4: From the Diary of Anne Frank (pp. 25-25) — 1 topics
-- Ch 5: Glimpses of India (pp. 25-25) — 1 topics
-- Ch 6: Mijbil the Otter (pp. 25-25) — 1 topics
-- Ch 7: Madam Rides the Bus (pp. 25-25) — 1 topics
-- Ch 8: The Sermon at Benares (pp. 25-25) — 1 topics
-- Ch 9: The Proposal (pp. 25-25) — 1 topics
 
 ### Std-10 Mathematics (`PASS`)
 
