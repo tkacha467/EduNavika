@@ -1,4 +1,4 @@
-// Shared UI interaction state for EduNavika portals
+import { ExamSelection, getSelectedExam } from './examService';
 
 export interface UIState {
   subjectId: string | null;
@@ -6,6 +6,7 @@ export interface UIState {
   notifFilter: string;
   builderStep: number;
   builderTopic: string;
+  examSelection: ExamSelection;
 }
 
 export const UI: UIState = {
@@ -14,6 +15,7 @@ export const UI: UIState = {
   notifFilter: 'all',
   builderStep: 0,
   builderTopic: '',
+  examSelection: typeof localStorage !== 'undefined' ? getSelectedExam() : 'GENERAL',
 };
 
 // Also expose on window for inline event strings in templates

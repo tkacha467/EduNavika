@@ -1,5 +1,6 @@
 import { api } from './api';
 import { getLanguage } from '../utils/i18n';
+import { getSelectedExamCode } from './examService';
 import {
   RevisionPlan,
   RevisionPlanResponse,
@@ -14,13 +15,16 @@ export class AdaptiveService {
   public async getNextPracticeRecommendation(
     studentId: string,
     topicId?: string,
-    lang?: string
+    lang?: string,
+    examCode?: string | null
   ): Promise<PracticeRecommendation | null> {
     try {
       const selectedLang = lang || getLanguage();
+      const code = examCode !== undefined ? examCode : getSelectedExamCode();
       const params = new URLSearchParams();
       if (topicId) params.append('topic_id', topicId);
       if (selectedLang) params.append('language', selectedLang);
+      if (code) params.append('exam_code', code);
       const q = params.toString() ? `?${params.toString()}` : '';
       return await api.get<PracticeRecommendation>(`/adaptive/next-practice/${encodeURIComponent(studentId)}${q}`);
     } catch (err) {
@@ -32,13 +36,16 @@ export class AdaptiveService {
   public async getRevisionPlan(
     studentId: string,
     subjectId?: string,
-    lang?: string
+    lang?: string,
+    examCode?: string | null
   ): Promise<RevisionPlanResponse | null> {
     try {
       const selectedLang = lang || getLanguage();
+      const code = examCode !== undefined ? examCode : getSelectedExamCode();
       const params = new URLSearchParams();
       if (subjectId) params.append('subject_id', subjectId);
       if (selectedLang) params.append('language', selectedLang);
+      if (code) params.append('exam_code', code);
       const q = params.toString() ? `?${params.toString()}` : '';
       return await api.get<RevisionPlanResponse>(`/adaptive/revision-plan/${encodeURIComponent(studentId)}${q}`);
     } catch (err) {
@@ -47,20 +54,29 @@ export class AdaptiveService {
     }
   }
 
-  public async getRevisionPlans(studentId: string): Promise<RevisionPlan[]> {
+  public async getRevisionPlans(studentId: string, examCode?: string | null): Promise<RevisionPlan[]> {
     try {
-      return await api.get<RevisionPlan[]>(`/revision/plans?student_id=${encodeURIComponent(studentId)}`);
+      const code = examCode !== undefined ? examCode : getSelectedExamCode();
+      const examParam = code ? `&exam_code=${encodeURIComponent(code)}` : '';
+      return await api.get<RevisionPlan[]>(`/revision/plans?student_id=${encodeURIComponent(studentId)}${examParam}`);
     } catch {
       return [];
     }
   }
 
-  public async getRecommendations(studentId: string, limit: number = 10, lang?: string): Promise<RecommendationResponse | null> {
+  public async getRecommendations(
+    studentId: string,
+    limit: number = 10,
+    lang?: string,
+    examCode?: string | null
+  ): Promise<RecommendationResponse | null> {
     try {
       const selectedLang = lang || getLanguage();
+      const code = examCode !== undefined ? examCode : getSelectedExamCode();
       const params = new URLSearchParams();
       params.append('limit', String(limit));
       if (selectedLang) params.append('language', selectedLang);
+      if (code) params.append('exam_code', code);
       return await api.get<RecommendationResponse>(`/adaptive/recommendations/${encodeURIComponent(studentId)}?${params.toString()}`);
     } catch (err) {
       console.warn('Failed to retrieve student recommendations:', err);
@@ -110,14 +126,17 @@ export class AdaptiveService {
     studentId: string,
     topicId: string,
     count: number = 3,
-    lang?: string
+    lang?: string,
+    examCode?: string | null
   ): Promise<any> {
     try {
       const selectedLang = lang || getLanguage();
+      const code = examCode !== undefined ? examCode : getSelectedExamCode();
       const params = new URLSearchParams();
       params.append('topic_id', topicId);
       params.append('count', String(count));
       if (selectedLang) params.append('language', selectedLang);
+      if (code) params.append('exam_code', code);
       return await api.get(`/adaptive/practice/${encodeURIComponent(studentId)}?${params.toString()}`);
     } catch (err) {
       console.warn('Failed to retrieve adaptive practice questions:', err);
@@ -147,12 +166,19 @@ export class AdaptiveService {
     }
   }
 
-  public async getProgress(studentId: string, subjectId?: string, lang?: string): Promise<StudentProgressResponse | null> {
+  public async getProgress(
+    studentId: string,
+    subjectId?: string,
+    lang?: string,
+    examCode?: string | null
+  ): Promise<StudentProgressResponse | null> {
     try {
       const selectedLang = lang || getLanguage();
+      const code = examCode !== undefined ? examCode : getSelectedExamCode();
       const params = new URLSearchParams();
       if (subjectId) params.append('subject_id', subjectId);
       if (selectedLang) params.append('language', selectedLang);
+      if (code) params.append('exam_code', code);
       const q = params.toString() ? `?${params.toString()}` : '';
       return await api.get<StudentProgressResponse>(`/adaptive/progress/${encodeURIComponent(studentId)}${q}`);
     } catch (err) {
@@ -161,11 +187,17 @@ export class AdaptiveService {
     }
   }
 
-  public async getGamification(studentId: string, lang?: string): Promise<GamificationResponse | null> {
+  public async getGamification(
+    studentId: string,
+    lang?: string,
+    examCode?: string | null
+  ): Promise<GamificationResponse | null> {
     try {
       const selectedLang = lang || getLanguage();
+      const code = examCode !== undefined ? examCode : getSelectedExamCode();
       const params = new URLSearchParams();
       if (selectedLang) params.append('language', selectedLang);
+      if (code) params.append('exam_code', code);
       const q = params.toString() ? `?${params.toString()}` : '';
       return await api.get<GamificationResponse>(`/adaptive/gamification/${encodeURIComponent(studentId)}${q}`);
     } catch (err) {

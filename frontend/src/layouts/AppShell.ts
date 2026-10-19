@@ -4,6 +4,7 @@ import { icon } from '../utils/icons';
 import { NavGroup, User } from '../types';
 import { REVISION_QUEUE, CLASS_WEAK_TOPICS, NOTIFICATIONS } from '../features/student/studentData';
 import { t, getLanguage } from '../utils/i18n';
+import { getSelectedExam, getExamMetadata, ExamSelection } from '../services/examService';
 
 export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
   student: [
@@ -149,6 +150,13 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
     : '<b>Dashboard</b>';
 
   const currentLang = getLanguage();
+  let currentExam: ExamSelection = 'GENERAL';
+  try {
+    currentExam = getSelectedExam();
+  } catch {
+    currentExam = 'GENERAL';
+  }
+  const examMeta = getExamMetadata(currentExam);
 
   const navHtml = groups
     .map(
@@ -193,7 +201,7 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
     <nav class="side-nav" id="sideNav">${navHtml}</nav>
     <div class="side-foot">
       <div class="av" id="sideAvatar">${user.initials || 'U'}</div>
-      <div class="info"><b id="sideName">${user.full_name}</b><span id="sideMeta">${user.grade || 'Grade 10'} · ${user.section || 'Science'}</span></div>
+      <div class="info"><b id="sideName">${user.full_name}</b><span id="sideMeta">${user.grade || 'Grade 10'} · ${role === 'student' ? examMeta.shortLabel : user.section || 'Science'}</span></div>
     </div>
   </aside>
 
@@ -215,6 +223,16 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
         <div id="searchResultsDropdown" class="search-dropdown hide" role="listbox"></div>
       </div>
       <div class="tb-right">
+        <!-- Target Examination Selector Pill -->
+        <div class="tb-exam-wrap" style="display:inline-flex;align-items:center;margin-right:4px">
+          <select id="topbarExamSelect" class="input select" style="padding:4px 8px;font-size:11.5px;font-weight:700;border-radius:12px;background:var(--bg-2);border:1px solid var(--border-2);cursor:pointer;color:var(--text)" onchange="window.setExam ? window.setExam(this.value) : null" title="Target Examination / લક્ષ્ય પરીક્ષા / लक्ष्य परीक्षा">
+            <option value="GENERAL" ${currentExam === 'GENERAL' ? 'selected' : ''}>📚 General School Study</option>
+            <option value="JEE_MAIN" ${currentExam === 'JEE_MAIN' ? 'selected' : ''}>🎯 JEE Main (436 Topics)</option>
+            <option value="JEE_ADVANCED" ${currentExam === 'JEE_ADVANCED' ? 'selected' : ''}>🚀 JEE Advanced (444 Topics)</option>
+            <option value="NEET_UG" ${currentExam === 'NEET_UG' ? 'selected' : ''}>🩺 NEET UG (497 Topics)</option>
+          </select>
+        </div>
+
         <!-- Language Selector Pill -->
         <div class="tb-lang-wrap" style="display:inline-flex;align-items:center;margin-right:4px">
           <select id="topbarLangSelect" class="input select" style="padding:4px 8px;font-size:11.5px;font-weight:700;border-radius:12px;background:var(--bg-2);border:1px solid var(--border-2);cursor:pointer;color:var(--text)" onchange="window.setLanguage ? window.setLanguage(this.value) : null" title="Change Language / भाषा बदलें / ભાષા બદલો">

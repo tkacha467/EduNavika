@@ -25,6 +25,7 @@ import { explanationService } from '../../services/explanationService';
 import { UI } from '../../services/uiState';
 import { StudentProgressResponse, RevisionPlanResponse, RevisionPlanItem, GamificationResponse } from '../../types';
 import { t, getLanguage } from '../../utils/i18n';
+import { getExamMetadata, onExamChange } from '../../services/examService';
 import {
   FORGETTING_TIMELINE,
   UPCOMING_ASSESSMENTS,
@@ -35,6 +36,61 @@ import {
 } from './studentData';
 
 declare const window: any;
+
+export function renderActiveExamBanner(): string {
+  const meta = getExamMetadata();
+  return `
+  <!-- ACTIVE EXAMINATION APPLICABILITY SCOPE (PHASE E.6) -->
+  <div class="exam-scope-banner mb-5" style="display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border-2);border-radius:14px;padding:12px 18px;box-shadow:0 1px 4px rgba(0,0,0,0.03);flex-wrap:wrap;gap:10px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:24px;line-height:1">${meta.badgeIcon}</span>
+      <div>
+        <div style="font-size:13px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px">
+          <span>Active Syllabus Scope:</span>
+          <span class="badge ${meta.code === 'GENERAL' ? 'grey' : 'indigo'}" style="font-size:11.5px;font-weight:800;padding:3px 10px;text-transform:uppercase;letter-spacing:.02em">
+            ${meta.label}
+          </span>
+          <span class="badge ${meta.code === 'GENERAL' ? 'teal' : 'blue'}" style="font-size:10px;font-weight:700">
+            ${meta.totalTopics} Topics
+          </span>
+        </div>
+        <p style="font-size:12px;color:var(--text-3);margin:3px 0 0 0;line-height:1.4">
+          ${meta.description}
+        </p>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div style="font-size:11.5px;color:var(--text-2);font-weight:600">
+        Subjects: <span style="color:var(--text);font-weight:700">${meta.subjects.join(' · ')}</span>
+      </div>
+      <button class="btn btn-xs btn-outline" style="border-radius:8px;font-size:11px" onclick="document.getElementById('topbarExamSelect')?.focus()">
+        Change Scope ▾
+      </button>
+    </div>
+  </div>`;
+}
+
+export function clearStudentViewsExamCache(): void {
+  dashboardHeroState.recommendation = undefined;
+  dashboardHeroState.loading = false;
+  revisionPlanState.data = undefined;
+  revisionPlanState.loading = false;
+  progressState.data = undefined;
+  progressState.loading = false;
+  practiceState.questions = [];
+  practiceState.recommendation = undefined;
+  practiceState.topicId = '';
+  practiceState.error = null;
+  hierarchyState.data = undefined;
+  hierarchyState.loading = false;
+  hierarchyState.selectedSubjectId = undefined;
+}
+
+if (typeof window !== 'undefined') {
+  onExamChange(() => {
+    clearStudentViewsExamCache();
+  });
+}
 
 /* ---------- Dashboard ---------- */
 let dashboardHeroState: {
@@ -400,6 +456,7 @@ export function studentDashboard(): string {
 
   return `
   <div class="page with-rail">
+    ${renderActiveExamBanner()}
 
     <!-- 1. YOUR LEARNING TODAY (LIVE GAMIFICATION DATA) -->
     ${renderGamificationSection(gamificationState.data)}
@@ -1163,6 +1220,7 @@ export function studentRevision(): string {
 
   return `
   <div class="page">
+    ${renderActiveExamBanner()}
     ${pageHead(
       t('revision.title'),
       t('revision.sub'),
@@ -1449,6 +1507,7 @@ export function studentAnalytics(): string {
 
   return `
   <div class="page">
+    ${renderActiveExamBanner()}
     ${pageHead(
       'Learning Progress & Journey',
       'Continuous on-device progress tracking',
@@ -2063,6 +2122,7 @@ export function studentMaterials(): string {
 
   return `
   <div class="page">
+    ${renderActiveExamBanner()}
     ${pageHead(
       'Your Learning Resources',
       'Standard 10 Curriculum & Local Resources',
@@ -3130,6 +3190,7 @@ export function studentPractice(): string {
 
   return `
     <div class="page">
+      ${renderActiveExamBanner()}
       <div class="flex-b mb-4">
         <div>
           <div class="flex gap-2 items-center mb-1">

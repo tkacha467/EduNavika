@@ -1,7 +1,6 @@
-// Curriculum Service: Standards, Chapters, Topics, and Subjects
-
 import { api } from './api';
 import { Standard, Chapter, Topic, Subject } from '../types';
+import { getSelectedExamCode } from './examService';
 
 export const APPROVED_SUBJECTS: Subject[] = [
   {
@@ -165,17 +164,21 @@ export class CurriculumService {
     }
   }
 
-  public async getTopics(chapterId: string): Promise<Topic[]> {
+  public async getTopics(chapterId: string, examCode?: string | null): Promise<Topic[]> {
     try {
-      return await api.get<Topic[]>(`/curriculum/chapters/${chapterId}/topics`);
+      const code = examCode !== undefined ? examCode : getSelectedExamCode();
+      const q = code ? `?exam_code=${encodeURIComponent(code)}` : '';
+      return await api.get<Topic[]>(`/curriculum/chapters/${chapterId}/topics${q}`);
     } catch {
       return [];
     }
   }
 
-  public async getHierarchy(grade: number = 10): Promise<CurriculumHierarchyResponse | null> {
+  public async getHierarchy(grade: number = 10, examCode?: string | null): Promise<CurriculumHierarchyResponse | null> {
     try {
-      return await api.get<CurriculumHierarchyResponse>(`/curriculum/hierarchy?grade=${grade}`);
+      const code = examCode !== undefined ? examCode : getSelectedExamCode();
+      const examParam = code ? `&exam_code=${encodeURIComponent(code)}` : '';
+      return await api.get<CurriculumHierarchyResponse>(`/curriculum/hierarchy?grade=${grade}${examParam}`);
     } catch (err) {
       console.debug('Failed to fetch hierarchy:', err);
       return null;

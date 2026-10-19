@@ -55,6 +55,7 @@ import { startQuiz } from '../features/interactive/QuizRunner';
 import { openBuilder } from '../features/interactive/AssessmentBuilder';
 import { setLanguage, getLanguage } from '../utils/i18n';
 import { initGlobalSearch } from '../features/search/GlobalSearch';
+import { getSelectedExam, getSelectedExamCode, setSelectedExam } from '../services/examService';
 
 declare const window: any;
 
@@ -274,6 +275,13 @@ if (typeof window !== 'undefined') {
   });
 }
 
+// Reactive competitive examination change listener
+if (typeof window !== 'undefined') {
+  window.addEventListener('edunavika:examChange', () => {
+    renderCurrentRoute();
+  });
+}
+
 // Expose navigation globals for HTML templates
 if (typeof window !== 'undefined') {
   window.navigate = navigate;
@@ -282,4 +290,7 @@ if (typeof window !== 'undefined') {
   window.openAIPanel = openAIPanel;
   window.setLanguage = setLanguage;
   window.getLanguage = getLanguage;
+  window.setExam = setSelectedExam;
+  window.getExam = getSelectedExam;
+  window.getExamCode = getSelectedExamCode;
 }
