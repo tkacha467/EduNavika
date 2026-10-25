@@ -25,19 +25,36 @@ from backend.app.models.curriculum_models import Topic
 logger = logging.getLogger(__name__)
 
 
-def compute_content_hash(question_text: str, options: List[Dict[str, Any]], correct_answer: Optional[str]) -> str:
+def compute_content_hash(
+    question_text: str,
+    options: List[Dict[str, Any]],
+    correct_answer: Optional[str],
+    stem_diagram_url: Optional[str] = None,
+) -> str:
     """
-    Computes deterministic SHA-256 hash for deduplication based on normalized text and options.
+    Computes deterministic SHA-256 hash for deduplication based on normalized text, diagrams, and options.
+    Preserves exact backward compatibility for questions without diagram assets.
     """
     norm_text = re.sub(r'\s+', ' ', question_text.strip().lower())
+    norm_stem_diag = (stem_diagram_url or "").strip().lower()
     norm_opts = []
+    has_diagrams = bool(norm_stem_diag)
     for opt in sorted(options, key=lambda x: x.get("option_key", "")):
         key = opt.get("option_key", "").strip().upper()
         txt = re.sub(r'\s+', ' ', opt.get("option_text", "").strip().lower())
-        norm_opts.append(f"{key}:{txt}")
+        diag = (opt.get("diagram_asset_url") or "").strip().lower()
+        if diag:
+            has_diagrams = True
+            norm_opts.append(f"{key}:{txt}[diag:{diag}]")
+        else:
+            norm_opts.append(f"{key}:{txt}")
     norm_ans = (correct_answer or "").strip().upper()
-    payload = f"{norm_text}|{'#'.join(norm_opts)}|{norm_ans}"
+    if has_diagrams:
+        payload = f"{norm_text}|stem_diag:{norm_stem_diag}|{'#'.join(norm_opts)}|{norm_ans}"
+    else:
+        payload = f"{norm_text}|{'#'.join(norm_opts)}|{norm_ans}"
     return hashlib.sha256(payload.encode('utf-8')).hexdigest()
+
 
 
 def validate_katex_syntax(text: str) -> bool:
@@ -91,8 +108,11 @@ class QuestionIngestionService:
                 errors.append(f"{q_type} requires exactly 4 options, found {len(options)}")
             else:
                 for opt in options:
-                    if len(opt.get("option_text", "").strip()) == 0:
+                    opt_text = opt.get("option_text", "").strip()
+                    opt_diag = opt.get("diagram_asset_url")
+                    if len(opt_text) == 0 and not opt_diag:
                         errors.append(f"Option {opt.get('option_key')} text cannot be empty (missing diagram/formula drawing)")
+
         elif q_type == "NUMERICAL":
             if len(options) > 0:
                 errors.append(f"NUMERICAL questions must have 0 options, found {len(options)}")
@@ -211,6 +231,7 @@ class QuestionIngestionService:
                 q_dict["question_text"],
                 q_dict.get("options", []),
                 q_dict.get("correct_answer_raw"),
+                stem_diagram_url=q_dict.get("diagram_asset_url"),
             )
             metrics["question_hashes"].append(content_hash)
 
@@ -299,7 +320,8 @@ class QuestionIngestionService:
                     id=str(uuid.uuid4()),
                     question_id=new_question.id,
                     option_key=opt["option_key"],
-                    option_text=opt["option_text"],
+                    option_text=opt.get("option_text", ""),
+                    diagram_asset_url=opt.get("diagram_asset_url"),
                     is_correct=opt.get("is_correct", False),
                     explanation=opt.get("explanation"),
                     sort_order=opt.get("sort_order", o_idx),

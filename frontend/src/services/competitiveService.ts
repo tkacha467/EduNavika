@@ -71,7 +71,7 @@ export interface AssessmentSession {
     question_type: string;
     question_text: string;
     diagram_asset_url?: string;
-    options: Array<{ option_key: string; option_text: string }>;
+    options: Array<{ option_key: string; option_text: string; diagram_asset_url?: string }>;
     topic_title: string;
     subject_name: string;
   }>;
@@ -97,8 +97,9 @@ export interface AssessmentSubmission {
     question_id: string;
     order: number;
     question_text: string;
+    diagram_asset_url?: string;
     question_type: string;
-    options: Array<{ option_key: string; option_text: string }>;
+    options: Array<{ option_key: string; option_text: string; diagram_asset_url?: string }>;
     subject_name: string;
     topic_title: string;
     user_selected_option?: string;
@@ -170,4 +171,44 @@ export const competitiveService = {
   submitAssessment: async (sessionId: string): Promise<AssessmentSubmission> => {
     return api.post<AssessmentSubmission>(`/competitive/assessments/${sessionId}/submit`, {});
   },
+
+  getReviewQuestions: async (params?: {
+    exam_code?: string;
+    year?: number;
+    subject?: string;
+    question_number?: number;
+    review_state?: string;
+    issue_type?: string;
+    paper_id?: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<any[]> => {
+    const qs = new URLSearchParams();
+    if (params?.exam_code) qs.set('exam_code', params.exam_code);
+    if (params?.year) qs.set('year', String(params.year));
+    if (params?.subject) qs.set('subject', params.subject);
+    if (params?.question_number !== undefined) qs.set('question_number', String(params.question_number));
+    if (params?.review_state) qs.set('review_state', params.review_state);
+    if (params?.issue_type) qs.set('issue_type', params.issue_type);
+    if (params?.paper_id) qs.set('paper_id', params.paper_id);
+    if (params?.limit) qs.set('limit', String(params.limit));
+    if (params?.offset) qs.set('offset', String(params.offset));
+    const qStr = qs.toString() ? `?${qs.toString()}` : '';
+    return api.get<any[]>(`/competitive/review/unverified${qStr}`);
+  },
+
+  getQuestionReviewDetail: async (questionId: string): Promise<any> => {
+    return api.get<any>(`/competitive/questions/${questionId}/detail`);
+  },
+
+  submitQuestionReview: async (questionId: string, payload: {
+    decision: string;
+    review_notes?: string;
+    asset_ids_reviewed?: string[];
+    asset_checksums?: Record<string, string>;
+    manifest_version?: string;
+  }): Promise<any> => {
+    return api.post<any>(`/competitive/questions/${questionId}/review`, payload);
+  },
 };
+

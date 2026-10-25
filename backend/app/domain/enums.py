@@ -5,6 +5,8 @@ class UserRole(str, enum.Enum):
     STUDENT = "STUDENT"
     TEACHER = "TEACHER"
     ADMIN = "ADMIN"
+    REVIEWER = "REVIEWER"
+
 
 
 class ContentType(str, enum.Enum):

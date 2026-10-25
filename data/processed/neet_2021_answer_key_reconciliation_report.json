@@ -1,0 +1,271 @@
+{
+  "report_id": "RECON_NEET_2021_M4_98856a7c",
+  "generated_at": "2026-10-25T10:37:11.200626+00:00",
+  "exam_code": "NEET_UG",
+  "exam_year": 2021,
+  "booklet_code": "M4",
+  "authority": "National Testing Agency (NTA)",
+  "source_document": {
+    "filename": "Notice_20211101205130.pdf",
+    "sha256": "838e0ba080eb6b9639f12a1dcfb7f36cd8fe80dd5be11ee0be6d725e4c6f3ca9",
+    "size_bytes": 38417,
+    "version": "FINAL_OFFICIAL_DECLARED_01.11.2021",
+    "page_reference": 13
+  },
+  "reconciliation_summary": {
+    "total_questions_declared": 200,
+    "target_diagram_questions_reconciled": 13,
+    "target_diagram_discrepancies": 0,
+    "remaining_text_questions_audited": 187,
+    "remaining_text_questions_matched": 187,
+    "total_dropped_or_bonus_items": 0,
+    "unresolved_ambiguities_count": 0
+  },
+  "target_13_diagram_questions": [
+    {
+      "question_number": 4,
+      "official_raw_answer": "2",
+      "normalized_letter_answer": "B",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 20,
+      "official_raw_answer": "4",
+      "normalized_letter_answer": "D",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 26,
+      "official_raw_answer": "3",
+      "normalized_letter_answer": "C",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 38,
+      "official_raw_answer": "3",
+      "normalized_letter_answer": "C",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 40,
+      "official_raw_answer": "4",
+      "normalized_letter_answer": "D",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 49,
+      "official_raw_answer": "2",
+      "normalized_letter_answer": "B",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 60,
+      "official_raw_answer": "2",
+      "normalized_letter_answer": "B",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 62,
+      "official_raw_answer": "1",
+      "normalized_letter_answer": "A",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 63,
+      "official_raw_answer": "4",
+      "normalized_letter_answer": "D",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 79,
+      "official_raw_answer": "3",
+      "normalized_letter_answer": "C",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 82,
+      "official_raw_answer": "1",
+      "normalized_letter_answer": "A",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 88,
+      "official_raw_answer": "4",
+      "normalized_letter_answer": "D",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    },
+    {
+      "question_number": 99,
+      "official_raw_answer": "1",
+      "normalized_letter_answer": "A",
+      "answer_verification_status": "OFFICIAL_KEY_VERIFIED",
+      "scoring_policy_source": "Notice_20211101205130.pdf",
+      "rights_status": "PENDING_LEGAL_REVIEW",
+      "publish_permission": "FORBIDDEN",
+      "eligibility_for_scoring": "INELIGIBLE_UNVERIFIED_CONTENT",
+      "reconciliation_verdict": "VERIFIED_MATCH"
+    }
+  ],
+  "remaining_187_text_questions_sample": [
+    {
+      "question_number": 1,
+      "official_raw_answer": "3",
+      "expected_normalized_letter": "C",
+      "extracted_answer": "C",
+      "matches_official_key": true,
+      "subject": "Physics",
+      "section": "Section A",
+      "reconciliation_verdict": "KEY_VERIFIED_STANDBY"
+    },
+    {
+      "question_number": 2,
+      "official_raw_answer": "1",
+      "expected_normalized_letter": "A",
+      "extracted_answer": "A",
+      "matches_official_key": true,
+      "subject": "Physics",
+      "section": "Section A",
+      "reconciliation_verdict": "KEY_VERIFIED_STANDBY"
+    },
+    {
+      "question_number": 3,
+      "official_raw_answer": "2",
+      "expected_normalized_letter": "B",
+      "extracted_answer": "B",
+      "matches_official_key": true,
+      "subject": "Physics",
+      "section": "Section A",
+      "reconciliation_verdict": "KEY_VERIFIED_STANDBY"
+    },
+    {
+      "question_number": 5,
+      "official_raw_answer": "1",
+      "expected_normalized_letter": "A",
+      "extracted_answer": "A",
+      "matches_official_key": true,
+      "subject": "Physics",
+      "section": "Section A",
+      "reconciliation_verdict": "KEY_VERIFIED_STANDBY"
+    },
+    {
+      "question_number": 6,
+      "official_raw_answer": "2",
+      "expected_normalized_letter": "B",
+      "extracted_answer": "B",
+      "matches_official_key": true,
+      "subject": "Physics",
+      "section": "Section A",
+      "reconciliation_verdict": "KEY_VERIFIED_STANDBY"
+    },
+    {
+      "question_number": 7,
+      "official_raw_answer": "3",
+      "expected_normalized_letter": "C",
+      "extracted_answer": "C",
+      "matches_official_key": true,
+      "subject": "Physics",
+      "section": "Section A",
+      "reconciliation_verdict": "KEY_VERIFIED_STANDBY"
+    },
+    {
+      "question_number": 8,
+      "official_raw_answer": "2",
+      "expected_normalized_letter": "B",
+      "extracted_answer": "B",
+      "matches_official_key": true,
+      "subject": "Physics",
+      "section": "Section A",
+      "reconciliation_verdict": "KEY_VERIFIED_STANDBY"
+    },
+    {
+      "question_number": 9,
+      "official_raw_answer": "2",
+      "expected_normalized_letter": "B",
+      "extracted_answer": "B",
+      "matches_official_key": true,
+      "subject": "Physics",
+      "section": "Section A",
+      "reconciliation_verdict": "KEY_VERIFIED_STANDBY"
+    },
+    {
+      "question_number": 10,
+      "official_raw_answer": "2",
+      "expected_normalized_letter": "B",
+      "extracted_answer": "B",
+      "matches_official_key": true,
+      "subject": "Physics",
+      "section": "Section A",
+      "reconciliation_verdict": "KEY_VERIFIED_STANDBY"
+    },
+    {
+      "question_number": 11,
+      "official_raw_answer": "4",
+      "expected_normalized_letter": "D",
+      "extracted_answer": "D",
+      "matches_official_key": true,
+      "subject": "Physics",
+      "section": "Section A",
+      "reconciliation_verdict": "KEY_VERIFIED_STANDBY"
+    }
+  ]
+}

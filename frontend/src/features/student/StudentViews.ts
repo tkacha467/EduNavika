@@ -4563,7 +4563,14 @@ export function renderActiveTimedAssessmentModal(): void {
                     <span style="font-weight:800;font-size:13px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:${isSelected ? 'var(--indigo)' : 'var(--border)'};color:${isSelected ? '#fff' : 'var(--text-2)'};flex-shrink:0">
                       ${opt.option_key}
                     </span>
-                    <span style="font-size:13.5px;color:var(--text);line-height:1.45;flex:1">${opt.option_text}</span>
+                    <span style="font-size:13.5px;color:var(--text);line-height:1.45;flex:1">
+                      ${opt.option_text ? opt.option_text : ''}
+                      ${opt.diagram_asset_url ? `
+                        <div style="margin-top:6px">
+                          <img src="${opt.diagram_asset_url}" alt="Option ${opt.option_key}" style="max-height:140px;border-radius:6px;border:1px solid var(--border)">
+                        </div>
+                      ` : ''}
+                    </span>
                   </div>`;
                 }).join('')}
               </div>
@@ -4899,6 +4906,11 @@ export function renderAssessmentReportModal(report: AssessmentSubmission): void 
                 <span class="tiny muted">${q.subject_name} · ${q.topic_title}</span>
               </div>
               <div style="font-size:14px;color:var(--text);margin-bottom:10px;line-height:1.5">${q.question_text}</div>
+              ${q.diagram_asset_url ? `
+                <div style="margin-bottom:12px;text-align:center">
+                  <img src="${q.diagram_asset_url}" alt="Question Diagram" style="max-height:180px;border-radius:8px;border:1px solid var(--border)">
+                </div>
+              ` : ''}
 
               <!-- Options -->
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
@@ -4918,7 +4930,8 @@ export function renderAssessmentReportModal(report: AssessmentSubmission): void 
 
                   return `
                   <div style="padding:8px 12px;border-radius:8px;border:1px solid ${optBorder};background:${optBg};font-size:12px">
-                    <b>[${o.option_key}]</b> ${o.option_text}
+                    <b>[${o.option_key}]</b> ${o.option_text ? o.option_text : ''}
+                    ${o.diagram_asset_url ? `<div style="margin-top:4px"><img src="${o.diagram_asset_url}" alt="Option ${o.option_key}" style="max-height:100px;border-radius:4px;border:1px solid var(--border)"></div>` : ''}
                     ${isUserChoice ? '<span style="font-weight:700;margin-left:4px">(Your Choice)</span>' : ''}
                     ${isOfficialCorrect ? '<span style="color:var(--green);font-weight:800;margin-left:4px">✓ Official Key</span>' : ''}
                   </div>`;

@@ -52,6 +52,7 @@ import {
   teacherNotifications,
   teacherProfile,
 } from '../features/teacher/TeacherViews';
+import { teacherReviewerView } from '../features/teacher/ReviewerView';
 import { startQuiz } from '../features/interactive/QuizRunner';
 import { openBuilder } from '../features/interactive/AssessmentBuilder';
 import { setLanguage, getLanguage } from '../utils/i18n';
@@ -101,6 +102,7 @@ export const ROUTES: Record<string, ViewRenderer> = {
   'teacher/revision': teacherRevision,
   'teacher/notifications': teacherNotifications,
   'teacher/profile': teacherProfile,
+  'teacher/review': teacherReviewerView,
 };
 
 let currentRoute = 'student/dashboard';

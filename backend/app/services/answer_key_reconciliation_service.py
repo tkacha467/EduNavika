@@ -192,6 +192,77 @@ class AnswerKeyReconciliationService:
             "notes": "Standard answer recorded",
         }
 
+    @staticmethod
+    def extract_official_manifest_from_pdf(
+        pdf_path: str,
+        booklet_code: str = "M4",
+        exam_code: str = "NEET_UG",
+        exam_year: int = 2021,
+    ) -> Dict[str, Any]:
+        """
+        Extracts authentic declared answer keys from official NTA revised answer-key PDF.
+        Verifies file existence, computes SHA-256 hash, and structures the manifest.
+        Fails explicitly if document is missing or booklet is not found.
+        """
+        import os
+        import hashlib
+        import pypdf
+
+        if not os.path.exists(pdf_path):
+            raise FileNotFoundError(f"Official answer key PDF not found at '{pdf_path}'")
+
+        hasher = hashlib.sha256()
+        with open(pdf_path, "rb") as f:
+            for chunk in iter(lambda: f.read(65536), b""):
+                hasher.update(chunk)
+        doc_sha = hasher.hexdigest()
+
+        reader = pypdf.PdfReader(pdf_path)
+        target_text = None
+        target_page_num = None
+
+        for idx, page in enumerate(reader.pages):
+            text = page.extract_text() or ""
+            first_lines = text.split("\n")[:5]
+            for line in first_lines:
+                if f"BOOK : {booklet_code}" in line:
+                    target_text = text
+                    target_page_num = idx + 1
+                    break
+            if target_text:
+                break
+
+        if not target_text:
+            raise ValueError(f"Booklet code '{booklet_code}' not found in NTA document '{pdf_path}'")
+
+        lines = target_text.split("\n")
+        answers = {}
+        for line in lines[4:]:
+            m = re.match(r"^\s*(\d+)\s+([A-Za-z0-9,]+)\s*$", line)
+            if m:
+                q_num = int(m.group(1))
+                raw_val = m.group(2).strip()
+                answers[str(q_num)] = {
+                    "question_number": q_num,
+                    "question_type": "SCQ",
+                    "official_raw_answer": raw_val,
+                    "action": "REGULAR",
+                }
+
+        return {
+            "manifest_version": "1.0",
+            "exam_code": exam_code,
+            "exam_year": exam_year,
+            "paper_code": booklet_code,
+            "paper_session": "Main",
+            "authority": "National Testing Agency (NTA)",
+            "official_document_ref": os.path.basename(pdf_path),
+            "official_document_sha256": doc_sha,
+            "key_version": "FINAL_OFFICIAL_DECLARED_01.11.2021",
+            "extracted_from_page": target_page_num,
+            "answers": answers,
+        }
+
     def reconcile_question_record(
         self,
         question: Question,

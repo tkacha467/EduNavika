@@ -49,6 +49,7 @@ export const NAV: Record<'student' | 'teacher', NavGroup[]> = {
       group: 'Teaching',
       items: [
         { id: 'teacher/assessments', label: 'Assessments', icon: 'clipboard' },
+        { id: 'teacher/review', label: 'Question Review', icon: 'check' },
         { id: 'teacher/assignments', label: 'Assignments', icon: 'edit' },
         { id: 'teacher/attendance', label: 'Attendance', icon: 'check' },
         { id: 'teacher/content', label: 'Content', icon: 'folder' },
@@ -127,6 +128,7 @@ export const CRUMBS: Record<string, string[]> = {
   'teacher/revision': ['Insights', 'Revision Insights'],
   'teacher/notifications': ['Notifications'],
   'teacher/profile': ['Profile'],
+  'teacher/review': ['Teaching', 'Question Review'],
 };
 
 export function renderAppShell(user: User, currentRoute: string, pageHtml: string): string {

@@ -182,6 +182,7 @@ class QuestionOption(Base):
     question_id = Column(String(36), ForeignKey("questions.id", ondelete="CASCADE"), nullable=False, index=True)
     option_key = Column(String(8), nullable=False)
     option_text = Column(Text, nullable=False)
+    diagram_asset_url = Column(String(512), nullable=True)
     is_correct = Column(Boolean, default=False, nullable=False)
     explanation = Column(Text, nullable=True)
     sort_order = Column(Integer, default=0, nullable=False)

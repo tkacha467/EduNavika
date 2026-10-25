@@ -175,7 +175,11 @@ class CompetitiveAssessmentService:
 
         for idx, q in enumerate(questions):
             opts = [
-                {"option_key": o.option_key, "option_text": o.option_text}
+                {
+                    "option_key": o.option_key,
+                    "option_text": o.option_text,
+                    "diagram_asset_url": o.diagram_asset_url,
+                }
                 for o in q.options
             ]
             session_questions.append({
@@ -388,6 +392,7 @@ class CompetitiveAssessmentService:
                 "question_id": qid,
                 "order": q["order"],
                 "question_text": q["question_text"],
+                "diagram_asset_url": q.get("diagram_asset_url"),
                 "question_type": q_type,
                 "options": q["options"],
                 "subject_name": subj,
