@@ -35,9 +35,8 @@ from backend.app.core.database import get_db
 
 
 @pytest.fixture
-def setup_curriculum():
-    from backend.app.core.database import SessionLocal
-    db = SessionLocal()
+def setup_curriculum(db_session):
+    db = db_session
     now = datetime.now(timezone.utc)
     ts_suffix = str(int(now.timestamp() * 1000))[-6:]
 
@@ -76,8 +75,6 @@ def setup_curriculum():
         "t2": t2.id,
         "t3": t3.id,
     }
-
-    db.close()
 
 
 def test_student_zero_history_onboarding_recommendation(setup_curriculum):
@@ -319,7 +316,8 @@ def test_recommendation_api_endpoint(setup_curriculum):
         assert "reason" in rec
         assert "score" in rec
     finally:
-        app.dependency_overrides.clear()
+        from backend.tests.conftest import override_get_db as conftest_override_get_db
+        app.dependency_overrides[get_db] = conftest_override_get_db
 
 
 def test_no_side_effects_or_duplicate_plans(setup_curriculum):
@@ -406,13 +404,12 @@ def test_legacy_general_content_filtered_out(setup_curriculum):
     assert resp.recommendations[0].priority == RevisionPriority.HIGH
 
 
-def test_live_student_chemical_reactions_top_priority():
+def test_live_student_chemical_reactions_top_priority(db_session):
     """
     Test 11: Real student verification against SQLite DB:
     Student e09699dd-0c64-44cc-82ef-ab41a832e072 must have Chemical Reactions as #1 recommendation.
     """
-    from backend.app.core.database import SessionLocal
-    db = SessionLocal()
+    db = db_session
     try:
         live_student_id = "e09699dd-0c64-44cc-82ef-ab41a832e072"
         student = db.query(StudentProfile).filter(StudentProfile.id == live_student_id).first()

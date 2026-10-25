@@ -62,6 +62,8 @@ __MACOSX/
 
 # Intermediate Ingestion Data & Processed Artifacts
 data/*
+!data/manifests/
+!data/manifests/canonical_curriculum_manifest.json
 !data/processed/
 data/processed/*
 !data/processed/reports/
@@ -82,6 +84,7 @@ yarn-error.log*
 /models/
 *.gguf
 *.bin
+*.zip
 
 
 

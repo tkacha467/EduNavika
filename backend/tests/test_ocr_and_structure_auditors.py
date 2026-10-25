@@ -6,8 +6,8 @@ from backend.app.ingestion.structure_auditor import StructureAuditor
 
 def test_structure_auditor_representative_books():
     dataset_dir = Path("GSEB-Dataset")
-    if not dataset_dir.exists():
-        pytest.skip("GSEB-Dataset not available")
+    if not dataset_dir.exists() or not list(dataset_dir.rglob("*.pdf")):
+        pytest.skip("GSEB-Dataset physical PDFs not available (gitignored corpus)")
 
     auditor = StructureAuditor(dataset_dir)
     report = auditor.audit_representative_books()
@@ -49,8 +49,8 @@ def test_structure_auditor_full_three_book_representative_set():
 
 def test_ocr_auditor_scan():
     dataset_dir = Path("GSEB-Dataset")
-    if not dataset_dir.exists():
-        pytest.skip("GSEB-Dataset not available")
+    if not dataset_dir.exists() or not list(dataset_dir.rglob("*.pdf")):
+        pytest.skip("GSEB-Dataset physical PDFs not available (gitignored corpus)")
 
     auditor = OCRAuditor(dataset_dir)
     docs, mismatches = auditor.scanner.scan_all()

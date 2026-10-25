@@ -11,7 +11,7 @@ from backend.app.core.security import (
     verify_password,
     get_password_hash,
 )
-from backend.app.models import User, UserRole
+from backend.app.models import User, UserRole, StudentProfile, Standard
 
 router = APIRouter()
 
@@ -49,6 +49,7 @@ def ensure_default_accounts(db: Session):
     student = db.query(User).filter(User.email == s_email).first()
     if not student:
         student = User(
+            id="ea169b32-edfa-4f07-a5f9-be4cc8816c43",
             name="Tushar Kacha",
             email=s_email,
             hashed_password=get_password_hash("Tushar@21"),
@@ -56,12 +57,32 @@ def ensure_default_accounts(db: Session):
             is_active=True,
         )
         db.add(student)
+        db.flush()
+
+    # Ensure StudentProfile exists for default student
+    first_std = db.query(Standard).filter(Standard.grade_number == 10).first() or db.query(Standard).first()
+    std_id = first_std.id if first_std else None
+
+    profile = db.query(StudentProfile).filter(StudentProfile.user_id == student.id).first()
+    if not profile:
+        profile = StudentProfile(
+            id=student.id,
+            user_id=student.id,
+            standard_id=std_id,
+            enrollment_number=f"EN-{student.id[:8]}",
+            division="A",
+            preferred_language="en",
+        )
+        db.add(profile)
+    elif std_id and not profile.standard_id:
+        profile.standard_id = std_id
 
     # Teacher
     t_email = "tushar.kacha141862@marwadiuniversity.ac.in"
     teacher = db.query(User).filter(User.email == t_email).first()
     if not teacher:
         teacher = User(
+            id="46c349f6-c658-499d-b5e8-093641113168",
             name="Prof. Tushar Kacha",
             email=t_email,
             hashed_password=get_password_hash("2120@8030"),

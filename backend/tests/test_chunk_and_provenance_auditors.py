@@ -114,9 +114,27 @@ def synthetic_auditor_data(db_session):
     db_session.commit()
     created_ids["learning_content"].extend([lc1.id, lc2.id])
 
+    # Ensure synthetic sample PDF exists so provenance page bounds check can verify
+    pdf_created = False
+    sample_pdf_path = Path("GSEB-Dataset/STD-10th/Std-10_Maths_EnglishMedium.pdf")
+    if not sample_pdf_path.exists():
+        sample_pdf_path.parent.mkdir(parents=True, exist_ok=True)
+        import pypdf
+        writer = pypdf.PdfWriter()
+        for _ in range(20):
+            writer.add_blank_page(width=612, height=792)
+        with open(sample_pdf_path, "wb") as f:
+            writer.write(f)
+        pdf_created = True
+
     try:
         yield {"standard": std, "subject": subj, "chapter": chap, "topics": [t1, t2], "contents": [lc1, lc2]}
     finally:
+        if pdf_created and sample_pdf_path.exists():
+            try:
+                sample_pdf_path.unlink()
+            except Exception:
+                pass
         try:
             db_session.query(LearningContent).filter(LearningContent.id.in_(created_ids["learning_content"])).delete(synchronize_session=False)
             db_session.query(Topic).filter(Topic.id.in_(created_ids["topic"])).delete(synchronize_session=False)

@@ -278,9 +278,12 @@ def test_question_source_text_exists():
     import sqlite3
     from pathlib import Path
 
-    db_path = Path("D:/EduNavika/edunavika.db")
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    db_path = repo_root / "edunavika.db"
     if not db_path.exists():
-        db_path = Path("D:/EduNavika/backend/edunavika.db")
+        db_path = repo_root / "backend" / "edunavika.db"
+    if not db_path.exists():
+        db_path = Path("D:/EduNavika/edunavika.db")
 
     assert db_path.exists(), "edunavika.db must exist for curriculum assessment audit"
 

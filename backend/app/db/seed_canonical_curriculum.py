@@ -17,6 +17,7 @@ from sqlalchemy.orm import sessionmaker, Session
 
 from backend.app.core.config import settings
 from backend.app.models.curriculum_models import Standard, Subject
+from backend.app.models.competitive_models import Examination, ExamSubject
 from backend.app.models.core_models import generate_uuid
 
 # Deterministic namespace for EduNavika canonical entities
@@ -183,30 +184,22 @@ def seed_canonical_curriculum(db_session: Session, dry_run: bool = False) -> Dic
 
     # --- Step 1: Seed Examinations ---
     for exam in CANONICAL_EXAMINATIONS:
-        row = raw_conn.execute(
-            select(1).select_from(raw_conn.dialect.name == "sqlite" and "examinations").where(
-                raw_conn.dialect.name == "sqlite" and "code = :code"
-            ),
-            {"code": exam["code"]}
-        ) if False else None
-
-        # Execute direct SQL for examinations table
-        existing = raw_conn.exec_driver_sql(
-            "SELECT code FROM examinations WHERE code = ?", (exam["code"],)
-        ).fetchone()
+        existing = db_session.query(Examination).filter(Examination.code == exam["code"]).first()
 
         if existing:
             report["already_existing"]["examinations"] += 1
             report["details"].append(f"Examination '{exam['code']}' already exists.")
         else:
             if not dry_run:
-                raw_conn.exec_driver_sql(
-                    """
-                    INSERT INTO examinations (code, name, conducting_body, description, is_active, created_at, updated_at)
-                    VALUES (?, ?, ?, ?, ?, datetime('now'), datetime('now'))
-                    """,
-                    (exam["code"], exam["name"], exam["conducting_body"], exam["description"], 1 if exam["is_active"] else 0)
+                new_exam = Examination(
+                    code=exam["code"],
+                    name=exam["name"],
+                    conducting_body=exam["conducting_body"],
+                    description=exam["description"],
+                    is_active=exam["is_active"],
                 )
+                db_session.add(new_exam)
+                db_session.flush()
             report["created"]["examinations"] += 1
             report["details"].append(f"Created examination '{exam['code']}' ({exam['conducting_body']}).")
 
@@ -272,10 +265,10 @@ def seed_canonical_curriculum(db_session: Session, dry_run: bool = False) -> Dic
         subj_code = link["subject_code"]
         subj_id = subject_code_to_id[subj_code]
 
-        existing = raw_conn.exec_driver_sql(
-            "SELECT id FROM exam_subjects WHERE exam_code = ? AND subject_id = ?",
-            (exam_code, subj_id)
-        ).fetchone()
+        existing = db_session.query(ExamSubject).filter(
+            ExamSubject.exam_code == exam_code,
+            ExamSubject.subject_id == subj_id
+        ).first()
 
         if existing:
             report["already_existing"]["exam_subjects"] += 1
@@ -283,13 +276,14 @@ def seed_canonical_curriculum(db_session: Session, dry_run: bool = False) -> Dic
         else:
             link_id = deterministic_uuid(f"edunavika.exam_subject.{exam_code}.{subj_code}")
             if not dry_run:
-                raw_conn.exec_driver_sql(
-                    """
-                    INSERT INTO exam_subjects (id, exam_code, subject_id, curriculum_role, created_at)
-                    VALUES (?, ?, ?, ?, datetime('now'))
-                    """,
-                    (link_id, exam_code, subj_id, link["role"])
+                new_link = ExamSubject(
+                    id=link_id,
+                    exam_code=exam_code,
+                    subject_id=subj_id,
+                    curriculum_role=link["role"],
                 )
+                db_session.add(new_link)
+                db_session.flush()
             report["created"]["exam_subjects"] += 1
             report["details"].append(f"Linked '{exam_code}' to '{subj_code}' as {link['role']}.")
 

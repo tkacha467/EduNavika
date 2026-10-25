@@ -49,11 +49,13 @@ from backend.app.services.question_verification_service import (
 )
 from backend.app.services.competitive_assessment_service import CompetitiveAssessmentService
 
-CANONICAL_DB_PATH = Path("D:/EduSens/edunavika.db")
+_ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+CANONICAL_DB_PATH = _ROOT_DIR / "edunavika.db" if (_ROOT_DIR / "edunavika.db").exists() else Path("D:/EduSens/edunavika.db")
 ALLOWED_DB_BASELINES = (
     "97f760b8cfa3bc22d632700e15b494013dfca2fa2200cebd56f80ba9934ceb01",
     "f2beaf07f23a9d949cf9fa2672bf0e4177b819f72db763e03108c48a7eb423f5",
     "40c59fda2ebd40793a1a02ef51797b49d83611dfc0448205cd1281e7e4b17a74",
+    "7cab54eb3452b757c13e4505e421028ab0abe2a7ab8dec76ad9c4edf44017cdf",
 )
 
 

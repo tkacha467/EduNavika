@@ -1,10 +1,16 @@
 from typing import List
 import numpy as np
-from sentence_transformers import SentenceTransformer
 from backend.app.retrieval.embeddings.base import EmbeddingModel
 
 class SentenceTransformerModel(EmbeddingModel):
     def __init__(self, model_name: str, normalize_embeddings: bool = True):
+        try:
+            from sentence_transformers import SentenceTransformer
+        except ImportError as e:
+            raise ImportError(
+                "sentence-transformers is not installed. "
+                "Please install sentence-transformers to use SentenceTransformerModel."
+            ) from e
         self.model_name = model_name
         self.model = SentenceTransformer(model_name)
         self.normalize_embeddings = normalize_embeddings

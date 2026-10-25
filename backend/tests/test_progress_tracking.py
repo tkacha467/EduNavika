@@ -471,15 +471,14 @@ def test_15_explicit_subject_query_param(client, db_session, progress_fixture):
     assert len(data_all["topics"]) == 5
 
 
-def test_16_fresh_demo_student_curriculum_scope():
+def test_16_fresh_demo_student_curriculum_scope(db_session):
     """16. Real demo student 'stu-fresh-demo-001' scopes to 19 Science topics in edunavika.db, not 1314."""
-    from backend.app.core.database import SessionLocal
     from backend.app.services.progress_service import student_progress_service
-    db = SessionLocal()
+    db = db_session
     try:
         demo_student = db.query(StudentProfile).filter(StudentProfile.id == "stu-fresh-demo-001").first()
         if not demo_student:
-            pytest.skip("stu-fresh-demo-001 not present in SQLite database")
+            pytest.skip("stu-fresh-demo-001 not present in test database")
 
         progress = student_progress_service.get_student_progress(db=db, student_id="stu-fresh-demo-001")
         overall = progress.overall

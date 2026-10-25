@@ -66,13 +66,20 @@ class RecommendationEngineService:
         # Rule 4: Exam-specific applicability
         if exam_code:
             from backend.app.models.competitive_models import ExamTopic
-            has_link = db.query(ExamTopic).filter(
-                ExamTopic.exam_code == exam_code,
-                ExamTopic.topic_id == topic.id,
-                ExamTopic.inclusion_status == "ACTIVE"
-            ).first()
-            if not has_link:
-                return False
+            has_exam_topics = (
+                db.query(ExamTopic.id)
+                .filter(ExamTopic.exam_code == exam_code)
+                .first()
+                is not None
+            )
+            if has_exam_topics:
+                has_link = db.query(ExamTopic).filter(
+                    ExamTopic.exam_code == exam_code,
+                    ExamTopic.topic_id == topic.id,
+                    ExamTopic.inclusion_status == "ACTIVE"
+                ).first()
+                if not has_link:
+                    return False
 
         return True
 

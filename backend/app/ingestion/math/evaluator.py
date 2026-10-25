@@ -28,8 +28,15 @@ class MathEvaluator:
         with open(manifest_path, "r", encoding="utf-8") as f:
             manifest = json.load(f)
         with open(test_path, "rb") as f:
-            computed_hash = hashlib.sha256(f.read()).hexdigest()
-        return computed_hash == manifest.get("sha256")
+            raw_bytes = f.read()
+            computed_hash = hashlib.sha256(raw_bytes).hexdigest()
+        manifest_hash = manifest.get("sha256")
+        if computed_hash == manifest_hash:
+            return True
+        # Cross-platform CRLF/LF normalization
+        crlf_hash = hashlib.sha256(raw_bytes.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')).hexdigest()
+        lf_hash = hashlib.sha256(raw_bytes.replace(b'\r\n', b'\n')).hexdigest()
+        return manifest_hash in (crlf_hash, lf_hash)
 
     def _normalize(self, text: str) -> str:
         """Basic normalization: strip whitespace and lowercase."""

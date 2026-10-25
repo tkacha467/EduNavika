@@ -21,7 +21,12 @@ os.environ["DATABASE_URL"] = TEST_DATABASE_URL
 os.environ["ENV"] = "testing"
 
 # Target persistent DB path to guard (canonical realpath)
-PERSISTENT_DB_PATH = os.path.realpath(r"D:\EduNavika\edunavika.db").lower()
+_REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_LOCAL_PERSISTENT_DB = os.path.join(_REPO_ROOT, "edunavika.db")
+if os.path.exists(_LOCAL_PERSISTENT_DB):
+    PERSISTENT_DB_PATH = os.path.realpath(_LOCAL_PERSISTENT_DB).lower()
+else:
+    PERSISTENT_DB_PATH = os.path.realpath(r"D:\EduNavika\edunavika.db").lower()
 
 # ---------------------------------------------------------------------------
 # 2. Hard Persistent Database Access Blocker Guard
@@ -135,8 +140,11 @@ def _get_persistent_db_state():
     integrity = c.fetchall()
     c.execute("PRAGMA foreign_key_check")
     fk_check = c.fetchall()
-    c.execute("SELECT version_num FROM alembic_version")
-    rev = [r[0] for r in c.fetchall()]
+    try:
+        c.execute("SELECT version_num FROM alembic_version")
+        rev = [r[0] for r in c.fetchall()]
+    except Exception:
+        rev = []
     c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name")
     tables = [r[0] for r in c.fetchall()]
     counts = {}
@@ -178,7 +186,9 @@ def persistent_database_guard_session():
 def ensure_db_schema():
     """Ensure all tables exist in test database prior to each test."""
     Base.metadata.create_all(bind=test_engine)
+    app.dependency_overrides[get_db] = override_get_db
     yield
+    app.dependency_overrides[get_db] = override_get_db
 
 
 @pytest.fixture(scope="session")

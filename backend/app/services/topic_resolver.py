@@ -9,7 +9,7 @@ import logging
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError, OperationalError
-from backend.app.models import StudentProfile, User, UserRole, Topic, Chapter, Subject
+from backend.app.models import StudentProfile, User, UserRole, Topic, Chapter, Subject, Standard
 
 logger = logging.getLogger("topic_resolver")
 
@@ -218,6 +218,9 @@ def resolve_topic(db: Session, topic_id: Optional[str]) -> Optional[Topic]:
 
 def get_or_create_student_profile(db: Session, student_id: str) -> Optional[StudentProfile]:
     """Finds or auto-provisions a StudentProfile for the student."""
+    if not student_id:
+        return None
+
     # 1. Direct match by StudentProfile.id
     student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
     if student:
@@ -228,12 +231,18 @@ def get_or_create_student_profile(db: Session, student_id: str) -> Optional[Stud
     if student:
         return student
 
-    # 3. Match User by ID or student role for demo/default sessions
+    # 3. Match User by ID
     user = db.query(User).filter(User.id == student_id).first()
-    if not user and (student_id in ("default", "demo", "student", "guest", "e09699dd-0c64-44cc-82ef-ab41a832e072") or student_id.startswith("demo-")):
-        user = db.query(User).filter(User.role == UserRole.STUDENT).first()
-    if not user and student_id in ("default", "demo"):
+
+    # 4. If student_id is a known demo/default alias or matches default student account
+    KNOWN_DEMO_ALIASES = {
+        "demo", "default", "me", "default-student", "student-001",
+        "ea169b32-edfa-4f07-a5f9-be4cc8816c43"
+    }
+    if not user and student_id in KNOWN_DEMO_ALIASES:
         user = db.query(User).filter(User.email == "kachatushar108@gmail.com").first()
+        if not user:
+            user = db.query(User).filter(User.role == UserRole.STUDENT).first()
 
     if user:
         existing_profile = db.query(StudentProfile).filter(StudentProfile.user_id == user.id).first()
@@ -241,9 +250,11 @@ def get_or_create_student_profile(db: Session, student_id: str) -> Optional[Stud
             return existing_profile
 
         try:
+            first_std = db.query(Standard).filter(Standard.grade_number == 10).first() or db.query(Standard).first()
             new_profile = StudentProfile(
                 id=student_id if (len(student_id) <= 36 and not student_id.startswith("http")) else None,
                 user_id=user.id,
+                standard_id=first_std.id if first_std else None,
                 enrollment_number=f"EN-{user.id[:8]}",
                 division="A",
                 preferred_language="en",
@@ -255,5 +266,7 @@ def get_or_create_student_profile(db: Session, student_id: str) -> Optional[Stud
         except (IntegrityError, OperationalError):
             db.rollback()
             return db.query(StudentProfile).filter(StudentProfile.user_id == user.id).first()
+
+    return None
 
     return None

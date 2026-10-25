@@ -3,7 +3,12 @@ import hashlib
 import json
 import os
 
-db_path = r"D:\EduNavika\edunavika.db"
+from pathlib import Path
+
+repo_root = Path(__file__).resolve().parent.parent
+db_path = repo_root / "edunavika.db"
+if not db_path.exists():
+    db_path = Path(r"D:\EduNavika\edunavika.db")
 
 if not os.path.exists(db_path):
     print(f"Error: {db_path} does not exist")
@@ -23,8 +28,11 @@ integrity = c.fetchall()
 c.execute("PRAGMA foreign_key_check")
 fk_check = c.fetchall()
 
-c.execute("SELECT version_num FROM alembic_version")
-alembic_rev = [r[0] for r in c.fetchall()]
+try:
+    c.execute("SELECT version_num FROM alembic_version")
+    alembic_rev = [r[0] for r in c.fetchall()]
+except Exception:
+    alembic_rev = []
 
 c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name")
 tables = [r[0] for r in c.fetchall()]
@@ -37,7 +45,7 @@ for t in tables:
 conn.close()
 
 result = {
-    "db_path": db_path,
+    "db_path": str(db_path),
     "sha256": sha256,
     "size_bytes": size,
     "integrity": integrity,

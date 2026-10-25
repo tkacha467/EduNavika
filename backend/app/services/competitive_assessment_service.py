@@ -4,6 +4,7 @@ Implements exam-specific scoring (JEE Main +4/-1; JEE Advanced multi-correct par
 Provides countdown tracking, server-side timer enforcement, save-and-resume, and secure response evaluation.
 """
 
+import os
 import uuid
 import logging
 from typing import Dict, Any, List, Optional, Tuple
@@ -194,6 +195,20 @@ class CompetitiveAssessmentService:
                 .limit(total_questions)
                 .all()
             )
+
+        if not questions and os.environ.get("ENV") != "testing":
+            # Self-healing fallback: seed practice questions on demand in development mode
+            try:
+                from backend.app.services.curriculum_coverage_service import CurriculumCoverageService
+                cov_service = CurriculumCoverageService(self.db)
+                if chapter_id:
+                    cov_service.seed_supplementary_chapter_practice(chapter_id, target_count=max(total_questions, 10))
+                else:
+                    for ch in self.db.query(Chapter).filter(Chapter.is_active == True).limit(5).all():
+                        cov_service.seed_supplementary_chapter_practice(ch.id, target_count=5)
+                questions = base_query.order_by(Question.paper_question_number).limit(total_questions).all()
+            except Exception:
+                pass
 
         if not questions:
             raise ValueError(

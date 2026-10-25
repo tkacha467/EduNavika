@@ -143,13 +143,16 @@ class AdaptivePracticeService:
         if not target_topic:
             # Fallback to first eligible curriculum topic for student's standard
             from backend.app.models import Subject, Chapter
-            target_topic = (
+            query = (
                 db.query(Topic)
                 .join(Chapter, Topic.chapter_id == Chapter.id)
                 .join(Subject, Chapter.subject_id == Subject.id)
-                .filter(Subject.standard_id == student.standard_id)
-                .first()
+                .filter(Topic.is_active == True)
             )
+            if student and student.standard_id:
+                target_topic = query.filter(Subject.standard_id == student.standard_id).first()
+            if not target_topic:
+                target_topic = query.first()
             if not target_topic:
                 raise ValueError("No eligible curriculum topic found for student.")
 

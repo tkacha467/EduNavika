@@ -19,52 +19,63 @@ from backend.app.services.curriculum_retrieval import CurriculumRetrievalService
 
 
 @pytest.fixture
-def retrieval_fixture():
-    db = SessionLocal()
-    try:
-        # Check if Chemical Reactions exists in DB
-        topic_chem = db.query(Topic).filter(Topic.id == "5a321a44-bc06-4db4-a50f-5e53f913b612").first()
-        if not topic_chem:
-            # Create synthetic curriculum setup if testing against blank DB
-            std = db.query(Standard).filter(Standard.grade_number == 10).first()
-            if not std:
-                std = Standard(grade_number=10, name="Standard 10")
-                db.add(std)
-                db.flush()
-            subj = Subject(name="Science & Technology", code="SCI-10", standard_id=std.id)
-            db.add(subj)
+def retrieval_fixture(db_session):
+    db = db_session
+    # Check if Chemical Reactions exists in DB
+    topic_chem = db.query(Topic).filter(Topic.id == "5a321a44-bc06-4db4-a50f-5e53f913b612").first()
+    if not topic_chem:
+        # Create synthetic curriculum setup if testing against blank DB
+        std = db.query(Standard).filter(Standard.grade_number == 10).first()
+        if not std:
+            std = Standard(grade_number=10, name="Standard 10")
+            db.add(std)
             db.flush()
-            chap = Chapter(title="Chemical Reactions and Equations", chapter_number=1, subject_id=subj.id)
-            db.add(chap)
-            db.flush()
-            topic_chem = Topic(
-                id="5a321a44-bc06-4db4-a50f-5e53f913b612",
-                title="Chemical Reactions and Equations",
-                chapter_id=chap.id,
-                topic_order=1,
-            )
-            db.add(topic_chem)
-            db.flush()
+        subj = Subject(name="Science & Technology", code="SCI-10", standard_id=std.id)
+        db.add(subj)
+        db.flush()
+        chap = Chapter(title="Chemical Reactions and Equations", chapter_number=1, subject_id=subj.id)
+        db.add(chap)
+        db.flush()
+        topic_chem = Topic(
+            id="5a321a44-bc06-4db4-a50f-5e53f913b612",
+            title="Chemical Reactions and Equations",
+            chapter_id=chap.id,
+            topic_order=1,
+        )
+        db.add(topic_chem)
+        db.flush()
 
-            # Add real content chunk
-            c1 = LearningContent(
-                topic_id=topic_chem.id,
-                content_type=ContentType.TEXT,
-                title="Writing a Chemical Equation",
-                content_text="Chemical Reactions and Equations: A complete chemical equation represents the reactants, products and their physical states.",
-                source_document="STD-10/Std-10_Science_English Medium.pdf",
-                source_page=16,
-            )
-            db.add(c1)
-            db.commit()
+        # Add real content chunk
+        c1 = LearningContent(
+            topic_id=topic_chem.id,
+            content_type=ContentType.TEXT,
+            title="Writing a Chemical Equation",
+            content_text="Chemical Reactions and Equations: A complete chemical equation represents the reactants, products and their physical states.",
+            source_document="STD-10/Std-10_Science_English Medium.pdf",
+            source_page=16,
+        )
+        db.add(c1)
+        db.flush()
 
-        yield {
-            "db": db,
-            "topic_id": topic_chem.id,
-            "topic_title": topic_chem.title,
-        }
-    finally:
-        db.close()
+    # Ensure demo student profile exists for live test student id
+    live_student_id = "e09699dd-0c64-44cc-82ef-ab41a832e072"
+    stu = db.query(StudentProfile).filter(StudentProfile.id == live_student_id).first()
+    if not stu:
+        u = User(name="Retrieval Demo Student", email="retrieval_demo@test.org", hashed_password="pw", role=UserRole.STUDENT)
+        db.add(u)
+        db.flush()
+        std10 = db.query(Standard).filter(Standard.grade_number == 10).first()
+        stu = StudentProfile(id=live_student_id, user_id=u.id, standard_id=std10.id if std10 else None, enrollment_number="RET-DEMO")
+        db.add(stu)
+        db.flush()
+
+    db.commit()
+
+    yield {
+        "db": db,
+        "topic_id": topic_chem.id,
+        "topic_title": topic_chem.title,
+    }
 
 
 def test_chemical_reactions_query_returns_content(retrieval_fixture):

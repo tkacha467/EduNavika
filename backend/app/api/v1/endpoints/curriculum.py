@@ -383,7 +383,18 @@ def get_ai_runtime_status():
     from backend.app.core.config import settings
     from backend.app.services.explanation_engine import OnDeviceLLMExplanationEngine
 
-    model_path = getattr(settings, "LOCAL_MODEL_PATH", r"D:\EduNavika\models\qwen2.5-0.5b-instruct-q4_k_m.gguf")
+    model_path = getattr(settings, "LOCAL_MODEL_PATH", None) or getattr(settings, "EDUNAVIKA_LOCAL_MODEL_PATH", "")
+    if not model_path or not os.path.exists(model_path):
+        candidate_paths = [
+            os.path.join(os.getcwd(), "models", "qwen2.5-0.5b-instruct-q4_k_m.gguf"),
+            r"D:\EduNavika\models\qwen2.5-0.5b-instruct-q4_k_m.gguf",
+        ]
+        for p in candidate_paths:
+            if os.path.exists(p):
+                model_path = p
+                break
+        if not model_path:
+            model_path = candidate_paths[0]
     model_exists = os.path.exists(model_path)
     file_size_mb = round(os.path.getsize(model_path) / (1024 * 1024), 2) if model_exists else 0.0
 

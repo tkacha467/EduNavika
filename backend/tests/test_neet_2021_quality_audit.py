@@ -29,6 +29,8 @@ from scripts.audit_neet_2021_quality import (
 @pytest.fixture(scope="module")
 def nta_manifest():
     """Loads authoritative NTA answer-key manifest from repository reference copy."""
+    if not os.path.exists(DEFAULT_NTA_KEY_PDF):
+        pytest.skip(f"Authoritative NTA Answer Key PDF not found at '{DEFAULT_NTA_KEY_PDF}' (gitignored)")
     return extract_official_nta_manifest(DEFAULT_NTA_KEY_PDF, booklet_code="M4")
 
 
@@ -37,6 +39,8 @@ def test_real_neet_pdf_integration(nta_manifest):
     Executes the real parser and auditor on the actual source PDFs:
     GSEB-Dataset/Dataset/Dataset/Neet/neet-2021.pdf and docs/reference/Notice_20211101205130.pdf.
     """
+    if not os.path.exists(DEFAULT_PAPER_PDF):
+        pytest.skip(f"Authoritative NEET 2021 Paper PDF not found at '{DEFAULT_PAPER_PDF}' (gitignored)")
     records, summary = parse_and_audit_neet_paper(DEFAULT_PAPER_PDF, nta_manifest)
 
     # 1. Complete Question Number Range: exactly 200 questions, strictly 1 through 200
@@ -117,6 +121,8 @@ def test_missing_question_fails_audit(nta_manifest):
 
 def test_booklet_mismatch_fails_safely():
     """Manifest extraction fails if requested booklet does not exist in NTA document."""
+    if not os.path.exists(DEFAULT_NTA_KEY_PDF):
+        pytest.skip(f"Authoritative NTA Answer Key PDF not found at '{DEFAULT_NTA_KEY_PDF}' (gitignored)")
     with pytest.raises(ValueError, match="Booklet code 'Z9' not found"):
         extract_official_nta_manifest(DEFAULT_NTA_KEY_PDF, booklet_code="Z9")
 
@@ -129,7 +135,8 @@ def test_missing_manifest_file_fails_explicitly():
 
 def test_persistent_db_isolation_guard():
     """Confirms conftest guard strictly blocks any test from opening edunavika.db."""
+    from backend.tests.conftest import PERSISTENT_DB_PATH
     with pytest.raises(RuntimeError, match="DATABASE ISOLATION VIOLATION"):
-        engine = create_engine(r"sqlite:///D:/EduNavika/edunavika.db")
+        engine = create_engine(f"sqlite:///{PERSISTENT_DB_PATH}")
         with engine.connect():
             pass

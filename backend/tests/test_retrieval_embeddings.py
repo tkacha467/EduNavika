@@ -1,5 +1,7 @@
 import pytest
 import numpy as np
+
+pytest.importorskip("sentence_transformers")
 from backend.app.retrieval.embeddings.registry import get_embedding_model
 
 def test_sentence_transformer_model():

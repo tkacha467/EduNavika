@@ -66,6 +66,8 @@ def _get_math_pdf_path() -> str:
 def test_region_detector_detection_and_crop():
     detector = MathRegionDetector(min_confidence=0.25)
     pdf_path = _get_math_pdf_path()
+    if not Path(pdf_path).exists():
+        pytest.skip(f"GSEB Maths PDF not present at {pdf_path} (gitignored corpus)")
 
     # Page 127 is known to have coordinate geometry formulas
     regions = detector.detect_regions(pdf_path, 127)
@@ -86,6 +88,8 @@ def test_region_detector_detection_and_crop():
 def test_targeted_math_extractor_integration():
     extractor = TargetedMathExtractor(enable_ocr=False) # Test fast routing without heavy model
     pdf_path = _get_math_pdf_path()
+    if not Path(pdf_path).exists():
+        pytest.skip(f"GSEB Maths PDF not present at {pdf_path} (gitignored corpus)")
 
     # Page 15 is Social Science Constitution page (prose)
     prose_res = extractor.extract_page(pdf_path, 15)
