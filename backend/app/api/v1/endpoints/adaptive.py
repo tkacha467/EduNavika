@@ -308,13 +308,23 @@ def get_next_practice_recommendation(
 )
 def get_adaptive_practice_questions(
     student_id: str,
-    topic_id: str = Query(..., description="Target curriculum topic ID or title"),
+    topic_id: Optional[str] = Query(None, description="Target curriculum topic ID or title"),
     count: int = Query(3, ge=1, le=10, description="Number of questions to generate"),
     language: Optional[str] = Query(None, description="Language code (en, hi, gu)"),
     exam_code: Optional[str] = Query(None, description="Optional competitive exam code (e.g. JEE_MAIN, JEE_ADVANCED, NEET_UG)"),
     db: Session = Depends(get_db),
 ):
     try:
+        if not topic_id:
+            rec = adaptive_practice_service.recommend_next_practice(
+                db=db,
+                student_id=student_id,
+                topic_id=None,
+                language=language,
+                exam_code=exam_code,
+            )
+            topic_id = rec.topic_id
+
         return adaptive_practice_service.generate_practice_questions(
             db=db,
             student_id=student_id,

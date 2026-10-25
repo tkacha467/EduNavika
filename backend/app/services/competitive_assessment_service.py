@@ -137,6 +137,7 @@ class CompetitiveAssessmentService:
         exam_code: str = "JEE_MAIN",
         mode: str = "CHAPTER_MOCK",
         chapter_id: Optional[str] = None,
+        paper_id: Optional[str] = None,
         duration_minutes: int = 45,
         total_questions: int = 20,
     ) -> Dict[str, Any]:
@@ -148,20 +149,51 @@ class CompetitiveAssessmentService:
         duration_seconds = duration_minutes * 60
         expires_at = now + timedelta(seconds=duration_seconds)
 
-        # Select questions based on mode
-        q_query = self.db.query(Question).filter(
+        # Base query for verified eligible questions
+        base_query = self.db.query(Question).filter(
             Question.eligibility_for_scoring == "ELIGIBLE_FOR_SCORING",
             Question.answer_verification_status != "UNVERIFIED",
             Question.quarantine_status == "CLEAN",
             Question.publish_permission != "FORBIDDEN",
         )
 
-        if chapter_id:
+        questions = []
+        if paper_id:
+            questions = (
+                base_query.filter(Question.exam_paper_id == paper_id)
+                .order_by(Question.paper_question_number)
+                .limit(total_questions)
+                .all()
+            )
+
+        if not questions and chapter_id:
             topics = self.db.query(Topic).filter(Topic.chapter_id == chapter_id).all()
             topic_ids = [t.id for t in topics]
-            q_query = q_query.filter(Question.topic_id.in_(topic_ids))
+            if topic_ids:
+                questions = (
+                    base_query.filter(Question.topic_id.in_(topic_ids))
+                    .order_by(Question.paper_question_number)
+                    .limit(total_questions)
+                    .all()
+                )
 
-        questions = q_query.limit(total_questions).all()
+        if not questions and exam_code:
+            paper_ids = [p.id for p in self.db.query(ExamPaper.id).filter(ExamPaper.exam_code == exam_code).all()]
+            if paper_ids:
+                questions = (
+                    base_query.filter(Question.exam_paper_id.in_(paper_ids))
+                    .order_by(Question.paper_question_number)
+                    .limit(total_questions)
+                    .all()
+                )
+
+        # Fallback: any eligible verified questions
+        if not questions:
+            questions = (
+                base_query.order_by(Question.paper_question_number)
+                .limit(total_questions)
+                .all()
+            )
 
         if not questions:
             raise ValueError(

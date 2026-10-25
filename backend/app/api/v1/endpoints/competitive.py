@@ -38,6 +38,7 @@ class StartAssessmentRequest(BaseModel):
     exam_code: str = Field(default="JEE_MAIN", description="JEE_MAIN, JEE_ADVANCED, or NEET_UG")
     mode: str = Field(default="CHAPTER_MOCK", description="CHAPTER_MOCK, SUBJECT_MOCK, or FULL_MOCK")
     chapter_id: Optional[str] = None
+    paper_id: Optional[str] = None
     duration_minutes: int = Field(default=45, ge=1, le=360)
     total_questions: int = Field(default=20, ge=1, le=200)
 
@@ -236,6 +237,7 @@ def start_assessment(payload: StartAssessmentRequest, db: Session = Depends(get_
             exam_code=payload.exam_code,
             mode=payload.mode,
             chapter_id=payload.chapter_id,
+            paper_id=payload.paper_id,
             duration_minutes=payload.duration_minutes,
             total_questions=payload.total_questions,
         )

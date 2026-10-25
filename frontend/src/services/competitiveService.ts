@@ -147,6 +147,7 @@ export const competitiveService = {
     exam_code: string;
     mode?: string;
     chapter_id?: string;
+    paper_id?: string;
     duration_minutes?: number;
     total_questions?: number;
   }): Promise<AssessmentSession> => {

@@ -3491,11 +3491,14 @@ export async function loadAdaptivePractice(topicId?: string): Promise<void> {
   const studentId = user.id || 'e09699dd-0c64-44cc-82ef-ab41a832e072';
 
   try {
-    // Concurrently fetch recommendation and questions
-    const [rec, res] = await Promise.all([
-      adaptiveService.getNextPracticeRecommendation(studentId, practiceState.topicId),
-      adaptiveService.getPracticeQuestions(studentId, practiceState.topicId, 3),
-    ]);
+    let targetTopicId = practiceState.topicId;
+    let rec = await adaptiveService.getNextPracticeRecommendation(studentId, targetTopicId);
+    if (!targetTopicId && rec?.topic_id) {
+      targetTopicId = rec.topic_id;
+      practiceState.topicId = rec.topic_id;
+    }
+
+    const res = await adaptiveService.getPracticeQuestions(studentId, targetTopicId, 3);
 
     // Stale response protection
     if (requestId !== currentPracticeRequestId) return;
@@ -4129,7 +4132,8 @@ export let pyqsState: {
 };
 
 export async function loadPyqPapers(examCode?: string, year?: number): Promise<void> {
-  const activeExam = examCode || pyqsState.selectedExam || 'JEE_ADVANCED';
+  const userExam = getSelectedExam();
+  const activeExam = examCode || pyqsState.selectedExam || (userExam !== 'GENERAL' ? userExam : 'NEET_UG');
   pyqsState.loading = true;
   pyqsState.selectedExam = activeExam;
   pyqsState.selectedYear = year;
@@ -4215,7 +4219,7 @@ export function studentPyqs(): string {
       'Previous-Year Papers (PYQs)',
       'Authentic JEE Advanced & NEET UG Examination Papers',
       'Solve full official previous-year papers under authentic exam conditions with server-timed scoring, marking rules, and verified solutions.',
-      '<button class="btn btn-primary" onclick="startCompetitiveTest(\'FULL_MOCK\')">' + icon('play') + ' Launch Full Mock</button>'
+      `<button class="btn btn-primary" onclick="startCompetitiveTest('FULL_MOCK', undefined, 180, undefined, '${selectedExam}')">${icon('play')} Launch Full Mock</button>`
     )}
 
     <!-- EXAM SELECTOR TABS -->
@@ -4275,7 +4279,7 @@ export function studentPyqs(): string {
                 Source: Physical Official Examination Dataset Archive
               </p>
               <div class="flex gap-2 items-center tiny mb-4" style="color:var(--text-2);background:var(--surface-2);padding:6px 10px;border-radius:8px">
-                <span>📝 <b>${p.total_questions || 54}</b> Questions</span>
+                <span>📝 <b>${p.total_questions || (p.exam_code === 'NEET_UG' ? 200 : 54)}</b> Questions</span>
                 <span>·</span>
                 <span>⏱️ <b>180</b> Mins</span>
                 <span>·</span>
@@ -4286,7 +4290,7 @@ export function studentPyqs(): string {
               <button class="btn btn-sm btn-outline" style="flex:1" onclick="openPaperQuestionsModal('${p.id}', '${p.paper_identifier}')">
                 Inspect Qs
               </button>
-              <button class="btn btn-sm btn-primary" style="flex:1" onclick="startCompetitiveTest('FULL_MOCK', undefined, 180)">
+              <button class="btn btn-sm btn-primary" style="flex:1" onclick="startCompetitiveTest('FULL_MOCK', undefined, 180, '${p.id}', '${p.exam_code}')">
                 ${icon('play')} Take Mock
               </button>
             </div>
@@ -4322,7 +4326,7 @@ export async function openPaperQuestionsModal(paperId: string, title: string): P
           </div>
           <div class="flex-b mt-4">
             <button class="btn btn-outline" onclick="closeOverlay()">Close</button>
-            <button class="btn btn-primary" onclick="closeOverlay();startCompetitiveTest('FULL_MOCK', undefined, 180)">
+            <button class="btn btn-primary" onclick="closeOverlay();startCompetitiveTest('FULL_MOCK', undefined, 180, '${paperId}', '${pyqsState.selectedExam}')">
               ${icon('play')} Launch Timed Assessment
             </button>
           </div>
@@ -4331,27 +4335,39 @@ export async function openPaperQuestionsModal(paperId: string, title: string): P
       return;
     }
 
+    const examCode = data?.exam_code || pyqsState.selectedExam || 'JEE_ADVANCED';
+
     openModal(`
       <div style="padding:16px">
         <div class="flex-b items-center mb-3">
           <div>
-            <span class="badge indigo">Authentic PYQ Paper</span>
+            <span class="badge indigo">Authentic PYQ Paper · ${questions.length} Questions</span>
             <h3 style="font-size:17px;font-weight:800;margin:4px 0 0 0">${title}</h3>
           </div>
           <button class="btn btn-sm btn-icon" onclick="closeOverlay()">${icon('x')}</button>
         </div>
         <div style="max-height:480px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding-right:8px">
-          ${questions.slice(0, 10).map((q: any, idx: number) => `
+          ${questions.slice(0, 15).map((q: any, idx: number) => `
             <div style="background:var(--surface-2);border:1px solid var(--border-2);border-radius:10px;padding:14px">
               <div class="flex-b items-center mb-2">
                 <span class="badge grey">Q.${q.paper_question_number || idx + 1} (${q.question_type})</span>
                 <span class="badge green">✓ Authentic Primary Source</span>
               </div>
               <div style="font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:8px;line-height:1.5">${q.question_text}</div>
+              ${q.diagram_asset_url ? `
+                <div style="margin:8px 0 12px 0;text-align:center">
+                  <img src="${q.diagram_asset_url}" alt="Question Diagram" style="max-height:160px;border-radius:6px;border:1px solid var(--border)">
+                </div>
+              ` : ''}
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
                 ${(q.options || []).map((o: any) => `
                   <div style="background:var(--surface);border:1px solid var(--border-2);padding:6px 10px;border-radius:6px;font-size:12px">
                     <b>[${o.option_key}]</b> ${o.option_text}
+                    ${o.diagram_asset_url ? `
+                      <div style="margin-top:4px">
+                        <img src="${o.diagram_asset_url}" alt="Option ${o.option_key}" style="max-height:80px;border-radius:4px">
+                      </div>
+                    ` : ''}
                   </div>
                 `).join('')}
               </div>
@@ -4360,7 +4376,7 @@ export async function openPaperQuestionsModal(paperId: string, title: string): P
         </div>
         <div class="flex-b items-center pt-3 mt-3" style="border-top:1px solid var(--border-2)">
           <span class="tiny muted">Showing verified questions from authentic paper</span>
-          <button class="btn btn-primary" onclick="closeOverlay();startCompetitiveTest('FULL_MOCK', undefined, 180)">
+          <button class="btn btn-primary" onclick="closeOverlay();startCompetitiveTest('FULL_MOCK', undefined, 180, '${paperId}', '${examCode}')">
             ${icon('play')} Attempt Timed Test
           </button>
         </div>
@@ -4370,7 +4386,7 @@ export async function openPaperQuestionsModal(paperId: string, title: string): P
     console.debug('Error opening paper questions:', err);
     closeOverlay();
     toast('Notice', 'Paper questions loaded for timed mock attempt', 'good');
-    startCompetitiveTest('FULL_MOCK', undefined, 180);
+    startCompetitiveTest('FULL_MOCK', undefined, 180, paperId, pyqsState.selectedExam);
   }
 }
 
@@ -4392,8 +4408,10 @@ export async function startCompetitiveTest(
   mode: string = 'CHAPTER_MOCK',
   chapterId?: string,
   durationMinutes: number = 45,
+  paperId?: string,
+  examCodeOverride?: string,
 ): Promise<void> {
-  const currentExam = getSelectedExam();
+  const currentExam = examCodeOverride || getSelectedExam();
   const examCode = currentExam === 'GENERAL' ? 'JEE_MAIN' : currentExam;
 
   openModal(`
@@ -4411,8 +4429,9 @@ export async function startCompetitiveTest(
       exam_code: examCode,
       mode,
       chapter_id: chapterId,
+      paper_id: paperId,
       duration_minutes: durationMinutes,
-      total_questions: mode === 'FULL_MOCK' ? 54 : 20,
+      total_questions: mode === 'FULL_MOCK' ? (examCode === 'NEET_UG' ? 200 : 54) : 20,
     });
 
     if (activeExamSession.timerInterval) {

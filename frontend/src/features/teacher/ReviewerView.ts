@@ -522,69 +522,71 @@ function renderDetail(): void {
 }
 
 // Global Window Bindings for UI Interactivity
-window.refreshReviewQueue = () => {
-  fetchQueue();
-};
+if (typeof window !== 'undefined') {
+  window.refreshReviewQueue = () => {
+    fetchQueue();
+  };
 
-window.handleReviewSearch = (val: string) => {
-  state.filters.search = val;
-  renderQueue();
-};
+  window.handleReviewSearch = (val: string) => {
+    state.filters.search = val;
+    renderQueue();
+  };
 
-window.handleReviewFilter = (key: string, val: string) => {
-  (state.filters as any)[key] = val;
-  fetchQueue();
-};
+  window.handleReviewFilter = (key: string, val: string) => {
+    (state.filters as any)[key] = val;
+    fetchQueue();
+  };
 
-window.setReviewDecision = (decision: 'APPROVED' | 'NEEDS_CORRECTION' | 'REJECTED') => {
-  state.form.decision = decision;
-  state.form.error = null;
-  renderDetail();
-};
-
-window.setReviewNotes = (notes: string) => {
-  state.form.notes = notes;
-};
-
-window.submitQuestionReviewDecision = async () => {
-  if (!state.selectedQuestionId) return;
-
-  const decision = state.form.decision;
-  const notes = state.form.notes.trim();
-
-  // Client-side validation enforcing required notes for non-approval
-  if ((decision === 'REJECTED' || decision === 'NEEDS_CORRECTION') && notes.length < 5) {
-    state.form.error = 'Reviewer audit notes of at least 5 characters are required for rejection or correction requests.';
+  window.setReviewDecision = (decision: 'APPROVED' | 'NEEDS_CORRECTION' | 'REJECTED') => {
+    state.form.decision = decision;
+    state.form.error = null;
     renderDetail();
-    return;
-  }
+  };
 
-  state.form.submitting = true;
-  state.form.error = null;
-  renderDetail();
+  window.setReviewNotes = (notes: string) => {
+    state.form.notes = notes;
+  };
 
-  try {
-    const payload: any = {
-      decision: decision,
-      review_notes: notes || undefined,
-    };
+  window.submitQuestionReviewDecision = async () => {
+    if (!state.selectedQuestionId) return;
 
-    if (state.selectedDetail && state.selectedDetail.diagram_asset_url) {
-      payload.asset_ids_reviewed = [state.selectedDetail.diagram_asset_url];
+    const decision = state.form.decision;
+    const notes = state.form.notes.trim();
+
+    // Client-side validation enforcing required notes for non-approval
+    if ((decision === 'REJECTED' || decision === 'NEEDS_CORRECTION') && notes.length < 5) {
+      state.form.error = 'Reviewer audit notes of at least 5 characters are required for rejection or correction requests.';
+      renderDetail();
+      return;
     }
 
-    await competitiveService.submitQuestionReview(state.selectedQuestionId, payload);
-    toast(`Review decision committed: ${decision}`, '', 'good');
-
-    // Reset notes
-    state.form.notes = '';
-    // Reload question detail and update queue item
-    await selectReviewQuestion(state.selectedQuestionId);
-    await fetchQueue();
-  } catch (err: any) {
-    state.form.error = err.message || 'Failed to submit review decision. Ensure you have authorized reviewer permissions.';
+    state.form.submitting = true;
+    state.form.error = null;
     renderDetail();
-  } finally {
-    state.form.submitting = false;
-  }
-};
+
+    try {
+      const payload: any = {
+        decision: decision,
+        review_notes: notes || undefined,
+      };
+
+      if (state.selectedDetail && state.selectedDetail.diagram_asset_url) {
+        payload.asset_ids_reviewed = [state.selectedDetail.diagram_asset_url];
+      }
+
+      await competitiveService.submitQuestionReview(state.selectedQuestionId, payload);
+      toast(`Review decision committed: ${decision}`, '', 'good');
+
+      // Reset notes
+      state.form.notes = '';
+      // Reload question detail and update queue item
+      await selectReviewQuestion(state.selectedQuestionId);
+      await fetchQueue();
+    } catch (err: any) {
+      state.form.error = err.message || 'Failed to submit review decision. Ensure you have authorized reviewer permissions.';
+      renderDetail();
+    } finally {
+      state.form.submitting = false;
+    }
+  };
+}
