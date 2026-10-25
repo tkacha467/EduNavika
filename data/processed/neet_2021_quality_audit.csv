@@ -1,0 +1,2106 @@
+exam_code,exam_year,booklet_code,question_number,subject,section,source_pdf_file,source_pdf_page,source_pdf_hash,raw_stem,normalized_stem,option_A_raw,option_A_normalized,option_B_raw,option_B_normalized,option_C_raw,option_C_normalized,option_D_raw,option_D_normalized,official_raw_answer,normalized_answer,option_mapping,reconciliation_status,scoring_eligibility,eligibility_reason,manual_review_status,validation_flags,rejection_reasons,audited_at
+NEET_UG,2021,M4,1,Physics,Section A,neet-2021.pdf,2,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Consider the following statements (A) and (B)
+and identify the correct answer.
+(A)
+A zener diode is connected in reverse bias,
+when used as a voltage regulator.
+(B)
+The potential barrier of p-n junction lies
+between 0.1 V to 0.3 V.","Consider the following statements (A) and (B) and identify the correct answer. (A) A zener diode is connected in reverse bias, when used as a voltage regulator. (B) The potential barrier of p-n junction lies between 0.1 V to 0.3 V.",(A) and (B) both are correct.,(A) and (B) both are correct.,(A) and (B) both are incorrect.,(A) and (B) both are incorrect.,(A) is correct and (B) is incorrect.,(A) is correct and (B) is incorrect.,(A) is incorrect but (B) is correct.,(A) is incorrect but (B) is correct.,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,2,Physics,Section A,neet-2021.pdf,2,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A capacitor of capacitance ‘C’, is connected across
+an ac source of voltage V, given by
+V=V0 sinωt
+The displacement current between the plates of
+the capacitor, would then be given by :","A capacitor of capacitance ‘C’, is connected across an ac source of voltage V, given by V=V0 sinωt The displacement current between the plates of the capacitor, would then be given by :",Id=V0 ωCcosωt,Id=V0 ωCcosωt,"=
+ω
+ω
+0
+d
+V
+I
+cos t
+C",= ω ω 0 d V I cos t C,"=
+ω
+ω
+0
+d
+V
+I
+sin t
+C",= ω ω 0 d V I sin t C,Id=V0 ωCsinωt,Id=V0 ωCsinωt,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,3,Physics,Section A,neet-2021.pdf,2,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A body is executing simple harmonic motion with
+frequency ‘n’, the frequency of its potential energy
+is :","A body is executing simple harmonic motion with frequency ‘n’, the frequency of its potential energy is :",n,n,2n,2n,3n,3n,4n,4n,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,4,Physics,Section A,neet-2021.pdf,2,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The equivalent capacitance of the combination
+shown in the figure is :",The equivalent capacitance of the combination shown in the figure is :,3C,3C,2C,2C,C/2,C/2,3C/2,3C/2,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_REQUIRES_ASSET,Stem depends on essential circuit/apparatus figure. Ineligible for scoring without image.,REQUIRES_DIAGRAM_IMAGE_LINKING,HARD_STEM_DIAGRAM_DEPENDENCY,Question stem has hard dependency on missing circuit or apparatus diagram,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,5,Physics,Section A,neet-2021.pdf,2,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Find the value of the angle of emergence from the
+prism.  Refractive index of the glass is 3 .",Find the value of the angle of emergence from the prism. Refractive index of the glass is 3 .,608,608,308,308,458,458,908,908,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,6,Physics,Section A,neet-2021.pdf,2,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A dipole is placed in an electric field as shown.  In
+which direction will it move ?",A dipole is placed in an electric field as shown. In which direction will it move ?,"towards the left as its potential energy will
+increase.",towards the left as its potential energy will increase.,"towards the right as its potential energy will
+decrease.",towards the right as its potential energy will decrease.,"towards the left as its potential energy will
+decrease.",towards the left as its potential energy will decrease.,"towards the right as its potential energy will
+increase.",towards the right as its potential energy will increase.,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,7,Physics,Section A,neet-2021.pdf,2,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match Column - I and Column - II and choose
+the correct match from the given choices.
+Column - I
+Column - II
+(A)
+Root mean square
+(P)
+2
+1 nm
+ 
+3
+v
+speed of gas molecules
+(B)
+Pressure exerted
+(Q)
+3 RT
+M
+by ideal gas
+(C)
+Average kinetic energy
+(R)
+5 RT
+2
+of a molecule
+(D)
+Total internal energy
+(S)
+B
+3 k T
+2
+of 1 mole of a
+diatomic gas",Match Column - I and Column - II and choose the correct match from the given choices. Column - I Column - II (A) Root mean square (P) 1 nm v speed of gas molecules (B) Pressure exerted (Q) 3 RT M by ideal gas (C) Average kinetic energy (R) 5 RT of a molecule (D) Total internal energy (S) B 3 k T of 1 mole of a diatomic gas,"(A) - (R), (B) - (P), (C) - (S), (D) - (Q)","(A) - (R), (B) - (P), (C) - (S), (D) - (Q)","(A) - (Q), (B) - (R), (C) - (S), (D) - (P)","(A) - (Q), (B) - (R), (C) - (S), (D) - (P)","(A) - (Q), (B) - (P), (C) - (S), (D) - (R)","(A) - (Q), (B) - (P), (C) - (S), (D) - (R)","(A) - (R), (B) - (Q), (C) - (P), (D) - (S)
+
+3
+M4","(A) - (R), (B) - (Q), (C) - (P), (D) - (S) 3",3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,8,Physics,Section A,neet-2021.pdf,3,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A convex lens ‘A’ of focal length 20 cm and a concave
+lens ‘B’ of focal length 5 cm are kept along the
+same axis with a distance ‘d’ between them.  If a
+parallel beam of light falling on ‘A’ leaves ‘B’ as a
+parallel beam, then the distance ‘d’ in cm will be :","A convex lens ‘A’ of focal length 20 cm and a concave lens ‘B’ of focal length 5 cm are kept along the same axis with a distance ‘d’ between them. If a parallel beam of light falling on ‘A’ leaves ‘B’ as a parallel beam, then the distance ‘d’ in cm will be :",25,25,15,15,50,50,30,30,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,9,Physics,Section A,neet-2021.pdf,3,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"If force [ F ], acceleration [ A ] and time [ T ] are
+chosen as the fundamental physical quantities.
+Find the dimensions of energy.","If force [ F ], acceleration [ A ] and time [ T ] are chosen as the fundamental physical quantities. Find the dimensions of energy.",[ F ] [ A ] [ T ],[ F ] [ A ] [ T ],[ F ] [ A ] [ T2 ],[ F ] [ A ] [ T2 ],[ F ] [ A ] [ T−1 ],[ F ] [ A ] [ T−1 ],[ F ] [ A−1 ] [ T ],[ F ] [ A−1 ] [ T ],2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,10,Physics,Section A,neet-2021.pdf,3,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A cup of coffee cools from 908C to 808C in t minutes,
+when the room temperature is 208C.  The time
+taken by a similar cup of coffee to cool from 808C
+to 608C at a room temperature same at 208C is :","A cup of coffee cools from 908C to 808C in t minutes, when the room temperature is 208C. The time taken by a similar cup of coffee to cool from 808C to 608C at a room temperature same at 208C is :","13 t
+10",13 t 10,"13 t
+5",13 t 5,"10 t
+13",10 t 13,"5 t
+13",5 t 13,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,11,Physics,Section A,neet-2021.pdf,3,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A particle is released from height S from the
+surface of the Earth.  At a certain height its kinetic
+energy is three times its potential energy.  The
+height from the surface of earth and the speed of
+the particle at that instant are respectively :",A particle is released from height S from the surface of the Earth. At a certain height its kinetic energy is three times its potential energy. The height from the surface of earth and the speed of the particle at that instant are respectively :,"S
+3gS
+ 
+4
+2
+,","S 3gS 4 2 ,","3gS
+S 
+4
+2
+,","3gS S 4 2 ,","3gS
+S 
+2
+2
+,","3gS S 2 2 ,","S
+3gS
+ 
+4
+2
+,","S 3gS 4 2 ,",4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,12,Physics,Section A,neet-2021.pdf,3,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The velocity of a small ball of mass M and density
+d, when dropped in a container filled with glycerine
+becomes constant after some time.  If the density
+of glycerine is d
+2
+, then the viscous force acting on
+the ball will be :","The velocity of a small ball of mass M and density d, when dropped in a container filled with glycerine becomes constant after some time. If the density of glycerine is d , then the viscous force acting on the ball will be :","Mg
+2",Mg 2,Mg,Mg,"3 Mg
+2",3 Mg 2,2 Mg,2 Mg,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,13,Physics,Section A,neet-2021.pdf,3,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"For a plane electromagnetic wave propagating in
+x-direction, which one of the following combination
+gives the correct possible directions for electric
+field (E) and magnetic field (B) respectively ?","For a plane electromagnetic wave propagating in x-direction, which one of the following combination gives the correct possible directions for electric field (E) and magnetic field (B) respectively ?","∧
+∧
+∧
+∧
++
++
+ 
+j
+k, j
+k","∧ ∧ ∧ ∧ + + j k, j k","∧
+∧
+∧
+∧
+−+
+−−
+ 
+j
+k,
+j
+k","∧ ∧ ∧ ∧ −+ −− j k, j k","∧
+∧
+∧
+∧
++
+−−
+ 
+j
+k,
+j
+k","∧ ∧ ∧ ∧ + −− j k, j k","∧
+∧
+∧
+∧
+−+
+−+
+ 
+j
+k,
+j
+k","∧ ∧ ∧ ∧ −+ −+ j k, j k",2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,14,Physics,Section A,neet-2021.pdf,3,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Column - I gives certain physical terms associated
+with flow of current through a metallic conductor.
+Column - II gives some mathematical relations
+involving electrical quantities.  Match
+Column - I and Column - II with appropriate
+relations.
+Column - I
+Column - II
+(A)
+Drift Velocity
+(P)
+2
+m
+ne ρ
+(B)
+Electrical Resistivity
+(Q)
+nevd
+(C)
+Relaxation Period
+(R)
+eE
+m τ
+(D)
+Current Density
+(S)
+E
+J",Column - I gives certain physical terms associated with flow of current through a metallic conductor. Column - II gives some mathematical relations involving electrical quantities. Match Column - I and Column - II with appropriate relations. Column - I Column - II (A) Drift Velocity (P) m ne ρ (B) Electrical Resistivity (Q) nevd (C) Relaxation Period (R) eE m τ (D) Current Density (S) E J,"(A)-(R), (B)-(S), (C)-(P), (D)-(Q)","(A)-(R), (B)-(S), (C)-(P), (D)-(Q)","(A)-(R), (B)-(S), (C)-(Q), (D)-(P)","(A)-(R), (B)-(S), (C)-(Q), (D)-(P)","(A)-(R), (B)-(P), (C)-(S), (D)-(Q)","(A)-(R), (B)-(P), (C)-(S), (D)-(Q)","(A)-(R), (B)-(Q), (C)-(S), (D)-(P)","(A)-(R), (B)-(Q), (C)-(S), (D)-(P)",1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,15,Physics,Section A,neet-2021.pdf,3,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A spring is stretched by 5 cm by a force 10 N.  The
+time period of the oscillations when a mass of 2 kg
+is suspended by it is :",A spring is stretched by 5 cm by a force 10 N. The time period of the oscillations when a mass of 2 kg is suspended by it is :,0.0628 s,0.0628 s,6.28 s,6.28 s,3.14 s,3.14 s,"0.628 s
+
+4
+M4",0.628 s 4,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,16,Physics,Section A,neet-2021.pdf,4,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A parallel plate capacitor has a uniform electric
+field ‘ E
+→’ in the space between the plates.  If the
+distance between the plates is ‘d’ and the area of
+each plate is ‘A’, the energy stored in the capacitor
+is : (ε0=permittivity of free space)","A parallel plate capacitor has a uniform electric field ‘ E →’ in the space between the plates. If the distance between the plates is ‘d’ and the area of each plate is ‘A’, the energy stored in the capacitor is : (ε0=permittivity of free space)","2
+0
+1 ε E
+2",2 0 1 ε E 2,ε0EAd,ε0EAd,"2
+0
+1 ε E Ad
+2",2 0 1 ε E Ad 2,"2
+0
+E Ad
+ε",2 0 E Ad ε,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,17,Physics,Section A,neet-2021.pdf,4,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"An infinitely long straight conductor carries a
+current of 5 A as shown.  An electron is moving
+with a speed of 105 m/s parallel to the conductor.
+The perpendicular distance between the electron
+and the conductor is 20 cm at an instant.
+Calculate the magnitude of the force experienced
+by the electron at that instant.",An infinitely long straight conductor carries a current of 5 A as shown. An electron is moving with a speed of 105 m/s parallel to the conductor. The perpendicular distance between the electron and the conductor is 20 cm at an instant. Calculate the magnitude of the force experienced by the electron at that instant.,4×10−20 N,4×10−20 N,8π×10−20 N,8π×10−20 N,4π×10−20 N,4π×10−20 N,8×10−20 N,8×10−20 N,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,18,Physics,Section A,neet-2021.pdf,4,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A lens of large focal length and large aperture is
+best suited as an objective of an astronomical
+telescope since :",A lens of large focal length and large aperture is best suited as an objective of an astronomical telescope since :,"a large aperture contributes to the quality
+and visibility of the images.",a large aperture contributes to the quality and visibility of the images.,"a large area of the objective ensures better
+light gathering power.",a large area of the objective ensures better light gathering power.,a large aperture provides a better resolution.,a large aperture provides a better resolution.,all of the above.,all of the above.,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.373268+00:00
+NEET_UG,2021,M4,19,Physics,Section A,neet-2021.pdf,4,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A radioactive nucleus A
+ZX undergoes spontaneous
+decay in the sequence
+A
+Z 1
+Z 3
+Z 2
+ZX
+B
+C
+D
+−
+−
+−
+→
+→
+→
+, where Z is the
+atomic number of element X.  The possible decay
+particles in the sequence are :","A radioactive nucleus A ZX undergoes spontaneous decay in the sequence A Z 1 Z 3 Z 2 ZX B C D − − − → → → , where Z is the atomic number of element X. The possible decay particles in the sequence are :","α, β−, β+","α, β−, β+","α, β+, β−","α, β+, β−","β+, α, β−","β+, α, β−","β−, α, β+","β−, α, β+",3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,20,Physics,Section A,neet-2021.pdf,4,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"An inductor of inductance L, a capacitor of
+capacitance C and a resistor of resistance ‘R’ are
+connected in series to an ac source of potential
+difference ‘V’ volts as shown in figure.
+Potential difference across L, C and R is 40 V,
+10 V and 40 V, respectively.  The amplitude of
+current flowing through LCR series circuit is
+10 2 A.  The impedance of the circuit is :","An inductor of inductance L, a capacitor of capacitance C and a resistor of resistance ‘R’ are connected in series to an ac source of potential difference ‘V’ volts as shown in figure. Potential difference across L, C and R is 40 V, 10 V and 40 V, respectively. The amplitude of current flowing through LCR series circuit is 10 2 A. The impedance of the circuit is :","Ω
+4 2",Ω 4 2,"5
+2 Ω",5 2 Ω,4 Ω,4 Ω,5 Ω,5 Ω,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_REQUIRES_ASSET,Stem depends on essential circuit/apparatus figure. Ineligible for scoring without image.,REQUIRES_DIAGRAM_IMAGE_LINKING,HARD_STEM_DIAGRAM_DEPENDENCY,Question stem has hard dependency on missing circuit or apparatus diagram,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,21,Physics,Section A,neet-2021.pdf,4,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The escape velocity from the Earth’s surface is v.
+The escape velocity from the surface of another
+planet having a radius, four times that of Earth
+and same mass density is :","The escape velocity from the Earth’s surface is v. The escape velocity from the surface of another planet having a radius, four times that of Earth and same mass density is :",v,v,2 v,2 v,3 v,3 v,4 v,4 v,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,22,Physics,Section A,neet-2021.pdf,4,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A screw gauge gives the following readings when
+used to measure the diameter of a wire
+Main scale reading : 0 mm
+Circular scale reading : 52 divisions
+Given that 1 mm on main scale corresponds to
+100 divisions on the circular scale.  The diameter
+of the wire from the above data is :",A screw gauge gives the following readings when used to measure the diameter of a wire Main scale reading : 0 mm Circular scale reading : 52 divisions Given that 1 mm on main scale corresponds to 100 divisions on the circular scale. The diameter of the wire from the above data is :,0.52 cm,0.52 cm,0.026 cm,0.026 cm,0.26 cm,0.26 cm,0.052 cm,0.052 cm,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,23,Physics,Section A,neet-2021.pdf,4,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Water falls from a height of 60 m at the rate of
+15 kg/s to operate a turbine.  The losses due to
+frictional force are 10% of the input energy.  How
+much power is generated by the turbine ?
+(g=10 m/s2)",Water falls from a height of 60 m at the rate of 15 kg/s to operate a turbine. The losses due to frictional force are 10% of the input energy. How much power is generated by the turbine ? (g=10 m/s2),10.2 kW,10.2 kW,8.1 kW,8.1 kW,12.3 kW,12.3 kW,"7.0 kW
+
+5
+M4",7.0 kW 5,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,24,Physics,Section A,neet-2021.pdf,5,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A small block slides down on a smooth inclined
+plane, starting from rest at time t=0.  Let Sn be
+the distance travelled by the block in the interval
+t=n−1 to t=n.  Then, the ratio 
+n
+n
+1
+S
+S +
+ is :","A small block slides down on a smooth inclined plane, starting from rest at time t=0. Let Sn be the distance travelled by the block in the interval t=n−1 to t=n. Then, the ratio n n S S + is :","2n
+1
+2n
+−",2n 1 2n −,"2n
+1
+2n
+1
+−
++",2n 1 2n 1 − +,"2n
+1
+2n
+1
++
+−",2n 1 2n 1 + −,"2n
+2n
+1
+−",2n 2n 1 −,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,25,Physics,Section A,neet-2021.pdf,5,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Polar molecules are the molecules :,Polar molecules are the molecules :,having zero dipole moment.,having zero dipole moment.,"acquire a dipole moment only in the presence
+of electric field due to displacement of
+charges.",acquire a dipole moment only in the presence of electric field due to displacement of charges.,"acquire a dipole moment only when magnetic
+field is absent.",acquire a dipole moment only when magnetic field is absent.,having a permanent electric dipole moment.,having a permanent electric dipole moment.,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,26,Physics,Section A,neet-2021.pdf,5,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A thick current carrying cable of radius ‘R’ carries
+current ‘I’ uniformly distributed across its
+cross-section.  The variation of magnetic field B(r)
+due to the cable with the distance ‘r’ from the axis
+of the cable is represented by :",A thick current carrying cable of radius ‘R’ carries current ‘I’ uniformly distributed across its cross-section. The variation of magnetic field B(r) due to the cable with the distance ‘r’ from the axis of the cable is represented by :,,,,,,,,,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_EMPTY_OPTIONS,"Options ['A', 'B', 'C', 'D'] contain no text (vector drawings in PDF). Ineligible for scoring.",REQUIRES_VECTOR_DRAWING_EXTRACTION,"EMPTY_GRAPHICAL_OPTIONS:A,B,C,D","Options ['A', 'B', 'C', 'D'] are empty (requires vector graphic drawing asset)",2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,27,Physics,Section A,neet-2021.pdf,5,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"In a potentiometer circuit a cell of EMF 1.5 V gives
+balance point at 36 cm length of wire.  If another
+cell of EMF 2.5 V replaces the first cell, then at
+what length of the wire, the balance point occurs ?","In a potentiometer circuit a cell of EMF 1.5 V gives balance point at 36 cm length of wire. If another cell of EMF 2.5 V replaces the first cell, then at what length of the wire, the balance point occurs ?",60 cm,60 cm,21.6 cm,21.6 cm,64 cm,64 cm,62 cm,62 cm,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,28,Physics,Section A,neet-2021.pdf,5,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Two charged spherical conductors of radius R1 and
+R2 are connected by a wire.  Then the ratio of
+surface charge densities of the spheres (σ1/σ2) is :",Two charged spherical conductors of radius R1 and R2 are connected by a wire. Then the ratio of surface charge densities of the spheres (σ1/σ2) is :,"1
+2
+R
+R",1 2 R R,"2
+1
+R
+R",2 1 R R,"1
+2
+R
+R
+
+
+
+
+
+",1 2 R R      ,"2
+2
+1
+2
+R
+R",2 2 1 2 R R,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,29,Physics,Section A,neet-2021.pdf,5,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"An electromagnetic wave of wavelength ‘λ’ is
+incident on a photosensitive surface of negligible
+work function.  If ‘m’ mass is of photoelectron
+emitted from the surface has de-Broglie wavelength
+λd, then :","An electromagnetic wave of wavelength ‘λ’ is incident on a photosensitive surface of negligible work function. If ‘m’ mass is of photoelectron emitted from the surface has de-Broglie wavelength λd, then :","2
+d
+2m
+hc
+
+
+
+
+
+
+λ=
+λ",2 d 2m hc       λ= λ,"2
+d
+2mc
+h
+
+
+
+
+
+
+λ =
+λ",2 d 2mc h       λ = λ,"2
+d
+2mc
+h
+
+
+
+
+
+
+λ=
+λ",2 d 2mc h       λ= λ,"2
+d
+2h
+mc
+
+
+
+
+
+
+λ=
+λ",2 d 2h mc       λ= λ,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,30,Physics,Section A,neet-2021.pdf,5,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The electron concentration in an n-type
+semiconductor is the same as hole concentration
+in a p-type semiconductor.  An external field
+(electric) is applied across each of them.  Compare
+the currents in them.",The electron concentration in an n-type semiconductor is the same as hole concentration in a p-type semiconductor. An external field (electric) is applied across each of them. Compare the currents in them.,current in n-type=current in p-type.,current in n-type=current in p-type.,current in p-type > current in n-type.,current in p-type > current in n-type.,current in n-type > current in p-type.,current in n-type > current in p-type.,"No current will flow in p-type, current will
+only flow in n-type.
+
+6
+M4","No current will flow in p-type, current will only flow in n-type. 6",3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,31,Physics,Section A,neet-2021.pdf,6,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The number of photons per second on an average
+emitted by the source of monochromatic light of
+wavelength 600 nm, when it delivers the power of
+3.3×10−3 watt will be : (h=6.6×10−34 Js)","The number of photons per second on an average emitted by the source of monochromatic light of wavelength 600 nm, when it delivers the power of 3.3×10−3 watt will be : (h=6.6×10−34 Js)",1018,1018,1017,1017,1016,1016,1015,1015,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,32,Physics,Section A,neet-2021.pdf,6,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"If E and G respectively denote energy and
+gravitational constant, then E
+G
+ has the dimensions
+of :","If E and G respectively denote energy and gravitational constant, then E G has the dimensions of :","[ M2
+ ] [ L−1
+ ] [ T0
+ ]",[ M2 ] [ L−1 ] [ T0 ],"[ M ] [ L−1
+ ] [ T−1
+ ]",[ M ] [ L−1 ] [ T−1 ],"[ M ] [ L0
+ ] [ T0
+ ]",[ M ] [ L0 ] [ T0 ],"[ M2
+ ] [ L−2
+ ] [ T−1
+ ]",[ M2 ] [ L−2 ] [ T−1 ],1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,33,Physics,Section A,neet-2021.pdf,6,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The effective resistance of a parallel connection that
+consists of four wires of equal length, equal area of
+cross-section and same material is 0.25 Ω.  What
+will be the effective resistance if they are connected
+in series ?","The effective resistance of a parallel connection that consists of four wires of equal length, equal area of cross-section and same material is 0.25 Ω. What will be the effective resistance if they are connected in series ?",0.25 Ω,0.25 Ω,0.5 Ω,0.5 Ω,1 Ω,1 Ω,4 Ω,4 Ω,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,34,Physics,Section A,neet-2021.pdf,6,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The half-life of a radioactive nuclide is 100 hours.
+The fraction of original activity that will remain
+after 150 hours would be :",The half-life of a radioactive nuclide is 100 hours. The fraction of original activity that will remain after 150 hours would be :,1/2,1/2,"1
+2 2",1 2 2,"2
+3",2/3,"2
+3 2",2 3 2,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,35,Physics,Section A,neet-2021.pdf,6,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A nucleus with mass number 240 breaks into two
+fragments each of mass number 120, the binding
+energy per nucleon of unfragmented nuclei is
+7.6 MeV while that of fragments is 8.5 MeV.  The
+total gain in the Binding Energy in the process is :","A nucleus with mass number 240 breaks into two fragments each of mass number 120, the binding energy per nucleon of unfragmented nuclei is 7.6 MeV while that of fragments is 8.5 MeV. The total gain in the Binding Energy in the process is :",0.9 MeV,0.9 MeV,9.4 MeV,9.4 MeV,804 MeV,804 MeV,"216 MeV
+Section - B (Physics)",216 MeV,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,36,Physics,Section B,neet-2021.pdf,6,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Two conducting circular loops of radii R1 and R2
+are placed in the same plane with their centres
+coinciding.  If R1> > R2 , the mutual inductance M
+between them will be directly proportional to :","Two conducting circular loops of radii R1 and R2 are placed in the same plane with their centres coinciding. If R1> > R2 , the mutual inductance M between them will be directly proportional to :","1
+2
+R
+R",1 2 R R,"2
+1
+R
+R",2 1 R R,"2
+1
+2
+R
+R",2 1 2 R R,"2
+2
+1
+R
+R",2 2 1 R R,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,37,Physics,Section B,neet-2021.pdf,6,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"In the product
+(
+)
+F
+q
+B
+v
+→
+→
+→
+=
+×
+  
+(
+)
+0
+q
+B
+B
+B
+v
+i
+j
+k
+→
+∧
+∧
+∧
+=
+×
++
++
+For q=1 and 
+2
+4
+6
+v
+i
+j
+k
+∧
+∧
+∧
+→
+=
++
++
+ and
+                     F
+4
+20
+12
+i
+j
+k
+→
+∧
+∧
+∧
+=
+−
++
+What will be the complete expression for B
+→
+ ?",In the product ( ) F q B v → → → = × ( ) q B B B v i j k → ∧ ∧ ∧ = × + + For q=1 and v i j k ∧ ∧ ∧ → = + + and F i j k → ∧ ∧ ∧ = − + What will be the complete expression for B → ?,"8
+8
+6
+i
+j
+k
+∧
+∧
+∧
+−
+−
+−",8 8 6 i j k ∧ ∧ ∧ − − −,"6
+6
+8
+i
+j
+k
+∧
+∧
+∧
+−
+−
+−",6 6 8 i j k ∧ ∧ ∧ − − −,"8
+8
+6
+i
+j
+k
+∧
+∧
+∧
++
+−",8 8 6 i j k ∧ ∧ ∧ + −,"6
+6
+8
+i
+j
+k
+∧
+∧
+∧
++
+−
+
+7
+M4",6 6 8 i j k ∧ ∧ ∧ + − 7,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,38,Physics,Section B,neet-2021.pdf,7,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"For the given circuit, the input digital signals are
+applied at the terminals A, B and C.  What would
+be the output at the terminal y ?","For the given circuit, the input digital signals are applied at the terminals A, B and C. What would be the output at the terminal y ?",,,,,,,,,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_EMPTY_OPTIONS,"Options ['A', 'B', 'C', 'D'] contain no text (vector drawings in PDF). Ineligible for scoring.",REQUIRES_VECTOR_DRAWING_EXTRACTION,"EMPTY_GRAPHICAL_OPTIONS:A,B,C,D; HARD_STEM_DIAGRAM_DEPENDENCY; FONT_GLYPH_ANOMALY","Options ['A', 'B', 'C', 'D'] are empty (requires vector graphic drawing asset); Question stem has hard dependency on missing circuit or apparatus diagram",2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,39,Physics,Section B,neet-2021.pdf,7,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A series LCR circuit containing 5.0 H inductor,
+80 µF capacitor and 40 Ω resistor is connected to
+230 V variable frequency ac source.  The angular
+frequencies of the source at which power
+transferred to the circuit is half the power at the
+resonant angular frequency are likely to be :","A series LCR circuit containing 5.0 H inductor, 80 µF capacitor and 40 Ω resistor is connected to 230 V variable frequency ac source. The angular frequencies of the source at which power transferred to the circuit is half the power at the resonant angular frequency are likely to be :",25 rad/s and 75 rad/s,25 rad/s and 75 rad/s,50 rad/s and 25 rad/s,50 rad/s and 25 rad/s,46 rad/s and 54 rad/s,46 rad/s and 54 rad/s,42 rad/s and 58 rad/s,42 rad/s and 58 rad/s,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,40,Physics,Section B,neet-2021.pdf,7,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A uniform rod of length 200 cm and mass 500 g is
+balanced on a wedge placed at 40 cm mark.  A
+mass of 2 kg is suspended from the rod at 20 cm
+and another unknown mass ‘m’ is suspended from
+the rod at 160 cm mark as shown in the figure.
+Find the value of ‘m’ such that the rod is in
+equilibrium.  (g=10 m/s2)",A uniform rod of length 200 cm and mass 500 g is balanced on a wedge placed at 40 cm mark. A mass of 2 kg is suspended from the rod at 20 cm and another unknown mass ‘m’ is suspended from the rod at 160 cm mark as shown in the figure. Find the value of ‘m’ such that the rod is in equilibrium. (g=10 m/s2),"1 kg
+2",1 kg 2,"1 kg
+3",1 kg 3,"1 kg
+6",1 kg 6,"1 kg
+12",1 kg 12,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_REQUIRES_ASSET,Stem depends on essential circuit/apparatus figure. Ineligible for scoring without image.,REQUIRES_DIAGRAM_IMAGE_LINKING,HARD_STEM_DIAGRAM_DEPENDENCY,Question stem has hard dependency on missing circuit or apparatus diagram,2026-10-22T06:31:10.374267+00:00
+NEET_UG,2021,M4,41,Physics,Section B,neet-2021.pdf,7,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A point object is placed at a distance of 60 cm from
+a convex lens of focal length 30 cm.  If a plane
+mirror were put perpendicular to the principal axis
+of the lens and at a distance of 40 cm from it, the
+final image would be formed at a distance of :","A point object is placed at a distance of 60 cm from a convex lens of focal length 30 cm. If a plane mirror were put perpendicular to the principal axis of the lens and at a distance of 40 cm from it, the final image would be formed at a distance of :","20 cm from the lens, it would be a real
+image.","20 cm from the lens, it would be a real image.","30 cm from the lens, it would be a real
+image.","30 cm from the lens, it would be a real image.","30 cm from the plane mirror, it would be a
+virtual image.","30 cm from the plane mirror, it would be a virtual image.","20 cm from the plane mirror, it would be a
+virtual image.","20 cm from the plane mirror, it would be a virtual image.",4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,42,Physics,Section B,neet-2021.pdf,7,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A car starts from rest and accelerates at 5 m/s2.
+At t=4 s, a ball is dropped out of a window by a
+person sitting in the car.  What is the velocity and
+acceleration of the ball at t=6 s ?
+(Take g=10 m/s2)","A car starts from rest and accelerates at 5 m/s2. At t=4 s, a ball is dropped out of a window by a person sitting in the car. What is the velocity and acceleration of the ball at t=6 s ? (Take g=10 m/s2)","20 m/s, 5 m/s2","20 m/s, 5 m/s2","20 m/s, 0","20 m/s, 0","20 2 m/s, 0","20 2 m/s, 0","20 2 m/s, 10 m/s2
+
+8
+M4","20 2 m/s, 10 m/s2 8",4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,43,Physics,Section B,neet-2021.pdf,8,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Twenty seven drops of same size are charged at
+220 V each.  They combine to form a bigger drop.
+Calculate the potential of the bigger drop.",Twenty seven drops of same size are charged at 220 V each. They combine to form a bigger drop. Calculate the potential of the bigger drop.,660 V,660 V,1320 V,1320 V,1520 V,1520 V,1980 V,1980 V,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,44,Physics,Section B,neet-2021.pdf,8,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A uniform conducting wire of length 12a and
+resistance ‘R’ is wound up as a current carrying
+coil in the shape of,
+(i)
+an equilateral triangle of side ‘a’.
+(ii)
+a square of side ‘a’.
+The magnetic dipole moments of the coil in each
+case respectively are :","A uniform conducting wire of length 12a and resistance ‘R’ is wound up as a current carrying coil in the shape of, (i) an equilateral triangle of side ‘a’. (ii) a square of side ‘a’. The magnetic dipole moments of the coil in each case respectively are :",3 Ia2 and 3 Ia2,3 Ia2 and 3 Ia2,3 Ia2 and Ia2,3 Ia2 and Ia2,3 Ia2 and 4 Ia2,3 Ia2 and 4 Ia2,4 Ia2 and 3 Ia2,4 Ia2 and 3 Ia2,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,45,Physics,Section B,neet-2021.pdf,8,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A ball of mass 0.15 kg is dropped from a height
+10 m, strikes the ground and rebounds to the same
+height.  The magnitude of impulse imparted to
+the ball is (g=10 m/s2) nearly :","A ball of mass 0.15 kg is dropped from a height 10 m, strikes the ground and rebounds to the same height. The magnitude of impulse imparted to the ball is (g=10 m/s2) nearly :",0 kg m/s,0 kg m/s,4.2 kg m/s,4.2 kg m/s,2.1 kg m/s,2.1 kg m/s,1.4 kg m/s,1.4 kg m/s,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,46,Physics,Section B,neet-2021.pdf,8,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A step down transformer connected to an ac mains
+supply of 220 V is made to operate at 11 V, 44 W
+lamp.  Ignoring power losses in the transformer,
+what is the current in the primary circuit ?","A step down transformer connected to an ac mains supply of 220 V is made to operate at 11 V, 44 W lamp. Ignoring power losses in the transformer, what is the current in the primary circuit ?",0.2 A,0.2 A,0.4 A,0.4 A,2 A,2 A,4 A,4 A,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,47,Physics,Section B,neet-2021.pdf,8,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A particle moving in a circle of radius R with a
+uniform speed takes a time T to complete one
+revolution.
+If this particle were projected with the same speed
+at an angle ‘θ’ to the horizontal, the maximum
+height attained by it equals 4R.  The angle of
+projection, θ, is then given by :","A particle moving in a circle of radius R with a uniform speed takes a time T to complete one revolution. If this particle were projected with the same speed at an angle ‘θ’ to the horizontal, the maximum height attained by it equals 4R. The angle of projection, θ, is then given by :","1
+2
+2
+1
+2
+gT
+cos
+R
+
+
+
+
+
+
+
+
+−
+θ=
+π",1 2 2 1 2 gT cos R         − θ= π,"1
+2
+2
+1
+2
+R
+cos
+gT
+
+
+
+
+
+
+
+
+−
+π
+θ=",1 2 2 1 2 R cos gT         − π θ=,"1
+2
+2
+1
+2
+R
+sin
+gT
+
+
+
+
+
+
+
+
+−
+π
+θ=",1 2 2 1 2 R sin gT         − π θ=,"1
+2
+2
+1
+2
+2gT
+sin
+R
+
+
+
+
+
+
+
+
+−
+θ=
+π",1 2 2 1 2 2gT sin R         − θ= π,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,48,Physics,Section B,neet-2021.pdf,8,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A particle of mass ‘m’ is projected with a velocity
+v=kVe(k < 1) from the surface of the earth.
+(Ve=escape velocity)
+The maximum height above the surface reached
+by the particle is :",A particle of mass ‘m’ is projected with a velocity v=kVe(k < 1) from the surface of the earth. (Ve=escape velocity) The maximum height above the surface reached by the particle is :,"2
+k
+R 1
+k
+
+
+
+
+
+
+−",2 k R 1 k       −,"2
+k
+R 1
+k
+
+
+
+
+
+
++",2 k R 1 k       +,"2
+R k
+1
+k
++",2 R k 1 k +,"2
+2
+Rk
+1
+k
+−
+
+9
+M4",2 2 Rk 1 k − 9,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,49,Physics,Section B,neet-2021.pdf,9,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Three resistors having resistances r1, r2 and r3
+are connected as shown in the given circuit.  The
+ratio 3
+1
+i
+i
+ of currents in terms of resistances used
+in the circuit is :","Three resistors having resistances r1, r2 and r3 are connected as shown in the given circuit. The ratio 3 i i of currents in terms of resistances used in the circuit is :","1
+2
+3
+r
+r
+r
++",1 2 3 r r r +,"2
+2
+3
+r
+r
+r
++",2 2 3 r r r +,"1
+1
+2
+r
+r
+r
++",1 1 2 r r r +,"2
+1
+3
+r
+r
+r
++",2 1 3 r r r +,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_REQUIRES_ASSET,Stem depends on essential circuit/apparatus figure. Ineligible for scoring without image.,REQUIRES_DIAGRAM_IMAGE_LINKING,HARD_STEM_DIAGRAM_DEPENDENCY,Question stem has hard dependency on missing circuit or apparatus diagram,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,50,Physics,Section B,neet-2021.pdf,9,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"From a circular ring of mass ‘M’ and radius ‘R’ an
+arc corresponding to a 908 sector is removed.  The
+moment of inertia of the remaining part of the ring
+about an axis passing through the centre of the
+ring and perpendicular to the plane of the ring is
+‘K’ times ‘MR2’.  Then the value of ‘K’ is :",From a circular ring of mass ‘M’ and radius ‘R’ an arc corresponding to a 908 sector is removed. The moment of inertia of the remaining part of the ring about an axis passing through the centre of the ring and perpendicular to the plane of the ring is ‘K’ times ‘MR2’. Then the value of ‘K’ is :,"3
+4",3/4,"7
+8",7/8,"1
+4",1/4,"1
+8
+Section - A (Chemistry)",1/8,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,51,Chemistry,Section A,neet-2021.pdf,9,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which one among the following is the correct option
+for right relationship between CP and CV for one
+mole of ideal gas ?",Which one among the following is the correct option for right relationship between CP and CV for one mole of ideal gas ?,CP+CV=R,CP+CV=R,CP−CV=R,CP−CV=R,CP=RCV,CP=RCV,CV=RCP,CV=RCP,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,52,Chemistry,Section A,neet-2021.pdf,9,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The correct option for the number of body centred
+unit cells in all 14 types of Bravais lattice unit
+cells is :",The correct option for the number of body centred unit cells in all 14 types of Bravais lattice unit cells is :,7,7,5,5,2,2,3,3,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,53,Chemistry,Section A,neet-2021.pdf,9,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Noble gases are named because of their inertness
+towards reactivity.  Identify an incorrect
+statement about them.",Noble gases are named because of their inertness towards reactivity. Identify an incorrect statement about them.,Noble gases are sparingly soluble in water.,Noble gases are sparingly soluble in water.,"Noble gases have very high melting and
+boiling points.",Noble gases have very high melting and boiling points.,Noble gases have weak dispersion forces.,Noble gases have weak dispersion forces.,"Noble gases have large positive values of
+electron gain enthalpy.",Noble gases have large positive values of electron gain enthalpy.,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,54,Chemistry,Section A,neet-2021.pdf,9,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The major product formed in dehydrohalogenation
+reaction of 2-Bromo pentane is Pent-2-ene.  This
+product formation is based on ?",The major product formed in dehydrohalogenation reaction of 2-Bromo pentane is Pent-2-ene. This product formation is based on ?,Saytzeff’s Rule,Saytzeff’s Rule,Hund’s Rule,Hund’s Rule,Hofmann Rule,Hofmann Rule,Huckel’s Rule,Huckel’s Rule,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,55,Chemistry,Section A,neet-2021.pdf,9,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,The compound which shows metamerism is :,The compound which shows metamerism is :,C5H12,C5H12,C3H8O,C3H8O,C3H6O,C3H6O,C4H10O,C4H10O,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,56,Chemistry,Section A,neet-2021.pdf,9,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"BF3 is planar and electron deficient compound.
+Hybridization and number of electrons around the
+central atom,  respectively are :","BF3 is planar and electron deficient compound. Hybridization and number of electrons around the central atom, respectively are :",sp3 and 4,sp3 and 4,sp3 and 6,sp3 and 6,sp2 and 6,sp2 and 6,sp2 and 8,sp2 and 8,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,57,Chemistry,Section A,neet-2021.pdf,9,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The right option for the statement “Tyndall effect
+is exhibited by”, is :","The right option for the statement “Tyndall effect is exhibited by”, is :",NaCl solution,NaCl solution,Glucose solution,Glucose solution,Starch solution,Starch solution,"Urea solution
+
+10
+M4",Urea solution 10,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,58,Chemistry,Section A,neet-2021.pdf,10,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Among the following alkaline earth metal halides,
+one which is covalent and soluble in organic
+solvents is :","Among the following alkaline earth metal halides, one which is covalent and soluble in organic solvents is :",Calcium chloride,Calcium chloride,Strontium chloride,Strontium chloride,Magnesium chloride,Magnesium chloride,Beryllium chloride,Beryllium chloride,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,59,Chemistry,Section A,neet-2021.pdf,10,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which one of the following methods can be used to
+obtain highly pure metal which is liquid at room
+temperature ?",Which one of the following methods can be used to obtain highly pure metal which is liquid at room temperature ?,Electrolysis,Electrolysis,Chromatography,Chromatography,Distillation,Distillation,Zone refining,Zone refining,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,60,Chemistry,Section A,neet-2021.pdf,10,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"For a reaction A→B, enthalpy of reaction is
+−4.2 kJ mol−1 and enthalpy of activation is
+9.6 kJ mol−1.  The correct potential energy profile
+for the reaction is shown in option.","For a reaction A→B, enthalpy of reaction is −4.2 kJ mol−1 and enthalpy of activation is 9.6 kJ mol−1. The correct potential energy profile for the reaction is shown in option.",,,,,,,,,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_EMPTY_OPTIONS,"Options ['A', 'B', 'C', 'D'] contain no text (vector drawings in PDF). Ineligible for scoring.",REQUIRES_VECTOR_DRAWING_EXTRACTION,"EMPTY_GRAPHICAL_OPTIONS:A,B,C,D","Options ['A', 'B', 'C', 'D'] are empty (requires vector graphic drawing asset)",2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,61,Chemistry,Section A,neet-2021.pdf,10,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which one of the following polymers is prepared
+by addition polymerisation ?",Which one of the following polymers is prepared by addition polymerisation ?,Teflon,Teflon,Nylon-66,Nylon-66,Novolac,Novolac,Dacron,Dacron,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,62,Chemistry,Section A,neet-2021.pdf,10,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The major product of the following chemical
+reaction is :",The major product of the following chemical reaction is :,,,,,,,"11
+M4",11,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_EMPTY_OPTIONS,"Options ['A', 'B', 'C'] contain no text (vector drawings in PDF). Ineligible for scoring.",REQUIRES_VECTOR_DRAWING_EXTRACTION,"EMPTY_GRAPHICAL_OPTIONS:A,B,C","Options ['A', 'B', 'C'] are empty (requires vector graphic drawing asset)",2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,63,Chemistry,Section A,neet-2021.pdf,11,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Choose the correct option for graphical
+representation of Boyle’s law, which shows a graph
+of pressure vs. volume of a gas at different
+temperatures :","Choose the correct option for graphical representation of Boyle’s law, which shows a graph of pressure vs. volume of a gas at different temperatures :",,,,,,,,,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_EMPTY_OPTIONS,"Options ['A', 'B', 'C', 'D'] contain no text (vector drawings in PDF). Ineligible for scoring.",REQUIRES_VECTOR_DRAWING_EXTRACTION,"EMPTY_GRAPHICAL_OPTIONS:A,B,C,D","Options ['A', 'B', 'C', 'D'] are empty (requires vector graphic drawing asset)",2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,64,Chemistry,Section A,neet-2021.pdf,11,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Dihedral angle of least stable conformer of ethane
+is :",Dihedral angle of least stable conformer of ethane is :,1208,1208,1808,1808,608,608,08,08,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,65,Chemistry,Section A,neet-2021.pdf,11,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"An organic compound contains 78% (by wt.) carbon
+and remaining percentage of hydrogen.  The right
+option for the empirical formula of this compound
+is :  [Atomic wt. of C is 12, H is 1]","An organic compound contains 78% (by wt.) carbon and remaining percentage of hydrogen. The right option for the empirical formula of this compound is : [Atomic wt. of C is 12, H is 1]",CH,CH,CH2,CH2,CH3,CH3,CH4,CH4,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,66,Chemistry,Section A,neet-2021.pdf,11,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The maximum temperature that can be achieved
+in blast furnace is :",The maximum temperature that can be achieved in blast furnace is :,upto 1200 K,upto 1200 K,upto 2200 K,upto 2200 K,upto 1900 K,upto 1900 K,upto 5000 K,upto 5000 K,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.375266+00:00
+NEET_UG,2021,M4,67,Chemistry,Section A,neet-2021.pdf,11,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The following solutions were prepared by dissolving
+10 g of glucose (C6H12O6) in 250 ml of water (P1),
+10 g of urea (CH4N2O) in 250 ml of water (P2) and
+10 g of sucrose (C12H22O11) in 250 ml of
+water (P3).  The right option for the decreasing
+order of osmotic pressure of these solutions is :","The following solutions were prepared by dissolving 10 g of glucose (C6H12O6) in 250 ml of water (P1), 10 g of urea (CH4N2O) in 250 ml of water (P2) and 10 g of sucrose (C12H22O11) in 250 ml of water (P3). The right option for the decreasing order of osmotic pressure of these solutions is :",P2 > P1 > P3,P2 > P1 > P3,P1 > P2 > P3,P1 > P2 > P3,P2 > P3 > P1,P2 > P3 > P1,P3 > P1 > P2,P3 > P1 > P2,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,68,Chemistry,Section A,neet-2021.pdf,11,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Zr (Z=40) and Hf (Z=72) have similar atomic and
+ionic radii because of :",Zr (Z=40) and Hf (Z=72) have similar atomic and ionic radii because of :,belonging to same group,belonging to same group,diagonal relationship,diagonal relationship,lanthanoid contraction,lanthanoid contraction,having similar chemical properties,having similar chemical properties,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,69,Chemistry,Section A,neet-2021.pdf,11,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The molar conductance of NaCl, HCl and
+CH3COONa at infinite dilution are 126.45, 426.16
+and 91.0 S cm2 mol−1 respectively.  The molar
+conductance of CH3COOH at infinite dilution is.
+Choose the right option for your answer.","The molar conductance of NaCl, HCl and CH3COONa at infinite dilution are 126.45, 426.16 and 91.0 S cm2 mol−1 respectively. The molar conductance of CH3COOH at infinite dilution is. Choose the right option for your answer.",201.28 S cm2 mol−1,201.28 S cm2 mol−1,390.71 S cm2 mol−1,390.71 S cm2 mol−1,698.28 S cm2 mol−1,698.28 S cm2 mol−1,540.48 S cm2 mol−1,540.48 S cm2 mol−1,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,70,Chemistry,Section A,neet-2021.pdf,11,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Right option for the number of tetrahedral and
+octahedral voids in hexagonal primitive unit cell
+are :",Right option for the number of tetrahedral and octahedral voids in hexagonal primitive unit cell are :,"8, 4","8, 4","6, 12","6, 12","2, 1","2, 1","12, 6","12, 6",4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,71,Chemistry,Section A,neet-2021.pdf,11,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A particular station of All India Radio, New Delhi,
+broadcasts on a frequency of 1,368 kHz (kilohertz).
+The wavelength of the electromagnetic radiation
+emitted by the transmitter is : [speed of light,
+c=3.0×108 ms−1]","A particular station of All India Radio, New Delhi, broadcasts on a frequency of 1,368 kHz (kilohertz). The wavelength of the electromagnetic radiation emitted by the transmitter is : [speed of light, c=3.0×108 ms−1]",219.3 m,219.3 m,219.2 m,219.2 m,2192 m,2192 m,21.92 cm,21.92 cm,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,72,Chemistry,Section A,neet-2021.pdf,11,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Ethylene diaminetetraacetate (EDTA) ion is :,Ethylene diaminetetraacetate (EDTA) ion is :,"Hexadentate ligand with four “O” and two
+“N” donor atoms",Hexadentate ligand with four “O” and two “N” donor atoms,Unidentate ligand,Unidentate ligand,Bidentate ligand with two “N” donor atoms,Bidentate ligand with two “N” donor atoms,"Tridentate ligand with three “N” donor
+atoms
+
+12
+M4",Tridentate ligand with three “N” donor atoms 12,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,73,Chemistry,Section A,neet-2021.pdf,12,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The correct sequence of bond enthalpy of ‘C–X’ bond
+is :",The correct sequence of bond enthalpy of ‘C–X’ bond is :,CH3−F < CH3−Cl < CH3−Br < CH3−I,CH3−F < CH3−Cl < CH3−Br < CH3−I,CH3−F > CH3−Cl > CH3−Br > CH3−I,CH3−F > CH3−Cl > CH3−Br > CH3−I,CH3−F < CH3−Cl > CH3−Br > CH3−I,CH3−F < CH3−Cl > CH3−Br > CH3−I,CH3−Cl > CH3−F > CH3−Br > CH3−I,CH3−Cl > CH3−F > CH3−Br > CH3−I,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,74,Chemistry,Section A,neet-2021.pdf,12,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The pKb of dimethylamine and pKa of acetic acid
+are 3.27 and 4.77 respectively at T (K).  The correct
+option for the pH of dimethylammonium acetate
+solution is :",The pKb of dimethylamine and pKa of acetic acid are 3.27 and 4.77 respectively at T (K). The correct option for the pH of dimethylammonium acetate solution is :,8.50,8.50,5.50,5.50,7.75,7.75,6.25,6.25,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,75,Chemistry,Section A,neet-2021.pdf,12,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The structures of beryllium chloride in solid state
+and vapour phase, are :","The structures of beryllium chloride in solid state and vapour phase, are :","Chain and dimer, respectively","Chain and dimer, respectively",Linear in both,Linear in both,"Dimer and Linear, respectively","Dimer and Linear, respectively",Chain in both,Chain in both,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,76,Chemistry,Section A,neet-2021.pdf,12,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Given below are two statements :
+Statement I :
+Aspirin and Paracetamol belong to the class of
+narcotic analgesics.
+ Statement II :
+Morphine and Heroin are non-narcotic analgesics.
+In the light of the above statements, choose the
+correct answer from the options given below.","Given below are two statements : Statement I : Aspirin and Paracetamol belong to the class of narcotic analgesics. Statement II : Morphine and Heroin are non-narcotic analgesics. In the light of the above statements, choose the correct answer from the options given below.","Both Statement I and Statement II are
+true.",Both Statement I and Statement II are true.,"Both Statement I and Statement II are
+false.",Both Statement I and Statement II are false.,"Statement I is correct but Statement II
+is false.",Statement I is correct but Statement II is false.,"Statement 
+I 
+is 
+incorrect 
+but
+Statement II is true.",Statement I is incorrect but Statement II is true.,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,77,Chemistry,Section A,neet-2021.pdf,12,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+List - I
+List - II
+(a)
+PCl5
+(i)
+Square pyramidal
+(b)
+SF6
+(ii)
+Trigonal planar
+(c)
+BrF5
+(iii)
+Octahedral
+(d)
+BF3
+(iv)
+Trigonal bipyramidal
+Choose the correct answer from the  options given
+below.",Match List - I with List - II. List - I List - II (a) PCl5 (i) Square pyramidal (b) SF6 (ii) Trigonal planar (c) BrF5 (iii) Octahedral (d) BF3 (iv) Trigonal bipyramidal Choose the correct answer from the options given below.,"(a)-(iv), (b)-(iii), (c)-(i), (d)-(ii)","(a)-(iv), (b)-(iii), (c)-(i), (d)-(ii)","(a)-(ii), (b)-(iii), (c)-(iv), (d)-(i)","(a)-(ii), (b)-(iii), (c)-(iv), (d)-(i)","(a)-(iii), (b)-(i), (c)-(iv), (d)-(ii)","(a)-(iii), (b)-(i), (c)-(iv), (d)-(ii)","(a)-(iv), (b)-(iii), (c)-(ii), (d)-(i)","(a)-(iv), (b)-(iii), (c)-(ii), (d)-(i)",1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,78,Chemistry,Section A,neet-2021.pdf,12,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Statement I :
+Acid strength increases in the order given as
+HF << HCl << HBr << HI.
+Statement II :
+As the size of the elements F, Cl, Br, I increases
+down the group, the bond strength of HF, HCl,
+HBr and HI decreases and so the acid strength
+increases.
+In the light of the above statements, choose the
+correct answer from the options given below.","Statement I : Acid strength increases in the order given as HF << HCl << HBr << HI. Statement II : As the size of the elements F, Cl, Br, I increases down the group, the bond strength of HF, HCl, HBr and HI decreases and so the acid strength increases. In the light of the above statements, choose the correct answer from the options given below.","Both Statement I and Statement II are
+true.",Both Statement I and Statement II are true.,"Both Statement I and Statement II are
+false.",Both Statement I and Statement II are false.,"Statement I is correct but Statement II
+is false.",Statement I is correct but Statement II is false.,"Statement 
+I 
+is 
+incorrect 
+but
+Statement II is true.",Statement I is incorrect but Statement II is true.,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,79,Chemistry,Section A,neet-2021.pdf,12,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Identify the compound that will react with Hinsberg’s
+reagent to give a solid which dissolves in alkali.",Identify the compound that will react with Hinsberg’s reagent to give a solid which dissolves in alkali.,,,,,,,,,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_EMPTY_OPTIONS,"Options ['A', 'B', 'C', 'D'] contain no text (vector drawings in PDF). Ineligible for scoring.",REQUIRES_VECTOR_DRAWING_EXTRACTION,"EMPTY_GRAPHICAL_OPTIONS:A,B,C,D","Options ['A', 'B', 'C', 'D'] are empty (requires vector graphic drawing asset)",2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,80,Chemistry,Section A,neet-2021.pdf,12,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"What is the IUPAC name of the organic compound
+formed in the following chemical reaction ?
+Acetone 
+2
+5
+2
+(i) C H MgBr dry Ether
+(ii) H O H
+,
+,
+→
++
+ Product","What is the IUPAC name of the organic compound formed in the following chemical reaction ? Acetone (i) C H MgBr dry Ether (ii) H O H , , → + Product",2-methyl propan-2-ol,2-methyl propan-2-ol,pentan-2-ol,pentan-2-ol,pentan-3-ol,pentan-3-ol,2-methyl butan-2-ol,2-methyl butan-2-ol,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,81,Chemistry,Section A,neet-2021.pdf,12,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following reactions is the metal
+displacement reaction ?  Choose the right option.",Which of the following reactions is the metal displacement reaction ? Choose the right option.,"2KClO3 →
+∆
+2KCl+3O2",2KClO3 → ∆ 2KCl+3O2,"Cr2O3+2Al →
+∆
+Al2O3+2Cr",Cr2O3+2Al → ∆ Al2O3+2Cr,Fe+2HCl → FeCl2+H2↑,Fe+2HCl → FeCl2+H2↑,"2Pb(NO3)2 → 2PbO+4NO2+O2↑
+
+13
+M4",2Pb(NO3)2 → 2PbO+4NO2+O2↑ 13,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,82,Chemistry,Section A,neet-2021.pdf,13,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The correct structure of 2,6-Dimethyl-dec-4-ene
+is :","The correct structure of 2,6-Dimethyl-dec-4-ene is :",,,,,,,,,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_EMPTY_OPTIONS,"Options ['A', 'B', 'C', 'D'] contain no text (vector drawings in PDF). Ineligible for scoring.",REQUIRES_VECTOR_DRAWING_EXTRACTION,"EMPTY_GRAPHICAL_OPTIONS:A,B,C,D","Options ['A', 'B', 'C', 'D'] are empty (requires vector graphic drawing asset)",2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,83,Chemistry,Section A,neet-2021.pdf,13,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The incorrect statement among the following
+is :",The incorrect statement among the following is :,"Actinoid contraction is greater for element
+to element than Lanthanoid contraction.",Actinoid contraction is greater for element to element than Lanthanoid contraction.,"Most of the trivalent Lanthanoid ions are
+colorless in the solid state.",Most of the trivalent Lanthanoid ions are colorless in the solid state.,"Lanthanoids are good conductors of heat and
+electricity.",Lanthanoids are good conductors of heat and electricity.,"Actinoids are highly reactive metals,
+especially when finely divided.","Actinoids are highly reactive metals, especially when finely divided.",2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,84,Chemistry,Section A,neet-2021.pdf,13,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,The RBC deficiency is deficiency disease of :,The RBC deficiency is deficiency disease of :,Vitamin B12,Vitamin B12,Vitamin B6,Vitamin B6,Vitamin B1,Vitamin B1,Vitamin B2,Vitamin B2,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,85,Chemistry,Section A,neet-2021.pdf,13,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Tritium, a radioactive isotope of hydrogen, emits
+which of the following particles ?","Tritium, a radioactive isotope of hydrogen, emits which of the following particles ?",Beta (β−),Beta (β−),Alpha (α),Alpha (α),Gamma (γ),Gamma (γ),"Neutron (n)
+Section - B (Chemistry)",Neutron (n),1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.376265+00:00
+NEET_UG,2021,M4,86,Chemistry,Section B,neet-2021.pdf,13,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+List - I
+List - II
+(a)
+2SO2(g)+O2(g) →  (i)
+Acid rain
+2SO3(g)
+(b)
+HOCl(g)
+h
+→
+ν
+  (ii)
+Smog
+OH
+Cl
++
+i
+i
+(c)
+CaCO3+H2SO4→  (iii) Ozone
+CaSO4+H2O+CO2
+depletion
+(d)
+NO2(g)
+h
+→
+ν
+  (iv)
+Tropospheric
+NO(g)+O(g)
+pollution
+Choose the correct answer from the  options given
+below.",Match List - I with List - II. List - I List - II (a) 2SO2(g)+O2(g) → (i) Acid rain 2SO3(g) (b) HOCl(g) h → ν (ii) Smog OH Cl + i i (c) CaCO3+H2SO4→ (iii) Ozone CaSO4+H2O+CO2 depletion (d) NO2(g) h → ν (iv) Tropospheric NO(g)+O(g) pollution Choose the correct answer from the options given below.,"(a)-(i), (b)-(ii), (c)-(iii), (d)-(iv)","(a)-(i), (b)-(ii), (c)-(iii), (d)-(iv)","(a)-(ii), (b)-(iii), (c)-(iv), (d)-(i)","(a)-(ii), (b)-(iii), (c)-(iv), (d)-(i)","(a)-(iv), (b)-(iii), (c)-(i), (d)-(ii)","(a)-(iv), (b)-(iii), (c)-(i), (d)-(ii)","(a)-(iii), (b)-(ii), (c)-(iv), (d)-(i)","(a)-(iii), (b)-(ii), (c)-(iv), (d)-(i)",3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,87,Chemistry,Section B,neet-2021.pdf,13,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"CH3CH2COO−Na+
+NaOH,  ?
+Heat
+→
++
+CH3CH3+
+Na2CO3.
+Consider the above reaction and identify the
+missing reagent/chemical.","CH3CH2COO−Na+ NaOH, ? Heat → + CH3CH3+ Na2CO3. Consider the above reaction and identify the missing reagent/chemical.",B2H6,B2H6,Red Phosphorus,Red Phosphorus,CaO,CaO,"DIBAL-H
+
+14
+M4",DIBAL-H 14,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,88,Chemistry,Section B,neet-2021.pdf,14,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The product formed in the following chemical
+reaction is :",The product formed in the following chemical reaction is :,,,,,,,,,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_EMPTY_OPTIONS,"Options ['A', 'B', 'C', 'D'] contain no text (vector drawings in PDF). Ineligible for scoring.",REQUIRES_VECTOR_DRAWING_EXTRACTION,"EMPTY_GRAPHICAL_OPTIONS:A,B,C,D","Options ['A', 'B', 'C', 'D'] are empty (requires vector graphic drawing asset)",2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,89,Chemistry,Section B,neet-2021.pdf,14,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+List - I
+List - II
+(a)
+[Fe(CN)6]3−
+(i)
+5.92 BM
+(b)
+[Fe(H2O)6]3+
+(ii)
+0 BM
+(c)
+[Fe(CN)6]4−
+(iii)
+4.90 BM
+(d)
+[Fe(H2O)6]2+
+(iv)
+1.73 BM
+Choose the correct answer from the  options given
+below.",Match List - I with List - II. List - I List - II (a) [Fe(CN)6]3− (i) 5.92 BM (b) [Fe(H2O)6]3+ (ii) 0 BM (c) [Fe(CN)6]4− (iii) 4.90 BM (d) [Fe(H2O)6]2+ (iv) 1.73 BM Choose the correct answer from the options given below.,"(a)-(iv), (b)-(ii), (c)-(i), (d)-(iii)","(a)-(iv), (b)-(ii), (c)-(i), (d)-(iii)","(a)-(ii), (b)-(iv), (c)-(iii), (d)-(i)","(a)-(ii), (b)-(iv), (c)-(iii), (d)-(i)","(a)-(i), (b)-(iii), (c)-(iv), (d)-(ii)","(a)-(i), (b)-(iii), (c)-(iv), (d)-(ii)","(a)-(iv), (b)-(i), (c)-(ii), (d)-(iii)","(a)-(iv), (b)-(i), (c)-(ii), (d)-(iii)",4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,90,Chemistry,Section B,neet-2021.pdf,14,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"From the following pairs of ions which one is not
+an iso-electronic pair ?",From the following pairs of ions which one is not an iso-electronic pair ?,"O2−, F−","O2−, F−","Na+, Mg2+","Na+, Mg2+","Mn2+, Fe3+","Mn2+, Fe3+","Fe2+, Mn2+","Fe2+, Mn2+",4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,91,Chemistry,Section B,neet-2021.pdf,14,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The reagent ‘R’ in the given sequence of chemical
+reaction is :",The reagent ‘R’ in the given sequence of chemical reaction is :,H2O,H2O,CH3CH2OH,CH3CH2OH,HI,HI,CuCN/KCN,CuCN/KCN,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,92,Chemistry,Section B,neet-2021.pdf,14,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Choose the correct option for the total pressure
+(in atm.) in a mixture of 4 g O2 and 2 g H2 confined
+in a total volume of one litre at 08C is :
+[Given R=0.082 L atm mol−1K−1, T=273 K]","Choose the correct option for the total pressure (in atm.) in a mixture of 4 g O2 and 2 g H2 confined in a total volume of one litre at 08C is : [Given R=0.082 L atm mol−1K−1, T=273 K]",2.518,2.518,2.602,2.602,25.18,25.18,26.02,26.02,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,93,Chemistry,Section B,neet-2021.pdf,14,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following molecules is non-polar in
+nature ?",Which of the following molecules is non-polar in nature ?,POCl3,POCl3,CH2O,CH2O,SbCl5,SbCl5,NO2,NO2,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,94,Chemistry,Section B,neet-2021.pdf,14,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"In which one of the following arrangements the
+given sequence is not strictly according to the
+properties indicated against it ?",In which one of the following arrangements the given sequence is not strictly according to the properties indicated against it ?,"HF < HCl
+:
+Increasing acidic
+< HBr < HI
+strength",HF < HCl : Increasing acidic < HBr < HI strength,"H2O < H2S
+:
+Increasing pKa
+ < H2Se < H2Te
+values",H2O < H2S : Increasing pKa < H2Se < H2Te values,"NH3 < PH3
+:
+Increasing
+< AsH3 < SbH3
+acidic character",NH3 < PH3 : Increasing < AsH3 < SbH3 acidic character,"CO2 < SiO2
+:
+Increasing
+< SnO2 < PbO2
+oxidizing power",CO2 < SiO2 : Increasing < SnO2 < PbO2 oxidizing power,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,95,Chemistry,Section B,neet-2021.pdf,14,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The correct option for the value of vapour pressure
+of a solution at 458C with benzene to octane in
+molar ratio 3 : 2 is :
+[At 458C vapour pressure of benzene is
+280 mm Hg and that of octane is 420 mm Hg.
+Assume Ideal gas]",The correct option for the value of vapour pressure of a solution at 458C with benzene to octane in molar ratio 3 : 2 is : [At 458C vapour pressure of benzene is 280 mm Hg and that of octane is 420 mm Hg. Assume Ideal gas],160 mm of Hg,160 mm of Hg,168 mm of Hg,168 mm of Hg,336 mm of Hg,336 mm of Hg,"350 mm of Hg
+
+15
+M4",350 mm of Hg 15,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,96,Chemistry,Section B,neet-2021.pdf,15,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The molar conductivity of 0.007 M acetic acid is
+20 S cm2 mol−1.  What is the dissociation
+constant of acetic acid ?  Choose the correct option.
+2
+1
+H
+2
+1
+CH COO
+3
+ 350 S cm mol
+50 S cm mol
+
+
+Λ
+
+
+
+
+Λ
+
+
+
+
+−
+−
++
+−
+=
+=
+
+",The molar conductivity of 0.007 M acetic acid is 20 S cm2 mol−1. What is the dissociation constant of acetic acid ? Choose the correct option. H CH COO 350 S cm mol 50 S cm mol   Λ     Λ     − − + − = =  ,1.75×10−4  mol L−1,1.75×10−4 mol L−1,2.50×10−4  mol L−1,2.50×10−4 mol L−1,1.75×10−5  mol L−1,1.75×10−5 mol L−1,2.50×10−5  mol L−1,2.50×10−5 mol L−1,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,97,Chemistry,Section B,neet-2021.pdf,15,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The slope of Arrhenius Plot 
+1
+ln k v/s T
+
+
+
+
+
+
+ of first
+order reaction is −5×103 K.  The value of Ea of
+the reaction is.  Choose the correct option for your
+answer.
+[Given R=8.314 JK−1mol−1]",The slope of Arrhenius Plot ln k v/s T       of first order reaction is −5×103 K. The value of Ea of the reaction is. Choose the correct option for your answer. [Given R=8.314 JK−1mol−1],41.5 kJ mol−1,41.5 kJ mol−1,83.0 kJ mol−1,83.0 kJ mol−1,166 kJ mol−1,166 kJ mol−1,−83 kJ mol−1,−83 kJ mol−1,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,98,Chemistry,Section B,neet-2021.pdf,15,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+List - I
+List - II
+(a) 
+ (i)
+Hell-Volhard-
+Zelinsky reaction
+(b)  
+  (ii)
+Gattermann-Koch
+reaction
+(c)   R−CH2−OH
+  (iii) Haloform
+        +R'COOH
+reaction
+     
+2
+4
+Conc H SO
+.
+→
+(d)
+2
+2
+2
+(i) X /Red P
+(ii) H O
+R
+CH COOH
+→
+−
+  (iv)
+Esterification
+Choose the correct answer from the  options given
+below.",Match List - I with List - II. List - I List - II (a) (i) Hell-Volhard- Zelinsky reaction (b) (ii) Gattermann-Koch reaction (c) R−CH2−OH (iii) Haloform +R'COOH reaction Conc H SO . → (d) (i) X /Red P (ii) H O R CH COOH → − (iv) Esterification Choose the correct answer from the options given below.,"(a)-(iv), (b)-(i), (c)-(ii), (d)-(iii)","(a)-(iv), (b)-(i), (c)-(ii), (d)-(iii)","(a)-(iii), (b)-(ii), (c)-(i), (d)-(iv)","(a)-(iii), (b)-(ii), (c)-(i), (d)-(iv)","(a)-(i), (b)-(iv), (c)-(iii), (d)-(ii)","(a)-(i), (b)-(iv), (c)-(iii), (d)-(ii)","(a)-(ii), (b)-(iii), (c)-(iv), (d)-(i)","(a)-(ii), (b)-(iii), (c)-(iv), (d)-(i)",4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,99,Chemistry,Section B,neet-2021.pdf,15,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The intermediate compound ‘X’ in the following
+chemical reaction is :",The intermediate compound ‘X’ in the following chemical reaction is :,,,,,,,,,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_QUARANTINED,INELIGIBLE_EMPTY_OPTIONS,"Options ['A', 'B', 'C', 'D'] contain no text (vector drawings in PDF). Ineligible for scoring.",REQUIRES_VECTOR_DRAWING_EXTRACTION,"EMPTY_GRAPHICAL_OPTIONS:A,B,C,D","Options ['A', 'B', 'C', 'D'] are empty (requires vector graphic drawing asset)",2026-10-22T06:31:10.377267+00:00
+NEET_UG,2021,M4,100,Chemistry,Section B,neet-2021.pdf,15,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"For irreversible expansion of an ideal gas under
+isothermal condition, the correct option is :","For irreversible expansion of an ideal gas under isothermal condition, the correct option is :","∆U=0, ∆Stotal=0","∆U=0, ∆Stotal=0","∆U ≠ 0, ∆Stotal ≠ 0","∆U ≠ 0, ∆Stotal ≠ 0","∆U=0, ∆Stotal ≠ 0","∆U=0, ∆Stotal ≠ 0","∆U ≠ 0, ∆Stotal=0
+Section - A (Biology : Botany)","∆U ≠ 0, ∆Stotal=0",3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,101,Botany,Section A,neet-2021.pdf,15,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"In the equation GPP−R=NPP
+R represents :",In the equation GPP−R=NPP R represents :,Radiant energy,Radiant energy,Retardation factor,Retardation factor,Environment factor,Environment factor,Respiration losses,Respiration losses,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,102,Botany,Section A,neet-2021.pdf,15,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Inspite of interspecific competition in nature,
+which mechanism the competing species might
+have evolved for their survival ?","Inspite of interspecific competition in nature, which mechanism the competing species might have evolved for their survival ?",Resource partitioning,Resource partitioning,Competitive release,Competitive release,Mutualism,Mutualism,Predation,Predation,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,103,Botany,Section A,neet-2021.pdf,15,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Amensalism can be represented as :,Amensalism can be represented as :,Species A (−) ; Species B (0),Species A (−) ; Species B (0),Species A (+) ; Species B (+),Species A (+) ; Species B (+),Species A (−) ; Species B (−),Species A (−) ; Species B (−),"Species A (+) ; Species B (0)
+
+16
+M4",Species A (+) ; Species B (0) 16,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,104,Botany,Section A,neet-2021.pdf,16,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Cells with active cell 
+division capacity 
+(i) Vascular 
+tissues
+(b)
+Tissue having all cells 
+similar in structure 
+and function
+(ii) Meristematic 
+tissue
+(c) Tissue having 
+different types of cells
+(iii) Sclereids
+(d)
+Dead cells with highly 
+thickened walls and 
+narrow lumen
+(iv) Simple tissue
+List - I
+List - II
+Select the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Cells with active cell division capacity (i) Vascular tissues (b) Tissue having all cells similar in structure and function (ii) Meristematic tissue (c) Tissue having different types of cells (iii) Sclereids (d) Dead cells with highly thickened walls and narrow lumen (iv) Simple tissue List - I List - II Select the correct answer from the options given below. (a) (b) (c) (d),"(ii)
+(iv)
+(i)
+(iii)",(ii) (iv) (i) (iii),"(iv)
+(iii)
+(ii)
+(i)",(iv) (iii) (ii) (i),"(i)
+(ii)
+(iii)
+(iv)",(i) (ii) (iii) (iv),"(iii)
+(ii)
+(iv)
+(i)",(iii) (ii) (iv) (i),1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,105,Botany,Section A,neet-2021.pdf,16,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The production of gametes by the parents,
+formation of zygotes, the F1 and F2 plants, can be
+understood from a diagram called :","The production of gametes by the parents, formation of zygotes, the F1 and F2 plants, can be understood from a diagram called :",Bullet square,Bullet square,Punch square,Punch square,Punnett square,Punnett square,Net square,Net square,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,106,Botany,Section A,neet-2021.pdf,16,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"DNA strands on a gel stained with ethidium
+bromide when viewed under UV radiation, appear
+as :","DNA strands on a gel stained with ethidium bromide when viewed under UV radiation, appear as :",Yellow bands,Yellow bands,Bright orange bands,Bright orange bands,Dark red bands,Dark red bands,Bright blue bands,Bright blue bands,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,107,Botany,Section A,neet-2021.pdf,16,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Gemmae are present in :,Gemmae are present in :,Mosses,Mosses,Pteridophytes,Pteridophytes,Some Gymnosperms,Some Gymnosperms,Some Liverworts,Some Liverworts,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,108,Botany,Section A,neet-2021.pdf,16,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Plants follow different pathways in response to
+environment or phases of life to form different
+kinds of structures.  This ability is called :",Plants follow different pathways in response to environment or phases of life to form different kinds of structures. This ability is called :,Elasticity,Elasticity,Flexibility,Flexibility,Plasticity,Plasticity,Maturity,Maturity,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,109,Botany,Section A,neet-2021.pdf,16,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following is an incorrect
+statement ?",Which of the following is an incorrect statement ?,"Mature sieve tube elements possess a
+conspicuous nucleus and usual cytoplasmic
+organelles.",Mature sieve tube elements possess a conspicuous nucleus and usual cytoplasmic organelles.,"Microbodies are present both in plant and
+animal cells.",Microbodies are present both in plant and animal cells.,"The perinuclear space forms a barrier
+between the materials present inside the
+nucleus and that of the cytoplasm.",The perinuclear space forms a barrier between the materials present inside the nucleus and that of the cytoplasm.,"Nuclear pores act as passages for proteins
+and RNA molecules in both directions
+between nucleus and cytoplasm.",Nuclear pores act as passages for proteins and RNA molecules in both directions between nucleus and cytoplasm.,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,110,Botany,Section A,neet-2021.pdf,16,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,A typical angiosperm embryo sac at maturity is :,A typical angiosperm embryo sac at maturity is :,8-nucleate and 7-celled,8-nucleate and 7-celled,7-nucleate and 8-celled,7-nucleate and 8-celled,7-nucleate and 7-celled,7-nucleate and 7-celled,8-nucleate and 8-celled,8-nucleate and 8-celled,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,111,Botany,Section A,neet-2021.pdf,16,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The plant hormone used to destroy weeds in a field
+is :",The plant hormone used to destroy weeds in a field is :,IAA,IAA,NAA,NAA,"2, 4-D","2, 4-D",IBA,IBA,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,112,Botany,Section A,neet-2021.pdf,16,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Which of the following algae produce Carrageen ?,Which of the following algae produce Carrageen ?,Green algae,Green algae,Brown algae,Brown algae,Red algae,Red algae,Blue-green algae,Blue-green algae,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,113,Botany,Section A,neet-2021.pdf,16,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Mutations in plant cells can be induced by :,Mutations in plant cells can be induced by :,Kinetin,Kinetin,Infrared rays,Infrared rays,Gamma rays,Gamma rays,Zeatin,Zeatin,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,114,Botany,Section A,neet-2021.pdf,16,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Protoplast fusion
+(i) Totipotency
+(b) Plant tissue culture
+(ii) Pomato
+(c) Meristem culture
+(iii) Somaclones
+(d) Micropropagation
+(iv) Virus free plants
+List - II
+List - I
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Protoplast fusion (i) Totipotency (b) Plant tissue culture (ii) Pomato (c) Meristem culture (iii) Somaclones (d) Micropropagation (iv) Virus free plants List - II List - I Choose the correct answer from the options given below. (a) (b) (c) (d),"(iii)
+(iv)
+(ii)
+(i)",(iii) (iv) (ii) (i),"(ii)
+(i)
+(iv)
+(iii)",(ii) (i) (iv) (iii),"(iii)
+(iv)
+(i)
+(ii)",(iii) (iv) (i) (ii),"(iv)
+(iii)
+(ii)
+(i)
+
+17
+M4",(iv) (iii) (ii) (i) 17,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,115,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following stages of meiosis involves
+division of centromere ?",Which of the following stages of meiosis involves division of centromere ?,Metaphase I,Metaphase I,Metaphase II,Metaphase II,Anaphase II,Anaphase II,Telophase II,Telophase II,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,116,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Lenticels
+(i) 
+Phellogen
+(b) Cork cambium
+(ii) Suberin deposition
+(c) Secondary cortex (iii) Exchange of gases
+(d) Cork
+(iv) Phelloderm
+List - I
+List - II
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Lenticels (i) Phellogen (b) Cork cambium (ii) Suberin deposition (c) Secondary cortex (iii) Exchange of gases (d) Cork (iv) Phelloderm List - I List - II Choose the correct answer from the options given below. (a) (b) (c) (d),"(iv)
+(i)
+(iii)
+(ii)",(iv) (i) (iii) (ii),"(iii)
+(i)
+(iv)
+(ii)",(iii) (i) (iv) (ii),"(ii)
+(iii)
+(iv)
+(i)",(ii) (iii) (iv) (i),"(iv)
+(ii)
+(i)
+(iii)",(iv) (ii) (i) (iii),2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,117,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The site of perception of light in plants during
+photoperiodism is :",The site of perception of light in plants during photoperiodism is :,Shoot apex,Shoot apex,Stem,Stem,Axillary bud,Axillary bud,Leaf,Leaf,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,118,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Which of the following plants is monoecious ?,Which of the following plants is monoecious ?,Carica papaya,Carica papaya,Chara,Chara,Marchantia polymorpha,Marchantia polymorpha,Cycas circinalis,Cycas circinalis,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,119,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"When the centromere is situated in the middle of
+two equal arms of chromosomes, the chromosome
+is referred as :","When the centromere is situated in the middle of two equal arms of chromosomes, the chromosome is referred as :",Metacentric,Metacentric,Telocentric,Telocentric,Sub-metacentric,Sub-metacentric,Acrocentric,Acrocentric,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,120,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following is not an application of PCR
+(Polymerase Chain Reaction) ?",Which of the following is not an application of PCR (Polymerase Chain Reaction) ?,Molecular diagnosis,Molecular diagnosis,Gene amplification,Gene amplification,Purification of isolated protein,Purification of isolated protein,Detection of gene mutation,Detection of gene mutation,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,121,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Genera like Selaginella and Salvinia produce two
+kinds of spores.  Such plants are known as :",Genera like Selaginella and Salvinia produce two kinds of spores. Such plants are known as :,Homosorus,Homosorus,Heterosorus,Heterosorus,Homosporous,Homosporous,Heterosporous,Heterosporous,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,122,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Complete the flow chart on central dogma.,Complete the flow chart on central dogma.,"(a)-Replication; (b)-Transcription;
+(c)-Transduction; (d)-Protein",(a)-Replication; (b)-Transcription; (c)-Transduction; (d)-Protein,"(a)-Translation; (b)-Replication;
+(c)-Transcription; (d)-Transduction",(a)-Translation; (b)-Replication; (c)-Transcription; (d)-Transduction,"(a)-Replication; (b)-Transcription;
+(c)-Translation; (d)-Protein",(a)-Replication; (b)-Transcription; (c)-Translation; (d)-Protein,"(a)-Transduction; (b)-Translation;
+(c)-Replication; (d)-Protein",(a)-Transduction; (b)-Translation; (c)-Replication; (d)-Protein,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.378269+00:00
+NEET_UG,2021,M4,123,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Which of the following statements is not correct ?,Which of the following statements is not correct ?,"Pyramid of biomass in sea is generally
+inverted.",Pyramid of biomass in sea is generally inverted.,"Pyramid of biomass in sea is generally
+upright.",Pyramid of biomass in sea is generally upright.,Pyramid of energy is always upright.,Pyramid of energy is always upright.,"Pyramid of numbers in a grassland
+ecosystem is upright.",Pyramid of numbers in a grassland ecosystem is upright.,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,124,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following algae contains mannitol as
+reserve food material ?",Which of the following algae contains mannitol as reserve food material ?,Ectocarpus,Ectocarpus,Gracilaria,Gracilaria,Volvox,Volvox,Ulothrix,Ulothrix,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,125,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"During the purification process for recombinant
+DNA technology, addition of chilled ethanol
+precipitates out :","During the purification process for recombinant DNA technology, addition of chilled ethanol precipitates out :",RNA,RNA,DNA,DNA,Histones,Histones,Polysaccharides,Polysaccharides,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,126,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The factor that leads to Founder effect in a
+population is :",The factor that leads to Founder effect in a population is :,Natural selection,Natural selection,Genetic recombination,Genetic recombination,Mutation,Mutation,Genetic drift,Genetic drift,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,127,Botany,Section A,neet-2021.pdf,17,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Cohesion
+(i) More attraction in 
+liquid phase
+(b) Adhesion
+(ii)
+Mutual attraction 
+among water 
+molecules
+(c) Surface tension
+(iii) Water loss in liquid 
+phase
+(d) Guttation
+(iv) Attraction towards 
+polar surfaces
+List - I
+List - II
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Cohesion (i) More attraction in liquid phase (b) Adhesion (ii) Mutual attraction among water molecules (c) Surface tension (iii) Water loss in liquid phase (d) Guttation (iv) Attraction towards polar surfaces List - I List - II Choose the correct answer from the options given below. (a) (b) (c) (d),"(ii)
+(iv)
+(i)
+(iii)",(ii) (iv) (i) (iii),"(iv)
+(iii)
+(ii)
+(i)",(iv) (iii) (ii) (i),"(iii)
+(i)
+(iv)
+(ii)",(iii) (i) (iv) (ii),"(ii)
+(i)
+(iv)
+(iii)
+
+18
+M4",(ii) (i) (iv) (iii) 18,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,128,Botany,Section A,neet-2021.pdf,18,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Diadelphous stamens are found in :,Diadelphous stamens are found in :,China rose,China rose,Citrus,Citrus,Pea,Pea,China rose and citrus,China rose and citrus,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,129,Botany,Section A,neet-2021.pdf,18,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following are not secondary
+metabolites in plants ?",Which of the following are not secondary metabolites in plants ?,"Morphine, codeine","Morphine, codeine","Amino acids, glucose","Amino acids, glucose","Vinblastin, curcumin","Vinblastin, curcumin","Rubber, gums","Rubber, gums",2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,130,Botany,Section A,neet-2021.pdf,18,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Cristae
+(i)
+Primary constriction in 
+chromosome
+(b) Thylakoids
+(ii) Disc-shaped sacs in 
+Golgi apparatus
+(c) Centromere
+(iii) Infoldings in 
+mitochondria
+(d) Cisternae
+(iv)
+Flattened membranous 
+sacs in stroma of 
+plastids
+List - I
+List - II
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Cristae (i) Primary constriction in chromosome (b) Thylakoids (ii) Disc-shaped sacs in Golgi apparatus (c) Centromere (iii) Infoldings in mitochondria (d) Cisternae (iv) Flattened membranous sacs in stroma of plastids List - I List - II Choose the correct answer from the options given below. (a) (b) (c) (d),"(iv)
+(iii)
+(ii)
+(i)",(iv) (iii) (ii) (i),"(i)
+(iv)
+(iii)
+(ii)",(i) (iv) (iii) (ii),"(iii)
+(iv)
+(i)
+(ii)",(iii) (iv) (i) (ii),"(ii)
+(iii)
+(iv)
+(i)",(ii) (iii) (iv) (i),3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,131,Botany,Section A,neet-2021.pdf,18,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"When gene targetting involving gene amplification
+is attempted in an individual’s tissue to treat
+disease, it is known as :","When gene targetting involving gene amplification is attempted in an individual’s tissue to treat disease, it is known as :",Biopiracy,Biopiracy,Gene therapy,Gene therapy,Molecular diagnosis,Molecular diagnosis,Safety testing,Safety testing,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,132,Botany,Section A,neet-2021.pdf,18,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The term used for transfer of pollen grains from
+anthers of one plant to stigma of a different plant
+which, during pollination, brings genetically
+different types of pollen grains to stigma, is :","The term used for transfer of pollen grains from anthers of one plant to stigma of a different plant which, during pollination, brings genetically different types of pollen grains to stigma, is :",Xenogamy,Xenogamy,Geitonogamy,Geitonogamy,Chasmogamy,Chasmogamy,Cleistogamy,Cleistogamy,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,133,Botany,Section A,neet-2021.pdf,18,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following is a correct sequence of
+steps in a PCR (Polymerase Chain Reaction) ?",Which of the following is a correct sequence of steps in a PCR (Polymerase Chain Reaction) ?,"Denaturation, Annealing, Extension","Denaturation, Annealing, Extension","Denaturation, Extension, Annealing","Denaturation, Extension, Annealing","Extension, Denaturation, Annealing","Extension, Denaturation, Annealing","Annealing, Denaturation, Extension","Annealing, Denaturation, Extension",1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,134,Botany,Section A,neet-2021.pdf,18,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The amount of nutrients, such as carbon, nitrogen,
+phosphorus and calcium present in the soil at any
+given time, is referred as :","The amount of nutrients, such as carbon, nitrogen, phosphorus and calcium present in the soil at any given time, is referred as :",Climax,Climax,Climax community,Climax community,Standing state,Standing state,Standing crop,Standing crop,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,135,Botany,Section A,neet-2021.pdf,18,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The first stable product of CO2 fixation in sorghum
+is :",The first stable product of CO2 fixation in sorghum is :,Pyruvic acid,Pyruvic acid,Oxaloacetic acid,Oxaloacetic acid,Succinic acid,Succinic acid,"Phosphoglyceric acid
+Section - B (Biology : Botany)",Phosphoglyceric acid,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,136,Botany,Section B,neet-2021.pdf,18,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Which of the following statements is incorrect ?,Which of the following statements is incorrect ?,"Both ATP and NADPH+H+ are
+synthesized 
+during 
+non-cyclic
+photophosphorylation.",Both ATP and NADPH+H+ are synthesized during non-cyclic photophosphorylation.,"Stroma lamellae have PS I only and lack
+NADP reductase.",Stroma lamellae have PS I only and lack NADP reductase.,Grana lamellae have both PS I and PS II.,Grana lamellae have both PS I and PS II.,"Cyclic photophosphorylation involves both
+PS I and PS II.",Cyclic photophosphorylation involves both PS I and PS II.,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,137,Botany,Section B,neet-2021.pdf,18,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Identify the correct statement.,Identify the correct statement.,"In capping, methyl guanosine triphosphate
+is added to the 39 end of hnRNA.","In capping, methyl guanosine triphosphate is added to the 39 end of hnRNA.","RNA polymerase binds with Rho factor to
+terminate the process of transcription in
+bacteria.",RNA polymerase binds with Rho factor to terminate the process of transcription in bacteria.,"The coding strand in a transcription unit is
+copied to an mRNA.",The coding strand in a transcription unit is copied to an mRNA.,"Split gene arrangement is characteristic of
+prokaryotes.",Split gene arrangement is characteristic of prokaryotes.,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,138,Botany,Section B,neet-2021.pdf,18,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match Column - I with Column - II.
+Column - I
+      Column - II
+(a)  
+(i)    Brassicaceae
+(b) 
+(ii)    Liliaceae
+(c)  
+(iii)    Fabaceae
+(d)  
+(iv)    Solanaceae
+Select the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match Column - I with Column - II. Column - I Column - II (a) (i) Brassicaceae (b) (ii) Liliaceae (c) (iii) Fabaceae (d) (iv) Solanaceae Select the correct answer from the options given below. (a) (b) (c) (d),"(iii)
+(iv)
+(ii)
+(i)",(iii) (iv) (ii) (i),"(i)
+(ii)
+(iii)
+(iv)",(i) (ii) (iii) (iv),"(ii)
+(iii)
+(iv)
+(i)",(ii) (iii) (iv) (i),"(iv)
+(ii)
+(i)
+(iii)
+
+19
+M4",(iv) (ii) (i) (iii) 19,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,139,Botany,Section B,neet-2021.pdf,19,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Select the correct pair.,Select the correct pair.,"Large colorless empty
+-  Subsidiary cells
+cells in the epidermis
+of grass leaves",Large colorless empty - Subsidiary cells cells in the epidermis of grass leaves,"In dicot leaves, vascular -  Conjunctive
+bundles are surrounded   tissue
+by large thick-walled
+cells","In dicot leaves, vascular - Conjunctive bundles are surrounded tissue by large thick-walled cells","Cells of medullary rays
+-  Interfascicular
+that form part of
+   cambium
+cambial ring",Cells of medullary rays - Interfascicular that form part of cambium cambial ring,"Loose parenchyma cells -  Spongy
+rupturing the epidermis   parenchyma
+and forming a lens-
+shaped opening in bark",Loose parenchyma cells - Spongy rupturing the epidermis parenchyma and forming a lens- shaped opening in bark,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,140,Botany,Section B,neet-2021.pdf,19,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"In the exponential growth equation
+Nt=Noert, e represents :","In the exponential growth equation Nt=Noert, e represents :",The base of number logarithms,The base of number logarithms,The base of exponential logarithms,The base of exponential logarithms,The base of natural logarithms,The base of natural logarithms,The base of geometric logarithms,The base of geometric logarithms,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,141,Botany,Section B,neet-2021.pdf,19,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"What is the role of RNA polymerase III in the
+process of transcription in eukaryotes ?",What is the role of RNA polymerase III in the process of transcription in eukaryotes ?,"Transcribes rRNAs (28S, 18S and 5.8S)","Transcribes rRNAs (28S, 18S and 5.8S)","Transcribes tRNA, 5s rRNA and snRNA","Transcribes tRNA, 5s rRNA and snRNA",Transcribes precursor of mRNA,Transcribes precursor of mRNA,Transcribes only snRNAs,Transcribes only snRNAs,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,142,Botany,Section B,neet-2021.pdf,19,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Plasmid pBR322 has PstI restriction enzyme site
+within gene ampR that confers ampicillin
+resistance.  If this enzyme is used for inserting a
+gene for β-galactoside production and the
+recombinant plasmid is inserted in an E.coli strain",Plasmid pBR322 has PstI restriction enzyme site within gene ampR that confers ampicillin resistance. If this enzyme is used for inserting a gene for β-galactoside production and the recombinant plasmid is inserted in an E.coli strain,"it will not be able to confer ampicillin
+resistance to the host cell.",it will not be able to confer ampicillin resistance to the host cell.,"the transformed cells will have the ability
+to resist ampicillin as well as produce
+β-galactoside.",the transformed cells will have the ability to resist ampicillin as well as produce β-galactoside.,it will lead to lysis of host cell.,it will lead to lysis of host cell.,"it will be able to produce a novel protein with
+dual ability.",it will be able to produce a novel protein with dual ability.,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,143,Botany,Section B,neet-2021.pdf,19,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) S phase
+(i) Proteins are 
+synthesized
+(b) G2 phase
+(ii) Inactive phase
+(c) Quiescent stage (iii)
+Interval between 
+mitosis and initiation 
+of DNA replication
+(d) G1 phase
+(iv) DNA replication
+List - I
+List - II
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) S phase (i) Proteins are synthesized (b) G2 phase (ii) Inactive phase (c) Quiescent stage (iii) Interval between mitosis and initiation of DNA replication (d) G1 phase (iv) DNA replication List - I List - II Choose the correct answer from the options given below. (a) (b) (c) (d),"(iii)
+(ii)
+(i)
+(iv)",(iii) (ii) (i) (iv),"(iv)
+(ii)
+(iii)
+(i)",(iv) (ii) (iii) (i),"(iv)
+(i)
+(ii)
+(iii)",(iv) (i) (ii) (iii),"(ii)
+(iv)
+(iii)
+(i)",(ii) (iv) (iii) (i),3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,144,Botany,Section B,neet-2021.pdf,19,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Which of the following statements is correct ?,Which of the following statements is correct ?,Fusion of two cells is called Karyogamy.,Fusion of two cells is called Karyogamy.,"Fusion of protoplasms between two motile
+on non-motile gametes is called plasmogamy.",Fusion of protoplasms between two motile on non-motile gametes is called plasmogamy.,"Organisms that depend on living plants are
+called saprophytes.",Organisms that depend on living plants are called saprophytes.,"Some of the organisms can fix atmospheric
+nitrogen in specialized cells called sheath
+cells.",Some of the organisms can fix atmospheric nitrogen in specialized cells called sheath cells.,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,145,Botany,Section B,neet-2021.pdf,19,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Which of the following statements is incorrect ?,Which of the following statements is incorrect ?,"During aerobic respiration, role of oxygen is
+limited to the terminal stage.","During aerobic respiration, role of oxygen is limited to the terminal stage.","In ETC (Electron Transport Chain), one
+molecule of NADH+H+ gives rise to
+2 ATP molecules, and one FADH2 gives rise
+to 3 ATP molecules.","In ETC (Electron Transport Chain), one molecule of NADH+H+ gives rise to 2 ATP molecules, and one FADH2 gives rise to 3 ATP molecules.",ATP is synthesized through complex V.,ATP is synthesized through complex V.,"Oxidation-reduction reactions produce
+proton gradient in respiration.",Oxidation-reduction reactions produce proton gradient in respiration.,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,146,Botany,Section B,neet-2021.pdf,19,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"In some members of which of the following pairs
+of families, pollen grains retain their viability for
+months after release ?","In some members of which of the following pairs of families, pollen grains retain their viability for months after release ?",Poaceae ; Rosaceae,Poaceae ; Rosaceae,Poaceae ; Leguminosae,Poaceae ; Leguminosae,Poaceae ; Solanaceae,Poaceae ; Solanaceae,"Rosaceae ; Leguminosae
+
+20
+M4",Rosaceae ; Leguminosae 20,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,147,Botany,Section B,neet-2021.pdf,20,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match Column - I with Column - II.
+(a) Nitrococcus
+(i) Denitrification
+(b) Rhizobium
+(ii) Conversion of 
+ammonia to nitrite
+ (c) Thiobacillus
+(iii) Conversion of nitrite 
+to nitrate
+(d) Nitrobacter
+(iv)
+Conversion of 
+atmospheric nitrogen 
+to ammonia
+Column - I
+Column - II
+Choose the correct answer from options given
+below.
+(a)
+(b)
+(c)
+(d)",Match Column - I with Column - II. (a) Nitrococcus (i) Denitrification (b) Rhizobium (ii) Conversion of ammonia to nitrite (c) Thiobacillus (iii) Conversion of nitrite to nitrate (d) Nitrobacter (iv) Conversion of atmospheric nitrogen to ammonia Column - I Column - II Choose the correct answer from options given below. (a) (b) (c) (d),"(ii)
+(iv)
+(i)
+(iii)",(ii) (iv) (i) (iii),"(i)
+(ii)
+(iii)
+(iv)",(i) (ii) (iii) (iv),"(iii)
+(i)
+(iv)
+(ii)",(iii) (i) (iv) (ii),"(iv)
+(iii)
+(ii)
+(i)",(iv) (iii) (ii) (i),1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,148,Botany,Section B,neet-2021.pdf,20,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Now a days it is possible to detect the mutated
+gene causing cancer by allowing radioactive probe
+to hybridise its complimentary DNA in a clone of
+cells, followed by its detection using
+autoradiography because :","Now a days it is possible to detect the mutated gene causing cancer by allowing radioactive probe to hybridise its complimentary DNA in a clone of cells, followed by its detection using autoradiography because :","mutated gene partially appears on a
+photographic film.",mutated gene partially appears on a photographic film.,"mutated gene completely and clearly
+appears on a photographic film.",mutated gene completely and clearly appears on a photographic film.,"mutated gene does not appear on a
+photographic film as the probe has no
+complimentarity with it.",mutated gene does not appear on a photographic film as the probe has no complimentarity with it.,"mutated gene does not appear on
+photographic film as the probe has
+complimentarity with it.",mutated gene does not appear on photographic film as the probe has complimentarity with it.,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,149,Botany,Section B,neet-2021.pdf,20,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"DNA fingerprinting involves identifying differences
+in some specific regions in DNA sequence, called
+as :","DNA fingerprinting involves identifying differences in some specific regions in DNA sequence, called as :",Satellite DNA,Satellite DNA,Repetitive DNA,Repetitive DNA,Single nucleotides,Single nucleotides,Polymorphic DNA,Polymorphic DNA,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,150,Botany,Section B,neet-2021.pdf,20,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Protein
+(i) C=C double bonds
+(b) Unsaturated 
+fatty acid
+(ii) Phosphodiester bonds
+(c) Nucleic acid
+(iii) Glycosidic bonds
+(d) Polysaccharide
+(iv) Peptide bonds
+List - I
+List - II
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Protein (i) C=C double bonds (b) Unsaturated fatty acid (ii) Phosphodiester bonds (c) Nucleic acid (iii) Glycosidic bonds (d) Polysaccharide (iv) Peptide bonds List - I List - II Choose the correct answer from the options given below. (a) (b) (c) (d),"(iv)
+(i)
+(ii)
+(iii)",(iv) (i) (ii) (iii),"(i)
+(iv)
+(iii)
+(ii)",(i) (iv) (iii) (ii),"(ii)
+(i)
+(iv)
+(iii)",(ii) (i) (iv) (iii),"(iv)
+(iii)
+(i)
+(ii)
+Section - A (Biology : Zoology)",(iv) (iii) (i) (ii),1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,151,Zoology,Section A,neet-2021.pdf,20,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which one of the following organisms bears hollow
+and pneumatic long bones ?",Which one of the following organisms bears hollow and pneumatic long bones ?,Neophron,Neophron,Hemidactylus,Hemidactylus,Macropus,Macropus,Ornithorhynchus,Ornithorhynchus,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,152,Zoology,Section A,neet-2021.pdf,20,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Chronic auto immune disorder affecting neuro
+muscular junction leading to fatigue, weakening
+and paralysis of skeletal muscle is called as :","Chronic auto immune disorder affecting neuro muscular junction leading to fatigue, weakening and paralysis of skeletal muscle is called as :",Arthritis,Arthritis,Muscular dystrophy,Muscular dystrophy,Myasthenia gravis,Myasthenia gravis,Gout,Gout,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,153,Zoology,Section A,neet-2021.pdf,20,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which one of the following is an example of
+Hormone releasing IUD ?",Which one of the following is an example of Hormone releasing IUD ?,CuT,CuT,LNG 20,LNG 20,Cu 7,Cu 7,Multiload 375,Multiload 375,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.379558+00:00
+NEET_UG,2021,M4,154,Zoology,Section A,neet-2021.pdf,20,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following characteristics is incorrect
+with respect to cockroach ?",Which of the following characteristics is incorrect with respect to cockroach ?,"A ring of gastric caeca is present at the
+junction of midgut and hind gut.",A ring of gastric caeca is present at the junction of midgut and hind gut.,"Hypopharynx lies within the cavity enclosed
+by the mouth parts.",Hypopharynx lies within the cavity enclosed by the mouth parts.,"In females, 7th-9th sterna together form a
+genital pouch.","In females, 7th-9th sterna together form a genital pouch.","10th abdominal segment in both sexes, bears
+a pair of anal cerci.","10th abdominal segment in both sexes, bears a pair of anal cerci.",1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,155,Zoology,Section A,neet-2021.pdf,20,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Select the favourable conditions required for the
+formation of oxyhaemoglobin at the alveoli.",Select the favourable conditions required for the formation of oxyhaemoglobin at the alveoli.,"High pO2, low pCO2, less H+, lower
+temperature","High pO2, low pCO2, less H+, lower temperature","Low pO2, high pCO2, more H+, higher
+temperature","Low pO2, high pCO2, more H+, higher temperature","High pO2, high pCO2, less H+, higher
+temperature","High pO2, high pCO2, less H+, higher temperature","Low pO2, low pCO2, more H+, higher
+temperature","Low pO2, low pCO2, more H+, higher temperature",1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,156,Zoology,Section A,neet-2021.pdf,20,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Sphincter of oddi is present at :,Sphincter of oddi is present at :,Ileo-caecal junction,Ileo-caecal junction,"Junction of hepato-pancreatic duct and
+duodenum",Junction of hepato-pancreatic duct and duodenum,Gastro-oesophageal junction,Gastro-oesophageal junction,"Junction of jejunum and duodenum
+
+21
+M4",Junction of jejunum and duodenum 21,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,157,Zoology,Section A,neet-2021.pdf,21,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The organelles that are included in the
+endomembrane system are :",The organelles that are included in the endomembrane system are :,"Endoplasmic reticulum, Mitochondria,
+Ribosomes and Lysosomes","Endoplasmic reticulum, Mitochondria, Ribosomes and Lysosomes","Endoplasmic reticulum, Golgi complex,
+Lysosomes and Vacuoles","Endoplasmic reticulum, Golgi complex, Lysosomes and Vacuoles","Golgi complex, Mitochondria, Ribosomes and
+Lysosomes","Golgi complex, Mitochondria, Ribosomes and Lysosomes","Golgi complex, Endoplasmic reticulum,
+Mitochondria and Lysosomes","Golgi complex, Endoplasmic reticulum, Mitochondria and Lysosomes",2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,158,Zoology,Section A,neet-2021.pdf,21,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Metamerism
+(i) 
+Coelenterata
+(b) Canal system
+(ii) Ctenophora
+(c) Comb plates
+(iii) Annelida
+(d) Cnidoblasts
+(iv) Porifera
+List - I
+List - II
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Metamerism (i) Coelenterata (b) Canal system (ii) Ctenophora (c) Comb plates (iii) Annelida (d) Cnidoblasts (iv) Porifera List - I List - II Choose the correct answer from the options given below. (a) (b) (c) (d),"(iv)
+(iii)
+(i)
+(ii)",(iv) (iii) (i) (ii),"(iii)
+(iv)
+(i)
+(ii)",(iii) (iv) (i) (ii),"(iii)
+(iv)
+(ii)
+(i)",(iii) (iv) (ii) (i),"(iv)
+(i)
+(ii)
+(iii)",(iv) (i) (ii) (iii),3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,159,Zoology,Section A,neet-2021.pdf,21,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"A specific recognition sequence identified by
+endonucleases to make cuts at specific positions
+within the DNA is :",A specific recognition sequence identified by endonucleases to make cuts at specific positions within the DNA is :,Degenerate primer sequence,Degenerate primer sequence,Okazaki sequences,Okazaki sequences,Palindromic Nucleotide sequences,Palindromic Nucleotide sequences,Poly(A) tail sequences,Poly(A) tail sequences,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,160,Zoology,Section A,neet-2021.pdf,21,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following RNAs is not required for
+the synthesis of protein ?",Which of the following RNAs is not required for the synthesis of protein ?,mRNA,mRNA,tRNA,tRNA,rRNA,rRNA,siRNA,siRNA,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,161,Zoology,Section A,neet-2021.pdf,21,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The partial pressures (in mm Hg) of oxygen (O2)
+and carbon dioxide (CO2) at alveoli (the site of
+diffusion) are :",The partial pressures (in mm Hg) of oxygen (O2) and carbon dioxide (CO2) at alveoli (the site of diffusion) are :,pO2=104 and pCO2=40,pO2=104 and pCO2=40,pO2=40 and pCO2=45,pO2=40 and pCO2=45,pO2=95 and pCO2=40,pO2=95 and pCO2=40,pO2=159 and pCO2=0.3,pO2=159 and pCO2=0.3,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,162,Zoology,Section A,neet-2021.pdf,21,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following statements wrongly
+represents the nature of smooth muscle ?",Which of the following statements wrongly represents the nature of smooth muscle ?,These muscle have no striations,These muscle have no striations,They are involuntary muscles,They are involuntary muscles,"Communication among the cells is
+performed by intercalated discs",Communication among the cells is performed by intercalated discs,"These muscles are present in the wall of
+blood vessels",These muscles are present in the wall of blood vessels,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,163,Zoology,Section A,neet-2021.pdf,21,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match the following :
+(a) Physalia
+(i) Pearl oyster
+(b) Limulus
+(ii) Portuguese Man of War
+(c) Ancylostoma (iii) Living fossil
+(d) Pinctada
+(iv) Hookworm
+List - I
+List - II
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match the following : (a) Physalia (i) Pearl oyster (b) Limulus (ii) Portuguese Man of War (c) Ancylostoma (iii) Living fossil (d) Pinctada (iv) Hookworm List - I List - II Choose the correct answer from the options given below. (a) (b) (c) (d),"(ii)
+(iii)
+(i)
+(iv)",(ii) (iii) (i) (iv),"(iv)
+(i)
+(iii)
+(ii)",(iv) (i) (iii) (ii),"(ii)
+(iii)
+(iv)
+(i)",(ii) (iii) (iv) (i),"(i)
+(iv)
+(iii)
+(ii)",(i) (iv) (iii) (ii),3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,164,Zoology,Section A,neet-2021.pdf,21,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Succus entericus is referred to as :,Succus entericus is referred to as :,Pancreatic juice,Pancreatic juice,Intestinal juice,Intestinal juice,Gastric juice,Gastric juice,Chyme,Chyme,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,165,Zoology,Section A,neet-2021.pdf,21,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following is not an objective of
+Biofortification in crops ?",Which of the following is not an objective of Biofortification in crops ?,Improve protein content,Improve protein content,Improve resistance to diseases,Improve resistance to diseases,Improve vitamin content,Improve vitamin content,Improve micronutrient and mineral content,Improve micronutrient and mineral content,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,166,Zoology,Section A,neet-2021.pdf,21,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Veneral diseases can spread through :
+(a)
+Using sterile needles
+(b)
+Transfusion of blood from infected person
+(c)
+Infected mother to foetus
+(d)
+Kissing
+(e)
+Inheritance
+Choose the correct answer from the options given
+below.",Veneral diseases can spread through : (a) Using sterile needles (b) Transfusion of blood from infected person (c) Infected mother to foetus (d) Kissing (e) Inheritance Choose the correct answer from the options given below.,"(a), (b) and (c) only","(a), (b) and (c) only","(b), (c) and (d) only","(b), (c) and (d) only",(b) and (c) only,(b) and (c) only,"(a) and (c) only
+
+22
+M4",(a) and (c) only 22,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,167,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"With regard to insulin choose correct options.
+(a)
+C-peptide  is not present in mature insulin.
+(b)
+The insulin produced by rDNA technology
+has C-peptide.
+(c)
+The pro-insulin has C-peptide.
+(d)
+A-peptide and B-peptide of insulin are
+interconnected by disulphide bridges.
+Choose the correct answer from the options given
+below.",With regard to insulin choose correct options. (a) C-peptide is not present in mature insulin. (b) The insulin produced by rDNA technology has C-peptide. (c) The pro-insulin has C-peptide. (d) A-peptide and B-peptide of insulin are interconnected by disulphide bridges. Choose the correct answer from the options given below.,(b) and (d) only,(b) and (d) only,(b) and (c) only,(b) and (c) only,"(a), (c) and (d) only","(a), (c) and (d) only",(a) and (d) only,(a) and (d) only,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,168,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"The fruit fly has 8 chromosomes (2n) in each cell.
+During interphase of Mitosis if the number of
+chromosomes at G1 phase is 8, what would be the
+number of chromosomes after S phase ?","The fruit fly has 8 chromosomes (2n) in each cell. During interphase of Mitosis if the number of chromosomes at G1 phase is 8, what would be the number of chromosomes after S phase ?",8,8,16,16,4,4,32,32,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,169,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which is the “Only enzyme” that has “Capability”
+to catalyse Initiation, Elongation and Termination
+in the process of transcription in prokaryotes ?","Which is the “Only enzyme” that has “Capability” to catalyse Initiation, Elongation and Termination in the process of transcription in prokaryotes ?",DNA dependent DNA polymerase,DNA dependent DNA polymerase,DNA dependent RNA polymerase,DNA dependent RNA polymerase,DNA Ligase,DNA Ligase,DNase,DNase,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,170,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"In a cross between a male and female, both
+heterozygous for sickle cell anaemia gene, what
+percentage of the progeny will be diseased ?","In a cross between a male and female, both heterozygous for sickle cell anaemia gene, what percentage of the progeny will be diseased ?",50%,50%,75%,75%,25%,25%,100%,100%,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,171,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"For effective treatment of the disease, early
+diagnosis and understanding its pathophysiology
+is very important.  Which of the following
+molecular diagnostic techniques is very useful for
+early detection ?","For effective treatment of the disease, early diagnosis and understanding its pathophysiology is very important. Which of the following molecular diagnostic techniques is very useful for early detection ?",Western Blotting Technique,Western Blotting Technique,Southern Blotting Technique,Southern Blotting Technique,ELISA Technique,ELISA Technique,Hybridization Technique,Hybridization Technique,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,172,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which stage of meiotic prophase shows
+terminalisation of chiasmata as its distinctive
+feature ?",Which stage of meiotic prophase shows terminalisation of chiasmata as its distinctive feature ?,Leptotene,Leptotene,Zygotene,Zygotene,Diakinesis,Diakinesis,Pachytene,Pachytene,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,173,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Read the following statements.
+(a)
+Metagenesis is observed in Helminths.
+(b)
+Echinoderms are triploblastic and coelomate
+animals.
+(c)
+Round worms have organ-system level of
+body organization.
+(d)
+Comb plates present in ctenophores help in
+digestion.
+(e)
+Water vascular system is characteristic of
+Echinoderms.
+Choose the correct answer from the options given
+below.",Read the following statements. (a) Metagenesis is observed in Helminths. (b) Echinoderms are triploblastic and coelomate animals. (c) Round worms have organ-system level of body organization. (d) Comb plates present in ctenophores help in digestion. (e) Water vascular system is characteristic of Echinoderms. Choose the correct answer from the options given below.,"(c), (d) and (e) are correct","(c), (d) and (e) are correct","(a), (b) and (c) are correct","(a), (b) and (c) are correct","(a), (d) and (e) are correct","(a), (d) and (e) are correct","(b), (c) and (e) are correct","(b), (c) and (e) are correct",4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,174,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Dobson units are used to measure thickness of :,Dobson units are used to measure thickness of :,CFCs,CFCs,Stratosphere,Stratosphere,Ozone,Ozone,Troposphere,Troposphere,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,175,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"During the process of gene amplification using
+PCR, if very high temperature is not maintained
+in the beginning, then which of the following steps
+of PCR will be affected first ?","During the process of gene amplification using PCR, if very high temperature is not maintained in the beginning, then which of the following steps of PCR will be affected first ?",Annealing,Annealing,Extension,Extension,Denaturation,Denaturation,Ligation,Ligation,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,176,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,Identify the incorrect pair.,Identify the incorrect pair.,"Alkaloids
+-
+Codeine",Alkaloids - Codeine,"Toxin
+-
+Abrin",Toxin - Abrin,"Lectins
+-
+Concanavalin A",Lectins - Concanavalin A,"Drugs
+-
+Ricin",Drugs - Ricin,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.381066+00:00
+NEET_UG,2021,M4,177,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Persons with ‘AB’ blood group are called as
+“Universal recipients”.  This is due to :",Persons with ‘AB’ blood group are called as “Universal recipients”. This is due to :,"Absence of antigens A and B on the surface
+of RBCs",Absence of antigens A and B on the surface of RBCs,Absence of antigens A and B in plasma,Absence of antigens A and B in plasma,"Presence of antibodies, anti-A and anti-B,
+on RBCs","Presence of antibodies, anti-A and anti-B, on RBCs","Absence of antibodies, anti-A and anti-B, in
+plasma","Absence of antibodies, anti-A and anti-B, in plasma",4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,178,Zoology,Section A,neet-2021.pdf,22,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which one of the following belongs to the family
+Muscidae ?",Which one of the following belongs to the family Muscidae ?,Fire fly,Fire fly,Grasshopper,Grasshopper,Cockroach,Cockroach,"House fly
+
+23
+M4",House fly 23,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,179,Zoology,Section A,neet-2021.pdf,23,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,The centriole undergoes duplication during :,The centriole undergoes duplication during :,S-phase,S-phase,Prophase,Prophase,Metaphase,Metaphase,G2 phase,G2 phase,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,180,Zoology,Section A,neet-2021.pdf,23,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Receptors for sperm binding in mammals are
+present on :",Receptors for sperm binding in mammals are present on :,Corona radiata,Corona radiata,Vitelline membrane,Vitelline membrane,Perivitelline space,Perivitelline space,Zona pellucida,Zona pellucida,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,181,Zoology,Section A,neet-2021.pdf,23,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which enzyme is responsible for the conversion of
+inactive fibrinogens to fibrins ?",Which enzyme is responsible for the conversion of inactive fibrinogens to fibrins ?,Thrombin,Thrombin,Renin,Renin,Epinephrine,Epinephrine,Thrombokinase,Thrombokinase,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,182,Zoology,Section A,neet-2021.pdf,23,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Aspergillus niger
+(i) Acetic Acid
+(b) Acetobacter aceti
+(ii) Lactic Acid
+(c) Clostridium butylicum
+(iii) Citric Acid
+(d) Lactobacillus
+(iv) Butyric Acid
+List - I
+List - II
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Aspergillus niger (i) Acetic Acid (b) Acetobacter aceti (ii) Lactic Acid (c) Clostridium butylicum (iii) Citric Acid (d) Lactobacillus (iv) Butyric Acid List - I List - II Choose the correct answer from the options given below. (a) (b) (c) (d),"(iii)
+(i)
+(iv)
+(ii)",(iii) (i) (iv) (ii),"(i)
+(ii)
+(iii)
+(iv)",(i) (ii) (iii) (iv),"(ii)
+(iii)
+(i)
+(iv)",(ii) (iii) (i) (iv),"(iv)
+(ii)
+(i)
+(iii)",(iv) (ii) (i) (iii),1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,183,Zoology,Section A,neet-2021.pdf,23,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Erythropoietin hormone which stimulates R.B.C.
+formation is produced by :",Erythropoietin hormone which stimulates R.B.C. formation is produced by :,Alpha cells of pancreas,Alpha cells of pancreas,The cells of rostral adenohypophysis,The cells of rostral adenohypophysis,The cells of bone marrow,The cells of bone marrow,Juxtaglomerular cells of the kidney,Juxtaglomerular cells of the kidney,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,184,Zoology,Section A,neet-2021.pdf,23,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Vaults
+(i) Entry of sperm through 
+Cervix is blocked
+(b) IUDs
+(ii) Removal of Vas deferens
+(c) Vasectomy (iii) Phagocytosis of sperms 
+within the Uterus
+(d) Tubectomy (iv) Removal of fallopian tube
+List - II
+List - I
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Vaults (i) Entry of sperm through Cervix is blocked (b) IUDs (ii) Removal of Vas deferens (c) Vasectomy (iii) Phagocytosis of sperms within the Uterus (d) Tubectomy (iv) Removal of fallopian tube List - II List - I Choose the correct answer from the options given below. (a) (b) (c) (d),"(iv)
+(ii)
+(i)
+(iii)",(iv) (ii) (i) (iii),"(i)
+(iii)
+(ii)
+(iv)",(i) (iii) (ii) (iv),"(ii)
+(iv)
+(iii)
+(i)",(ii) (iv) (iii) (i),"(iii)
+(i)
+(iv)
+(ii)",(iii) (i) (iv) (ii),2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,185,Zoology,Section A,neet-2021.pdf,23,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"If Adenine makes 30% of the DNA molecule, what
+will be the percentage of Thymine, Guanine and
+Cytosine in it ?","If Adenine makes 30% of the DNA molecule, what will be the percentage of Thymine, Guanine and Cytosine in it ?",T : 20 ; G : 30 ; C : 20,T : 20 ; G : 30 ; C : 20,T : 20 ; G : 20 ; C : 30,T : 20 ; G : 20 ; C : 30,T : 30 ; G : 20 ; C : 20,T : 30 ; G : 20 ; C : 20,"T : 20 ; G : 25 ; C : 25
+Section - B (Biology : Zoology)",T : 20 ; G : 25 ; C : 25,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,186,Zoology,Section B,neet-2021.pdf,23,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following secretes the hormone,
+relaxin, during the later phase of pregnancy ?","Which of the following secretes the hormone, relaxin, during the later phase of pregnancy ?",Graafian follicle,Graafian follicle,Corpus luteum,Corpus luteum,Foetus,Foetus,Uterus,Uterus,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,187,Zoology,Section B,neet-2021.pdf,23,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Identify the types of cell junctions that help to stop
+the leakage of the substances across a tissue and
+facilitation of communication with neighbouring
+cells via rapid transfer of ions and molecules.",Identify the types of cell junctions that help to stop the leakage of the substances across a tissue and facilitation of communication with neighbouring cells via rapid transfer of ions and molecules.,"Gap junctions and Adhering junctions,
+respectively.","Gap junctions and Adhering junctions, respectively.","Tight junctions and Gap junctions,
+respectively.","Tight junctions and Gap junctions, respectively.","Adhering junctions and Tight junctions,
+respectively.","Adhering junctions and Tight junctions, respectively.","Adhering junctions and Gap junctions,
+respectively.
+
+24
+M4","Adhering junctions and Gap junctions, respectively. 24",2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,188,Zoology,Section B,neet-2021.pdf,24,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which one of the following statements about
+Histones is wrong ?",Which one of the following statements about Histones is wrong ?,"Histones are organized to form a unit of
+8 molecules.",Histones are organized to form a unit of 8 molecules.,The pH of histones is slightly acidic.,The pH of histones is slightly acidic.,"Histones are rich in amino acids - Lysine
+and Arginine.",Histones are rich in amino acids - Lysine and Arginine.,"Histones carry positive charge in the side
+chain.",Histones carry positive charge in the side chain.,2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,189,Zoology,Section B,neet-2021.pdf,24,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of these is not an important component of
+initiation of parturition in humans ?",Which of these is not an important component of initiation of parturition in humans ?,Increase in estrogen and progesterone ratio,Increase in estrogen and progesterone ratio,Synthesis of prostaglandins,Synthesis of prostaglandins,Release of Oxytocin,Release of Oxytocin,Release of Prolactin,Release of Prolactin,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,190,Zoology,Section B,neet-2021.pdf,24,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Allen's Rule
+(i) Kangaroo rat
+(b) Physiological 
+adaptation
+(ii) Desert lizard
+(c) Behavioural 
+adaptation 
+(iii) Marine fish at depth
+(d) Biochemical 
+adaptation
+(iv) Polar seal
+List - I
+List - II
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Allen's Rule (i) Kangaroo rat (b) Physiological adaptation (ii) Desert lizard (c) Behavioural adaptation (iii) Marine fish at depth (d) Biochemical adaptation (iv) Polar seal List - I List - II Choose the correct answer from the options given below. (a) (b) (c) (d),"(iv)
+(ii)
+(iii)
+(i)",(iv) (ii) (iii) (i),"(iv)
+(i)
+(iii)
+(ii)",(iv) (i) (iii) (ii),"(iv)
+(i)
+(ii)
+(iii)",(iv) (i) (ii) (iii),"(iv)
+(iii)
+(ii)
+(i)",(iv) (iii) (ii) (i),3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,191,Zoology,Section B,neet-2021.pdf,24,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Filariasis
+(i) Haemophilus 
+influenzae
+(b) Amoebiasis
+(ii) Trichophyton
+(c) Pneumonia
+(iii) Wuchereria bancrofti
+(d) Ringworm
+(iv) Entamoeba histolytica
+List - I
+List - II
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Filariasis (i) Haemophilus influenzae (b) Amoebiasis (ii) Trichophyton (c) Pneumonia (iii) Wuchereria bancrofti (d) Ringworm (iv) Entamoeba histolytica List - I List - II Choose the correct answer from the options given below. (a) (b) (c) (d),"(iv)
+(i)
+(iii)
+(ii)",(iv) (i) (iii) (ii),"(iii)
+(iv)
+(i)
+(ii)",(iii) (iv) (i) (ii),"(i)
+(ii)
+(iv)
+(iii)",(i) (ii) (iv) (iii),"(ii)
+(iii)
+(i)
+(iv)",(ii) (iii) (i) (iv),2,B,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,192,Zoology,Section B,neet-2021.pdf,24,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Which of the following is not a step in Multiple
+Ovulation Embryo Transfer Technology
+(MOET) ?",Which of the following is not a step in Multiple Ovulation Embryo Transfer Technology (MOET) ?,"Cow is administered hormone having LH
+like activity for super ovulation",Cow is administered hormone having LH like activity for super ovulation,Cow yields about 6-8 eggs at a time,Cow yields about 6-8 eggs at a time,Cow is fertilized by artificial insemination,Cow is fertilized by artificial insemination,"Fertilized eggs are transferred to surrogate
+mothers at 8-32 cell stage",Fertilized eggs are transferred to surrogate mothers at 8-32 cell stage,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,193,Zoology,Section B,neet-2021.pdf,24,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Statement I :
+The codon ‘AUG’ codes for methionine and
+phenylalanine.
+Statement II :
+‘AAA’ and ‘AAG’ both codons code for the amino
+acid lysine.
+In the light of the above statements, choose the
+correct answer from the options given below.","Statement I : The codon ‘AUG’ codes for methionine and phenylalanine. Statement II : ‘AAA’ and ‘AAG’ both codons code for the amino acid lysine. In the light of the above statements, choose the correct answer from the options given below.","Both Statement I and Statement II are
+true",Both Statement I and Statement II are true,"Both Statement I and Statement II are
+false",Both Statement I and Statement II are false,"Statement I is correct but Statement II
+is false",Statement I is correct but Statement II is false,"Statement 
+I 
+is 
+incorrect 
+but
+Statement II is true",Statement I is incorrect but Statement II is true,4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,194,Zoology,Section B,neet-2021.pdf,24,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Scapula
+(i) Cartilaginous joints
+(b) Cranium
+(ii) Flat bone
+(c) Sternum
+(iii) Fibrous joints
+(d) Vertebral column (iv) Triangular flat bone
+List - II
+List - I
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Scapula (i) Cartilaginous joints (b) Cranium (ii) Flat bone (c) Sternum (iii) Fibrous joints (d) Vertebral column (iv) Triangular flat bone List - II List - I Choose the correct answer from the options given below. (a) (b) (c) (d),"(i)
+(iii)
+(ii)
+(iv)",(i) (iii) (ii) (iv),"(ii)
+(iii)
+(iv)
+(i)",(ii) (iii) (iv) (i),"(iv)
+(ii)
+(iii)
+(i)",(iv) (ii) (iii) (i),"(iv)
+(iii)
+(ii)
+(i)",(iv) (iii) (ii) (i),4,D,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,195,Zoology,Section B,neet-2021.pdf,24,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,The Adenosine deaminase deficiency results into :,The Adenosine deaminase deficiency results into :,Dysfunction of Immune system,Dysfunction of Immune system,Parkinson’s disease,Parkinson’s disease,Digestive disorder,Digestive disorder,"Addison’s disease
+
+25
+M4",Addison’s disease 25,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,196,Zoology,Section B,neet-2021.pdf,25,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Assertion (A) :
+A person goes to high altitude and experiences
+‘altitude sickness’ with symptoms like breathing
+difficulty and heart palpitations.
+Reason (R) :
+Due to low atmospheric pressure at high altitude,
+the body does not get sufficient oxygen.
+In the light of the above statements, choose the
+correct answer from the options given below.","Assertion (A) : A person goes to high altitude and experiences ‘altitude sickness’ with symptoms like breathing difficulty and heart palpitations. Reason (R) : Due to low atmospheric pressure at high altitude, the body does not get sufficient oxygen. In the light of the above statements, choose the correct answer from the options given below.","Both (A) and (R) are true and (R) is the
+correct explanation of (A)",Both (A) and (R) are true and (R) is the correct explanation of (A),"Both (A) and (R) are true but (R) is not the
+correct explanation of (A)",Both (A) and (R) are true but (R) is not the correct explanation of (A),(A) is true but (R) is false,(A) is true but (R) is false,(A) is false but (R) is true,(A) is false but (R) is true,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,197,Zoology,Section B,neet-2021.pdf,25,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Match List - I with List - II.
+(a) Adaptive 
+radiation
+(i) 
+Selection of resistant 
+varieties due to excessive 
+use of herbicides and 
+pesticides
+(b) Convergent 
+evolution
+(ii) Bones of forelimbs in Man 
+and Whale
+(c) Divergent 
+evolution
+(iii) Wings of Butterfly and 
+Bird
+(d)
+Evolution by 
+anthropo- 
+genic action
+(iv) Darwin Finches
+List - I
+List - II
+Choose the correct answer from the options given
+below.
+(a)
+(b)
+(c)
+(d)",Match List - I with List - II. (a) Adaptive radiation (i) Selection of resistant varieties due to excessive use of herbicides and pesticides (b) Convergent evolution (ii) Bones of forelimbs in Man and Whale (c) Divergent evolution (iii) Wings of Butterfly and Bird (d) Evolution by anthropo- genic action (iv) Darwin Finches List - I List - II Choose the correct answer from the options given below. (a) (b) (c) (d),"(iv)
+(iii)
+(ii)
+(i)",(iv) (iii) (ii) (i),"(iii)
+(ii)
+(i)
+(iv)",(iii) (ii) (i) (iv),"(ii)
+(i)
+(iv)
+(iii)",(ii) (i) (iv) (iii),"(i)
+(iv)
+(iii)
+(ii)",(i) (iv) (iii) (ii),1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.382073+00:00
+NEET_UG,2021,M4,198,Zoology,Section B,neet-2021.pdf,25,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Following are the statements with reference to
+‘lipids’.
+(a)
+Lipids having only single bonds are called
+unsaturated fatty acids.
+(b)
+Lecithin is a phospholipid.
+(c)
+Trihydroxy propane is glycerol.
+(d)
+Palmitic acid has 20 carbon atoms including
+carboxyl carbon.
+(e)
+Arachidonic acid has 16 carbon atoms.
+Choose the correct answer from the options given
+below.",Following are the statements with reference to ‘lipids’. (a) Lipids having only single bonds are called unsaturated fatty acids. (b) Lecithin is a phospholipid. (c) Trihydroxy propane is glycerol. (d) Palmitic acid has 20 carbon atoms including carboxyl carbon. (e) Arachidonic acid has 16 carbon atoms. Choose the correct answer from the options given below.,(a) and (b) only,(a) and (b) only,(c) and (d) only,(c) and (d) only,(b) and (c) only,(b) and (c) only,(b) and (e) only,(b) and (e) only,3,C,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.383072+00:00
+NEET_UG,2021,M4,199,Zoology,Section B,neet-2021.pdf,25,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"During muscular contraction which of the
+following events occur ?
+(a)
+‘H’ zone disappears
+(b)
+‘A’ band widens
+(c)
+‘I’ band reduces in width
+(d)
+Myosine hydrolyzes ATP, releasing the ADP
+and Pi
+(e)
+Z-lines attached to actins are pulled inwards
+Choose the correct answer from the options given
+below.","During muscular contraction which of the following events occur ? (a) ‘H’ zone disappears (b) ‘A’ band widens (c) ‘I’ band reduces in width (d) Myosine hydrolyzes ATP, releasing the ADP and Pi (e) Z-lines attached to actins are pulled inwards Choose the correct answer from the options given below.","(a), (c), (d), (e) only","(a), (c), (d), (e) only","(a), (b), (c), (d) only","(a), (b), (c), (d) only","(b), (c), (d), (e) only","(b), (c), (d), (e) only","(b), (d), (e), (a) only","(b), (d), (e), (a) only",1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,FONT_GLYPH_ANOMALY,None,2026-10-22T06:31:10.383072+00:00
+NEET_UG,2021,M4,200,Zoology,Section B,neet-2021.pdf,25,e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a,"Following are the statements about prostomium
+of earthworm.
+(a)
+It serves as a covering for mouth.
+(b)
+It helps to open cracks in the soil into which
+it can crawl.
+(c)
+It is one of the sensory structures.
+(d)
+It is the first body segment.
+Choose the correct answer from the options given
+below.",Following are the statements about prostomium of earthworm. (a) It serves as a covering for mouth. (b) It helps to open cracks in the soil into which it can crawl. (c) It is one of the sensory structures. (d) It is the first body segment. Choose the correct answer from the options given below.,"(a), (b) and (c) are correct","(a), (b) and (c) are correct","(a), (b) and (d) are correct","(a), (b) and (d) are correct","(a), (b), (c) and (d) are correct","(a), (b), (c) and (d) are correct","(b) and (c) are correct
+- o 0 o -
+
+26
+M4
+Space For Rough Work
+
+27
+M4
+Space For Rough Work
+
+28
+M4
+Space For Rough Work",(b) and (c) are correct,1,A,"1->A, 2->B, 3->C, 4->D",RECONCILED_VERIFIED,ELIGIBLE_FOR_SCORING,"Verified: authentic stem, 4 non-empty options, monotonic order, official key matched.",VERIFIED_TEXT_COMPLETE,CLEAN,None,2026-10-22T06:31:10.383072+00:00

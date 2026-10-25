@@ -54,11 +54,18 @@ backups/
 GSEB-Dataset/**/*.pdf
 *.pdf
 
+# OS metadata
+.DS_Store
+__MACOSX/
+*/.DS_Store
+**/.DS_Store
+
 # Intermediate Ingestion Data & Processed Artifacts
 data/*
 !data/processed/
 data/processed/*
 !data/processed/reports/
+!data/processed/neet_2021_*
 
 # Node & Frontend
 node_modules/

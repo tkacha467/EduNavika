@@ -14,9 +14,13 @@ from backend.app.api.v1.endpoints import (
     adaptive,
     auth,
     retrieval,
+    competitive,
 )
 
 api_router = APIRouter()
+
+# Competitive Examination & Assessment Engine
+api_router.include_router(competitive.router)
 
 # Curriculum Retrieval
 api_router.include_router(retrieval.router, tags=["Curriculum Retrieval"])

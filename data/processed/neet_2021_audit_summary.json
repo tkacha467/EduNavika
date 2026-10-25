@@ -1,0 +1,58 @@
+{
+  "status": "AUDIT_COMPLETE",
+  "exam_code": "NEET_UG",
+  "exam_year": 2021,
+  "booklet_code": "M4",
+  "expected_total_questions": 200,
+  "audited_total_questions": 200,
+  "source_paper_path": "GSEB-Dataset/Dataset/Dataset/Neet/neet-2021.pdf",
+  "source_paper_hash": "e9acdfb29dfcff0a3a186819f7336330af4ce51855990d1081c78637b338587a",
+  "nta_manifest_path": "docs/reference/Notice_20211101205130.pdf",
+  "nta_manifest_hash": "838e0ba080eb6b9639f12a1dcfb7f36cd8fe80dd5be11ee0be6d725e4c6f3ca9",
+  "reconciliation_metrics": {
+    "reconciled_verified_count": 187,
+    "reconciled_quarantined_count": 13,
+    "rejected_count": 0,
+    "unmatched_count": 0
+  },
+  "scoring_eligibility_metrics": {
+    "eligible_for_scoring_count": 187,
+    "ineligible_empty_options_count": 9,
+    "ineligible_requires_asset_count": 4
+  },
+  "quarantined_question_ids": {
+    "blank_options_9_ids": [
+      26,
+      38,
+      60,
+      62,
+      63,
+      79,
+      82,
+      88,
+      99
+    ],
+    "hard_stem_diagram_4_ids": [
+      4,
+      20,
+      40,
+      49
+    ],
+    "total_distinct_quarantined_13_ids": [
+      4,
+      20,
+      26,
+      38,
+      40,
+      49,
+      60,
+      62,
+      63,
+      79,
+      82,
+      88,
+      99
+    ]
+  },
+  "discrepancy_explanation": "Milestone 5.3 reported 21 quarantined questions (claiming 17 blank options + 4 diagram dependencies) because an over-aggressive regex stripped standalone digits, corrupting 8 numerical/fractional options (Q8, Q34, Q50, Q52, Q64, Q168, etc.). The authentic measured count is exactly 13 distinct quarantined questions: 9 with genuine vector-drawing blank options and 4 with missing essential stem diagrams. 187 questions are verified clean and eligible for scoring."
+}

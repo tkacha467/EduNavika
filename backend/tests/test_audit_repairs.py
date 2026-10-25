@@ -142,11 +142,67 @@ def test_mathematics_curriculum_practice_retrieval(audit_student):
             assert len(q["options"]) == 4
 
 
-def test_content_diagnostic_endpoint_reports_real_status():
+@pytest.fixture
+def diagnostic_synthetic_content():
+    """
+    Seeds temporary, explicitly synthetic LearningContent records to verify
+    the /curriculum/diagnostic endpoint behavior for populated subjects and topics.
+
+    SYNTHETIC LABEL: Strictly synthetic test fixture. Does not represent authentic student content.
+    NOTE ON PROVENANCE: Source document references and page numbers (e.g., source_page 1-50 in
+    STD-10/Std-10_Maths_EnglishMedium.pdf) are used solely to test page-bound diagnostic logic.
+    Physical page-bound validation confirms page bounds exist in the PDF document, but does
+    NOT establish that the synthetic fixture text matches authentic textbook content on those pages.
+    """
+    import uuid
+    from backend.app.models import LearningContent, Topic
+
+    db = SessionLocal()
+    m1_topic = db.query(Topic).filter(Topic.id == "c3dd6779-9b5b-411c-9ade-07e241713835").first()
+    assert m1_topic is not None, "Topic m1 (Quadratic Equations) must exist"
+
+    run_tag = uuid.uuid4().hex[:8]
+    chunk_ids = [f"syn-diag-{run_tag}-{i:03d}" for i in range(105)]
+    synthetic_chunks = [
+        LearningContent(
+            id=chunk_ids[i],
+            title=f"[Synthetic Fixture] Mathematics Chunk {i}",
+            content_text=f"Synthetic textbook excerpt for mathematics diagnostic verification chunk {i}.",
+            topic_id=m1_topic.id,
+            chunk_identifier=f"syn_math_diag_{run_tag}_{i}",
+            source_document="STD-10/Std-10_Maths_EnglishMedium.pdf",
+            source_page=(i % 50) + 1,
+        )
+        for i in range(105)
+    ]
+    db.add_all(synthetic_chunks)
+    db.commit()
+    db.close()
+
+    try:
+        yield chunk_ids
+    finally:
+        clean_db = SessionLocal()
+        try:
+            clean_db.query(LearningContent).filter(LearningContent.id.in_(chunk_ids)).delete(synchronize_session=False)
+            clean_db.commit()
+        finally:
+            clean_db.close()
+
+
+def test_content_diagnostic_endpoint_reports_real_status(audit_student, diagnostic_synthetic_content):
     """
     Verifies /curriculum/diagnostic/{subject_or_topic} returns accurate offline availability status.
+    Tests both unpopulated (missing textbook) and populated states using an isolated synthetic fixture.
     """
-    # Mathematics subject
+    # 1. Unpopulated diagnostic check: An unseeded subject indicates missing textbook or not found
+    r_empty = client.get("/api/v1/curriculum/diagnostic/Astronomy")
+    assert r_empty.status_code == 200
+    d_empty = r_empty.json()
+    assert d_empty["status"] in ("NOT_FOUND", "MISSING_TEXTBOOK")
+    assert d_empty["offline_ready"] is False
+
+    # 2. Mathematics subject check with populated chunks (provided by diagnostic_synthetic_content fixture)
     r_math = client.get("/api/v1/curriculum/diagnostic/Mathematics")
     assert r_math.status_code == 200
     d_math = r_math.json()
@@ -155,7 +211,7 @@ def test_content_diagnostic_endpoint_reports_real_status():
     assert d_math["textbook_chunks_count"] > 100
     assert d_math["offline_ready"] is True
 
-    # Frontend placeholder 'm1' (Quadratic Equations)
+    # 3. Frontend placeholder 'm1' (Quadratic Equations)
     r_m1 = client.get("/api/v1/curriculum/diagnostic/m1")
     assert r_m1.status_code == 200
     d_m1 = r_m1.json()
@@ -164,7 +220,7 @@ def test_content_diagnostic_endpoint_reports_real_status():
     assert d_m1["verified_questions_count"] >= 4
     assert d_m1["offline_ready"] is True
 
-    # Unknown entity
+    # 4. Unknown entity
     r_unknown = client.get("/api/v1/curriculum/diagnostic/Astronomy101")
     assert r_unknown.status_code == 200
     d_unknown = r_unknown.json()

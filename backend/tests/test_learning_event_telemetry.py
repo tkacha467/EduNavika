@@ -279,7 +279,7 @@ def test_telemetry_validation_safeguards(client, seed_data):
     assert res.status_code == 422  # Pydantic validation error
 
 
-def test_learning_event_auditor_verification(db_session, seed_data):
+def test_learning_event_auditor_verification(db_session, seed_data, tmp_path):
     """
     Test 8 (Auditor Verification):
     Verifies that LearningEventAuditor correctly tabulates event distributions
@@ -304,7 +304,7 @@ def test_learning_event_auditor_verification(db_session, seed_data):
         )
     db_session.commit()
 
-    auditor = LearningEventAuditor()
+    auditor = LearningEventAuditor(output_dir=tmp_path)
     rep = auditor.run_audit(db=db_session)
 
     assert rep["verdict"] == "PASS"
@@ -312,3 +312,5 @@ def test_learning_event_auditor_verification(db_session, seed_data):
     for et in EventType:
         assert rep["event_type_distribution"][et.value] == 1
     assert rep["data_quality_violations"]["total_violations"] == 0
+    assert (tmp_path / "learning_event_coverage_report.json").exists()
+    assert (tmp_path / "learning_event_coverage_report.md").exists()

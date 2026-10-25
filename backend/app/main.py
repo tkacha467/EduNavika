@@ -1,3 +1,4 @@
+import os
 import sys
 if sys.platform == "win32":
     try:
@@ -108,3 +109,9 @@ def health_check():
 
 # Include API v1 routes
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+# Mount static assets for diagrams and media
+from fastapi.staticfiles import StaticFiles
+static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")

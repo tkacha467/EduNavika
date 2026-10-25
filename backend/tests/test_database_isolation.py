@@ -346,3 +346,17 @@ def test_10_canonical_options_fallback_regression(db_session, seed_data):
         with pytest.raises(ValueError, match="does not belong to the submitted curriculum topic"):
             adaptive_practice_service.submit_practice_answer(db_session, sub_mismatch)
 
+
+def test_startup_handler_env_check_handles_development_mode(monkeypatch):
+    """
+    Regression test for startup error: NameError: name 'os' is not defined in backend/app/main.py.
+    When settings.ENV != 'testing', on_startup() evaluates the fallback operand:
+    os.getenv('ENV') == 'testing'. This must safely execute without raising NameError.
+    """
+    from backend.app.main import on_startup
+    from backend.app.core.config import settings
+
+    # Simulate settings.ENV != 'testing' while keeping os.environ['ENV'] = 'testing'
+    monkeypatch.setattr(settings, "ENV", "development")
+    # on_startup should safely evaluate os.getenv("ENV") without NameError and return early
+    on_startup()

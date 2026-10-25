@@ -85,10 +85,14 @@ class QuestionIngestionService:
             if not validate_katex_syntax(opt.get("option_text", "")):
                 errors.append(f"Unbalanced LaTeX in option {opt.get('option_key')}")
 
-        # 3. Options cardinality
+        # 3. Options cardinality and content completeness
         if q_type in ("SCQ", "ASSERTION_REASON"):
             if len(options) != 4:
                 errors.append(f"{q_type} requires exactly 4 options, found {len(options)}")
+            else:
+                for opt in options:
+                    if len(opt.get("option_text", "").strip()) == 0:
+                        errors.append(f"Option {opt.get('option_key')} text cannot be empty (missing diagram/formula drawing)")
         elif q_type == "NUMERICAL":
             if len(options) > 0:
                 errors.append(f"NUMERICAL questions must have 0 options, found {len(options)}")
@@ -112,8 +116,14 @@ class QuestionIngestionService:
         if official_status in ("DROPPED", "DISPUTED") and eligibility == "ELIGIBLE_FOR_SCORING":
             errors.append(f"CRITICAL: {official_status} question CANNOT be marked ELIGIBLE_FOR_SCORING")
 
-        if quarantine_status == "QUARANTINED" and eligibility == "ELIGIBLE_FOR_SCORING":
-            errors.append("CRITICAL: QUARANTINED question CANNOT be marked ELIGIBLE_FOR_SCORING")
+        if quarantine_status != "CLEAN" and eligibility == "ELIGIBLE_FOR_SCORING":
+            errors.append(f"CRITICAL: {quarantine_status} question CANNOT be marked ELIGIBLE_FOR_SCORING")
+
+        ver_status = q.get("verification_status", "INGESTED")
+        if eligibility == "ELIGIBLE_FOR_SCORING" and ver_status not in (
+            "CONTENT_VERIFIED", "VERIFIED", "HUMAN_VERIFIED", "ALGORITHMICALLY_VERIFIED"
+        ):
+            errors.append(f"CRITICAL: Question with unverified content status '{ver_status}' CANNOT be marked ELIGIBLE_FOR_SCORING")
 
         # 7. Rights & Publication Permission Rules
         if rights_status not in ("OFFICIAL_FAIR_USE", "PROPRIETARY", "PUBLIC_DOMAIN") and publish_permission != "FORBIDDEN":
@@ -211,7 +221,7 @@ class QuestionIngestionService:
                 continue
 
             # Check quarantine and dropped statuses
-            if q_dict.get("quarantine_status") == "QUARANTINED":
+            if q_dict.get("quarantine_status") not in (None, "CLEAN"):
                 metrics["quarantined_count"] += 1
 
             if q_dict.get("official_status") in ("DROPPED", "BONUS"):

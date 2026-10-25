@@ -95,8 +95,12 @@ class DocumentScanner:
                 raise FileNotFoundError(f"Specific PDF document not found: {specific_document}")
             pdf_paths = [target]
         else:
-            for root, _, files in os.walk(self.dataset_dir):
+            for root, dirs, files in os.walk(self.dataset_dir):
+                # Filter out macOS artifacts and competitive exam paper directories
+                dirs[:] = [d for d in dirs if d != "__MACOSX" and d != "Dataset"]
                 for file in files:
+                    if file.startswith("._"):
+                        continue
                     if file.lower().endswith(".pdf"):
                         pdf_paths.append(Path(root) / file)
 

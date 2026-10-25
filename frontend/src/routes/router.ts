@@ -34,6 +34,7 @@ import {
   studentBossBattle,
   studentMemoryGuardian,
   studentTimeline,
+  studentPyqs,
   openAIPanel,
   loadRevisionPlansFromBackend,
 } from '../features/student/StudentViews';
@@ -74,6 +75,7 @@ export const ROUTES: Record<string, ViewRenderer> = {
   'student/knowledge': studentKnowledge,
   'student/skills': studentSkills,
   'student/practice': studentPractice,
+  'student/pyqs': studentPyqs,
   'student/analytics': studentAnalytics,
   'student/weak': studentWeak,
   'student/assessments': studentAssessments,
