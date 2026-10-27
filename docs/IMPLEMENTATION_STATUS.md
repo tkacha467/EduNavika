@@ -12,10 +12,10 @@
 |---|---|---|---|
 | **Milestone 1** | Comprehensive Repository Audit & Safe Cleanup Plan | **DONE** | [`docs/MILESTONE_1_REPOSITORY_AUDIT.md`](file:///d:/EduSens/docs/MILESTONE_1_REPOSITORY_AUDIT.md) |
 | **Milestone 2** | Safe Cleanup, Reversibility Verification & Build Normalization | **DONE** | [`docs/MILESTONE_2_CLEANUP_REPORT.md`](file:///d:/EduSens/docs/MILESTONE_2_CLEANUP_REPORT.md) |
-| **Milestone 3** | Standards 11 & 12 Science Ingestion + JEE/NEET Question Bank | **READY TO START** | Pipeline scripts and dataset inventory ready |
-| **Milestone 4** | Adaptive Learning Engine & Spaced Repetition Alignment for JEE/NEET | **QUEUED** | Domain decay engine & revision planner ready |
-| **Milestone 5** | Frontend Stream Selectors, Exam Modes & Responsive UI Polish | **QUEUED** | Single-page application shell ready |
-| **Milestone 6** | Deployment Readiness, Production Config & Verification Gates | **QUEUED** | Docker, security checklist, and audit reports |
+| **Milestone 3** | Standards 11 & 12 Science Ingestion + JEE/NEET Question Bank | **DONE** | [`docs/MILESTONE_3_VALIDATION_REPORT.md`](file:///d:/EduSens/docs/MILESTONE_3_VALIDATION_REPORT.md) |
+| **Milestone 4** | Adaptive Learning Engine & Spaced Repetition Alignment for JEE/NEET | **DONE** | [`docs/MILESTONE_4_IMPLEMENTATION_REPORT.md`](file:///d:/EduSens/docs/MILESTONE_4_IMPLEMENTATION_REPORT.md) |
+| **Milestone 5** | CBT Assessment Engine, PYQ Pipeline, Vector Diagrams & Reviewer Portal | **DONE** | [`docs/CURRENT_PROGRESS.md`](file:///d:/EduSens/docs/CURRENT_PROGRESS.md) |
+| **Milestone 6** | Deployment Readiness, Production Config & Verification Gates | **IN PROGRESS** | Production build and verification gates active |
 
 ---
 
