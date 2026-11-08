@@ -20,7 +20,6 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from backend.app.core.config import settings
 from backend.app.core.database import engine, Base, SessionLocal
 import backend.app.models  # noqa: F401
-from backend.app.api.v1.endpoints.auth import ensure_default_accounts
 from backend.app.api.v1.router import api_router
 
 app = FastAPI(
@@ -36,11 +35,9 @@ app = FastAPI(
 def on_startup():
     if settings.ENV == "testing" or os.getenv("ENV") == "testing":
         return
-    Base.metadata.create_all(bind=engine)
-    with SessionLocal() as db:
-        ensure_default_accounts(db)
-        from backend.app.services.curriculum_question_bank import sync_canonical_questions_to_db
-        sync_canonical_questions_to_db(db)
+    # Migrations, data synchronization, and administrator bootstrap are explicit
+    # operational jobs; serving the API must not mutate a configured database.
+    return
 
 # CORS
 app.add_middleware(
@@ -65,6 +62,7 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
 
     return JSONResponse(
         status_code=exc.status_code,
+        headers=getattr(exc, "headers", None),
         content={
             "success": False,
             "error": {

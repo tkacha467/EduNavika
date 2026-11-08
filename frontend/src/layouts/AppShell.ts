@@ -155,7 +155,22 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
   }
   const examMeta = getExamMetadata(currentExam);
 
-  const navHtml = groups
+  const isClass10 = role === 'student' && (user.grade_number === 10 || user.grade === 'Grade 10');
+
+  let activeGroups = groups;
+  if (isClass10) {
+    activeGroups = groups.map(g => {
+      if (g.group === 'Competitive Preparation') {
+        return {
+          group: 'Secondary Curriculum',
+          items: g.items.filter(it => it.id !== 'student/pyqs'),
+        };
+      }
+      return g;
+    });
+  }
+
+  const navHtml = activeGroups
     .map(
       g => {
         const groupKey = `nav.group.${g.group.toLowerCase().replace(/[^a-z]/g, '')}`;
@@ -198,7 +213,7 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
     <nav class="side-nav" id="sideNav">${navHtml}</nav>
     <div class="side-foot">
       <div class="av" id="sideAvatar">${user.initials || 'U'}</div>
-      <div class="info"><b id="sideName">${user.full_name}</b><span id="sideMeta">${user.grade || 'Grade 10'} · ${role === 'student' ? examMeta.shortLabel : user.section || 'Science'}</span></div>
+      <div class="info"><b id="sideName">${user.full_name}</b><span id="sideMeta">${user.grade || 'Grade 10'} · ${role === 'student' ? (isClass10 ? 'GSEB / NCERT' : examMeta.shortLabel) : user.section || 'Science'}</span></div>
     </div>
   </aside>
 
@@ -222,12 +237,18 @@ export function renderAppShell(user: User, currentRoute: string, pageHtml: strin
       <div class="tb-right">
         <!-- Target Examination Selector Pill -->
         <div class="tb-exam-wrap" style="display:inline-flex;align-items:center;margin-right:4px">
+          ${isClass10 ? `
+          <select id="topbarExamSelect" class="input select" style="padding:4px 8px;font-size:11.5px;font-weight:700;border-radius:12px;background:var(--bg-2);border:1px solid var(--border-2);color:var(--text)" disabled title="Standard 10 Foundational Curriculum">
+            <option value="GENERAL" selected>📚 Class 10 Foundation</option>
+          </select>
+          ` : `
           <select id="topbarExamSelect" class="input select" style="padding:4px 8px;font-size:11.5px;font-weight:700;border-radius:12px;background:var(--bg-2);border:1px solid var(--border-2);cursor:pointer;color:var(--text)" onchange="window.setExam ? window.setExam(this.value) : null" title="Target Examination / લક્ષ્ય પરીક્ષા / लक्ष्य परीक्षा">
             <option value="GENERAL" ${currentExam === 'GENERAL' ? 'selected' : ''}>📚 General School Study</option>
             <option value="JEE_MAIN" ${currentExam === 'JEE_MAIN' ? 'selected' : ''}>🎯 JEE Main (436 Topics)</option>
             <option value="JEE_ADVANCED" ${currentExam === 'JEE_ADVANCED' ? 'selected' : ''}>🚀 JEE Advanced (444 Topics)</option>
             <option value="NEET_UG" ${currentExam === 'NEET_UG' ? 'selected' : ''}>🩺 NEET UG (497 Topics)</option>
           </select>
+          `}
         </div>
 
         <!-- Language Selector Pill -->

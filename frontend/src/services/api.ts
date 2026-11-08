@@ -15,6 +15,11 @@ export class ApiError extends Error {
 
 const STORAGE_KEY_TOKEN = 'edunavika_token';
 
+function csrfToken(): string | null {
+  if (typeof document === 'undefined') return null;
+  return document.cookie.split('; ').find((item) => item.startsWith('edunavika_csrf='))?.split('=', 2)[1] || null;
+}
+
 export async function request<T>(
   endpoint: string,
   options: RequestInit & { timeoutMs?: number } = {}
@@ -24,6 +29,7 @@ export async function request<T>(
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(endpoint.startsWith('/auth/') && csrfToken() ? { 'X-CSRF-Token': decodeURIComponent(csrfToken()!) } : {}),
     ...(options.headers as Record<string, string> || {}),
   };
 
@@ -33,6 +39,7 @@ export async function request<T>(
 
   const config: RequestInit = {
     ...options,
+    credentials: 'same-origin',
     headers,
     signal: options.signal || (controller ? controller.signal : undefined),
   };

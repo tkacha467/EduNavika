@@ -2,16 +2,19 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.models import TeacherProfile, StudentProfile
-from backend.app.models import Topic
-from backend.app.models import TeacherAction
+from backend.app.core.security import get_current_teacher
+from backend.app.models import TeacherProfile, StudentProfile, Topic, TeacherAction, User
 from backend.app.schemas.teacher_action import TeacherActionCreate, TeacherActionResponse
 
 router = APIRouter()
 
 
 @router.post("/teacher-actions", response_model=TeacherActionResponse, status_code=status.HTTP_201_CREATED, summary="Log a teacher intervention/action")
-def create_teacher_action(payload: TeacherActionCreate, db: Session = Depends(get_db)):
+def create_teacher_action(
+    payload: TeacherActionCreate,
+    current_user: User = Depends(get_current_teacher),
+    db: Session = Depends(get_db)
+):
     teacher = db.query(TeacherProfile).filter(TeacherProfile.id == payload.teacher_id).first()
     if not teacher:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Teacher profile not found")
@@ -32,7 +35,11 @@ def create_teacher_action(payload: TeacherActionCreate, db: Session = Depends(ge
 
 
 @router.get("/teachers/{id}/actions", response_model=List[TeacherActionResponse], summary="List interventions logged by teacher")
-def get_teacher_actions(id: str, db: Session = Depends(get_db)):
+def get_teacher_actions(
+    id: str,
+    current_user: User = Depends(get_current_teacher),
+    db: Session = Depends(get_db)
+):
     teacher = db.query(TeacherProfile).filter(TeacherProfile.id == id).first()
     if not teacher:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Teacher profile not found")

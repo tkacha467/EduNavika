@@ -1,7 +1,7 @@
 import os
 from typing import List
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field
+from pydantic import Field, model_validator
 
 
 class Settings(BaseSettings):
@@ -17,12 +17,19 @@ class Settings(BaseSettings):
     )
     
     # Security
-    SECRET_KEY: str = Field(default="edunavika-insecure-secret-key-change-in-production")
+    SECRET_KEY: str = Field(default="")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
     ALGORITHM: str = "HS256"
     
     # CORS
-    BACKEND_CORS_ORIGINS: List[str] = ["*"]
+    BACKEND_CORS_ORIGINS: List[str] = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ]
     
     # On-Device SLM (Small Language Model) Inference
     EDUNAVIKA_LOCAL_MODEL_PATH: str = Field(
@@ -43,6 +50,15 @@ class Settings(BaseSettings):
         case_sensitive=True,
         extra="ignore"
     )
+
+    @model_validator(mode="after")
+    def validate_production_security(self):
+        if self.ENV.lower() in {"production", "prod"}:
+            if len(self.SECRET_KEY) < 32 or "insecure" in self.SECRET_KEY.lower():
+                raise ValueError("Production requires an environment-supplied SECRET_KEY of at least 32 characters")
+            if not self.DATABASE_URL or self.DATABASE_URL.startswith("sqlite:///"):
+                raise ValueError("Production requires an explicitly configured non-SQLite DATABASE_URL")
+        return self
 
 
 settings = Settings()

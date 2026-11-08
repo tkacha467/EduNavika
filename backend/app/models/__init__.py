@@ -62,6 +62,7 @@ from backend.app.models.competitive_models import (
     QuestionOption,
     QuestionVerificationLog,
 )
+from backend.app.models.auth_models import AuthSession, PasswordResetToken, AuthRateLimit
 
 __all__ = [
     "Base",
@@ -109,5 +110,6 @@ __all__ = [
     "Question",
     "QuestionOption",
     "QuestionVerificationLog",
+    "AuthSession", "PasswordResetToken", "AuthRateLimit",
 ]
 

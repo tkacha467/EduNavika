@@ -360,25 +360,44 @@ export function openForgotPasswordModal(prefilledEmail: string = ''): void {
           statusBox.style.background = '#f0fdf4';
           statusBox.style.color = '#15803d';
           statusBox.style.border = '1px solid #bbf7d0';
-          statusBox.innerHTML = `
-            <div style="font-weight:700;margin-bottom:6px;">✉️ Real-Time Reset Link Ready!</div>
-            <div style="font-size:12.5px;color:#166534;margin-bottom:12px;">
-              A secure password reset link was dispatched for <b>${email}</b>.
-            </div>
-            <div style="background:#fff;border:1px dashed #22c55e;border-radius:8px;padding:10px;margin-bottom:12px;word-break:break-all;font-size:12px;font-family:monospace;color:#1e293b;">
-              ${resp.reset_link}
-            </div>
-            <button id="btnOpenResetDirect" style="width:100%;padding:10px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
-              Proceed to Reset Password Now →
-            </button>
-          `;
 
-          const btnDirect = document.getElementById('btnOpenResetDirect');
-          if (btnDirect) {
-            btnDirect.onclick = () => {
-              overlay.style.display = 'none';
-              navigate(`reset-password?token=${resp.reset_token}&email=${encodeURIComponent(email)}`);
-            };
+          if (resp.reset_link && resp.reset_token) {
+            statusBox.innerHTML = `
+              <div style="font-weight:700;margin-bottom:6px;">✉️ Real-Time Reset Link Ready!</div>
+              <div style="font-size:12.5px;color:#166534;margin-bottom:12px;">
+                A secure password reset link was dispatched for <b>${email}</b>.
+              </div>
+              <div style="background:#fff;border:1px dashed #22c55e;border-radius:8px;padding:10px;margin-bottom:12px;word-break:break-all;font-size:12px;font-family:monospace;color:#1e293b;">
+                ${resp.reset_link}
+              </div>
+              <button id="btnOpenResetDirect" style="width:100%;padding:10px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
+                Proceed to Reset Password Now →
+              </button>
+            `;
+
+            const btnDirect = document.getElementById('btnOpenResetDirect');
+            if (btnDirect) {
+              btnDirect.onclick = () => {
+                overlay.style.display = 'none';
+                navigate(`reset-password?token=${resp.reset_token}&email=${encodeURIComponent(email)}`);
+              };
+            }
+          } else {
+            statusBox.innerHTML = `
+              <div style="font-weight:700;margin-bottom:6px;">✉️ Password Reset Instructions Logged</div>
+              <div style="font-size:12.5px;color:#166534;line-height:1.5;">
+                ${resp.message || `If an account is associated with <b>${email}</b>, instructions have been generated.`}
+              </div>
+              <button id="btnCloseForgotModal" style="width:100%;margin-top:12px;padding:10px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
+                Return to Login
+              </button>
+            `;
+            const btnClose = document.getElementById('btnCloseForgotModal');
+            if (btnClose) {
+              btnClose.onclick = () => {
+                overlay.style.display = 'none';
+              };
+            }
           }
         }
       } catch (err: any) {

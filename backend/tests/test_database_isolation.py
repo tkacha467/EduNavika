@@ -219,7 +219,7 @@ def test_7_persistent_database_remains_completely_unmodified(isolated_db_info):
     assert state["integrity"] == [("ok",)], f"Integrity check failed: {state['integrity']}"
     assert state["foreign_keys"] == [], f"Foreign key violations found: {state['foreign_keys']}"
     if state["alembic_version"]:
-        assert state["alembic_version"] in (["f1e2d3c4b5a6"], ["a1b2c3d4e5f6"]), f"Alembic version corrupted: {state['alembic_version']}"
+        assert state["alembic_version"] in (["f1e2d3c4b5a6"], ["a1b2c3d4e5f6"], ["b2c3d4e5f6a7"]), f"Alembic version corrupted: {state['alembic_version']}"
 
     # Verify core table row counts match expected baseline
     counts = state["row_counts"]

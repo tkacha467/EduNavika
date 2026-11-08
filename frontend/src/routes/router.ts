@@ -153,6 +153,13 @@ export function navigate(route: string): void {
   }
 
   const cleanTarget = target.split('?')[0];
+
+  // Standard boundary guard: prevent Class 10 students from accessing competitive PYQ modules
+  const user = getCurrentUser();
+  const isClass10 = role === 'student' && user && (user.grade_number === 10 || user.grade === 'Grade 10');
+  if (isClass10 && cleanTarget === 'student/pyqs') {
+    target = 'student/dashboard';
+  }
   if (!ROUTES[cleanTarget]) {
     target = `${role}/dashboard`;
   }

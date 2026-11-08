@@ -9,7 +9,7 @@ const STORAGE_KEY_TOKEN = 'edunavika_token';
 
 export const DEFAULT_STUDENT: User = {
   id: 'e09699dd-0c64-44cc-82ef-ab41a832e072',
-  email: 'kachatushar108@gmail.com',
+  email: '',
   full_name: 'Tushar Kacha',
   name: 'Tushar Kacha',
   role: 'student',
@@ -27,7 +27,7 @@ export const DEFAULT_STUDENT: User = {
 
 export const DEFAULT_TEACHER: User = {
   id: 'd95f6bf6-bfa9-421e-85d7-eae488519348',
-  email: 'tushar.kacha141862@marwadiuniversity.ac.in',
+  email: '',
   full_name: 'Prof. Tushar Kacha',
   name: 'Prof. Tushar Kacha',
   role: 'teacher',
@@ -99,7 +99,7 @@ export class AuthService {
     try {
       const resp = await api.post<{ success: boolean; access_token: string; user: User }>('/auth/login', {
         email: email.trim().toLowerCase(),
-        password: password || (targetRole === 'teacher' ? '2120@8030' : 'Tushar@21'),
+        password: password || '',
         role: targetRole,
       });
 
@@ -118,39 +118,12 @@ export class AuthService {
         return this.currentUser;
       }
     } catch (err: any) {
-      // Check offline or direct validation
-      const cleanEmail = email.trim().toLowerCase();
-      if (cleanEmail === 'kachatushar108@gmail.com') {
-        if (password && password !== 'Tushar@21') {
-          throw new Error('Incorrect password for student account');
-        }
-        this.currentUser = { ...DEFAULT_STUDENT };
-      } else if (cleanEmail === 'tushar.kacha141862@marwadiuniversity.ac.in') {
-        if (password && password !== '2120@8030') {
-          throw new Error('Incorrect password for teacher account');
-        }
-        this.currentUser = { ...DEFAULT_TEACHER };
-      } else {
-        throw new Error(err.message || 'Invalid credentials or user not found');
-      }
-
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem(STORAGE_KEY_ROLE, targetRole);
-        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(this.currentUser));
-      }
-      return this.currentUser;
+      throw new Error(err.message || 'Invalid credentials or user not found');
     }
-
-    const fallbackUser = targetRole === 'student' ? { ...DEFAULT_STUDENT, email } : { ...DEFAULT_TEACHER, email };
-    this.currentUser = fallbackUser;
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY_ROLE, targetRole);
-      localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(this.currentUser));
-    }
-    return this.currentUser;
+    throw new Error('Authentication response was incomplete.');
   }
 
-  public async forgotPassword(email: string): Promise<{ success: boolean; message: string; reset_link: string; reset_token: string }> {
+  public async forgotPassword(email: string): Promise<{ success: boolean; message: string; reset_link?: string; reset_token?: string }> {
     return await api.post('/auth/forgot-password', { email: email.trim().toLowerCase() });
   }
 

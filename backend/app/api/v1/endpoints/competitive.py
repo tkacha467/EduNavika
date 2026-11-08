@@ -24,7 +24,12 @@ from backend.app.services.competitive_assessment_service import (
     CompetitiveAssessmentService,
     ACTIVE_ASSESSMENT_SESSIONS,
 )
-from backend.app.core.security import get_current_reviewer
+from backend.app.core.security import (
+    get_current_reviewer,
+    get_current_student,
+    verify_student_ownership,
+    verify_curriculum_standard_access,
+)
 from backend.app.models.core_models import User
 from backend.app.services.question_verification_service import QuestionVerificationService
 
@@ -229,7 +234,18 @@ def get_chapter_questions(
 
 # 5. Timed Competitive Assessment Engine
 @router.post("/assessments/start", summary="Start a server-authoritative timed assessment session")
-def start_assessment(payload: StartAssessmentRequest, db: Session = Depends(get_db)):
+def start_assessment(
+    payload: StartAssessmentRequest,
+    current_user: User = Depends(get_current_student),
+    db: Session = Depends(get_db)
+):
+    verify_student_ownership(current_user, payload.student_id, db)
+    verify_curriculum_standard_access(
+        current_user=current_user,
+        db=db,
+        exam_code=payload.exam_code,
+        chapter_id=payload.chapter_id,
+    )
     service = CompetitiveAssessmentService(db)
     try:
         return service.start_assessment_session(
@@ -246,10 +262,15 @@ def start_assessment(payload: StartAssessmentRequest, db: Session = Depends(get_
 
 
 @router.get("/assessments/{session_id}", summary="Get active assessment session status and time remaining")
-def get_assessment_status(session_id: str):
+def get_assessment_status(
+    session_id: str,
+    current_user: User = Depends(get_current_student),
+    db: Session = Depends(get_db),
+):
     session = ACTIVE_ASSESSMENT_SESSIONS.get(session_id)
     if not session:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Assessment session not found")
+    verify_student_ownership(current_user, session["student_id"], db)
     from backend.app.services.competitive_assessment_service import CompetitiveAssessmentService
     dummy_service = CompetitiveAssessmentService(None)
     return dummy_service._format_client_session(session)
@@ -259,8 +280,13 @@ def get_assessment_status(session_id: str):
 def save_assessment_answer(
     session_id: str,
     payload: SaveResponseRequest,
+    current_user: User = Depends(get_current_student),
     db: Session = Depends(get_db)
 ):
+    session = ACTIVE_ASSESSMENT_SESSIONS.get(session_id)
+    if not session:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Assessment session not found")
+    verify_student_ownership(current_user, session["student_id"], db)
     service = CompetitiveAssessmentService(db)
     try:
         return service.save_response(
@@ -277,7 +303,15 @@ def save_assessment_answer(
 
 
 @router.post("/assessments/{session_id}/submit", summary="Submit assessment and compute exam-specific score")
-def submit_assessment(session_id: str, db: Session = Depends(get_db)):
+def submit_assessment(
+    session_id: str,
+    current_user: User = Depends(get_current_student),
+    db: Session = Depends(get_db)
+):
+    session = ACTIVE_ASSESSMENT_SESSIONS.get(session_id)
+    if not session:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Assessment session not found")
+    verify_student_ownership(current_user, session["student_id"], db)
     service = CompetitiveAssessmentService(db)
     try:
         return service.submit_assessment(session_id)

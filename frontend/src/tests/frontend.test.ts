@@ -1,10 +1,14 @@
 // Frontend Unit Tests for EduNavika
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { icon, I } from '../utils/icons';
 import { sparkline, barChart, donut, heatmap } from '../utils/charts';
 import { authService, DEFAULT_STUDENT, DEFAULT_TEACHER } from '../services/authService';
 import { SUBJECTS } from '../services/curriculumService';
 import { ROUTES } from '../routes/router';
+
+beforeEach(() => {
+  globalThis.fetch = vi.fn().mockRejectedValue(new Error('Mocked API unavailable')) as any;
+});
 
 describe('Icons & Visual Tokens', () => {
   it('should contain all 48 required icons in dictionary', () => {
@@ -101,11 +105,12 @@ describe('Role-Aware Router & Application Shell', () => {
 });
 
 describe('Authentication & Session Management', () => {
-  it('should manage default student and teacher credentials', () => {
-    expect(DEFAULT_STUDENT.email).toBe('kachatushar108@gmail.com');
+  it('should not embed credentials or authenticate through defaults', async () => {
+    expect(DEFAULT_STUDENT.email).toBe('');
     expect(DEFAULT_STUDENT.role).toBe('student');
-    expect(DEFAULT_TEACHER.email).toBe('tushar.kacha141862@marwadiuniversity.ac.in');
+    expect(DEFAULT_TEACHER.email).toBe('');
     expect(DEFAULT_TEACHER.role).toBe('teacher');
+    await expect(authService.login('student@example.test', 'wrong-password')).rejects.toThrow();
   });
 
   it('should switch role and update session correctly', () => {

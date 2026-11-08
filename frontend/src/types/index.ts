@@ -11,6 +11,8 @@ export interface User {
   is_active: boolean;
   initials?: string;
   grade?: string;
+  grade_number?: number;
+  standard_id?: string;
   section?: string;
   school?: string;
   streak?: number;

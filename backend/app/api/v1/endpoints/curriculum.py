@@ -15,6 +15,15 @@ from backend.app.schemas.curriculum import (
 )
 from backend.app.schemas.common import PaginatedResponse, ResponseMetadata
 
+from backend.app.core.security import (
+    get_current_admin,
+    get_current_teacher,
+    get_current_user,
+    verify_curriculum_standard_access,
+    security_bearer,
+)
+from fastapi.security import HTTPAuthorizationCredentials
+
 router = APIRouter()
 
 
@@ -25,7 +34,11 @@ def get_standards(db: Session = Depends(get_db)):
 
 
 @router.post("/standards", response_model=StandardResponse, status_code=status.HTTP_201_CREATED, summary="Create a new standard")
-def create_standard(payload: StandardCreate, db: Session = Depends(get_db)):
+def create_standard(
+    payload: StandardCreate,
+    current_user = Depends(get_current_admin),
+    db: Session = Depends(get_db)
+):
     existing = db.query(Standard).filter(Standard.grade_number == payload.grade_number).first()
     if existing:
         raise HTTPException(
@@ -40,10 +53,19 @@ def create_standard(payload: StandardCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/standards/{id}/subjects", response_model=List[SubjectResponse], summary="List subjects for a standard")
-def get_subjects_by_standard(id: str, db: Session = Depends(get_db)):
+def get_subjects_by_standard(
+    id: str,
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security_bearer),
+    db: Session = Depends(get_db)
+):
     standard = db.query(Standard).filter(Standard.id == id).first()
     if not standard:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Standard not found")
+
+    if credentials and credentials.credentials:
+        user = get_current_user(credentials, db)
+        verify_curriculum_standard_access(user, db, standard_id=id)
+
     return db.query(Subject).filter(Subject.standard_id == id, Subject.is_active == True).order_by(Subject.name).all()
 
 

@@ -1,8 +1,14 @@
-from typing import List
+from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
-from backend.app.core.security import get_password_hash
+from backend.app.core.security import (
+    get_password_hash,
+    get_current_user,
+    verify_student_ownership,
+    security_bearer,
+)
 from backend.app.models import User, StudentProfile, TeacherProfile, UserRole
 from backend.app.schemas.user import (
     UserCreate,
@@ -18,7 +24,25 @@ router = APIRouter()
 
 
 @router.post("/users", response_model=UserResponse, status_code=status.HTTP_201_CREATED, summary="Create a new user")
-def create_user(payload: UserCreate, db: Session = Depends(get_db)):
+def create_user(
+    payload: UserCreate,
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security_bearer),
+    db: Session = Depends(get_db)
+):
+    # Role escalation guard: only administrators can create privileged accounts (TEACHER, ADMIN, REVIEWER)
+    if payload.role and payload.role != UserRole.STUDENT:
+        if not credentials:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Privileged user creation (TEACHER, ADMIN, REVIEWER) requires administrator authorization."
+            )
+        admin_user = get_current_user(credentials, db)
+        if admin_user.role != UserRole.ADMIN:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Only administrators can create privileged accounts."
+            )
+
     existing = db.query(User).filter(User.email == payload.email).first()
     if existing:
         raise HTTPException(
@@ -37,7 +61,16 @@ def create_user(payload: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/users/{id}", response_model=UserResponse, summary="Get user by ID")
-def get_user(id: str, db: Session = Depends(get_db)):
+def get_user(
+    id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if current_user.id != id and current_user.role not in (UserRole.ADMIN, UserRole.TEACHER):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access denied: You cannot view another user's account details."
+        )
     user = db.query(User).filter(User.id == id).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
@@ -64,7 +97,12 @@ def create_student_profile(payload: StudentProfileCreate, db: Session = Depends(
 
 
 @router.get("/students/{id}", response_model=StudentProfileResponse, summary="Get student profile by ID")
-def get_student_profile(id: str, db: Session = Depends(get_db)):
+def get_student_profile(
+    id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    verify_student_ownership(current_user, id, db)
     profile = db.query(StudentProfile).filter(StudentProfile.id == id).first()
     if not profile:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student profile not found")
@@ -72,7 +110,12 @@ def get_student_profile(id: str, db: Session = Depends(get_db)):
 
 
 @router.get("/students/{id}/language", summary="Get student preferred language")
-def get_student_language(id: str, db: Session = Depends(get_db)):
+def get_student_language(
+    id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    verify_student_ownership(current_user, id, db)
     profile = db.query(StudentProfile).filter(StudentProfile.id == id).first()
     if not profile:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student profile not found")
@@ -84,7 +127,13 @@ def get_student_language(id: str, db: Session = Depends(get_db)):
 
 
 @router.put("/students/{id}/language", summary="Update student preferred language")
-def update_student_language(id: str, payload: StudentLanguageUpdate, db: Session = Depends(get_db)):
+def update_student_language(
+    id: str,
+    payload: StudentLanguageUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    verify_student_ownership(current_user, id, db)
     profile = db.query(StudentProfile).filter(StudentProfile.id == id).first()
     if not profile:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student profile not found")
